@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Fonts\arial.ttf" />
+    <None Remove="Fonts\comic.ttf" />
+    <None Remove="Fonts\cour.ttf" />
+    <None Remove="Fonts\tahoma.ttf" />
+    <None Remove="Fonts\times.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Fonts\arial.ttf" />
+    <EmbeddedResource Include="Fonts\comic.ttf" />
+    <EmbeddedResource Include="Fonts\cour.ttf" />
+    <EmbeddedResource Include="Fonts\tahoma.ttf" />
+    <EmbeddedResource Include="Fonts\times.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="PDFsharp-MigraDoc" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Origin.Core\Origin.Core.csproj" />
+    <ProjectReference Include="..\Origin.Service\Origin.Service.csproj" />
+  </ItemGroup>
+
+</Project>

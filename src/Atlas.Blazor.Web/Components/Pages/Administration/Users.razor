@@ -1,0 +1,40 @@
+﻿@page "/Users"
+@rendermode @(new InteractiveServerRenderMode(prerender: false))
+@inherits GridContainerBase<Atlas.Core.Models.User>
+
+@{
+    // Display the markup for the underlying base 
+    // GenericGridContainer<T> we are inheriting.
+    base.BuildRenderTree(__builder);
+}
+
+@code{
+    public override string? Title { get; set; } = "Users";
+    public override string? NavigateTo { get; set; } = AtlasWebConstants.PAGE_USER;
+    public override string? APIEndpoint { get; set; } = AtlasAPIEndpoints.GET_USERS;
+    public override int ItemsPerPage { get; set; } = 20;
+    public override string? FilterFieldName { get; set; } = "Name";
+    public override string? IdentityFieldName { get; set; } = "UserId";
+    public override string? CreatePermission { get; set; } = Auth.ADMIN_WRITE;
+
+    public override RenderFragment RenderGridContent() => __builder =>
+    {
+        <FluentDataGrid TGridItem=Atlas.Core.Models.User Items="@FilteredItems"
+                        Style="height: 600px;overflow:auto;" GridTemplateColumns="0.2fr 1fr 1fr"
+                        ResizableColumns=true GenerateHeader="GenerateHeaderOption.Sticky"
+                        Pagination="@Pagination">
+            <PropertyColumn Property="@(u => u.UserId)" Sortable="true" Align="Align.Center" Title="User Id"/>
+            <PropertyColumn Property="@(u => u.Name)" Sortable="true" Filtered="!string.IsNullOrWhiteSpace(Filter)" Tooltip="true" Title="Name">
+                <ColumnOptions>
+                    <div class="search-box">
+                        <FluentSearch type="filter" Autofocus=true @bind-Value=Filter @oninput="HandleFilter" @bind-Value:after="HandleClear" Placeholder="User name..." />
+                    </div>
+                </ColumnOptions>
+            </PropertyColumn>
+            <PropertyColumn Property="@(u => u.Email)" Sortable="true" Title="Email" />
+            <TemplateColumn Align="@Align.Center">
+                <FluentButton aria-label="Open" IconEnd="@(new Icons.Regular.Size16.MoreHorizontal())" OnClick="@(() => Edit(context))" />
+            </TemplateColumn>
+        </FluentDataGrid>
+    };
+}

@@ -1,0 +1,303 @@
+﻿@attribute [StreamRendering]
+@typeparam T where T : ModelBase, new()
+@implements IDisposable
+
+<PageTitle>@_title</PageTitle>
+
+<FluentCard>
+    <FluentHeader>
+        @_title
+    </FluentHeader>
+
+    @if (@Model == null)
+    {
+        <CenterContent>
+            <FluentProgressRing style="width: 82px; height: 82px;"></FluentProgressRing>
+        </CenterContent>
+    }
+    else
+    {
+        <EditForm FormName="@_title" EditContext="_currentEditContext" OnValidSubmit="OnSubmitAsync">
+
+            @if (!@Model.IsReadOnly)
+            {
+                <FluentValidationValidator />
+
+                <FluentToolbar>
+                    <FluentButton Id="submit" aria-label="Save" Type="ButtonType.Submit" IconEnd="@(new Icons.Regular.Size20.Save())" Disabled="@_isProcessing" />
+                    @if (_id > 0)
+                    {
+                        <FluentSpacer />
+                        <FluentButton Id="delete" aria-label="Delete" Type="ButtonType.Button" OnClick="OnDeleteAsync" Disabled="@_isProcessing">
+                            <FluentIcon Value="@(new Icons.Regular.Size20.Delete())" Title="Open" Color="Color.Error" />
+                        </FluentButton>
+                    }
+                    <FluentSpacer />
+                    <ValidationBadge Title="@_title" Messages="_messages" />
+                </FluentToolbar>
+            }
+
+            @RenderModel()
+
+        </EditForm>
+    }
+
+    <FluentFooter>
+    </FluentFooter>
+</FluentCard>
+
+@code {
+    [CascadingParameter]
+    public Task<AuthenticationState>? AuthenticationState { get; set; }
+
+    [Inject]
+    public NavigationManager? NavigationManager { get; set; }
+
+    [Inject]
+    public ILogService? LoggingService { get; set; }
+
+    [Inject]
+    public IAtlasDialogService? AtlasDialogService { get; set; }
+
+    [Inject]
+    public IGenericRequests? GenericRequests { get; set; }
+
+    [Parameter]
+    public int? Id { get; set; }
+
+    private int _id = 0;
+    private List<string> _messages = new();
+    private EditContext? _currentEditContext;
+    private DynamicType<T> _dynamicType = DynamicTypeHelper.Get<T>();
+
+    protected bool _isProcessing = false;
+    protected string? _user { get; set; }
+    protected string? _title { get; set; }
+    protected string? _apiGetEndpoint { get; set; }
+    protected string? _apiCreateEndpoint { get; set; }
+    protected string? _apiUpdateEndpoint { get; set; }
+    protected string? _apiDeleteEndpoint { get; set; }
+    protected string? _identityFieldName { get; set; }
+    protected string? _modelNameField { get; set; }
+
+    public T? Model { get; set; }
+
+    public virtual RenderFragment RenderModel()
+    {
+        throw new NotImplementedException($"{GetType().Name}.RenderModel must be overriden.");
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        ArgumentNullException.ThrowIfNull(GenericRequests);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(_title);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(_apiGetEndpoint);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(_apiCreateEndpoint);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(_apiUpdateEndpoint);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(_apiDeleteEndpoint);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(_identityFieldName);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(_modelNameField);
+
+        try
+        {
+            if (AuthenticationState != null)
+            {
+                AuthenticationState authenticationState = await AuthenticationState;
+                _user = authenticationState.User?.Identity?.Name;
+            }
+
+            if (!Id.HasValue || Id.Value <= 0)
+            {
+                Model = _dynamicType.CreateInstance();
+                _id = 0;
+            }
+            else
+            {
+                IResponse<T> response = await GenericRequests.GetModelAsync<T>(Id.Value, _apiGetEndpoint)
+                    .ConfigureAwait(false);
+
+                if (!response.IsSuccess)
+                {
+                    ShowAlert(Alerts.ERROR, $"{_title} Error", response.Message);
+                    return;
+                }
+                else
+                {
+                    Model = response.Result ?? throw new NullReferenceException(nameof(Model));
+                    int? id = (int?)_dynamicType.GetValue(Model, _identityFieldName);
+                    _id = id.HasValue ? id.Value : throw new NullReferenceException(_identityFieldName);
+                }
+            }
+
+            _currentEditContext = new EditContext(Model ?? throw new NullReferenceException(nameof(Model)));
+            _currentEditContext.OnValidationStateChanged += CurrentEditContextOnValidationStateChanged;
+        }
+        catch (Exception ex)
+        {
+            ShowAlert(Alerts.ERROR, $"{_title} Error", ex.Message, new AtlasException(ex.Message, ex));
+        }
+    }
+
+    protected void ShowAlert(string? alertType, string? title, string? message, AtlasException? ex = null)
+    {
+        Alert alert = new Alert
+            {
+                AlertType = alertType,
+                Title = title,
+                Message = message
+            };
+
+        if (!string.IsNullOrWhiteSpace(alertType)
+            && (alertType == Alerts.ERROR || alertType == Alerts.WARNING))
+        {
+            Core.Logging.Enums.LogLevel logLevel = alertType == Alerts.ERROR ? Core.Logging.Enums.LogLevel.Error : Core.Logging.Enums.LogLevel.Warning;
+
+            LoggingService?.Log(logLevel, message, ex, _user);
+        }
+
+        NavigationManager?.NavigateTo(alert.Route);
+    }
+
+    private async Task OnSubmitAsync()
+    {
+        if (GenericRequests == null) throw new NullReferenceException(nameof(GenericRequests));
+        if (_apiCreateEndpoint == null) throw new NullReferenceException(nameof(_apiCreateEndpoint));
+        if (_apiUpdateEndpoint == null) throw new NullReferenceException(nameof(_apiUpdateEndpoint));
+        if (_identityFieldName == null) throw new NullReferenceException(nameof(_identityFieldName));
+
+        if (Model == null)
+        {
+            ShowAlert(Alerts.ERROR, $"{_title} Error", $"{_title} is broken");
+            return;
+        }
+
+        try
+        {
+            _isProcessing = true;
+
+            if (_currentEditContext != null
+                && _currentEditContext.Validate())
+            {
+                IResponse<T> response;
+
+                if (_id.Equals(0))
+                {
+                    response = await GenericRequests.CreateModelAsync<T>(Model, _apiCreateEndpoint)
+                        .ConfigureAwait(false);
+
+                    Model = GetResponse(response);
+
+                    if (Model == null) throw new NullReferenceException(nameof(Model));
+
+                    int? id = (int?)_dynamicType.GetValue(Model, _identityFieldName);
+                    _id = id.HasValue ? id.Value : throw new NullReferenceException(_identityFieldName);
+                }
+                else
+                {
+                    response = await GenericRequests.UpdateModelAsync<T>(Model, _apiUpdateEndpoint)
+                        .ConfigureAwait(false);
+
+                    _ = GetResponse(response);
+                }
+            }
+
+            _isProcessing = false;
+        }
+        catch (Exception ex)
+        {
+            ShowAlert(Alerts.ERROR, $"{_title} Error", ex.Message, new AtlasException(ex.Message, ex));
+        }
+    }
+
+    private async Task OnDeleteAsync()
+    {
+        if (GenericRequests == null) throw new NullReferenceException(nameof(GenericRequests));
+        if (_modelNameField == null) throw new NullReferenceException(nameof(_modelNameField));
+        if (AtlasDialogService == null) throw new NullReferenceException(nameof(AtlasDialogService));
+        if (_apiDeleteEndpoint == null) throw new NullReferenceException(nameof(_apiDeleteEndpoint));
+
+        if (Model == null)
+        {
+            ShowAlert(Alerts.ERROR, $"{_title} Error", $"{_title} is broken");
+            return;
+        }
+
+        if (_id.Equals(0))
+        {
+            await AtlasDialogService.ShowDialogAsync(
+                $"Delete {_title}", $"Cannot delete {_title?.ToLower()} with Id equal to 0", AtlasDialogType.Ok)
+                .ConfigureAwait(false);
+            return;
+        }
+
+        object name = _dynamicType.GetValue(Model, _modelNameField) ?? throw new NullReferenceException();
+        string modelName = string.IsNullOrWhiteSpace($"{name}") ? $"{_identityFieldName} {_id}" : $"{name}";
+
+        AtlasDialogContent? deleteResult = await AtlasDialogService.ShowDialogAsync(
+            $"Delete {_title}", $"Do you really want to delete {modelName}?", AtlasDialogType.YesNo)
+            .ConfigureAwait(false);
+
+        if (deleteResult == null
+            || (deleteResult.Selected != AtlasDialogSelection.Yes))
+        {
+            return;
+        }
+
+        try
+        {
+            _isProcessing = true;
+
+            IResponse<int> response = await GenericRequests
+                .DeleteModelAsync(_id, _apiDeleteEndpoint)
+                .ConfigureAwait(false);
+
+            int result = GetResponse(response);
+
+            if (result != default(int))
+            {
+                ShowAlert(Alerts.SUCCESS, $"{_title} Deleted", $"{modelName} has been deleted.");
+            }
+
+            _isProcessing = false;
+        }
+        catch (Exception ex)
+        {
+            ShowAlert(Alerts.ERROR, $"{_title} Error", ex.Message, new AtlasException(ex.Message, ex));
+        }
+    }
+
+    private K? GetResponse<K>(IResponse<K> response)
+    {
+        if (!response.IsSuccess)
+        {
+            ShowAlert(Alerts.ERROR, $"{_title} Error", response.Message);
+            return default;
+        }
+        else
+        {
+            return response.Result;
+        }
+    }
+
+    private void CurrentEditContextOnValidationStateChanged(object? sender, ValidationStateChangedEventArgs e)
+    {
+        int messagesCount = _messages.Count;
+
+        _messages.Clear();
+
+        if (_currentEditContext != null)
+        {
+            _messages.AddRange(_currentEditContext.GetValidationMessages());
+        }
+
+        if (messagesCount != _messages.Count)
+        {
+            StateHasChanged();
+        }
+    }
+
+    void IDisposable.Dispose()
+    {
+        if (_currentEditContext != null) _currentEditContext.OnValidationStateChanged -= CurrentEditContextOnValidationStateChanged;
+    }
+}

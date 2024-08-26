@@ -1,0 +1,87 @@
+﻿@page "/User"
+@page "/User/{Id:int?}"
+@rendermode @(new InteractiveServerRenderMode(prerender: false))
+@inherits ModelContainerBase<Atlas.Core.Models.User>
+
+@{
+    // Display the markup for the underlying base
+    // ModelContainerBase<T> we are inheriting.
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+    public override string? Title { get; set; } = "User";
+    public override string? APIGetEndpoint { get; set; } = AtlasAPIEndpoints.GET_USER;
+    public override string? APICreateEndpoint { get; set; } = AtlasAPIEndpoints.CREATE_USER;
+    public override string? APIUpdateEndpoint { get; set; } = AtlasAPIEndpoints.UPDATE_USER;
+    public override string? APIDeleteEndpoint { get; set; } = AtlasAPIEndpoints.DELETE_USER;
+    public override string? ModelNameField { get; set; } = "Name";
+    public override string? IdentityFieldName { get; set; } = "UserId";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        if (Model == null) throw new NullReferenceException(nameof(Model));
+        if (GenericRequests == null) throw new NullReferenceException(nameof(GenericRequests));
+
+        if(Model.UserId.Equals(0))
+        {
+            _isProcessing = true;
+
+            IAuthResponse<IEnumerable<ChecklistItem>> response = await GenericRequests.GetListAsync<ChecklistItem>(AtlasAPIEndpoints.GET_ROLE_CHECKLIST)
+                .ConfigureAwait(false);
+
+            if (!response.IsSuccess)
+            {
+                ShowAlert(Alerts.ERROR, "Error Creating User", response.Message);
+            }
+            else if(response.Result != null)
+            {
+                Model.RoleChecklist.AddRange(response.Result);
+            }
+
+            _isProcessing = false;
+        }
+    }
+
+    public override RenderFragment RenderModelContent() => __builder =>
+    {
+        if (Model == null) throw new NullReferenceException(nameof(Model));
+
+        <FluentAccordion>
+            <FluentAccordionItem Expanded=true>
+                <HeadingTemplate>
+                    @if (Model.UserId.Equals(0))
+                    {
+                        <FluentLabel Typo="Typography.Body">New User</FluentLabel>
+                    }
+                    else
+                    {
+                        <FluentLabel Typo="Typography.Body">@($"User Id {Model.UserId}")</FluentLabel>
+                    }
+                </HeadingTemplate>
+                <ChildContent>
+                    <div>
+                        <FluentTextField Name="Name" @bind-Value="Model.Name" Label="Name" ReadOnly="@(Model.IsReadOnly)" />
+                        <FluentValidationMessage For="@(() => Model.Name)" />
+                    </div>
+                    <div>
+                        <FluentTextField Name="Email" @bind-Value="Model.Email" Label="Email" ReadOnly="@(Model.IsReadOnly)" />
+                        <FluentValidationMessage For="@(() => Model.Email)" />
+                    </div>
+                </ChildContent>
+            </FluentAccordionItem>
+
+            <FluentAccordionItem Expanded=true>
+                <HeadingTemplate>
+                    Role Membership
+                </HeadingTemplate>
+                <ChildContent>
+                    <CheckList Source="@Model.RoleChecklist" Header="Role" FilterPlaceholder="Role..." EmptyText="This user is not a member of any roles." ReadOnly="@(Model.IsReadOnly)" />
+                </ChildContent>
+            </FluentAccordionItem>
+
+        </FluentAccordion>
+    };
+}

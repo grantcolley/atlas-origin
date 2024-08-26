@@ -1,0 +1,27 @@
+﻿@inherits LayoutComponentBase
+@attribute [Authorize]
+
+<FluentLayout>
+    <FluentToolbar id="toolbar-fluent-components-two" style="width:100%">
+        <FluentIcon Value="@(new Icons.Regular.Size28.Globe())" />
+        <FluentSpacer />
+        <LoginDisplay />
+        <ThemeController />
+    </FluentToolbar>
+    <FluentStack Class="main" Orientation="Orientation.Horizontal" Width="100%">
+        <AuthorizeView>
+            <Authorized>
+                <NavMenu />
+            </Authorized>
+        </AuthorizeView>
+        <FluentBodyContent>
+            <div class="content" style="height: 95vh;">
+                @Body
+            </div>
+        </FluentBodyContent>
+    </FluentStack>
+</FluentLayout>
+
+<FluentDialogProvider @rendermode="InteractiveServer" />
+<FluentTooltipProvider @rendermode="InteractiveServer" />
+<FluentKeyCodeProvider @rendermode="InteractiveServer" />

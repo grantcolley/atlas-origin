@@ -1,0 +1,107 @@
+﻿@page "/Role"
+@page "/Role/{Id:int?}"
+@rendermode @(new InteractiveServerRenderMode(prerender: false))
+@inherits ModelContainerBase<Atlas.Core.Models.Role>
+
+@{
+    // Display the markup for the underlying base
+    // ModelContainerBase<T> we are inheriting.
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+    public override string? Title { get; set; } = "Role";
+    public override string? APIGetEndpoint { get; set; } = AtlasAPIEndpoints.GET_ROLE;
+    public override string? APICreateEndpoint { get; set; } = AtlasAPIEndpoints.CREATE_ROLE;
+    public override string? APIUpdateEndpoint { get; set; } = AtlasAPIEndpoints.UPDATE_ROLE;
+    public override string? APIDeleteEndpoint { get; set; } = AtlasAPIEndpoints.DELETE_ROLE;
+    public override string? ModelNameField { get; set; } = "Name";
+    public override string? IdentityFieldName { get; set; } = "RoleId";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        if (Model == null) throw new NullReferenceException(nameof(Model));
+        if (GenericRequests == null) throw new NullReferenceException(nameof(GenericRequests));
+
+        if(Model.RoleId.Equals(0))
+        {
+            _isProcessing = true;
+
+            IAuthResponse<IEnumerable<ChecklistItem>> response = await GenericRequests.GetListAsync<ChecklistItem>(AtlasAPIEndpoints.GET_PERMISSION_CHECKLIST)
+                .ConfigureAwait(false);
+
+            if (!response.IsSuccess)
+            {
+                ShowAlert(Alerts.ERROR, "Error Creating Role", response.Message);
+            }
+            else if(response.Result != null)
+            {
+                Model.PermissionChecklist.AddRange(response.Result);
+            }
+
+            _isProcessing = false;
+        }
+    }
+
+    public override RenderFragment RenderModelContent() => __builder =>
+    {
+        if (Model == null) throw new NullReferenceException(nameof(Model));
+
+        <FluentAccordion>
+
+            <FluentAccordionItem Expanded=true>
+                <HeadingTemplate>
+                    @if (Model.RoleId.Equals(0))
+                    {
+                        <FluentLabel Typo="Typography.Body">New Role</FluentLabel>
+                    }
+                    else
+                    {
+                        <FluentLabel Typo="Typography.Body">@($"Role Id {Model.RoleId}")</FluentLabel>
+                    }
+                </HeadingTemplate>
+                <ChildContent>
+                    <div>
+                        <FluentTextField Name="Name" @bind-Value="Model.Name" Label="Name" ReadOnly="@(Model.IsReadOnly)" />
+                        <FluentValidationMessage For="@(() => Model.Name)" />
+                    </div>
+                    <div>
+                        <FluentTextField Name="Description" @bind-Value="Model.Description" Label="Description" ReadOnly="@(Model.IsReadOnly)" />
+                        <FluentValidationMessage For="@(() => Model.Description)" />
+                    </div>
+                </ChildContent>
+            </FluentAccordionItem>
+
+            <FluentAccordionItem Expanded=true>
+                <HeadingTemplate>
+                    Permissions
+                </HeadingTemplate>
+                <ChildContent>
+                    <CheckList Source="@Model.PermissionChecklist" Header="Permission" FilterPlaceholder="Permission..." EmptyText="This role has not been granted any permissions." ReadOnly="@(Model.IsReadOnly)" />
+                </ChildContent>
+            </FluentAccordionItem>
+
+            @if (Model.RoleId > 0)
+            {
+                <FluentAccordionItem Expanded=true>
+                    <HeadingTemplate>
+                        Members
+                    </HeadingTemplate>
+                    <ChildContent>
+                        <GenericSortableGrid T="Atlas.Core.Models.User"
+                                             Source="@Model.Users.OrderBy(u => u.Name)"
+                                             Fields="@(new List<string>{ "Name", "Email" })"
+                                             Header="Users"
+                                             FilterFieldName="Name"
+                                             FilterPlaceholder="User name..."
+                                             EmptyText="This roles does not have any members."
+                                             GridTemplateColumns="1fr 1fr" />
+                    </ChildContent>
+                </FluentAccordionItem>
+            }
+
+        </FluentAccordion>
+    };
+}

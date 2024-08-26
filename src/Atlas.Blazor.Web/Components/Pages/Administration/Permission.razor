@@ -1,0 +1,74 @@
+﻿@page "/Permission"
+@page "/Permission/{Id:int?}"
+@rendermode @(new InteractiveServerRenderMode(prerender: false))
+@inherits ModelContainerBase<Atlas.Core.Models.Permission>
+
+@{
+    // Display the markup for the underlying base
+    // ModelContainerBase<T> we are inheriting.
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+    public override string? Title { get; set; } = "Permission";
+    public override string? APIGetEndpoint { get; set; } = AtlasAPIEndpoints.GET_PERMISSION;
+    public override string? APICreateEndpoint { get; set; } = AtlasAPIEndpoints.CREATE_PERMISSION;
+    public override string? APIUpdateEndpoint { get; set; } = AtlasAPIEndpoints.UPDATE_PERMISSION;
+    public override string? APIDeleteEndpoint { get; set; } = AtlasAPIEndpoints.DELETE_PERMISSION;
+    public override string? ModelNameField { get; set; } = "Name";
+    public override string? IdentityFieldName { get; set; } = "PermissionId";
+
+    public override RenderFragment RenderModelContent() => __builder =>
+    {
+        if (Model == null) throw new NullReferenceException(nameof(Model));
+
+        <FluentAccordion>
+
+            <FluentAccordionItem Expanded=true>
+                <HeadingTemplate>
+                    @if (Model.PermissionId.Equals(0))
+                    {
+                        <FluentLabel Typo="Typography.Body">New Permission</FluentLabel>
+                    }
+                    else
+                    {
+                        <FluentLabel Typo="Typography.Body">@($"Permission Id {Model.PermissionId}")</FluentLabel>
+                    }
+                </HeadingTemplate>
+                <ChildContent>
+                    <div>
+                        <FluentTextField Name="Code" @bind-Value="Model.Code" Label="Code" ReadOnly="@(Model.PermissionId > 0)" />
+                    </div>
+                    <div>
+                        <FluentTextField Name="Name" @bind-Value="Model.Name" Label="Name" ReadOnly="@(Model.IsReadOnly)" />
+                        <FluentValidationMessage For="@(() => Model.Name)" />
+                    </div>
+                    <div>
+                        <FluentTextField Name="Description" @bind-Value="Model.Description" Label="Description" ReadOnly="@(Model.IsReadOnly)" />
+                        <FluentValidationMessage For="@(() => Model.Description)" />
+                    </div>
+                </ChildContent>
+            </FluentAccordionItem>
+
+            @if (Model.PermissionId > 0)
+            {
+                <FluentAccordionItem Expanded=true>
+                    <HeadingTemplate>
+                        Roles Granted
+                    </HeadingTemplate>
+                    <ChildContent>
+                        <GenericSortableGrid T="Atlas.Core.Models.Role"
+                                             Source="@Model.Roles.OrderBy(r => r.Name)"
+                                             Fields="@(new List<string>{ "Name", "Description" })"
+                                             Header="Roles"
+                                             FilterFieldName="Name"
+                                             FilterPlaceholder="Role..."
+                                             EmptyText="This permission is not a member of any roles."
+                                             GridTemplateColumns="0.5fr 1fr" />
+                    </ChildContent>
+                </FluentAccordionItem>
+            }
+
+        </FluentAccordion>
+    };
+}

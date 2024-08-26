@@ -1,0 +1,97 @@
+﻿@rendermode InteractiveServer
+@attribute [StreamRendering]
+@attribute [Authorize]
+@implements IDisposable
+
+@if (_modules != null)
+{
+    <nav>
+        <FluentNavMenu Width="250" Collapsible="true" Title="Atlas application menu">
+
+            <FluentNavLink Icon="@(new Icons.Regular.Size20.Home())" Href="/" Match="NavLinkMatch.All">Home</FluentNavLink>
+
+            @foreach (Module module in _modules)
+            {
+                <FluentNavGroup Expanded="true" Title="@module.Name" Icon="@IconHelper.GetRegularSize20(module.Icon)">
+
+                    @foreach (Category category in module.Categories)
+                    {
+                        <FluentNavGroup Expanded="true" Title="@category.Name" Icon="@IconHelper.GetRegularSize20(category.Icon)">
+
+                            @foreach (Page page in category.Pages)
+                            {
+                                <FluentNavLink Href=@($@"{page.Route}") @onclick:stopPropagation="true" Icon="@IconHelper.GetRegularSize20(page.Icon)">@($"{page.Name}")</FluentNavLink>
+                            }
+
+                        </FluentNavGroup>
+                    }
+
+                </FluentNavGroup>
+            }
+
+        </FluentNavMenu>
+    </nav>
+}
+
+@code {
+    [CascadingParameter]
+    internal Task<AuthenticationState>? AuthenticationState { get; set; }
+
+    [Inject]
+    internal PersistentComponentState? ApplicationState { get; set; }
+
+    [Inject]
+    internal IClaimRequests? ClaimRequests { get; set; }
+
+    private IEnumerable<Module>? _modules = new List<Module>();
+
+    private PersistingComponentStateSubscription _persistingSubscription;
+
+    protected override async Task OnInitializedAsync()
+    {
+        ArgumentNullException.ThrowIfNull(ClaimRequests);
+        ArgumentNullException.ThrowIfNull(ApplicationState);
+
+        if (AuthenticationState != null)
+        {
+            AuthenticationState authenticationState = await AuthenticationState;
+
+            if (authenticationState != null
+                && authenticationState.User != null
+                && authenticationState.User.Identity != null)
+            {
+                if (authenticationState.User.Identity.IsAuthenticated)
+                {
+                    _persistingSubscription = ApplicationState.RegisterOnPersisting(PersistNavMenuData);
+
+                    if (ApplicationState.TryTakeFromJson<IEnumerable<Module>?>($"{GetType().Name}", out var restored))
+                    {
+                        _modules = restored!;
+                    }
+                    else
+                    {
+                        _modules = await ClaimRequests.GetClaimModulesAsync().ConfigureAwait(false);
+                    }
+                }
+            }
+        }
+    }
+
+    private Task PersistNavMenuData()
+    {
+        if (ApplicationState == null) throw new NullReferenceException(nameof(ApplicationState));
+
+        if (_modules != null
+            && _modules.Any())
+        {
+            ApplicationState.PersistAsJson($"{GetType().Name}", _modules);
+        }
+
+        return Task.CompletedTask;
+    }
+
+    void IDisposable.Dispose()
+    {
+        _persistingSubscription.Dispose();
+    }
+}

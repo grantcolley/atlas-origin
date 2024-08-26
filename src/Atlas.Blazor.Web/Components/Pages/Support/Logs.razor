@@ -1,0 +1,259 @@
+﻿@page "/Logs"
+@using System.Text.Json
+@rendermode @(new InteractiveServerRenderMode(prerender: false))
+@attribute [StreamRendering]
+
+<PageTitle>Logs</PageTitle>
+
+@if (_alert == null)
+{
+    <FluentCard>
+        <FluentHeader>
+            Logs
+        </FluentHeader>
+
+        <FluentToolbar>
+            <Atlas.Blazor.Web.Components.Support.LogSearch SearchClicked="OnSearchClicked"/>
+        </FluentToolbar>
+
+        <br />
+        <br />
+
+        @if (_isProcessing)
+        {
+            <CenterContent>
+                <FluentProgressRing style="width: 82px; height: 82px;"></FluentProgressRing>
+            </CenterContent>
+        }
+        else
+        {
+            <FluentDataGrid TGridItem=Atlas.Core.Models.Log Items="@FilteredItems"
+                            Style="height: 600px;overflow:auto;" GridTemplateColumns="0.1fr 0.5fr 0.5fr 1fr 1fr 0.5fr  0.5fr 0.2fr"
+                            ResizableColumns=true GenerateHeader="GenerateHeaderOption.Sticky"
+                            Pagination="_paginationState">
+                <TemplateColumn Align="@Align.Center">
+                    <FluentIcon Value="@IconHelper.GetRegularSize16(context.Icon)" Color="@IconHelper.GetIconColor(context.Level)" />
+                </TemplateColumn>
+                <PropertyColumn Property="@(l => l.TimeStamp)" Sortable="true" Title="Time Stamp"/>
+                <PropertyColumn Property="@(l => l.Level)" Sortable="true" Filtered="!string.IsNullOrWhiteSpace(_levelFilter)" Tooltip="true" Title="Level">
+                    <ColumnOptions>
+                        <div class="search-box">
+                            <FluentSearch type="levelFilter" Autofocus=true @bind-Value=_levelFilter @oninput="HandleLevelFilter" @bind-Value:after="HandleLevelClear" Placeholder="Log level..." />
+                        </div>
+                    </ColumnOptions>
+                </PropertyColumn>
+                <PropertyColumn Property="@(l => l.Message)" Sortable="true" Filtered="!string.IsNullOrWhiteSpace(_messageFilter)" Tooltip="true" Title="Message">
+                    <ColumnOptions>
+                        <div class="search-box">
+                            <FluentSearch type="messageFilter" Autofocus=true @bind-Value=_messageFilter @oninput="HandleMessageFilter" @bind-Value:after="HandleMessageClear" Placeholder="Message..." />
+                        </div>
+                    </ColumnOptions>
+                </PropertyColumn>
+                <PropertyColumn Property="@(l => l.Exception)" Sortable="true" Filtered="!string.IsNullOrWhiteSpace(_exceptionFilter)" Tooltip="true" Title="Exception">
+                    <ColumnOptions>
+                        <div class="search-box">
+                            <FluentSearch type="exceptionFilter" Autofocus=true @bind-Value=_exceptionFilter @oninput="HandleExceptionFilter" @bind-Value:after="HandleExceptionClear" Placeholder="Exception..." />
+                        </div>
+                    </ColumnOptions>
+                </PropertyColumn>
+                <PropertyColumn Property="@(l => l.Context)" Sortable="true" Filtered="!string.IsNullOrWhiteSpace(_contextFilter)" Tooltip="true" Title="Context">
+                    <ColumnOptions>
+                        <div class="search-box">
+                            <FluentSearch type="contextFilter" Autofocus=true @bind-Value=_contextFilter @oninput="HandleContextFilter" @bind-Value:after="HandleContextClear" Placeholder="Context..." />
+                        </div>
+                    </ColumnOptions>
+                </PropertyColumn>
+                <PropertyColumn Property="@(l => l.User)" Sortable="true" Filtered="!string.IsNullOrWhiteSpace(_userFilter)" Tooltip="true" Title="User">
+                    <ColumnOptions>
+                        <div class="search-box">
+                            <FluentSearch type="userFilter" Autofocus=true @bind-Value=_userFilter @oninput="HandleUserFilter" @bind-Value:after="HandleUserClear" Placeholder="User..." />
+                        </div>
+                    </ColumnOptions>
+                </PropertyColumn>
+                <TemplateColumn Align="@Align.Center">
+                    <FluentButton aria-label="Open" IconEnd="@(new Icons.Regular.Size16.MoreHorizontal())" OnClick="@(() => Open(context))" />
+                </TemplateColumn>
+            </FluentDataGrid>
+
+            <FluentPaginator State="_paginationState" />
+        }
+
+        <FluentFooter>
+        </FluentFooter>
+
+    </FluentCard>
+}
+else
+{
+    <Atlas.Blazor.Web.Components.Pages.Alert AlertType="@_alert.AlertType" Title="Logs" Message="@_alert.Message" />
+}
+
+@code {
+    [Inject]
+    public IGenericRequests? GenericRequests { get; set; }
+
+    [Inject]
+    public IAtlasDialogService? AtlasDialogService { get; set; }
+
+    public IQueryable<Log>? FilteredItems
+    {
+        get
+        {
+            return _items?.Where(l => (string.IsNullOrWhiteSpace(_levelFilter) || (!string.IsNullOrWhiteSpace(l.Level) && l.Level.Contains(_levelFilter, StringComparison.CurrentCultureIgnoreCase)))
+                                 && (string.IsNullOrWhiteSpace(_messageFilter) || (!string.IsNullOrWhiteSpace(l.Message) && l.Message.Contains(_messageFilter, StringComparison.CurrentCultureIgnoreCase)))
+                                 && (string.IsNullOrWhiteSpace(_exceptionFilter) || (!string.IsNullOrWhiteSpace(l.Exception) && l.Exception.Contains(_exceptionFilter, StringComparison.CurrentCultureIgnoreCase)))
+                                 && (string.IsNullOrWhiteSpace(_contextFilter) || (!string.IsNullOrWhiteSpace(l.Context) && l.Context.Contains(_contextFilter, StringComparison.CurrentCultureIgnoreCase)))
+                                 && (string.IsNullOrWhiteSpace(_userFilter) || (!string.IsNullOrWhiteSpace(l.User) && l.User.Contains(_userFilter, StringComparison.CurrentCultureIgnoreCase))))
+                                 .AsQueryable();
+        }
+    }
+
+    private PaginationState _paginationState = new PaginationState { ItemsPerPage = 20 };
+    private List<Log>? _items = new List<Log>();
+    private string _levelFilter = string.Empty;
+    private string _messageFilter = string.Empty;
+    private string _exceptionFilter = string.Empty;
+    private string _contextFilter = string.Empty;
+    private string _userFilter = string.Empty;
+    private bool _isProcessing = false;
+    private LogArgs _logArgs = new();
+    private Alert? _alert = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetLogs(new LogArgs()).ConfigureAwait(false);
+    }
+
+    private async void OnSearchClicked(LogArgs logArgs)
+    {
+        ArgumentNullException.ThrowIfNull(logArgs);
+
+        await GetLogs(logArgs);
+
+        StateHasChanged();
+    }
+
+    private void HandleLevelFilter(ChangeEventArgs args)
+    {
+        if (args.Value is string value)
+        {
+            _levelFilter = value;
+        }
+    }
+
+    private void HandleLevelClear()
+    {
+        if (string.IsNullOrWhiteSpace(_levelFilter))
+        {
+            _levelFilter = string.Empty;
+        }
+    }
+
+    private void HandleMessageFilter(ChangeEventArgs args)
+    {
+        if (args.Value is string value)
+        {
+            _messageFilter = value;
+        }
+    }
+
+    private void HandleMessageClear()
+    {
+        if (string.IsNullOrWhiteSpace(_messageFilter))
+        {
+            _messageFilter = string.Empty;
+        }
+    }
+
+    private void HandleExceptionFilter(ChangeEventArgs args)
+    {
+        if (args.Value is string value)
+        {
+            _exceptionFilter = value;
+        }
+    }
+
+    private void HandleExceptionClear()
+    {
+        if (string.IsNullOrWhiteSpace(_exceptionFilter))
+        {
+            _exceptionFilter = string.Empty;
+        }
+    }
+
+    private void HandleContextFilter(ChangeEventArgs args)
+    {
+        if (args.Value is string value)
+        {
+            _contextFilter = value;
+        }
+    }
+
+    private void HandleContextClear()
+    {
+        if (string.IsNullOrWhiteSpace(_contextFilter))
+        {
+            _contextFilter = string.Empty;
+        }
+    }
+
+    private void HandleUserFilter(ChangeEventArgs args)
+    {
+        if (args.Value is string value)
+        {
+            _userFilter = value;
+        }
+    }
+
+    private void HandleUserClear()
+    {
+        if (string.IsNullOrWhiteSpace(_userFilter))
+        {
+            _userFilter = string.Empty;
+        }
+    }
+
+    private async void Open(Log log)
+    {
+        if (AtlasDialogService == null) throw new NullReferenceException(nameof(AtlasDialogService));
+
+        await AtlasDialogService.ShowLogDialogAsync(log).ConfigureAwait(false);
+    }
+
+    private async Task GetLogs(LogArgs logArgs)
+    {
+        ArgumentNullException.ThrowIfNull(GenericRequests);
+
+        _isProcessing = true;
+
+        if(_items?.Count() > 0)
+        {
+            _items.Clear();
+        }
+
+        string logArgsJson = JsonSerializer.Serialize(logArgs);
+
+        IAuthResponse<IEnumerable<Log>> response = await GenericRequests
+                                                            .GetListAsync<Log>(logArgsJson, AtlasAPIEndpoints.GET_LOGS)
+                                                            .ConfigureAwait(false);
+
+        if (!response.IsSuccess)
+        {
+            if (!string.IsNullOrWhiteSpace(response.Message))
+            {
+                _alert = new Models.Alert
+                    {
+                        AlertType = Alerts.ERROR,
+                        Title = $"Error Logs",
+                        Message = response.Message
+                    };
+            }
+        }
+        else
+        {
+            _items = response.Result?.ToList();
+        }
+
+        _isProcessing = false;
+    }
+}

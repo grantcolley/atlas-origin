@@ -1,0 +1,193 @@
+﻿@attribute [StreamRendering]
+@typeparam T where T : ModelBase, new()
+
+<PageTitle>@_title</PageTitle>
+
+@if (_alert == null)
+{
+    <FluentCard>
+        <FluentHeader>
+            @_title
+        </FluentHeader>
+
+        @if (_isProcessing)
+        {
+            <CenterContent>
+                <FluentProgressRing style="width: 82px; height: 82px;"></FluentProgressRing>
+            </CenterContent>
+        }
+        else
+        {
+            @if(_canCreateModel)
+            {
+                <FluentToolbar>
+                    <FluentButton Id="create-new" aria-label="Create" IconEnd="@(new Icons.Regular.Size20.DocumentAdd())" OnClick="@(() => Create())" />
+                    <FluentTooltip Anchor="create-new" Position=TooltipPosition.Right>Create New</FluentTooltip>
+                </FluentToolbar>
+            }
+
+            @RenderGrid()
+
+            <FluentPaginator State="@Pagination" />
+        }
+
+        <FluentFooter>
+        </FluentFooter>
+    </FluentCard>
+}
+else
+{
+    <Atlas.Blazor.Web.Components.Pages.Alert AlertType="@_alert.AlertType" Title="@_title" Message="@_alert.Message" />
+}
+
+@code {
+    [CascadingParameter]
+    public Task<AuthenticationState>? AuthenticationState { get; set; }
+
+    [Inject]
+    public ILogService? LoggingService { get; set; }
+
+    [Inject]
+    public NavigationManager? NavigationManager { get; set; }
+
+    [Inject]
+    public IGenericRequests? GenericRequests { get; set; }
+
+    private Alert? _alert;   
+    private bool _isProcessing = false;
+    private bool _canCreateModel = false;
+    private IEnumerable<T>? _items = new List<T>();
+    private DynamicType<T> _dynamicType = DynamicTypeHelper.Get<T>();
+
+    protected string? _user { get; set; }
+    protected string? _title { get; set; }
+    protected string? _navigateTo { get; set; }
+    protected string? _apiEndpoint { get; set; }
+    protected int _itemsPerPage { get; set; } = 20;
+    protected string? _filterFieldName { get; set; }
+    protected string? _identityFieldName { get; set; }
+    protected string? _createPermission { get; set; }
+
+    public string Filter = string.Empty;
+    public PaginationState Pagination = new PaginationState();
+
+    public IQueryable<T>? FilteredItems
+    {
+        get
+        {
+            if (string.IsNullOrWhiteSpace(_filterFieldName)) throw new NullReferenceException(nameof(_filterFieldName));
+            if (string.IsNullOrWhiteSpace(Filter)) return _items?.AsQueryable();
+
+#pragma warning disable CS8602 // Deference of a possibly null reference
+            return _items?.AsQueryable().Where(i => !string.IsNullOrWhiteSpace(_dynamicType.GetValue(i, _filterFieldName) as string)
+            && _dynamicType.GetValue(i, _filterFieldName).ToString().Contains(Filter, StringComparison.CurrentCultureIgnoreCase));
+#pragma warning restore CS8602 // Deference of a possibly null reference
+        }
+    }
+
+    public virtual RenderFragment RenderGrid()
+    {
+        throw new NotImplementedException($"{GetType().Name}.RenderGrid must be overriden.");
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        ArgumentNullException.ThrowIfNull(GenericRequests);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(_title);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(_navigateTo);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(_apiEndpoint);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(_filterFieldName);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(_identityFieldName);
+
+        try
+        {
+            Pagination.ItemsPerPage = _itemsPerPage;
+
+            if (AuthenticationState != null)
+            {
+                AuthenticationState authenticationState = await AuthenticationState;
+                _user = authenticationState.User?.Identity?.Name;
+            }
+
+            _isProcessing = true;
+
+            IAuthResponse<IEnumerable<T>> response = await GenericRequests.GetListAsync<T>(_apiEndpoint)
+                .ConfigureAwait(false);
+
+            if (!response.IsSuccess)
+            {
+                if (!string.IsNullOrWhiteSpace(response.Message))
+                {
+                    _alert = new Models.Alert
+                        {
+                            AlertType = Alerts.ERROR,
+                            Title = $"Error {_title}",
+                            Message = response.Message
+                        };
+                }
+            }
+            else
+            {
+                if (response.Authorisation != null
+                    && !string.IsNullOrWhiteSpace(_createPermission))
+                {
+                    _canCreateModel = response.Authorisation.HasPermission(_createPermission);
+                }
+
+                if (response.Result != null)
+                {
+                    _items = response.Result;
+                }
+            }
+
+            _isProcessing = false;
+        }
+        catch(Exception ex)
+        {
+            _alert = new Models.Alert
+                {
+                    AlertType = Alerts.ERROR,
+                    Title = $"Error {_title}",
+                    Message = ex.Message
+                };
+
+            LoggingService?.Log(Core.Logging.Enums.LogLevel.Error, ex.Message, new AtlasException(ex.Message, ex), _user);
+        }
+    }
+
+    protected void Edit(T model)
+    {
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(_navigateTo);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(_identityFieldName);
+
+        object? objId = _dynamicType.GetValue(model, _identityFieldName);
+
+        if(objId is int id)
+        {
+            NavigationManager?.NavigateTo($"{_navigateTo}/{id}");
+        }
+    }
+
+    protected void HandleFilter(ChangeEventArgs args)
+    {
+        if (args.Value is string value)
+        {
+            Filter = value;
+        }
+    }
+
+    protected void HandleClear()
+    {
+        if (string.IsNullOrWhiteSpace(Filter))
+        {
+            Filter = string.Empty;
+        }
+    }
+
+    private void Create()
+    {
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(_navigateTo);
+
+        NavigationManager?.NavigateTo($"{_navigateTo}");
+    }
+}

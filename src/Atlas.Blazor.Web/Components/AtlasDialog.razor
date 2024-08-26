@@ -1,0 +1,62 @@
+﻿@implements IDialogContentComponent<AtlasDialogContent>
+
+<FluentDialogHeader ShowDismiss="true">
+    <FluentStack VerticalAlignment="VerticalAlignment.Center">
+        <FluentIcon Value="@(new Icons.Regular.Size24.Globe())" />
+        <FluentLabel Typo="Typography.PaneHeader">
+            @Dialog?.Instance.Parameters.Title
+        </FluentLabel>
+    </FluentStack>
+</FluentDialogHeader>
+
+<FluentDialogBody>
+    @foreach (string message in @Content.Messages)
+    {
+        @message
+        <br/>
+    }
+</FluentDialogBody>
+
+<FluentDialogFooter>
+    <FluentButton Appearance="Appearance.Accent" OnClick="@PrimaryClickAsync">@_primaryButtonText</FluentButton>
+
+    @if(Content.ShowSecondaryButton)
+    {
+        <FluentButton Appearance="Appearance.Neutral" OnClick="@SecondaryClickAsync">@_secondaryButtonText</FluentButton>
+    }
+
+</FluentDialogFooter>
+
+@code {
+    [CascadingParameter]
+    public FluentDialog? Dialog { get; set; } = default!;
+
+    [Parameter]
+    public AtlasDialogContent Content { get; set; } = default!;
+
+    private string _primaryButtonText = "Ok";
+    private string _secondaryButtonText = "Cancel";
+
+    protected override void OnInitialized()
+    {
+        ArgumentNullException.ThrowIfNull(Content);
+
+        if (Content.DialogType == AtlasDialogType.YesNo)
+        {
+            _primaryButtonText = "Yes";
+            _secondaryButtonText = "No";
+        }
+    }
+
+    private async Task PrimaryClickAsync()
+    {
+        Content.Selected = Content.DialogType == AtlasDialogType.YesNo ? AtlasDialogSelection.Yes : AtlasDialogSelection.Ok;
+        await Dialog!.CloseAsync(Content);
+    }
+
+    private async Task SecondaryClickAsync()
+    {
+        Content.Selected = Content.DialogType == AtlasDialogType.YesNo ? AtlasDialogSelection.No : AtlasDialogSelection.Cancel;
+        await Dialog!.CloseAsync(Content);
+    }
+}

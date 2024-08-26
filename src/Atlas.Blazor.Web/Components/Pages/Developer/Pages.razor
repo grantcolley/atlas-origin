@@ -1,0 +1,42 @@
+﻿@page "/Pages"
+@rendermode @(new InteractiveServerRenderMode(prerender: false))
+@inherits GridContainerBase<Atlas.Core.Models.Page>
+
+@{
+    // Display the markup for the underlying base 
+    // GenericGridContainer<T> we are inheriting.
+    base.BuildRenderTree(__builder);
+}
+
+@code{
+    public override string? Title { get; set; } = "Pages";
+    public override string? NavigateTo { get; set; } = AtlasWebConstants.PAGE_PAGE;
+    public override string? APIEndpoint { get; set; } = AtlasAPIEndpoints.GET_PAGES;
+    public override int ItemsPerPage { get; set; } = 20;
+    public override string? FilterFieldName { get; set; } = "Name";
+    public override string? IdentityFieldName { get; set; } = "PageId";
+    public override string? CreatePermission { get; set; } = Auth.DEVELOPER;
+
+    public override RenderFragment RenderGridContent() => __builder =>
+    {
+        <FluentDataGrid TGridItem=Atlas.Core.Models.Page Items="@FilteredItems"
+                        Style="height: 600px;overflow:auto;" GridTemplateColumns="0.2fr 1fr 1fr 0.2fr 1fr"
+                        ResizableColumns=true GenerateHeader="GenerateHeaderOption.Sticky"
+                        Pagination="@Pagination">
+            <PropertyColumn Property="@(p => p.PageId)" Sortable="true" Align="Align.Center" Title="Page Id"/>
+            <PropertyColumn Property="@(p => p.Name)" Sortable="true" Filtered="!string.IsNullOrWhiteSpace(Filter)" Tooltip="true" Title="Name">
+                <ColumnOptions>
+                    <div class="search-box">
+                        <FluentSearch type="filter" Autofocus=true @bind-Value=Filter @oninput="HandleFilter" @bind-Value:after="HandleClear" Placeholder="Page name..." />
+                    </div>
+                </ColumnOptions>
+            </PropertyColumn>
+            <PropertyColumn Property="@(p => p.Category.Name)" Sortable="true" Tooltip="true" Title="Category" />
+            <PropertyColumn Property="@(p => p.Order)" Sortable="true" Title="Order" />
+            <PropertyColumn Property="@(p => p.Permission)" Sortable="true" Title="Permission" />
+            <TemplateColumn Align="@Align.Center">
+                <FluentButton aria-label="Open" IconEnd="@(new Icons.Regular.Size16.MoreHorizontal())" OnClick="@(() => Edit(context))" />
+            </TemplateColumn>
+        </FluentDataGrid>
+    };
+}
