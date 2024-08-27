@@ -1,8 +1,8 @@
 ﻿using Atlas.Core.Models;
-using Origin.Interfaces;
+using Origin.Core.Interfaces;
 using System.ComponentModel.DataAnnotations;
 
-namespace Origin.Model
+namespace Origin.Core.Model
 {
     public abstract class DocumentContentPropertiesBase : ModelBase, IDocumentContentProperties
     {

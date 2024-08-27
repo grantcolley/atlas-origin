@@ -1,4 +1,4 @@
-﻿namespace Origin.Model
+﻿namespace Origin.Core.Model
 {
     public enum DocumentParagraphType
     {

@@ -1,5 +1,5 @@
-﻿using Origin.Model;
-using Origin.OpenXml.DocX.Sevices;
+﻿using Origin.Core.Model;
+using Origin.OpenXml.Sevices;
 using Origin.Service.Interface;
 using Origin.Service.Providers;
 

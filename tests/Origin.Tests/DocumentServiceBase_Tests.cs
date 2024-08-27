@@ -1,4 +1,4 @@
-﻿using Origin.OpenXml.DocX.Sevices;
+﻿using Origin.OpenXml.Sevices;
 
 namespace Origin.Tests
 {

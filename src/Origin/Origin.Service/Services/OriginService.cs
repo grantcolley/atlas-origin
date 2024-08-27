@@ -1,5 +1,5 @@
-﻿using Origin.Extensions;
-using Origin.Model;
+﻿using Origin.Core.Extensions;
+using Origin.Core.Model;
 using Origin.Service.Interface;
 
 namespace Origin.Service.Services
@@ -8,21 +8,21 @@ namespace Origin.Service.Services
     {
         private readonly IDocumentServiceProvider _documentServiceProvider = documentServiceProvider ?? throw new ArgumentNullException(nameof(documentServiceProvider));
 
-        public bool TryCreate(DocumentConfig documentArgs, out string fullFilename)
+        public bool TryCreate(DocumentConfig documentConfig, out string fullFilename)
         {
-            ArgumentNullException.ThrowIfNull(documentArgs);
+            ArgumentNullException.ThrowIfNull(documentConfig);
 
-            IDocumentService documentService = _documentServiceProvider.GetDocumentService(documentArgs.DocumentServiceType);
+            IDocumentService documentService = _documentServiceProvider.GetDocumentService(documentConfig.DocumentServiceType);
 
-            fullFilename = $"{documentArgs.FullFilename()}.{documentService.DocumentExtension}";
+            fullFilename = $"{documentConfig.FullFilename()}.{documentService.DocumentExtension}";
 
-            documentService.ValidateOutputLocation(documentArgs.OutputLocation);
+            documentService.ValidateOutputLocation(documentConfig.OutputLocation);
 
             documentService.FileDeleteIfExists(fullFilename);
 
-            documentArgs.BuildDocument();
+            documentConfig.BuildDocument();
 
-            return documentService.TryCreateDocument(documentArgs, fullFilename);
+            return documentService.TryCreateDocument(documentConfig, fullFilename);
         }
     }
 }

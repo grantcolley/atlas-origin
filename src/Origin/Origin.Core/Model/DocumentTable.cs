@@ -1,7 +1,7 @@
 ﻿using Atlas.Core.Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace Origin.Model
+namespace Origin.Core.Model
 {
     public class DocumentTable : ModelBase
     {
@@ -17,6 +17,10 @@ namespace Origin.Model
         public List<DocumentTableRow> Rows { get; set; }
         public List<DocumentTableColumn> Columns { get; set; }
         public List<DocumentTableCell> Cells { get; set; }
+
+        [Required]
+        [StringLength(250)]
+        public string? Name { get; set; }
 
         [Required]
         [StringLength(100)]

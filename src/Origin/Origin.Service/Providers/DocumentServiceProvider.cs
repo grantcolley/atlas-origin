@@ -1,4 +1,4 @@
-﻿using Origin.Model;
+﻿using Origin.Core.Model;
 using Origin.Service.Interface;
 
 namespace Origin.Service.Providers

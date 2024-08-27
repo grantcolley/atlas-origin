@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Origin.Model
+namespace Origin.Core.Model
 {
     public class DocumentTableRow
     {

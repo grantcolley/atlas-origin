@@ -1,8 +1,8 @@
 ﻿using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Wordprocessing;
-using Origin.Converters;
-using Origin.Interfaces;
-using Origin.Model;
+using Origin.Core.Converters;
+using Origin.Core.Interfaces;
+using Origin.Core.Model;
 
 namespace Origin.OpenXml.Extensions
 {

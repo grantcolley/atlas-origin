@@ -1,4 +1,4 @@
-﻿using Origin.Model;
+﻿using Origin.Core.Model;
 using Origin.Service.Interface;
 
 namespace Origin.Service.Base
@@ -8,7 +8,7 @@ namespace Origin.Service.Base
         public abstract DocumentFileExtension DocumentExtension { get; }
         public abstract DocumentServiceType DocumentServiceType { get; }
 
-        public abstract bool TryCreateDocument(DocumentConfig documentArgs, string fileName);
+        public abstract bool TryCreateDocument(DocumentConfig documentConfig, string fileName);
 
         public virtual void ValidateOutputLocation(string? outputLocation)
         {

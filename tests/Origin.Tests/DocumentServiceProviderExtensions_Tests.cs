@@ -1,5 +1,5 @@
-﻿using Origin.Model;
-using Origin.OpenXml.DocX.Sevices;
+﻿using Origin.Core.Model;
+using Origin.OpenXml.Sevices;
 using Origin.Pdf.Services;
 using Origin.Service.Extensions;
 using Origin.Service.Interface;

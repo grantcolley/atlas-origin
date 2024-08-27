@@ -1,5 +1,5 @@
-using Origin.Extensions;
-using Origin.Model;
+using Origin.Core.Extensions;
+using Origin.Core.Model;
 using Origin.Test.Data;
 
 namespace Origin.Tests

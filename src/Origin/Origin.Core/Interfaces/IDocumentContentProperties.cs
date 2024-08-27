@@ -1,4 +1,4 @@
-﻿namespace Origin.Interfaces
+﻿namespace Origin.Core.Interfaces
 {
     public interface IDocumentContentProperties
     {

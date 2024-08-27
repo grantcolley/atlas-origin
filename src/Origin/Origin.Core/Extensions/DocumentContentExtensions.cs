@@ -1,6 +1,6 @@
-﻿using Origin.Interfaces;
+﻿using Origin.Core.Interfaces;
 
-namespace Origin.Extensions
+namespace Origin.Core.Extensions
 {
     public static class DocumentContentExtensions
     {

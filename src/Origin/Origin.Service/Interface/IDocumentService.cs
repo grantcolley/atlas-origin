@@ -1,4 +1,4 @@
-﻿using Origin.Model;
+﻿using Origin.Core.Model;
 
 namespace Origin.Service.Interface
 {
@@ -6,7 +6,7 @@ namespace Origin.Service.Interface
     {
         DocumentFileExtension DocumentExtension { get; }
         DocumentServiceType DocumentServiceType { get; }
-        bool TryCreateDocument(DocumentConfig documentArgs, string fileName);
+        bool TryCreateDocument(DocumentConfig documentConfig, string fileName);
         void ValidateOutputLocation(string? outputLocation);
         void FileDeleteIfExists(string? file);
     }

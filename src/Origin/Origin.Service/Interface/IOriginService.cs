@@ -1,9 +1,9 @@
-﻿using Origin.Model;
+﻿using Origin.Core.Model;
 
 namespace Origin.Service.Interface
 {
     public interface IOriginService
     {
-        bool TryCreate(DocumentConfig documentArgs, out string fullFilename);
+        bool TryCreate(DocumentConfig documentConfig, out string fullFilename);
     }
 }

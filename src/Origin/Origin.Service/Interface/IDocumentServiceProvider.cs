@@ -1,4 +1,4 @@
-﻿using Origin.Model;
+﻿using Origin.Core.Model;
 
 namespace Origin.Service.Interface
 {

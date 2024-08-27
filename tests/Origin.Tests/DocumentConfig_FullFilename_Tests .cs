@@ -1,5 +1,5 @@
-using Origin.Extensions;
-using Origin.Model;
+using Origin.Core.Extensions;
+using Origin.Core.Model;
 using Origin.Test.Data;
 using Origin.Tests.Helpers;
 
@@ -65,7 +65,7 @@ namespace Origin.Tests
             // Arrange
             DocumentSubstitute customerId = new() { Key = Substitutes.CUSTOMER_ID, Value = "123" };
 
-            CustomDocumentArgs customDocumentArgs = new()
+            CustomDocumentConfig customDocumentArgs = new()
             {
                 FilenameTemplate = "Filename_[CUSTOMER_ID]_[DATE]",
                 OutputLocation = "OutputLocationTest",

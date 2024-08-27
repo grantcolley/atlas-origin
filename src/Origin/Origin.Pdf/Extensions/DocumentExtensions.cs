@@ -1,23 +1,23 @@
 ﻿using MigraDoc.DocumentObjectModel;
-using Origin.Model;
+using Origin.Core.Model;
 
 namespace Origin.Pdf.Extensions
 {
     public static class DocumentExtensions
     {
-        public static Section CreateSectionProperties(this Document document, DocumentConfig documentArgs)
+        public static Section CreateSectionProperties(this Document document, DocumentConfig documentConfig)
         {
-            ArgumentNullException.ThrowIfNull(documentArgs);
+            ArgumentNullException.ThrowIfNull(documentConfig);
 
             var section = document.AddSection();
 
             section.PageSetup = document.DefaultPageSetup.Clone();
 
             section.PageSetup.PageFormat = PageFormat.A4;
-            section.PageSetup.LeftMargin = Unit.FromMillimeter(documentArgs.PageMarginLeft);
-            section.PageSetup.TopMargin = Unit.FromMillimeter(documentArgs.PageMarginTop);
-            section.PageSetup.RightMargin = Unit.FromMillimeter(documentArgs.PageMarginRight);
-            section.PageSetup.BottomMargin = Unit.FromMillimeter(documentArgs.PageMarginBottom);
+            section.PageSetup.LeftMargin = Unit.FromMillimeter(documentConfig.PageMarginLeft);
+            section.PageSetup.TopMargin = Unit.FromMillimeter(documentConfig.PageMarginTop);
+            section.PageSetup.RightMargin = Unit.FromMillimeter(documentConfig.PageMarginRight);
+            section.PageSetup.BottomMargin = Unit.FromMillimeter(documentConfig.PageMarginBottom);
 
             return section;
         }

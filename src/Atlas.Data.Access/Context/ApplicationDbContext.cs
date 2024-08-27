@@ -2,6 +2,7 @@
 using Atlas.Data.Access.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Origin.Core.Model;
 using System.Text.Json;
 
 namespace Atlas.Data.Access.Context
@@ -18,6 +19,15 @@ namespace Atlas.Data.Access.Context
         public DbSet<Category> Categories { get; set; }
         public DbSet<Page> Pages { get; set; }
         public DbSet<Log> Logs { get; set; }
+
+        public DbSet<DocumentConfig> DocumentConfigs { get; set; }
+        public DbSet<DocumentParagraph> DocumentParagraphs { get; set; }
+        public DbSet<DocumentTable> DocumentTables { get; set; }
+        public DbSet<DocumentTableRow> DocumentTableRow {  get; set; }
+        public DbSet<DocumentTableColumn> DocumentTableColumns { get; set; }
+        public DbSet<DocumentTableCell> DocumentTableCells { get; set; }
+        public DbSet<DocumentContent> DocumentContents { get; set; }
+        public DbSet<DocumentSubstitute> DocumentSubstitutes { get; set; }
 
         public void SetUser(string user)
         {
@@ -74,6 +84,26 @@ namespace Atlas.Data.Access.Context
 
             builder.Entity<Log>()
                 .HasIndex(l => l.Context);
+
+            builder.Entity<DocumentConfig>()
+                .HasIndex(c => c.Name)
+                .IsUnique();
+
+            builder.Entity<DocumentParagraph>()
+                .HasIndex(p => p.Name)
+                .IsUnique();
+
+            builder.Entity<DocumentParagraph>()
+                .HasIndex(p => p.Code)
+                .IsUnique();
+
+            builder.Entity<DocumentTable>()
+                .HasIndex(t => t.Name)
+                .IsUnique();
+
+            builder.Entity<DocumentTable>()
+                .HasIndex(t => t.Code)
+                .IsUnique();
         }
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)

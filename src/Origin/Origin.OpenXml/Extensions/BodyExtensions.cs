@@ -1,6 +1,6 @@
 ﻿using DocumentFormat.OpenXml.Wordprocessing;
-using Origin.Interfaces;
-using Origin.Model;
+using Origin.Core.Interfaces;
+using Origin.Core.Model;
 
 namespace Origin.OpenXml.Extensions
 {

@@ -1,5 +1,5 @@
 ﻿using DocumentFormat.OpenXml.Wordprocessing;
-using Origin.Model;
+using Origin.Core.Model;
 
 namespace Origin.OpenXml.Extensions
 {

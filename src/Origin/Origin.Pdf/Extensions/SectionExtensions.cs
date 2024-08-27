@@ -1,18 +1,18 @@
 ﻿using MigraDoc.DocumentObjectModel;
 using MigraDoc.DocumentObjectModel.Tables;
-using Origin.Extensions;
-using Origin.Interfaces;
-using Origin.Model;
+using Origin.Core.Extensions;
+using Origin.Core.Interfaces;
+using Origin.Core.Model;
 
 namespace Origin.Pdf.Extensions
 {
     public static class SectionExtensions
     {
-        public static void AddFooter(this Section section, DocumentConfig documentArgs)
+        public static void AddFooter(this Section section, DocumentConfig documentConfig)
         {
-            ArgumentNullException.ThrowIfNull(documentArgs);
+            ArgumentNullException.ThrowIfNull(documentConfig);
 
-            DocumentParagraph? footerParagraph = documentArgs.GetFooterParagraph();
+            DocumentParagraph? footerParagraph = documentConfig.GetFooterParagraph();
 
             if (footerParagraph == null) return;
 
@@ -20,7 +20,7 @@ namespace Origin.Pdf.Extensions
 
             Paragraph paragraph = footer.AddParagraph();
 
-            paragraph.AddContent(footerParagraph, documentArgs);
+            paragraph.AddContent(footerParagraph, documentConfig);
         }
 
         public static void AddTable(this Section section, DocumentParagraph documentParagraph, IDocumentProperties documentProperties)

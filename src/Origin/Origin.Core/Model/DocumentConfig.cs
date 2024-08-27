@@ -1,7 +1,7 @@
-﻿using Origin.Interfaces;
+﻿using Origin.Core.Interfaces;
 using System.ComponentModel.DataAnnotations;
 
-namespace Origin.Model
+namespace Origin.Core.Model
 {
     public class DocumentConfig : DocumentContentPropertiesBase, IDocumentProperties
     {

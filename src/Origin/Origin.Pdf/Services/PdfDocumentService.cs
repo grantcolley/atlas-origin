@@ -1,6 +1,6 @@
 ﻿using MigraDoc.DocumentObjectModel;
 using MigraDoc.Rendering;
-using Origin.Model;
+using Origin.Core.Model;
 using Origin.Pdf.Extensions;
 using Origin.Pdf.Helpers;
 using Origin.Service.Base;
@@ -14,9 +14,9 @@ namespace Origin.Pdf.Services
         public override DocumentFileExtension DocumentExtension => DocumentFileExtension.pdf;
         public override DocumentServiceType DocumentServiceType => DocumentServiceType.PdfSharp;
 
-        public override bool TryCreateDocument(DocumentConfig documentArgs, string fileName)
+        public override bool TryCreateDocument(DocumentConfig documentConfig, string fileName)
         {
-            ArgumentNullException.ThrowIfNull(documentArgs);
+            ArgumentNullException.ThrowIfNull(documentConfig);
 
             if (string.IsNullOrWhiteSpace(fileName)) throw new NullReferenceException(nameof(fileName));
 
@@ -24,13 +24,13 @@ namespace Origin.Pdf.Services
 
             Document document = new();
 
-            Section section = document.CreateSectionProperties(documentArgs);
+            Section section = document.CreateSectionProperties(documentConfig);
 
-            section.AddFooter(documentArgs);
+            section.AddFooter(documentConfig);
 
-            foreach (DocumentParagraph documentParagraph in documentArgs.Paragraphs.Where(p => p.DocumentParagraphType != DocumentParagraphType.Footer))
+            foreach (DocumentParagraph documentParagraph in documentConfig.Paragraphs.Where(p => p.DocumentParagraphType != DocumentParagraphType.Footer))
             {
-                section.AddParagraph(documentParagraph, documentArgs);
+                section.AddParagraph(documentParagraph, documentConfig);
             }
 
             using PdfDocument pdfDocument = new();

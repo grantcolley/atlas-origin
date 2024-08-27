@@ -1,10 +1,10 @@
 ﻿using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
-using Origin.Converters;
-using Origin.Extensions;
-using Origin.Interfaces;
-using Origin.Model;
+using Origin.Core.Converters;
+using Origin.Core.Extensions;
+using Origin.Core.Interfaces;
+using Origin.Core.Model;
 
 namespace Origin.OpenXml.Extensions
 {
@@ -35,11 +35,11 @@ namespace Origin.OpenXml.Extensions
             return body;
         }
 
-        public static void AddFooter(this MainDocumentPart mainPart, DocumentConfig documentArgs)
+        public static void AddFooter(this MainDocumentPart mainPart, DocumentConfig documentConfig)
         {
-            ArgumentNullException.ThrowIfNull(documentArgs);
+            ArgumentNullException.ThrowIfNull(documentConfig);
 
-            DocumentParagraph? footerParagraph = documentArgs.GetFooterParagraph();
+            DocumentParagraph? footerParagraph = documentConfig.GetFooterParagraph();
 
             if (footerParagraph == null) return;
 
@@ -53,7 +53,7 @@ namespace Origin.OpenXml.Extensions
 
             Paragraph p = footer.AppendChild(new Paragraph());
 
-            p.AddContent(footerParagraph, documentArgs);
+            p.AddContent(footerParagraph, documentConfig);
 
             footerPart.Footer = footer;
 
@@ -70,11 +70,11 @@ namespace Origin.OpenXml.Extensions
             }
         }
 
-        public static void AddResources(this MainDocumentPart mainPart, DocumentConfig documentArgs)
+        public static void AddResources(this MainDocumentPart mainPart, DocumentConfig documentConfig)
         {
-            ArgumentNullException.ThrowIfNull(documentArgs);
+            ArgumentNullException.ThrowIfNull(documentConfig);
 
-            List<DocumentContent> images = documentArgs.GetImages();
+            List<DocumentContent> images = documentConfig.GetImages();
             
             foreach (DocumentContent image in images)
             {

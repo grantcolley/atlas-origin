@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Atlas.Core\Atlas.Core.csproj" />
+    <ProjectReference Include="..\Origin\Origin.Core\Origin.Core.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,4 @@
-﻿namespace Origin.Converters
+﻿namespace Origin.Core.Converters
 {
     public static class FontSizeConverter
     {

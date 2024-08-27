@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
-namespace Origin.Model
+namespace Origin.Core.Model
 {
     public class DocumentTableCell : DocumentContentPropertiesBase
     {
@@ -21,7 +23,6 @@ namespace Origin.Model
         public string? BorderRightColour { get; set; }
         public string? BorderBottomColour { get; set; }
         public string? CellColour { get; set; }
-        public List<DocumentContent> Contents { get; set; }
 
         [Required]
         [StringLength(100)]
@@ -30,5 +31,9 @@ namespace Origin.Model
         [Required]
         [StringLength(100)]
         public string? RenderElementCode { get; set; }
+
+        [NotMapped]
+        [JsonIgnore]
+        public List<DocumentContent> Contents { get; set; }
     }
 }

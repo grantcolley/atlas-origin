@@ -1,33 +1,33 @@
-﻿using Origin.Model;
+﻿using Origin.Core.Model;
 using System.Text;
 
-namespace Origin.Extensions
+namespace Origin.Core.Extensions
 {
     public static class DocumentConfigExtensions
     {
         /// <summary>
         /// Apply substitutes to the FilenameTemplate.
         /// </summary>
-        /// <param name="documentArgs"></param>
+        /// <param name="documentConfig"></param>
         /// <returns>The full file name consisting of the <see cref="OutputLocation"/> and substituted file name.</returns>
         /// <exception cref="NullReferenceException"></exception>
         /// <exception cref="NotSupportedException"></exception>
-        public static string FullFilename(this DocumentConfig documentArgs)
+        public static string FullFilename(this DocumentConfig documentConfig)
         {
-            if (string.IsNullOrWhiteSpace(documentArgs.FilenameTemplate)) throw new NullReferenceException(nameof(documentArgs.FilenameTemplate));
-            if (string.IsNullOrWhiteSpace(documentArgs.OutputLocation)) throw new NullReferenceException(nameof(documentArgs.OutputLocation));
+            if (string.IsNullOrWhiteSpace(documentConfig.FilenameTemplate)) throw new NullReferenceException(nameof(documentConfig.FilenameTemplate));
+            if (string.IsNullOrWhiteSpace(documentConfig.OutputLocation)) throw new NullReferenceException(nameof(documentConfig.OutputLocation));
 
             Dictionary<string, DocumentSubstitute> substitutes = [];
 
-            foreach (DocumentSubstitute documentSubstitute in documentArgs.Substitutes)
+            foreach (DocumentSubstitute documentSubstitute in documentConfig.Substitutes)
             {
                 substitutes.Add(documentSubstitute.Key ?? throw new NullReferenceException(nameof(documentSubstitute.Key)), documentSubstitute);
             }
 
-            string fileName = documentArgs.FilenameTemplate.ApplySubstitutesToContent(substitutes, documentArgs.SubstituteStart, documentArgs.SubstituteEnd)
-                ?? throw new NullReferenceException(nameof(documentArgs.FilenameTemplate));
+            string fileName = documentConfig.FilenameTemplate.ApplySubstitutesToContent(substitutes, documentConfig.SubstituteStart, documentConfig.SubstituteEnd)
+                ?? throw new NullReferenceException(nameof(documentConfig.FilenameTemplate));
 
-            return Path.Combine(documentArgs.OutputLocation, fileName);
+            return Path.Combine(documentConfig.OutputLocation, fileName);
         }
 
         /// <summary>
@@ -36,62 +36,62 @@ namespace Origin.Extensions
         /// <see cref="DocumentParagraph"/> by <see cref="DocumentContent.RenderElementCode"/>. Finally, cascades
         /// <see cref="DocumentParagraph"/>'s <see cref="DocumentContentProperties"/> to it's content.
         /// </summary>
-        /// <param name="documentArgs">The <see cref="DocumentConfig"/>.</param>
+        /// <param name="documentConfig">The <see cref="DocumentConfig"/>.</param>
         /// <returns>A list of <see cref="DocumentParagraph"/>'s</returns>
         /// <exception cref="NullReferenceException"></exception>
-        public static List<DocumentParagraph> BuildDocument(this DocumentConfig documentArgs)
+        public static List<DocumentParagraph> BuildDocument(this DocumentConfig documentConfig)
         {
-            documentArgs.CollapseSubstituteGroups();
+            documentConfig.CollapseSubstituteGroups();
 
-            documentArgs.ApplySubstitutesToDocumentContent();
+            documentConfig.ApplySubstitutesToDocumentContent();
 
-            List<DocumentParagraph> documentParagraphs = [.. documentArgs.Paragraphs.OrderBy(p => p.Order)];
+            List<DocumentParagraph> documentParagraphs = [.. documentConfig.Paragraphs.OrderBy(p => p.Order)];
 
             foreach (DocumentParagraph documentParagraph in documentParagraphs)
             {
                 if (string.IsNullOrWhiteSpace(documentParagraph.Code)) throw new NullReferenceException(nameof(documentParagraph.Code));
 
                 documentParagraph.Contents
-                    = [.. documentArgs.Contents
+                    = [.. documentConfig.Contents
                     .Where(c => c.RenderElementCode == documentParagraph.Code)
                     .OrderBy(c => c.Order)];
 
                 if (documentParagraph.DocumentParagraphType == DocumentParagraphType.Table)
                 {
                     documentParagraph.Table
-                        = documentArgs.Tables.First(dt => dt.RenderElementCode == documentParagraph.Code);
+                        = documentConfig.Tables.First(dt => dt.RenderElementCode == documentParagraph.Code);
                 }
             }
 
-            foreach (DocumentTableCell documentTableCell in documentArgs.Tables.SelectMany(t => t.Cells))
+            foreach (DocumentTableCell documentTableCell in documentConfig.Tables.SelectMany(t => t.Cells))
             {
                 if (string.IsNullOrWhiteSpace(documentTableCell.Code)) throw new NullReferenceException(nameof(documentTableCell.Code));
 
                 IEnumerable<DocumentContent> cellContents
-                    = documentArgs.Contents
+                    = documentConfig.Contents
                     .Where(c => c.RenderElementCode == documentTableCell.Code)
                     .OrderBy(c => c.Order);
 
                 documentTableCell.Contents.AddRange(cellContents);
             }
 
-            documentArgs.CascadeParagraphPropeties();
+            documentConfig.CascadeParagraphPropeties();
 
             return documentParagraphs;
         }
 
-        public static void ApplySubstitutesToDocumentContent(this DocumentConfig documentArgs)
+        public static void ApplySubstitutesToDocumentContent(this DocumentConfig documentConfig)
         {
             Dictionary<string, DocumentSubstitute> substitutes = [];
 
-            foreach (DocumentSubstitute documentSubstitute in documentArgs.Substitutes)
+            foreach (DocumentSubstitute documentSubstitute in documentConfig.Substitutes)
             {
                 substitutes.Add(documentSubstitute.Key ?? throw new NullReferenceException(nameof(documentSubstitute.Key)), documentSubstitute);
             }
 
-            foreach (DocumentContent documentContent in documentArgs.Contents)
+            foreach (DocumentContent documentContent in documentConfig.Contents)
             {
-                documentContent.Content = documentContent.Content.ApplySubstitutesToContent(substitutes, documentArgs.SubstituteStart, documentArgs.SubstituteEnd);
+                documentContent.Content = documentContent.Content.ApplySubstitutesToContent(substitutes, documentConfig.SubstituteStart, documentConfig.SubstituteEnd);
             }
         }
 
@@ -204,10 +204,10 @@ namespace Origin.Extensions
         /// <summary>
         /// Grouped substitutes are sorted alphabetically and null, empty and whitespace content is collapsed.
         /// </summary>
-        /// <param name="documentArgs">The <see cref="DocumentConfig"/>.</param>
-        public static void CollapseSubstituteGroups(this DocumentConfig documentArgs)
+        /// <param name="documentConfig">The <see cref="DocumentConfig"/>.</param>
+        public static void CollapseSubstituteGroups(this DocumentConfig documentConfig)
         {
-            var collapseGroups = from s in documentArgs.Substitutes
+            var collapseGroups = from s in documentConfig.Substitutes
                           group s by s.Group into sg
                           select new { Group = sg.Key, DocumentSubstitute = sg.ToList() };
 
@@ -244,12 +244,12 @@ namespace Origin.Extensions
         /// If a <see cref="DocumentContent"/> has its own properties set, then it will not inherit the properties 
         /// from its parent <see cref="DocumentParagraph"/>. 
         /// </summary>
-        /// <param name="documentArgs"></param>
-        public static void CascadeParagraphPropeties(this DocumentConfig documentArgs)
+        /// <param name="documentConfig"></param>
+        public static void CascadeParagraphPropeties(this DocumentConfig documentConfig)
         {
-            foreach(DocumentParagraph documentParagraph in documentArgs.Paragraphs) 
+            foreach(DocumentParagraph documentParagraph in documentConfig.Paragraphs) 
             {
-                documentParagraph.InheritProperties(documentArgs);
+                documentParagraph.InheritProperties(documentConfig);
 
                 foreach(DocumentContent documentContent in documentParagraph.Contents)
                 {
@@ -273,14 +273,14 @@ namespace Origin.Extensions
             }
         }
 
-        public static List<DocumentContent> GetImages(this DocumentConfig documentArgs)
+        public static List<DocumentContent> GetImages(this DocumentConfig documentConfig)
         {
-            return documentArgs.Contents.Where(c => c.ContentType == DocumentContentType.Image).ToList();
+            return documentConfig.Contents.Where(c => c.ContentType == DocumentContentType.Image).ToList();
         }
 
-        public static DocumentParagraph? GetFooterParagraph(this DocumentConfig documentArgs)
+        public static DocumentParagraph? GetFooterParagraph(this DocumentConfig documentConfig)
         {
-            return documentArgs.Paragraphs.Single(p => p.DocumentParagraphType == DocumentParagraphType.Footer);
+            return documentConfig.Paragraphs.Single(p => p.DocumentParagraphType == DocumentParagraphType.Footer);
         }
     }
 }

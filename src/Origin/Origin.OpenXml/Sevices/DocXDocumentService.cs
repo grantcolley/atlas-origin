@@ -1,20 +1,20 @@
 ﻿using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
-using Origin.Model;
+using Origin.Core.Model;
 using Origin.OpenXml.Extensions;
 using Origin.Service.Base;
 
-namespace Origin.OpenXml.DocX.Sevices
+namespace Origin.OpenXml.Sevices
 {
     public class DocXDocumentService : DocumentServiceBase
     {
         public override DocumentFileExtension DocumentExtension => DocumentFileExtension.docx;
         public override DocumentServiceType DocumentServiceType => DocumentServiceType.OpenXmlDocument;
 
-        public override bool TryCreateDocument(DocumentConfig documentArgs, string fileName)
+        public override bool TryCreateDocument(DocumentConfig documentConfig, string fileName)
         {
-            ArgumentNullException.ThrowIfNull(documentArgs);
+            ArgumentNullException.ThrowIfNull(documentConfig);
             
             if (string.IsNullOrWhiteSpace(fileName)) throw new NullReferenceException(nameof(fileName));
 
@@ -22,15 +22,15 @@ namespace Origin.OpenXml.DocX.Sevices
 
             MainDocumentPart mainPart = wordDocument.AddMainDocumentPart();
 
-            Body body = mainPart.AddBody(documentArgs);
+            Body body = mainPart.AddBody(documentConfig);
 
-            mainPart.AddResources(documentArgs);
+            mainPart.AddResources(documentConfig);
 
-            mainPart.AddFooter(documentArgs);
+            mainPart.AddFooter(documentConfig);
 
-            foreach(DocumentParagraph documentParagraph  in documentArgs.Paragraphs.Where(p => p.DocumentParagraphType != DocumentParagraphType.Footer))
+            foreach(DocumentParagraph documentParagraph  in documentConfig.Paragraphs.Where(p => p.DocumentParagraphType != DocumentParagraphType.Footer))
             {
-                body.AddParagraph(documentParagraph, documentArgs);
+                body.AddParagraph(documentParagraph, documentConfig);
             }
 
             return true;
