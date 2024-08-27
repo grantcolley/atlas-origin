@@ -428,7 +428,7 @@ Here we see the `Logs` page, the category it belongs to, the order it appears un
 
 ![Alt text](/readme-images/Page_Logs.png?raw=true "Logs page") 
 
-Here we can see the [Logs.razor](https://github.com/grantcolley/atlas/blob/59fb7ab83b40ceb90424168541be41fab11c64a1/src/Atlas.Blazor.Web/Pages/Support/Logs.razor#L1) component, with its routable `@page`  attribute.
+Here we can see the [Logs.razor](https://github.com/grantcolley/atlas-origin/blob/e29333f96d3ea12e16f193b71913863001596c14/src/Atlas.Blazor.Web/Components/Pages/Support/Logs.razor#L1) component, with its routable `@page`  attribute.
 
 > [!IMPORTANT]  
 > The route specified in the page must map to a valid `@page` attribute on a routable component.
@@ -463,7 +463,7 @@ Here we can see the [Logs.razor](https://github.com/grantcolley/atlas/blob/59fb7
 ### Logging
 Logs are persisted to the `Logs` table in the **Atlas** database and are viewable to members of the `Support Role`. 
 
-Here we can see mock logs created at startup when `"GenerateSeedLogs":  "true"` is set in the **Atlas.API**'s [appsettings.json](https://github.com/grantcolley/atlas/blob/84031b9b572082965a6668c6e57ce8f0b61d3f86/src/Atlas.API/appsettings.json#L53).
+Here we can see mock logs created at startup when `"GenerateSeedLogs":  "true"` is set in the **Atlas.API**'s [appsettings.json](https://github.com/grantcolley/atlas-origin/blob/e29333f96d3ea12e16f193b71913863001596c14/src/Atlas.API/appsettings.json#L53).
 
 ![Alt text](/readme-images/Logs.png?raw=true "Logs") 
 
