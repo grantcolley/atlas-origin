@@ -97,7 +97,7 @@ In the **Atlas.API** [appsettings.json](https://github.com/grantcolley/atlas-ori
   "AllowedHosts": "*",
   "Auth0": {
     "Domain": "",               👈specify the Auth0 domain
-    "Audience": "               👈specify the audience
+    "Audience": ""              👈specify the audience
   },
   "SeedData": {
     "GenerateSeedData": "true", 👈 set to true to create seed data including modules, categories, pages, users, permissions and roles.
@@ -472,7 +472,7 @@ Clicking on the log entry will display the full log details in a popup box.
 ![Alt text](/readme-images/Log_Dialog.png?raw=true "Log dialog") 
 
 # Audit
-The [ApplicationDbContext.cs](https://github.com/grantcolley/atlas/blob/3c93993b057c5c7d12ea1e8eb081f0496596ab18/src/Atlas.Data.Access/Context/ApplicationDbContext.cs#L79-L226) uses EF Change Tracking to capture `OldValue` and `NewValues` from `INSERT`'s, `UPDATE`'s and `DELETE`'s, for entities where their poco model class inherits from [ModelBase.cs](https://github.com/grantcolley/atlas/blob/main/src/Atlas.Core/Models/ModelBase.cs). Tracked changes can be queried in the **Audit** table of the **Atlas** database.
+The [ApplicationDbContext.cs](https://github.com/grantcolley/atlas-origin/blob/056f5f9154943ed837dcd1f3f912281228828f04/src/Atlas.Data.Access/Context/ApplicationDbContext.cs#L79-L226) uses EF Change Tracking to capture `OldValue` and `NewValues` from `INSERT`'s, `UPDATE`'s and `DELETE`'s, for entities where their poco model class inherits from [ModelBase.cs](https://github.com/grantcolley/atlas-origin/blob/main/src/Atlas.Core/Models/ModelBase.cs). Tracked changes can be queried in the **Audit** table of the **Atlas** database.
 
 ![Alt text](/readme-images/Audits.png?raw=true "Audits") 
 
