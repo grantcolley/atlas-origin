@@ -9,8 +9,6 @@ See the [Worked Examples](#worked-examples) for step-by-step guidance on how to 
 \
 ![Alt text](/readme-images/Atlas_Architecture.png?raw=true "Atlas Architecture")
 
-[![Build status](https://ci.appveyor.com/api/projects/status/qx6pbauk9bfpopst?svg=true)](https://ci.appveyor.com/project/grantcolley/atlas)
-
 ## Table of Contents
 * [Setup the Solution](#setup-the-solution)
     * [Multiple Startup Projects](#multiple-startup-projects)
@@ -45,7 +43,7 @@ In the _Solution Properties_, specify multiple startup projects and set the acti
 ![Alt text](/readme-images/Solution_Property_Pages.png?raw=true "Solution Properties") 
 
 ### Atlas.API Configuration
-In the **Atlas.API** [appsettings.json](https://github.com/grantcolley/atlas/blob/main/src/Atlas.API/appsettings.json) set the connection strings, configure [Auth0](https://auth0.com/) settings and generating seed data.
+In the **Atlas.API** [appsettings.json](https://github.com/grantcolley/atlas-origin/blob/main/src/Atlas.API/appsettings.json) set the connection strings, configure [Auth0](https://auth0.com/) settings and generating seed data.
 
 > [!NOTE]  
 > Read the next section on [Authentication](#authentication) for how to configure [Auth0](https://auth0.com/) as the identity provider. 
@@ -53,7 +51,7 @@ In the **Atlas.API** [appsettings.json](https://github.com/grantcolley/atlas/blo
 ```json
 {
   "ConnectionStrings": {
-    "DefaultConnection": ""   👈 set the Atlas database connection string
+    "DefaultConnection": ""   👈 set the AtlasOrigin database connection string
   },
   "Logging": {
     "LogLevel": {
@@ -75,7 +73,7 @@ In the **Atlas.API** [appsettings.json](https://github.com/grantcolley/atlas/blo
       {
         "Name": "MSSqlServer",
         "Args": {
-          "connectionString": "",   👈set the Atlas database connection string for Serilogs MS SqlServer
+          "connectionString": "",   👈set the AtlasOrigin database connection string for Serilogs MS SqlServer
           "tableName": "Logs",
           "autoCreateSqlTable": true,
           "columnOptionsSection": {
@@ -98,8 +96,8 @@ In the **Atlas.API** [appsettings.json](https://github.com/grantcolley/atlas/blo
   },
   "AllowedHosts": "*",
   "Auth0": {
-    "Domain": "",                        👈specify the Auth0 domain
-    "Audience": "https://Atlas.API.com"  👈specify the audience
+    "Domain": "",               👈specify the Auth0 domain
+    "Audience": "               👈specify the audience
   },
   "SeedData": {
     "GenerateSeedData": "true", 👈 set to true to create seed data including modules, categories, pages, users, permissions and roles.
@@ -109,7 +107,7 @@ In the **Atlas.API** [appsettings.json](https://github.com/grantcolley/atlas/blo
 ```
 
 ### Atlas.Blazor.Web.App Configuration
-In the **Atlas.Blazor.Web.App** [appsettings.json](https://github.com/grantcolley/atlas/blob/main/src/Atlas.Blazor.Web.App/appsettings.json) configure [Auth0](https://auth0.com/) settings and specify the **Atlas.API** url.
+In the **Atlas.Blazor.Web.App** [appsettings.json](https://github.com/grantcolley/atlas-origin/blob/main/src/Atlas.Blazor.Web.App/appsettings.json) configure [Auth0](https://auth0.com/) settings and specify the **Atlas.API** url.
 
 > [!NOTE]  
 > Read the next section on [Authentication](#authentication) for how to configure [Auth0](https://auth0.com/) as the identity provider.
@@ -136,7 +134,7 @@ In the **Atlas.Blazor.Web.App** [appsettings.json](https://github.com/grantcolle
       {
         "Name": "MSSqlServer",
         "Args": {
-          "connectionString": "",    👈set the Atlas database connection string for Serilogs MS SqlServer
+          "connectionString": "",    👈set the AtlasOrigin database connection string for Serilogs MS SqlServer
           "tableName": "Logs",
           "autoCreateSqlTable": true,
           "columnOptionsSection": {
@@ -162,7 +160,7 @@ In the **Atlas.Blazor.Web.App** [appsettings.json](https://github.com/grantcolle
     "Domain": "",                           👈specify the Auth0 domain
     "ClientId": "",                         👈specify the Auth0 ClientId
     "ClientSecret": "",                     👈specify the Auth0 ClientSecret
-    "Audience": "https://Atlas.API.com"     👈specify the audience
+    "Audience": ""                          👈specify the audience
   },
   "AtlasAPI": "https://localhost:44420"     👈specify the AtlasAPI url
 }
@@ -176,10 +174,10 @@ dotnet ef database update --project ..\..\data\Atlas.Migrations.SQLServer
 ```
 
 ### Insert Seed Data
-In the **Atlas.API** [appsettings.json](https://github.com/grantcolley/atlas/blob/f00c8113c0c79c44718d347a139ab877e63a7b88/src/Atlas.API/appsettings.json#L51-L53) configuration file set `GenerateSeedData` and `GenerateSeedLogs` to true. This will populate the database with seed data at startup.
+In the **Atlas.API** [appsettings.json](https://github.com/grantcolley/atlas-origin/blob/dbd3270b3eb0374e8e4de1976051e9d35276bca5/src/Atlas.API/appsettings.json#L51-L54) configuration file set `GenerateSeedData` and `GenerateSeedLogs` to true. This will populate the database with seed data at startup.
 
 > [!WARNING]  
-> If `"GenerateSeedData": "true"` the tables in the Atlas database will be truncated and repopulated with seed data every time the application starts. Existing data will be permanently lost.
+> If `"GenerateSeedData": "true"` the tables in the AtlasOrigin database will be truncated and repopulated with seed data every time the application starts. Existing data will be permanently lost.
 
 ```json
   "SeedData": {
@@ -212,7 +210,7 @@ Create Auth0 users. The user's [Auth0](https://auth0.com/) email claim is mapped
 ![Alt text](/readme-images/Auth0_User_Role.png?raw=true "Auth0 User Role") 
 
 > [!TIP]
-> [SeedData.cs](https://github.com/grantcolley/atlas/blob/9509c67c874711e1760bbf5cd6561c662abe2e81/data/Atlas.Seed.Data/SeedData.cs#L111-L114) already contains some pre-defined sample users with roles and permissions. Either create these users in [Auth0](https://auth0.com/), or amend the sample users in [SeedData.cs](https://github.com/grantcolley/atlas/blob/9509c67c874711e1760bbf5cd6561c662abe2e81/data/Atlas.Seed.Data/SeedData.cs#L111-L114) to reflect those created in [Auth0](https://auth0.com/).
+> [SeedData.cs](https://github.com/grantcolley/atlas-origin/blob/dbd3270b3eb0374e8e4de1976051e9d35276bca5/data/Atlas.Seed.Data/SeedData.cs#L98-L113) already contains some pre-defined sample users with roles and permissions. Either create these users in [Auth0](https://auth0.com/), or amend the sample users in [SeedData.cs](https://github.com/grantcolley/atlas-origin/blob/dbd3270b3eb0374e8e4de1976051e9d35276bca5/data/Atlas.Seed.Data/SeedData.cs#L98-L113](https://github.com/grantcolley/atlas-origin/blob/dbd3270b3eb0374e8e4de1976051e9d35276bca5/data/Atlas.Seed.Data/SeedData.cs#L98-L113)) to reflect those created in [Auth0](https://auth0.com/).
 
 > [!WARNING]  
 > If `"GenerateSeedData": "true"` the tables in the Atlas database will be truncated and repopulated with seed data every time the application starts. Existing data will be permanently lost.
@@ -241,7 +239,7 @@ Create Auth0 users. The user's [Auth0](https://auth0.com/) email claim is mapped
 ![Alt text](/readme-images/Auth0_User.png?raw=true "Auth0 Users") 
 
 ### Securing Atlas.API
-The following article explains how to register and [secure a minimal WebAPI with Auth0](https://auth0.com/blog/securing-aspnet-minimal-webapis-with-auth0/) with the relevant parts in the **Atlas.API** [Program.cs](https://github.com/grantcolley/atlas/blob/main/src/Atlas.API/Program.cs).
+The following article explains how to register and [secure a minimal WebAPI with Auth0](https://auth0.com/blog/securing-aspnet-minimal-webapis-with-auth0/) with the relevant parts in the **Atlas.API** [Program.cs](https://github.com/grantcolley/atlas-origin/blob/main/src/Atlas.API/Program.cs).
 
 ```C#
 
@@ -274,7 +272,7 @@ app.UseAuthorization();
 
 ```
 
-When mapping the minimal Web API methods add `RequireAuthorization(Auth.ATLAS_USER_CLAIM)`, as can be seen here in [AtlasEndpointMapper.cs](https://github.com/grantcolley/atlas/blob/main/src/Atlas.API/Extensions/AtlasEndpointMapper.cs).
+When mapping the minimal Web API methods add `RequireAuthorization(Auth.ATLAS_USER_CLAIM)`, as can be seen here in [AtlasEndpointMapper.cs](https://github.com/grantcolley/atlas-origin/blob/dbd3270b3eb0374e8e4de1976051e9d35276bca5/src/Atlas.API/Extensions/AtlasEndpointMapper.cs#L17).
 
 ```C#
 
@@ -295,7 +293,7 @@ app.MapGet($"/{AtlasAPIEndpoints.GET_CLAIM_MODULES}", ClaimEndpoint.GetClaimModu
 ### Securing Atlas.Blazor.Web.App
 The following article explains how to register and [add Auth0 Authentication to Blazor Web Apps](https://auth0.com/blog/auth0-authentication-blazor-web-apps/).
 
-Here are the relevant parts in the **Atlas.Blazor.Web.App** [Program.cs](https://github.com/grantcolley/atlas/blob/main/src/Atlas.Blazor.Web.App/Program.cs).
+Here are the relevant parts in the **Atlas.Blazor.Web.App** [Program.cs](https://github.com/grantcolley/atlas-origin/blob/main/src/Atlas.Blazor.Web.App/Program.cs).
 
 ```C#
 
@@ -343,9 +341,9 @@ app.MapGet("logout", async (HttpContext httpContext, string redirectUri = @"/") 
 
 ```
 
-The following section in the article describes how the [client authentication state is synced with the server authentication state](https://auth0.com/blog/auth0-authentication-blazor-web-apps/#Syncing-the-Authentication-State) using [`PersistingRevalidatingAuthenticationStateProvider.cs`](https://github.com/grantcolley/atlas/blob/main/src/Atlas.Blazor.Web.App/Authentication/PersistingRevalidatingAuthenticationStateProvider.cs) in **Atlas.Blazor.Web.App** and [`PersistentAuthenticationStateProvider.cs`](https://github.com/grantcolley/atlas/blob/main/src/Atlas.Blazor.Web.App.Client/Authentication/PersistentAuthenticationStateProvider.cs) in **Atlas.Blazor.Web.App.Client**.
+The following section in the article describes how the [client authentication state is synced with the server authentication state](https://auth0.com/blog/auth0-authentication-blazor-web-apps/#Syncing-the-Authentication-State) using [`PersistingRevalidatingAuthenticationStateProvider.cs`](https://github.com/grantcolley/atlas-origin/blob/main/src/Atlas.Blazor.Web.App/Authentication/PersistingRevalidatingAuthenticationStateProvider.cs) in **Atlas.Blazor.Web.App** and [`PersistentAuthenticationStateProvider.cs`](https://github.com/grantcolley/atlas-origin/blob/main/src/Atlas.Blazor.Web.App.Client/Authentication/PersistentAuthenticationStateProvider.cs) in **Atlas.Blazor.Web.App.Client**.
 
-Finally, the following article describes how to [call protected APIs from a Blazor Web App](https://auth0.com/blog/call-protected-api-from-blazor-web-app/), including [calling external APIs](https://auth0.com/blog/call-protected-api-from-blazor-web-app/#Call-an-External-API) which requires injecting the access token into HTTP requests. This is handled by the [TokenHandler.cs](https://github.com/grantcolley/atlas/blob/main/src/Atlas.Blazor.Web.App/Authentication/TokenHandler.cs).
+Finally, the following article describes how to [call protected APIs from a Blazor Web App](https://auth0.com/blog/call-protected-api-from-blazor-web-app/), including [calling external APIs](https://auth0.com/blog/call-protected-api-from-blazor-web-app/#Call-an-External-API) which requires injecting the access token into HTTP requests. This is handled by the [TokenHandler.cs](https://github.com/grantcolley/atlas-origin/blob/main/src/Atlas.Blazor.Web.App/Authentication/TokenHandler.cs).
 
 ```C#
     public class TokenHandler(IHttpContextAccessor httpContextAccessor) : DelegatingHandler
