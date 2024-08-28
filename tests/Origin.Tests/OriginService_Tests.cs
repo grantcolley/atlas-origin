@@ -1,4 +1,4 @@
-﻿using Origin.Core.Model;
+﻿using Origin.Core.Models;
 using Origin.OpenXml.Sevices;
 using Origin.Pdf.Services;
 using Origin.Service.Services;

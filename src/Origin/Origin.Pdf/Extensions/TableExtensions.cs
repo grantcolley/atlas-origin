@@ -3,7 +3,7 @@ using MigraDoc.DocumentObjectModel.Shapes;
 using MigraDoc.DocumentObjectModel.Tables;
 using Origin.Core.Converters;
 using Origin.Core.Interfaces;
-using Origin.Core.Model;
+using Origin.Core.Models;
 
 namespace Origin.Pdf.Extensions
 {

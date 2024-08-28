@@ -2,7 +2,7 @@
 using Origin.Core.Interfaces;
 using System.ComponentModel.DataAnnotations;
 
-namespace Origin.Core.Model
+namespace Origin.Core.Models
 {
     public abstract class DocumentContentPropertiesBase : ModelBase, IDocumentContentProperties
     {

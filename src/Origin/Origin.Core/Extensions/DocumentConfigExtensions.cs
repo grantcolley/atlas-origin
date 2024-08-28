@@ -1,4 +1,4 @@
-﻿using Origin.Core.Model;
+﻿using Origin.Core.Models;
 using System.Text;
 
 namespace Origin.Core.Extensions

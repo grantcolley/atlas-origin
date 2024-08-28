@@ -1,4 +1,4 @@
-﻿namespace Origin.Core.Model
+﻿namespace Origin.Core.Models
 {
     public enum DocumentFileExtension
     {

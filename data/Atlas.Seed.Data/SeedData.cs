@@ -3,6 +3,7 @@ using Atlas.Core.Constants;
 using Atlas.Core.Models;
 using Atlas.Data.Access.Context;
 using Microsoft.EntityFrameworkCore;
+using Origin.Blazor.Web.Constants;
 
 namespace Atlas.Seed.Data
 {
@@ -55,6 +56,8 @@ namespace Atlas.Seed.Data
             permissions.Add(Auth.ADMIN_WRITE, new Permission { Code = Auth.ADMIN_WRITE, Name = Auth.ADMIN_WRITE, Description = "Atlas Administrator Write Permission" });
             permissions.Add(Auth.SUPPORT, new Permission { Code = Auth.SUPPORT, Name = Auth.SUPPORT, Description = "Atlas Support Permission" });
             permissions.Add(Auth.DEVELOPER, new Permission { Code = Auth.DEVELOPER, Name = Auth.DEVELOPER, Description = "Atlas Developer Permission" });
+            permissions.Add(Auth.DOCUMENT_READ, new Permission { Code = Auth.DOCUMENT_READ, Name = Auth.DOCUMENT_READ, Description = "Origin Document Read Permission" });
+            permissions.Add(Auth.DOCUMENT_WRITE, new Permission { Code = Auth.DOCUMENT_WRITE, Name = Auth.DOCUMENT_WRITE, Description = "Origin Document Write Permission" });
 
             foreach (Permission permission in permissions.Values)
             {
@@ -91,6 +94,8 @@ namespace Atlas.Seed.Data
             roles[Auth.DEVELOPER].Permissions.Add(permissions[Auth.ADMIN_WRITE]);
             roles[Auth.DEVELOPER].Permissions.Add(permissions[Auth.SUPPORT]);
             roles[Auth.DEVELOPER].Permissions.Add(permissions[Auth.DEVELOPER]);
+            roles[Auth.DEVELOPER].Permissions.Add(permissions[Auth.DOCUMENT_READ]);
+            roles[Auth.DEVELOPER].Permissions.Add(permissions[Auth.DOCUMENT_WRITE]);
 
             dbContext.SaveChanges();
         }
@@ -128,6 +133,7 @@ namespace Atlas.Seed.Data
         {
             AddAdministration();
             AddSupport();
+            AddOrigin();
         }
 
         private static void AddAdministration()
@@ -227,31 +233,31 @@ namespace Atlas.Seed.Data
             dbContext.SaveChanges();
         }
 
-        //private static void AddWeatherModule()
-        //{
-        //    if (dbContext == null) throw new NullReferenceException(nameof(dbContext));
+        private static void AddOrigin()
+        {
+            if (dbContext == null) throw new NullReferenceException(nameof(dbContext));
 
-        //    Module weather = new() { Name = "Weather", Icon = "Thunderstorm", Order = 1, Permission = Auth.WEATHER_USER };
+            Module originModule = new() { Name = "Origin", Icon = "BookGlobe", Order = 3, Permission = Auth.DOCUMENT_READ };
 
-        //    dbContext.Modules.Add(weather);
+            dbContext.Modules.Add(originModule);
 
-        //    dbContext.SaveChanges();
+            dbContext.SaveChanges();
 
-        //    Category forecastCategory = new() { Name = "Forecast", Icon = "WbCloudy", Order = 1, Permission = Auth.WEATHER_USER, Module = weather };
+            Category templatesCategory = new() { Name = "Templates", Icon = "DocumentOnePageSparkle", Order = 1, Permission = Auth.DOCUMENT_READ, Module = originModule };
 
-        //    weather.Categories.Add(forecastCategory);
+            originModule.Categories.Add(templatesCategory);
 
-        //    dbContext.Categories.Add(forecastCategory);
+            dbContext.Categories.Add(templatesCategory);
 
-        //    dbContext.SaveChanges();
+            dbContext.SaveChanges();
 
-        //    Page weatherForecastPage = new() { Name = "Weather Display", Icon = "DeviceThermostat", NavigatePage = "PageRouter", Order = 1, Permission = Auth.WEATHER_USER, Category = forecastCategory, PageCode = PageCodes.WEATHER_DISPLAY };
+            Page documentConfigurationsPage = new() { Name = "Documents", Icon = "DocumentSettings", Route = OriginWebConstants.PAGE_DOCUMENT_CONFIGS, Order = 1, Permission = Auth.DOCUMENT_READ, Category = templatesCategory };
 
-        //    forecastCategory.Pages.Add(weatherForecastPage);
+            templatesCategory.Pages.Add(documentConfigurationsPage);
 
-        //    dbContext.Pages.Add(weatherForecastPage);
+            dbContext.Pages.Add(documentConfigurationsPage);
 
-        //    dbContext.SaveChanges();
-        //}
+            dbContext.SaveChanges();
+        }
     }
 }

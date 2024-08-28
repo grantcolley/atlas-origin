@@ -1,4 +1,4 @@
-﻿using Origin.Core.Model;
+﻿using Origin.Core.Models;
 using Origin.Service.Base;
 
 namespace Origin.Tests.Helpers

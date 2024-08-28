@@ -1,6 +1,6 @@
 ﻿using MigraDoc.DocumentObjectModel;
 using MigraDoc.Rendering;
-using Origin.Core.Model;
+using Origin.Core.Models;
 using Origin.Pdf.Extensions;
 using Origin.Pdf.Helpers;
 using Origin.Service.Base;

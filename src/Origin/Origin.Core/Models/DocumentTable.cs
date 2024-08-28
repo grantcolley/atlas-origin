@@ -1,7 +1,7 @@
 ﻿using Atlas.Core.Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace Origin.Core.Model
+namespace Origin.Core.Models
 {
     public class DocumentTable : ModelBase
     {

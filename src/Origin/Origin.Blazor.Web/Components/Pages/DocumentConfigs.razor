@@ -1,0 +1,39 @@
+﻿@page "/DocumentConfigs"
+@rendermode @(new InteractiveServerRenderMode(prerender: false))
+@inherits GridContainerBase<Origin.Core.Models.DocumentConfig>
+
+@{
+    // Display the markup for the underlying base 
+    // GenericGridContainer<T> we are inheriting.
+    base.BuildRenderTree(__builder);
+}
+
+@code{
+    public override string? Title { get; set; } = "Document Configurations";
+    public override string? NavigateTo { get; set; } = OriginWebConstants.PAGE_DOCUMENT_CONFIG;
+    public override string? APIEndpoint { get; set; } = AtlasAPIEndpoints.GET_DOCUMENT_CONFIGS;
+    public override int ItemsPerPage { get; set; } = 20;
+    public override string? FilterFieldName { get; set; } = "Name";
+    public override string? IdentityFieldName { get; set; } = "DocumentConfigId";
+    public override string? CreatePermission { get; set; } = Auth.DOCUMENT_WRITE;
+
+    public override RenderFragment RenderGridContent() => __builder =>
+    {
+        <FluentDataGrid TGridItem=Origin.Core.Models.DocumentConfig Items="@FilteredItems"
+                        Style="height: 600px;overflow:auto;" GridTemplateColumns="0.2fr 0.5fr 1fr"
+                        ResizableColumns=true GenerateHeader="GenerateHeaderOption.Sticky"
+                        Pagination="@Pagination">
+            <PropertyColumn Property="@(d => d.DocumentConfigId)" Sortable="true" Align="Align.Center" Title="Document Config Id"/>
+            <PropertyColumn Property="@(p => p.Name)" Sortable="true" Filtered="!string.IsNullOrWhiteSpace(Filter)" Tooltip="true" Title="Name">
+                <ColumnOptions>
+                    <div class="search-box">
+                        <FluentSearch type="filter" Autofocus=true @bind-Value=Filter @oninput="HandleFilter" @bind-Value:after="HandleClear" Placeholder="Document config name..." />
+                    </div>
+                </ColumnOptions>
+            </PropertyColumn>
+            <TemplateColumn Align="@Align.Center">
+                <FluentButton aria-label="Open" IconEnd="@(new Icons.Regular.Size16.MoreHorizontal())" OnClick="@(() => Edit(context))" />
+            </TemplateColumn>
+        </FluentDataGrid>
+    };
+}

@@ -1,5 +1,5 @@
 ﻿using MigraDoc.DocumentObjectModel;
-using Origin.Core.Model;
+using Origin.Core.Models;
 
 namespace Origin.Pdf.Extensions
 {

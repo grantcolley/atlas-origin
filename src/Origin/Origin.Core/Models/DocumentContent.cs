@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
-namespace Origin.Core.Model
+namespace Origin.Core.Models
 {
     public class DocumentContent : DocumentContentPropertiesBase
     {

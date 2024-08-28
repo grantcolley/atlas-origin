@@ -1,7 +1,7 @@
 ﻿using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
-using Origin.Core.Model;
+using Origin.Core.Models;
 using Origin.OpenXml.Extensions;
 using Origin.Service.Base;
 

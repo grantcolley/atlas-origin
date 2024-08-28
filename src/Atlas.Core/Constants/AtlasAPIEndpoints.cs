@@ -39,5 +39,11 @@
         public const string DELETE_PERMISSION = "deletepermission";
         public const string GET_PERMISSION_CHECKLIST = "getpermissionchecklist";
         public const string GET_ROLE_CHECKLIST = "getrolechecklist";
+
+        public const string GET_DOCUMENT_CONFIG = "getdocumentconfig";
+        public const string GET_DOCUMENT_CONFIGS = "getdocumentconfigs";
+        public const string CREATE_DOCUMENT_CONFIG = "createdocumentconfig";
+        public const string UPDATE_DOCUMENT_CONFIG = "updatedocumentconfig";
+        public const string DELETE_DOCUMENT_CONFIG = "deletedocumentconfig";
     }
 }

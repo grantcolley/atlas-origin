@@ -45,6 +45,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Origin.Test.Data", "tests\O
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Origin.Tests", "tests\Origin.Tests\Origin.Tests.csproj", "{DAF5424E-46FA-4F1F-870A-1A139C530733}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Origin.Blazor.Web", "src\Origin\Origin.Blazor.Web\Origin.Blazor.Web.csproj", "{CCE467A1-15B2-44D0-987E-9F8D5D680CD7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -119,6 +121,10 @@ Global
 		{DAF5424E-46FA-4F1F-870A-1A139C530733}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DAF5424E-46FA-4F1F-870A-1A139C530733}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DAF5424E-46FA-4F1F-870A-1A139C530733}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCE467A1-15B2-44D0-987E-9F8D5D680CD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCE467A1-15B2-44D0-987E-9F8D5D680CD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCE467A1-15B2-44D0-987E-9F8D5D680CD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCE467A1-15B2-44D0-987E-9F8D5D680CD7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -142,6 +148,7 @@ Global
 		{A81C53D1-C869-4123-B12D-991C6998A848} = {F7B02A96-1B5E-43C4-B4B3-26B012A8FDFE}
 		{76A3EA87-AEDA-433C-A7E5-C6E3102D9402} = {D8820DD6-6103-4241-8373-AF3ABC685E28}
 		{DAF5424E-46FA-4F1F-870A-1A139C530733} = {D8820DD6-6103-4241-8373-AF3ABC685E28}
+		{CCE467A1-15B2-44D0-987E-9F8D5D680CD7} = {F7B02A96-1B5E-43C4-B4B3-26B012A8FDFE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {35D4493E-72A3-403D-AB40-7AADFBC20D09}

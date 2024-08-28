@@ -2,7 +2,7 @@
 using Atlas.Data.Access.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Origin.Core.Model;
+using Origin.Core.Models;
 using System.Text.Json;
 
 namespace Atlas.Data.Access.Context
