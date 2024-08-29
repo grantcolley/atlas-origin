@@ -45,7 +45,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Origin.Test.Data", "tests\O
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Origin.Tests", "tests\Origin.Tests\Origin.Tests.csproj", "{DAF5424E-46FA-4F1F-870A-1A139C530733}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Origin.Blazor.Web", "src\Origin\Origin.Blazor.Web\Origin.Blazor.Web.csproj", "{CCE467A1-15B2-44D0-987E-9F8D5D680CD7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Origin.Blazor.Web", "src\Origin\Origin.Blazor.Web\Origin.Blazor.Web.csproj", "{CCE467A1-15B2-44D0-987E-9F8D5D680CD7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
