@@ -24,8 +24,8 @@ namespace Origin.Test.Data
 
             DocumentConfig documentArgs = new()
             {
-                SubstituteStart = '[',
-                SubstituteEnd = ']',
+                SubstituteStart = "[",
+                SubstituteEnd = "]",
                 OutputLocation = outputLocation,
                 FilenameTemplate = $"TestDocx_[{Substitutes.CUSTOMER_ID}]",
                 Substitutes = GetDocumentSubstitutes()

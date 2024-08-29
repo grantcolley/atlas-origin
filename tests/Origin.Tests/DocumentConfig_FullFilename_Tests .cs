@@ -46,8 +46,8 @@ namespace Origin.Tests
             {
                 FilenameTemplate = $"Filename_[{Substitutes.CUSTOMER_ID}]",
                 OutputLocation = "OutputLocationTest",
-                SubstituteStart = '[',
-                SubstituteEnd = ']',
+                SubstituteStart = "[",
+                SubstituteEnd = "]",
                 Substitutes = new List<DocumentSubstitute>([customerId])
             };
 
@@ -69,8 +69,8 @@ namespace Origin.Tests
             {
                 FilenameTemplate = "Filename_[CUSTOMER_ID]_[DATE]",
                 OutputLocation = "OutputLocationTest",
-                SubstituteStart = '[',
-                SubstituteEnd = ']',
+                SubstituteStart = "[",
+                SubstituteEnd = "]",
                 Substitutes = new List<DocumentSubstitute>([customerId])
             };
 

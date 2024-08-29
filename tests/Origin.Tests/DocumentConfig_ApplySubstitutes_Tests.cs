@@ -14,8 +14,8 @@ namespace Origin.Tests
             // Arrange
             DocumentConfig documentArgs = new()
             {
-                SubstituteStart = '[',
-                SubstituteEnd = ']',
+                SubstituteStart = "[",
+                SubstituteEnd = "]",
                 Substitutes = { new DocumentSubstitute { Key = "[Date]", Value = DateTime.Today.ToLongDateString() } },
                 Contents = { new DocumentContent { Content = "Jane Masters, this is to inform you of an upcoming event." } }
             };
@@ -33,8 +33,8 @@ namespace Origin.Tests
             // Arrange
             DocumentConfig documentArgs = new()
             {
-                SubstituteStart = '[',
-                SubstituteEnd = ']',
+                SubstituteStart = "[",
+                SubstituteEnd = "]",
                 Substitutes = { new DocumentSubstitute { Key = "NAME", Value = "Jane Masters" } },
                 Contents = { new DocumentContent { Content = "[NAME]" } }
             };
@@ -52,8 +52,8 @@ namespace Origin.Tests
             // Arrange
             DocumentConfig documentArgs = new()
             {
-                SubstituteStart = '[',
-                SubstituteEnd = ']',
+                SubstituteStart = "[",
+                SubstituteEnd = "]",
                 Substitutes = { new DocumentSubstitute { Key = "NAME", Value = "Jane Masters" } },
                 Contents = { new DocumentContent { Content = "[NAME], this is to inform you of an upcoming event." } }
             };
@@ -71,8 +71,8 @@ namespace Origin.Tests
             // Arrange
             DocumentConfig documentArgs = new()
             {
-                SubstituteStart = '[',
-                SubstituteEnd = ']',
+                SubstituteStart = "[",
+                SubstituteEnd = "]",
                 Substitutes = { new DocumentSubstitute { Key = "ACTIVITY", Value = "event." } },
                 Contents = { new DocumentContent { Content = "Jane Masters, this is to inform you of an upcoming [ACTIVITY]" } }
             };
@@ -90,8 +90,8 @@ namespace Origin.Tests
             // Arrange
             DocumentConfig documentArgs = new()
             {
-                SubstituteStart = '[',
-                SubstituteEnd = ']',
+                SubstituteStart = "[",
+                SubstituteEnd = "]",
                 Substitutes = 
                 {
                     new DocumentSubstitute { Key = "ACTIVITY", Value = "event" },
@@ -114,8 +114,8 @@ namespace Origin.Tests
             // Arrange
             DocumentConfig documentArgs = new()
             {
-                SubstituteStart = '[',
-                SubstituteEnd = ']',
+                SubstituteStart = "[",
+                SubstituteEnd = "]",
                 Substitutes =
                 {
                     new DocumentSubstitute { Key = "ACTIVITY", Value = "event" },
@@ -138,8 +138,8 @@ namespace Origin.Tests
             // Arrange
             DocumentConfig documentArgs = new()
             {
-                SubstituteStart = '[',
-                SubstituteEnd = ']',
+                SubstituteStart = "[",
+                SubstituteEnd = "]",
                 Substitutes = [],
                 Contents = { new DocumentContent { Content = "[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY]." } }
             };
@@ -157,8 +157,8 @@ namespace Origin.Tests
             // Arrange
             DocumentConfig documentArgs = new()
             {
-                SubstituteStart = '[',
-                SubstituteEnd = ']',
+                SubstituteStart = "[",
+                SubstituteEnd = "]",
                 Contents = { new DocumentContent { Content = "[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY]." } }
             };
 
@@ -198,7 +198,7 @@ namespace Origin.Tests
             // Arrange
             DocumentConfig documentArgs = new()
             {
-                SubstituteEnd = ']',
+                SubstituteEnd = "]",
                 Contents = { new DocumentContent { Content = "[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY]." } }
             };
 
@@ -213,7 +213,7 @@ namespace Origin.Tests
             // Arrange
             DocumentConfig documentArgs = new()
             {
-                SubstituteStart = '[',
+                SubstituteStart = "[",
                 Contents = { new DocumentContent { Content = "[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY]." } }
             };
 
@@ -228,8 +228,8 @@ namespace Origin.Tests
             // Arrange
             DocumentConfig documentArgs = new()
             {
-                SubstituteStart = '[',
-                SubstituteEnd = ']',
+                SubstituteStart = "[",
+                SubstituteEnd = "]",
                 Substitutes =
                 {
                     new DocumentSubstitute { Key = "ACTIVITY", Value = "event" },
@@ -250,8 +250,8 @@ namespace Origin.Tests
             // Arrange
             DocumentConfig documentArgs = new()
             {
-                SubstituteStart = '[',
-                SubstituteEnd = ']',
+                SubstituteStart = "[",
+                SubstituteEnd = "]",
                 Substitutes =
                 {
                     new DocumentSubstitute { Key = "ACTIVITY", Value = "event" },
@@ -272,8 +272,8 @@ namespace Origin.Tests
             // Arrange
             DocumentConfig documentArgs = new()
             {
-                SubstituteStart = '[',
-                SubstituteEnd = ']',
+                SubstituteStart = "[",
+                SubstituteEnd = "]",
                 Substitutes =
                 {
                     new DocumentSubstitute { Key = "ACTIVITY", Value = "event" },
