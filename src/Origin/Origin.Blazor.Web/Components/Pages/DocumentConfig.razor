@@ -1,5 +1,114 @@
-﻿<h3>DocumentConfig</h3>
+﻿@page "/DocumentConfig"
+@page "/DocumentConfig/{Id:int?}"
+@rendermode @(new InteractiveServerRenderMode(prerender: false))
+@inherits ModelContainerBase<Origin.Core.Models.DocumentConfig>
+
+@{
+    // Display the markup for the underlying base
+    // ModelContainerBase<T> we are inheriting.
+    base.BuildRenderTree(__builder);
+}
 
 @code {
+    public override string? Title { get; set; } = "Document Configuration";
+    public override string? APIGetEndpoint { get; set; } = AtlasAPIEndpoints.GET_DOCUMENT_CONFIG;
+    public override string? APICreateEndpoint { get; set; } = AtlasAPIEndpoints.CREATE_DOCUMENT_CONFIG;
+    public override string? APIUpdateEndpoint { get; set; } = AtlasAPIEndpoints.UPDATE_DOCUMENT_CONFIG;
+    public override string? APIDeleteEndpoint { get; set; } = AtlasAPIEndpoints.DELETE_DOCUMENT_CONFIG;
+    public override string? ModelNameField { get; set; } = "Name";
+    public override string? IdentityFieldName { get; set; } = "DocumentConfigId";
 
+    public override RenderFragment RenderModelContent() => __builder =>
+    {
+        if (Model == null) throw new NullReferenceException(nameof(Model));
+
+        <FluentAccordion>
+
+            <FluentAccordionItem Expanded=true>
+                <HeadingTemplate>
+                    @if (Model.DocumentConfigId.Equals(0))
+                    {
+                        <FluentLabel Typo="Typography.Body">New Document Configuration</FluentLabel>
+                    }
+                    else
+                    {
+                        <FluentLabel Typo="Typography.Body">@($"Document Config Id {Model.DocumentConfigId}")</FluentLabel>
+                    }
+                </HeadingTemplate>
+                <ChildContent>
+                    <div>
+                        <FluentTextField Name="Name" @bind-Value="Model.Name" Label="Name" ReadOnly="@(Model.IsReadOnly)" />
+                        <FluentValidationMessage For="@(() => Model.Name)" />
+                    </div>
+                    <div>
+                        <FluentTextField Name="OutputLocation" @bind-Value="Model.OutputLocation" Label="Output Location" ReadOnly="@(Model.IsReadOnly)" />
+                        <FluentValidationMessage For="@(() => Model.OutputLocation)" />
+                    </div>
+                    <div>
+                        <FluentTextField Name="FilenameTemplate" @bind-Value="Model.FilenameTemplate" Label="Filename Template" ReadOnly="@(Model.IsReadOnly)" />
+                        <FluentValidationMessage For="@(() => Model.FilenameTemplate)" />
+                    </div>
+                    <div>
+                        <FluentTextField Name="SubstituteStart" @bind-Value="Model.SubstituteStart" Label="Substitute Start" Maxlength="1" ReadOnly="@(Model.IsReadOnly)" />
+                        <FluentValidationMessage For="@(() => Model.SubstituteStart)" />
+                    </div>
+                    <div>
+                        <FluentTextField Name="SubstituteEnd" @bind-Value="Model.SubstituteEnd" Label="Substitute End" Maxlength="1" ReadOnly="@(Model.IsReadOnly)" />
+                        <FluentValidationMessage For="@(() => Model.SubstituteEnd)" />
+                    </div>
+                </ChildContent>
+            </FluentAccordionItem>
+            
+            <FluentAccordionItem Expanded=true>
+                <HeadingTemplate>
+                    Page Properties
+                </HeadingTemplate>
+                <ChildContent>
+                    <div>
+                        <FluentNumberField @bind-Value="Model.PageMarginLeft" Label="Margin Left" ReadOnly="@(Model.IsReadOnly)" Appearance="FluentInputAppearance.Filled" />
+                    </div>
+                    <div>
+                        <FluentNumberField @bind-Value="Model.PageMarginTop" Label="Margin Top" ReadOnly="@(Model.IsReadOnly)" Appearance="FluentInputAppearance.Filled" />
+                    </div>
+                    <div>
+                        <FluentNumberField @bind-Value="Model.PageMarginRight" Label="Margin Right" ReadOnly="@(Model.IsReadOnly)" Appearance="FluentInputAppearance.Filled" />
+                    </div>
+                    <div>
+                        <FluentNumberField @bind-Value="Model.PageMarginBottom" Label="Margin Bottom" ReadOnly="@(Model.IsReadOnly)" Appearance="FluentInputAppearance.Filled" />
+                    </div>
+                    <div>
+                        <FluentNumberField @bind-Value="Model.ParagraphSpacingBetweenLinesBefore" Label="Paragraph Spacing Lines Before" ReadOnly="@(Model.IsReadOnly)" Appearance="FluentInputAppearance.Filled" />
+                    </div>
+                    <div>
+                        <FluentNumberField @bind-Value="Model.ParagraphSpacingBetweenLinesAfter" Label="Paragraph Spacing Lines After" ReadOnly="@(Model.IsReadOnly)" Appearance="FluentInputAppearance.Filled" />
+                    </div>
+                </ChildContent>
+            </FluentAccordionItem>
+
+            <FluentAccordionItem Expanded=true>
+                <HeadingTemplate>
+                    Content Properties
+                </HeadingTemplate>
+                <ChildContent>
+                    <div>
+                        <FluentTextField Name="Font" @bind-Value="Model.Font" Label="Font" ReadOnly="@(Model.IsReadOnly)" />
+                    </div>
+                    <div>
+                        <FluentNumberField Name="FontSize" @bind-Value="Model.FontSize" Label="Margin Left" ReadOnly="@(Model.IsReadOnly)" Appearance="FluentInputAppearance.Filled" />
+                    </div>
+                    <div>
+                        <FluentTextField Name="FontColour" @bind-Value="Model.Colour" Label="Font Colour" ReadOnly="@(Model.IsReadOnly)" />
+                    </div>
+                    <div>
+                        <FluentStack>
+                            <FluentCheckbox Name="Bold" ThreeState="true" @bind-CheckState="Model.Bold" Label="Bold" />
+                            <FluentCheckbox Name="Italic" ThreeState="true" @bind-CheckState="Model.Italic" Label="Italic" />
+                            <FluentCheckbox Name="Underscore" ThreeState="true" @bind-CheckState="Model.Underscore" Label="Underscore" />
+                        </FluentStack>
+                    </div>
+                </ChildContent>
+            </FluentAccordionItem>
+
+        </FluentAccordion>
+    };
 }
