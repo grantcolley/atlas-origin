@@ -1,5 +1,6 @@
 ﻿using Origin.Core.Interfaces;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Origin.Core.Models
 {
@@ -14,7 +15,6 @@ namespace Origin.Core.Models
         }
 
         public int DocumentConfigId { get; set; }
-        public DocumentServiceType DocumentServiceType { get; set; }
 
         public List<DocumentSubstitute> Substitutes { get; set; }
         public List<DocumentContent> Contents { get; set; }
@@ -30,11 +30,11 @@ namespace Origin.Core.Models
 
         [Required]
         [StringLength(1)]
-        public char? SubstituteStart { get; set; }
+        public string? SubstituteStart { get; set; }
 
         [Required]
         [StringLength(1)]
-        public char? SubstituteEnd { get; set; }
+        public string? SubstituteEnd { get; set; }
 
         [Required]
         [StringLength(150)]
@@ -60,5 +60,8 @@ namespace Origin.Core.Models
 
         [Required]
         public int ParagraphSpacingBetweenLinesBefore { get; set; } = 10;
+
+        [NotMapped]
+        public DocumentServiceType DocumentServiceType { get; set; }
     }
 }
