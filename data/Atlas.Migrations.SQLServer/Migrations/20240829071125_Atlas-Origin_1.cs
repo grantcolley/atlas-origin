@@ -37,7 +37,6 @@ namespace Atlas.Migrations.SQLServer.Migrations
                 {
                     DocumentConfigId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    DocumentServiceType = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     OutputLocation = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     SubstituteStart = table.Column<string>(type: "nvarchar(1)", maxLength: 1, nullable: false),

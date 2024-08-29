@@ -383,7 +383,7 @@ namespace Atlas.Migrations.SQLServer.Migrations
                     b.ToTable("Audits");
                 });
 
-            modelBuilder.Entity("Origin.Core.Model.DocumentConfig", b =>
+            modelBuilder.Entity("Origin.Core.Models.DocumentConfig", b =>
                 {
                     b.Property<int>("DocumentConfigId")
                         .ValueGeneratedOnAdd()
@@ -403,9 +403,6 @@ namespace Atlas.Migrations.SQLServer.Migrations
 
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("DocumentServiceType")
-                        .HasColumnType("int");
 
                     b.Property<string>("FilenameTemplate")
                         .IsRequired()
@@ -476,7 +473,7 @@ namespace Atlas.Migrations.SQLServer.Migrations
                     b.ToTable("DocumentConfigs");
                 });
 
-            modelBuilder.Entity("Origin.Core.Model.DocumentContent", b =>
+            modelBuilder.Entity("Origin.Core.Models.DocumentContent", b =>
                 {
                     b.Property<int>("DocumentContentId")
                         .ValueGeneratedOnAdd()
@@ -566,7 +563,7 @@ namespace Atlas.Migrations.SQLServer.Migrations
                     b.ToTable("DocumentContents");
                 });
 
-            modelBuilder.Entity("Origin.Core.Model.DocumentParagraph", b =>
+            modelBuilder.Entity("Origin.Core.Models.DocumentParagraph", b =>
                 {
                     b.Property<int>("DocumentParagraphId")
                         .ValueGeneratedOnAdd()
@@ -644,7 +641,7 @@ namespace Atlas.Migrations.SQLServer.Migrations
                     b.ToTable("DocumentParagraphs");
                 });
 
-            modelBuilder.Entity("Origin.Core.Model.DocumentSubstitute", b =>
+            modelBuilder.Entity("Origin.Core.Models.DocumentSubstitute", b =>
                 {
                     b.Property<int>("DocumentSubstituteId")
                         .ValueGeneratedOnAdd()
@@ -688,7 +685,7 @@ namespace Atlas.Migrations.SQLServer.Migrations
                     b.ToTable("DocumentSubstitutes");
                 });
 
-            modelBuilder.Entity("Origin.Core.Model.DocumentTable", b =>
+            modelBuilder.Entity("Origin.Core.Models.DocumentTable", b =>
                 {
                     b.Property<int>("DocumentTableId")
                         .ValueGeneratedOnAdd()
@@ -739,7 +736,7 @@ namespace Atlas.Migrations.SQLServer.Migrations
                     b.ToTable("DocumentTables");
                 });
 
-            modelBuilder.Entity("Origin.Core.Model.DocumentTableCell", b =>
+            modelBuilder.Entity("Origin.Core.Models.DocumentTableCell", b =>
                 {
                     b.Property<int>("DocumentTableCellId")
                         .ValueGeneratedOnAdd()
@@ -832,7 +829,7 @@ namespace Atlas.Migrations.SQLServer.Migrations
                     b.ToTable("DocumentTableCells");
                 });
 
-            modelBuilder.Entity("Origin.Core.Model.DocumentTableColumn", b =>
+            modelBuilder.Entity("Origin.Core.Models.DocumentTableColumn", b =>
                 {
                     b.Property<int>("DocumentTableColumnId")
                         .ValueGeneratedOnAdd()
@@ -873,7 +870,7 @@ namespace Atlas.Migrations.SQLServer.Migrations
                     b.ToTable("DocumentTableColumns");
                 });
 
-            modelBuilder.Entity("Origin.Core.Model.DocumentTableRow", b =>
+            modelBuilder.Entity("Origin.Core.Models.DocumentTableRow", b =>
                 {
                     b.Property<int>("DocumentTableRowId")
                         .ValueGeneratedOnAdd()
@@ -954,51 +951,51 @@ namespace Atlas.Migrations.SQLServer.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("Origin.Core.Model.DocumentContent", b =>
+            modelBuilder.Entity("Origin.Core.Models.DocumentContent", b =>
                 {
-                    b.HasOne("Origin.Core.Model.DocumentConfig", null)
+                    b.HasOne("Origin.Core.Models.DocumentConfig", null)
                         .WithMany("Contents")
                         .HasForeignKey("DocumentConfigId");
                 });
 
-            modelBuilder.Entity("Origin.Core.Model.DocumentParagraph", b =>
+            modelBuilder.Entity("Origin.Core.Models.DocumentParagraph", b =>
                 {
-                    b.HasOne("Origin.Core.Model.DocumentConfig", null)
+                    b.HasOne("Origin.Core.Models.DocumentConfig", null)
                         .WithMany("Paragraphs")
                         .HasForeignKey("DocumentConfigId");
                 });
 
-            modelBuilder.Entity("Origin.Core.Model.DocumentSubstitute", b =>
+            modelBuilder.Entity("Origin.Core.Models.DocumentSubstitute", b =>
                 {
-                    b.HasOne("Origin.Core.Model.DocumentConfig", null)
+                    b.HasOne("Origin.Core.Models.DocumentConfig", null)
                         .WithMany("Substitutes")
                         .HasForeignKey("DocumentConfigId");
                 });
 
-            modelBuilder.Entity("Origin.Core.Model.DocumentTable", b =>
+            modelBuilder.Entity("Origin.Core.Models.DocumentTable", b =>
                 {
-                    b.HasOne("Origin.Core.Model.DocumentConfig", null)
+                    b.HasOne("Origin.Core.Models.DocumentConfig", null)
                         .WithMany("Tables")
                         .HasForeignKey("DocumentConfigId");
                 });
 
-            modelBuilder.Entity("Origin.Core.Model.DocumentTableCell", b =>
+            modelBuilder.Entity("Origin.Core.Models.DocumentTableCell", b =>
                 {
-                    b.HasOne("Origin.Core.Model.DocumentTable", null)
+                    b.HasOne("Origin.Core.Models.DocumentTable", null)
                         .WithMany("Cells")
                         .HasForeignKey("DocumentTableId");
                 });
 
-            modelBuilder.Entity("Origin.Core.Model.DocumentTableColumn", b =>
+            modelBuilder.Entity("Origin.Core.Models.DocumentTableColumn", b =>
                 {
-                    b.HasOne("Origin.Core.Model.DocumentTable", null)
+                    b.HasOne("Origin.Core.Models.DocumentTable", null)
                         .WithMany("Columns")
                         .HasForeignKey("DocumentTableId");
                 });
 
-            modelBuilder.Entity("Origin.Core.Model.DocumentTableRow", b =>
+            modelBuilder.Entity("Origin.Core.Models.DocumentTableRow", b =>
                 {
-                    b.HasOne("Origin.Core.Model.DocumentTable", null)
+                    b.HasOne("Origin.Core.Models.DocumentTable", null)
                         .WithMany("Rows")
                         .HasForeignKey("DocumentTableId");
                 });
@@ -1043,7 +1040,7 @@ namespace Atlas.Migrations.SQLServer.Migrations
                     b.Navigation("Categories");
                 });
 
-            modelBuilder.Entity("Origin.Core.Model.DocumentConfig", b =>
+            modelBuilder.Entity("Origin.Core.Models.DocumentConfig", b =>
                 {
                     b.Navigation("Contents");
 
@@ -1054,7 +1051,7 @@ namespace Atlas.Migrations.SQLServer.Migrations
                     b.Navigation("Tables");
                 });
 
-            modelBuilder.Entity("Origin.Core.Model.DocumentTable", b =>
+            modelBuilder.Entity("Origin.Core.Models.DocumentTable", b =>
                 {
                     b.Navigation("Cells");
 
