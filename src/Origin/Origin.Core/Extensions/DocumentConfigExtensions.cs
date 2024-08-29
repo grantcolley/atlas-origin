@@ -118,19 +118,21 @@ namespace Origin.Core.Extensions
         /// <returns>Content with substitutes applied.</returns>
         /// <exception cref="InvalidDataException"></exception>
         /// <exception cref="KeyNotFoundException"></exception>
-        public static string? ApplySubstitutesToContent(this string? content, Dictionary<string, DocumentSubstitute>? substitutes, char? substituteStart, char? substituteEnd)
+        public static string? ApplySubstitutesToContent(this string? content, Dictionary<string, DocumentSubstitute>? substitutes, string? substituteStart, string? substituteEnd)
         {
             if (string.IsNullOrWhiteSpace(content)) return content;
 
-            if (substituteStart == null && substituteEnd != null) throw new InvalidDataException($"{nameof(substituteEnd)} {substituteEnd} missing corresponding {nameof(substituteStart)}");
-            if (substituteStart != null && substituteEnd == null) throw new InvalidDataException($"{nameof(substituteStart)} {substituteStart} missing corresponding {nameof(substituteEnd)}");
+            if (string.IsNullOrWhiteSpace(substituteStart) && substituteEnd != null) throw new InvalidDataException($"{nameof(substituteEnd)} {substituteEnd} missing corresponding {nameof(substituteStart)}");
+            if (substituteStart != null && string.IsNullOrWhiteSpace(substituteEnd)) throw new InvalidDataException($"{nameof(substituteStart)} {substituteStart} missing corresponding {nameof(substituteEnd)}");
 
-            if (substituteStart == null && substituteEnd == null) return content;
+            if (string.IsNullOrWhiteSpace(substituteStart) && string.IsNullOrWhiteSpace(substituteEnd)) return content;
 
             if (substitutes == null || substitutes.Count == 0) return content;
 
             StringBuilder newContent = new();
 
+            char? subStart = substituteStart?.ToCharArray()[0];
+            char? subEnd = substituteEnd?.ToCharArray()[0];
             int subStartPosition = 0;
             int subEndPosition = 0;
 
@@ -140,9 +142,9 @@ namespace Origin.Core.Extensions
             {
                 if (openSubStart == false)
                 {
-                    if (content[i] == substituteStart)
+                    if (content[i] == subStart)
                     {
-                        // Mark the substituteStart position.
+                        // Mark the subStart position.
 
                         subStartPosition = i;
                         openSubStart = true;
@@ -156,7 +158,7 @@ namespace Origin.Core.Extensions
                             newContent.Append(content.AsSpan(contextStartPosition, subStartPosition - contextStartPosition));
                         }
                     }
-                    else if (content[i] == substituteEnd)
+                    else if (content[i] == subEnd)
                     {
                         if (openSubStart == false) throw new InvalidDataException($"{nameof(substituteEnd)} missing corresponding {nameof(substituteStart)}");
                     }
@@ -173,11 +175,11 @@ namespace Origin.Core.Extensions
                 }
                 else
                 {
-                    if (content[i] == substituteStart)
+                    if (content[i] == subStart)
                     {
                         if (openSubStart == true) throw new InvalidDataException($"{nameof(substituteStart)} missing corresponding {nameof(substituteEnd)}");
                     }
-                    else if (content[i] == substituteEnd)
+                    else if (content[i] == subEnd)
                     {
                         if (openSubStart == false) throw new InvalidDataException($"{nameof(substituteEnd)} missing corresponding {nameof(substituteStart)}");
 
