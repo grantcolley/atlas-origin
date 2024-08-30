@@ -1,4 +1,5 @@
-﻿using Origin.Core.Interfaces;
+﻿using FluentValidation;
+using Origin.Core.Interfaces;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -63,5 +64,27 @@ namespace Origin.Core.Models
 
         [NotMapped]
         public DocumentServiceType DocumentServiceType { get; set; }
+    }
+
+    public class DocumentConfigValidator : AbstractValidator<DocumentConfig>
+    {
+        public DocumentConfigValidator()
+        {
+            RuleFor(v => v.Name)
+                .NotNull().WithMessage("Name is required")
+                .Length(1, 100).WithMessage("Name cannot exceed 100 characters");
+
+            RuleFor(v => v.SubstituteStart)
+                .NotNull().WithMessage("SubstituteStart requires a single character. Consider using the open square bracket [")
+                .Length(1).WithMessage("SubstituteStart requires a single character. Consider using the open square bracket [");
+
+            RuleFor(v => v.SubstituteEnd)
+                .NotNull().WithMessage("SubstituteEnd requires a single character. Consider using the closed square bracket ]")
+                .Length(1).WithMessage("SubstituteEnd requires a single character. Consider using the closed square bracket ]");
+
+            RuleFor(v => v.FilenameTemplate)
+                .NotNull().WithMessage("FilenameTemplate is required. Do not include a file extension.")
+                .Length(1, 150).WithMessage("FilenameTemplate cannot exceed 120 characters. Do not include a file extension.");
+        }
     }
 }
