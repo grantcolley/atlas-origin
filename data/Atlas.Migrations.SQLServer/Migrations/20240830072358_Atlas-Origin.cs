@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Atlas.Migrations.SQLServer.Migrations
 {
     /// <inheritdoc />
-    public partial class AtlasOrigin_1 : Migration
+    public partial class AtlasOrigin : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -53,9 +53,6 @@ namespace Atlas.Migrations.SQLServer.Migrations
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FontSize = table.Column<int>(type: "int", nullable: true),
-                    Bold = table.Column<bool>(type: "bit", nullable: true),
-                    Italic = table.Column<bool>(type: "bit", nullable: true),
-                    Underscore = table.Column<bool>(type: "bit", nullable: true),
                     Font = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Colour = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: true)
                 },
@@ -167,6 +164,9 @@ namespace Atlas.Migrations.SQLServer.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Order = table.Column<int>(type: "int", nullable: false),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Bold = table.Column<bool>(type: "bit", nullable: true),
+                    Italic = table.Column<bool>(type: "bit", nullable: true),
+                    Underscore = table.Column<bool>(type: "bit", nullable: true),
                     ImageHeight = table.Column<int>(type: "int", nullable: true),
                     ImageWidth = table.Column<int>(type: "int", nullable: true),
                     IgnoreParapgraphSpacing = table.Column<bool>(type: "bit", nullable: true),
@@ -182,9 +182,6 @@ namespace Atlas.Migrations.SQLServer.Migrations
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FontSize = table.Column<int>(type: "int", nullable: true),
-                    Bold = table.Column<bool>(type: "bit", nullable: true),
-                    Italic = table.Column<bool>(type: "bit", nullable: true),
-                    Underscore = table.Column<bool>(type: "bit", nullable: true),
                     Font = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Colour = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: true)
                 },
@@ -216,9 +213,6 @@ namespace Atlas.Migrations.SQLServer.Migrations
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FontSize = table.Column<int>(type: "int", nullable: true),
-                    Bold = table.Column<bool>(type: "bit", nullable: true),
-                    Italic = table.Column<bool>(type: "bit", nullable: true),
-                    Underscore = table.Column<bool>(type: "bit", nullable: true),
                     Font = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Colour = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: true)
                 },
@@ -382,9 +376,6 @@ namespace Atlas.Migrations.SQLServer.Migrations
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FontSize = table.Column<int>(type: "int", nullable: true),
-                    Bold = table.Column<bool>(type: "bit", nullable: true),
-                    Italic = table.Column<bool>(type: "bit", nullable: true),
-                    Underscore = table.Column<bool>(type: "bit", nullable: true),
                     Font = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Colour = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: true)
                 },

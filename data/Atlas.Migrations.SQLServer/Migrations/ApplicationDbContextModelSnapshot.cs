@@ -391,9 +391,6 @@ namespace Atlas.Migrations.SQLServer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DocumentConfigId"));
 
-                    b.Property<bool?>("Bold")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Colour")
                         .HasMaxLength(11)
                         .HasColumnType("nvarchar(11)");
@@ -415,9 +412,6 @@ namespace Atlas.Migrations.SQLServer.Migrations
 
                     b.Property<int?>("FontSize")
                         .HasColumnType("int");
-
-                    b.Property<bool?>("Italic")
-                        .HasColumnType("bit");
 
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
@@ -461,9 +455,6 @@ namespace Atlas.Migrations.SQLServer.Migrations
                         .IsRequired()
                         .HasMaxLength(1)
                         .HasColumnType("nvarchar(1)");
-
-                    b.Property<bool?>("Underscore")
-                        .HasColumnType("bit");
 
                     b.HasKey("DocumentConfigId");
 
@@ -574,9 +565,6 @@ namespace Atlas.Migrations.SQLServer.Migrations
                     b.Property<int>("AlignContent")
                         .HasColumnType("int");
 
-                    b.Property<bool?>("Bold")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -608,9 +596,6 @@ namespace Atlas.Migrations.SQLServer.Migrations
                     b.Property<bool?>("IgnoreParapgraphSpacing")
                         .HasColumnType("bit");
 
-                    b.Property<bool?>("Italic")
-                        .HasColumnType("bit");
-
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
@@ -624,9 +609,6 @@ namespace Atlas.Migrations.SQLServer.Migrations
 
                     b.Property<int>("Order")
                         .HasColumnType("int");
-
-                    b.Property<bool?>("Underscore")
-                        .HasColumnType("bit");
 
                     b.HasKey("DocumentParagraphId");
 
@@ -744,9 +726,6 @@ namespace Atlas.Migrations.SQLServer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DocumentTableCellId"));
 
-                    b.Property<bool?>("Bold")
-                        .HasColumnType("bit");
-
                     b.Property<int?>("BorderBottom")
                         .HasColumnType("int");
 
@@ -802,9 +781,6 @@ namespace Atlas.Migrations.SQLServer.Migrations
                     b.Property<int?>("FontSize")
                         .HasColumnType("int");
 
-                    b.Property<bool?>("Italic")
-                        .HasColumnType("bit");
-
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
@@ -818,9 +794,6 @@ namespace Atlas.Migrations.SQLServer.Migrations
 
                     b.Property<int>("Row")
                         .HasColumnType("int");
-
-                    b.Property<bool?>("Underscore")
-                        .HasColumnType("bit");
 
                     b.HasKey("DocumentTableCellId");
 
