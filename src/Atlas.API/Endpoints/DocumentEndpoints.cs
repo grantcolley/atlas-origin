@@ -3,9 +3,9 @@ using Atlas.Core.Constants;
 using Atlas.Core.Exceptions;
 using Atlas.Core.Logging.Interfaces;
 using Atlas.Core.Models;
-using Atlas.Data.Access.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Origin.Core.Models;
+using Origin.Data.Access;
 
 namespace Atlas.API.Endpoints
 {

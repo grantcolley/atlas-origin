@@ -1,6 +1,7 @@
-﻿using Origin.Core.Models;
+﻿using Atlas.Data.Context;
+using Origin.Core.Models;
 
-namespace Atlas.Data.Access.Interfaces
+namespace Origin.Data.Access
 {
     public interface IDocumentData : IAuthorisationData
     {

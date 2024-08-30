@@ -1,13 +1,11 @@
 ﻿using Atlas.Core.Constants;
 using Atlas.Core.Exceptions;
-using Atlas.Data.Access.Base;
-using Atlas.Data.Access.Context;
-using Atlas.Data.Access.Interfaces;
+using Atlas.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Origin.Core.Models;
 
-namespace Atlas.Data.Access.Data
+namespace Origin.Data.Access
 {
     public class DocumentData(ApplicationDbContext applicationDbContext, ILogger<DocumentData> logger)
         : AuthorisationData<DocumentData>(applicationDbContext, logger), IDocumentData
