@@ -7,9 +7,6 @@ namespace Origin.Core.Models
     public abstract class DocumentContentPropertiesBase : ModelBase, IDocumentContentProperties
     {
         public int? FontSize { get; set; }
-        public bool? Bold { get; set; }
-        public bool? Italic { get; set; }
-        public bool? Underscore { get; set; }
 
         [StringLength(100)]
         public string? Font { get; set; }

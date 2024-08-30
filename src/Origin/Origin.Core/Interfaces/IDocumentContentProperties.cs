@@ -4,9 +4,6 @@
     {
         string? Font { get; set; }
         int? FontSize { get; set; }
-        bool? Bold { get; set; }
-        bool? Italic { get; set; }
-        bool? Underscore { get; set; }
 
         /// <summary>
         /// RGB 0-255 e.g. 0,176,240

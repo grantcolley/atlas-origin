@@ -11,9 +11,6 @@ namespace Origin.Core.Extensions
             if (string.IsNullOrWhiteSpace(documentContentProperties.Font)) documentContentProperties.Font = inherit.Font;
             if (string.IsNullOrWhiteSpace(documentContentProperties.Colour)) documentContentProperties.Colour = inherit.Colour;
             if (!documentContentProperties.FontSize.HasValue) documentContentProperties.FontSize = inherit.FontSize;
-            if (!documentContentProperties.Bold.HasValue) documentContentProperties.Bold = inherit.Bold;
-            if (!documentContentProperties.Italic.HasValue) documentContentProperties.Italic = inherit.Italic;
-            if (!documentContentProperties.Underscore.HasValue) documentContentProperties.Underscore = inherit.Underscore;
         }
     }
 }

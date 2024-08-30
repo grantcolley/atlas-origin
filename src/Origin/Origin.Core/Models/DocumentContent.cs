@@ -9,6 +9,9 @@ namespace Origin.Core.Models
         public int DocumentContentId { get; set; }
         public int Order { get; set; }
         public string? Content { get; set; }
+        public bool? Bold { get; set; }
+        public bool? Italic { get; set; }
+        public bool? Underscore { get; set; }
         public int? ImageHeight { get; set; }
         public int? ImageWidth { get; set; }
         public bool? IgnoreParapgraphSpacing { get; set; }
