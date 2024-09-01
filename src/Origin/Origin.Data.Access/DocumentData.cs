@@ -4,6 +4,7 @@ using Atlas.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Origin.Core.Models;
+using System.Collections.Generic;
 
 namespace Origin.Data.Access
 {
@@ -48,9 +49,80 @@ namespace Origin.Data.Access
             }
         }
 
-        public Task<DocumentConfig> CreateDocumentConfigAsync(DocumentConfig documentConfig, CancellationToken cancellationToken)
+        public async Task<DocumentConfig> CreateDocumentConfigAsync(DocumentConfig addDocumentConfig, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            try
+            {
+                ArgumentNullException.ThrowIfNull(nameof(addDocumentConfig));
+
+                if (addDocumentConfig.DocumentConfigId > 0) throw new AtlasException($"Can not create DocumentConfig because DocumentConfigId is {addDocumentConfig.DocumentConfigId} when zero was expected.");
+
+                DocumentConfig documentConfig = new()
+                {
+                    Name = addDocumentConfig.Name,
+                    SubstituteStart = addDocumentConfig.SubstituteStart,
+                    SubstituteEnd = addDocumentConfig.SubstituteEnd,
+                    FilenameTemplate = addDocumentConfig.FilenameTemplate,
+                    PageMarginLeft = addDocumentConfig.PageMarginLeft,
+                    PageMarginTop = addDocumentConfig.PageMarginTop,
+                    PageMarginRight = addDocumentConfig.PageMarginRight,
+                    PageMarginBottom = addDocumentConfig.PageMarginBottom,
+                    ParagraphSpacingBetweenLinesBefore = addDocumentConfig.ParagraphSpacingBetweenLinesBefore,
+                    ParagraphSpacingBetweenLinesAfter = addDocumentConfig.ParagraphSpacingBetweenLinesAfter,
+                    Font = addDocumentConfig.Font,
+                    FontSize = addDocumentConfig.FontSize,
+                    Colour = addDocumentConfig.Colour
+                };
+
+                await _applicationDbContext.DocumentConfigs
+                    .AddAsync(documentConfig, cancellationToken)
+                    .ConfigureAwait(false);
+
+                await _applicationDbContext
+                    .SaveChangesAsync(cancellationToken)
+                    .ConfigureAwait(false);
+
+                if (addDocumentConfig.Substitutes.Count > 0)
+                {
+                    documentConfig.Substitutes.AddRange(addDocumentConfig.Substitutes);
+
+                    await _applicationDbContext
+                        .SaveChangesAsync(cancellationToken)
+                        .ConfigureAwait(false);
+                }
+
+                if (addDocumentConfig.Contents.Count > 0)
+                {
+                    documentConfig.Contents.AddRange(addDocumentConfig.Contents);
+
+                    await _applicationDbContext
+                        .SaveChangesAsync(cancellationToken)
+                        .ConfigureAwait(false);
+                }
+
+                if (addDocumentConfig.Paragraphs.Count > 0)
+                {
+                    documentConfig.Paragraphs.AddRange(addDocumentConfig.Paragraphs);
+
+                    await _applicationDbContext
+                        .SaveChangesAsync(cancellationToken)
+                        .ConfigureAwait(false);
+                }
+
+                // TODO: Add tables, rows, columns and cells.
+
+                if (Authorisation == null
+                    || !Authorisation.HasPermission(Auth.DOCUMENT_WRITE))
+                {
+                    documentConfig.IsReadOnly = true;
+                }
+
+                return documentConfig;
+            }
+            catch (Exception ex)
+            {
+                throw new AtlasException(ex.Message, ex);
+            }
         }
 
         public Task<DocumentConfig> UpdateDocumentConfigAsync(DocumentConfig documentConfig, CancellationToken cancellationToken)
