@@ -20,7 +20,7 @@
     public override RenderFragment RenderGridContent() => __builder =>
     {
         <FluentDataGrid TGridItem=Origin.Core.Models.DocumentConfig Items="@FilteredItems"
-                        Style="height: 600px;overflow:auto;" GridTemplateColumns="0.2fr 0.5fr 1fr"
+                        Style="height: 600px;overflow:auto;" GridTemplateColumns="0.2fr 1fr"
                         ResizableColumns=true GenerateHeader="GenerateHeaderOption.Sticky"
                         Pagination="@Pagination">
             <PropertyColumn Property="@(d => d.DocumentConfigId)" Sortable="true" Align="Align.Center" Title="Document Config Id"/>
