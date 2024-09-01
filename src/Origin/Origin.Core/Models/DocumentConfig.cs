@@ -26,9 +26,6 @@ namespace Origin.Core.Models
         [StringLength(100)]
         public string? Name { get; set; }
 
-        [StringLength(500)]
-        public string? OutputLocation { get; set; }
-
         [Required]
         [StringLength(1)]
         public string? SubstituteStart { get; set; }
@@ -64,6 +61,8 @@ namespace Origin.Core.Models
 
         [NotMapped]
         public DocumentServiceType DocumentServiceType { get; set; }
+        [NotMapped]
+        public string? OutputLocation { get; set; }
     }
 
     public class DocumentConfigValidator : AbstractValidator<DocumentConfig>
