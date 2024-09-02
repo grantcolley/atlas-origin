@@ -24,83 +24,17 @@
 
         <FluentGrid Spacing="3" Justify="JustifyContent.FlexStart">        
             <FluentGridItem xs="12" md="12" lg="3">
-                <FluentAccordion>
-                    <FluentAccordionItem Expanded=true>
-                        <HeadingTemplate>
-                            @if (Model.DocumentConfigId.Equals(0))
-                            {
-                                <FluentLabel Typo="Typography.Body">New Document Configuration</FluentLabel>
-                            }
-                            else
-                            {
-                                <FluentLabel Typo="Typography.Body">@($"Document Config Id {Model.DocumentConfigId}")</FluentLabel>
-                            }
-                        </HeadingTemplate>
-                        <ChildContent>
-                            <div>
-                                <FluentTextField Name="Name" @bind-Value="Model.Name" Label="Name" ReadOnly="@(Model.IsReadOnly)" />
-                                <FluentValidationMessage For="@(() => Model.Name)" />
-                            </div>
-                            <div>
-                                <FluentTextField Name="OutputLocation" @bind-Value="Model.OutputLocation" Label="Output Location" ReadOnly="@(Model.IsReadOnly)" />
-                                <FluentValidationMessage For="@(() => Model.OutputLocation)" />
-                            </div>
-                            <div>
-                                <FluentTextField Name="FilenameTemplate" @bind-Value="Model.FilenameTemplate" Label="Filename Template" ReadOnly="@(Model.IsReadOnly)" />
-                                <FluentValidationMessage For="@(() => Model.FilenameTemplate)" />
-                            </div>
-                            <div>
-                                <FluentTextField Name="SubstituteStart" @bind-Value="Model.SubstituteStart" Label="Substitute Start" Maxlength="1" ReadOnly="@(Model.IsReadOnly)" />
-                                <FluentValidationMessage For="@(() => Model.SubstituteStart)" />
-                            </div>
-                            <div>
-                                <FluentTextField Name="SubstituteEnd" @bind-Value="Model.SubstituteEnd" Label="Substitute End" Maxlength="1" ReadOnly="@(Model.IsReadOnly)" />
-                                <FluentValidationMessage For="@(() => Model.SubstituteEnd)" />
-                            </div>
-                        </ChildContent>
-                    </FluentAccordionItem>
-                    <FluentAccordionItem Expanded=true>
-                        <HeadingTemplate>
-                            Page Properties
-                        </HeadingTemplate>
-                        <ChildContent>
-                            <div>
-                                <FluentNumberField @bind-Value="Model.PageMarginLeft" Label="Margin Left" ReadOnly="@(Model.IsReadOnly)" />
-                            </div>
-                            <div>
-                                <FluentNumberField @bind-Value="Model.PageMarginTop" Label="Margin Top" ReadOnly="@(Model.IsReadOnly)" />
-                            </div>
-                            <div>
-                                <FluentNumberField @bind-Value="Model.PageMarginRight" Label="Margin Right" ReadOnly="@(Model.IsReadOnly)" />
-                            </div>
-                            <div>
-                                <FluentNumberField @bind-Value="Model.PageMarginBottom" Label="Margin Bottom" ReadOnly="@(Model.IsReadOnly)" />
-                            </div>
-                            <div>
-                                <FluentNumberField @bind-Value="Model.ParagraphSpacingBetweenLinesBefore" Label="Paragraph Spacing Lines Before" ReadOnly="@(Model.IsReadOnly)" />
-                            </div>
-                            <div>
-                                <FluentNumberField @bind-Value="Model.ParagraphSpacingBetweenLinesAfter" Label="Paragraph Spacing Lines After" ReadOnly="@(Model.IsReadOnly)" />
-                            </div>
-                        </ChildContent>
-                    </FluentAccordionItem>
-                    <FluentAccordionItem Expanded=true>
-                        <HeadingTemplate>
-                            Content Properties
-                        </HeadingTemplate>
-                        <ChildContent>
-                            <div>
-                                <FluentTextField Name="Font" @bind-Value="Model.Font" Label="Font" ReadOnly="@(Model.IsReadOnly)" />
-                            </div>
-                            <div>
-                                <FluentNumberField Name="FontSize" @bind-Value="Model.FontSize" Label="Font Size" ReadOnly="@(Model.IsReadOnly)" />
-                            </div>
-                            <div>
-                                <FluentTextField Name="FontColour" @bind-Value="Model.Colour" Label="Font Colour" ReadOnly="@(Model.IsReadOnly)" />
-                            </div>
-                        </ChildContent>
-                    </FluentAccordionItem>
-                </FluentAccordion>
+                <FluentTabs ActiveTabId="docCfg">
+                    <FluentTab Id="docCfg" Label="Document">
+                        <Document DocumentConfig="@Model" />
+                    </FluentTab>
+                    <FluentTab Id="docPara" Label="Paragraphs">
+                        Paragraphs here...
+                    </FluentTab>
+                    <FluentTab Id="docTbls" Label="Tables">
+                        Tables here...
+                    </FluentTab>
+                </FluentTabs>
             </FluentGridItem>
             <FluentGridItem xs="12" md="12" lg="9">
             </FluentGridItem>
