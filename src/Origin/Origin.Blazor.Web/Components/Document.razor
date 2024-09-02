@@ -1,0 +1,82 @@
+﻿<FluentAccordion>
+    <FluentAccordionItem Expanded=true>
+        <HeadingTemplate>
+            @if (DocumentConfig.DocumentConfigId.Equals(0))
+            {
+                <FluentLabel Typo="Typography.Body">New Document Configuration</FluentLabel>
+            }
+            else
+            {
+                <FluentLabel Typo="Typography.Body">@($"Document Config Id {DocumentConfig.DocumentConfigId}")</FluentLabel>
+            }
+        </HeadingTemplate>
+        <ChildContent>
+            <div>
+                <FluentTextField Name="Name" @bind-Value="DocumentConfig.Name" Label="Name" ReadOnly="@(DocumentConfig.IsReadOnly)" />
+                <FluentValidationMessage For="@(() => DocumentConfig.Name)" />
+            </div>
+            <div>
+                <FluentTextField Name="OutputLocation" @bind-Value="DocumentConfig.OutputLocation" Label="Output Location" ReadOnly="@(DocumentConfig.IsReadOnly)" />
+                <FluentValidationMessage For="@(() => DocumentConfig.OutputLocation)" />
+            </div>
+            <div>
+                <FluentTextField Name="FilenameTemplate" @bind-Value="DocumentConfig.FilenameTemplate" Label="Filename Template" ReadOnly="@(DocumentConfig.IsReadOnly)" />
+                <FluentValidationMessage For="@(() => DocumentConfig.FilenameTemplate)" />
+            </div>
+            <div>
+                <FluentTextField Name="SubstituteStart" @bind-Value="DocumentConfig.SubstituteStart" Label="Substitute Start" Maxlength="1" ReadOnly="@(DocumentConfig.IsReadOnly)" />
+                <FluentValidationMessage For="@(() => DocumentConfig.SubstituteStart)" />
+            </div>
+            <div>
+                <FluentTextField Name="SubstituteEnd" @bind-Value="DocumentConfig.SubstituteEnd" Label="Substitute End" Maxlength="1" ReadOnly="@(DocumentConfig.IsReadOnly)" />
+                <FluentValidationMessage For="@(() => DocumentConfig.SubstituteEnd)" />
+            </div>
+        </ChildContent>
+    </FluentAccordionItem>
+    <FluentAccordionItem Expanded=true>
+        <HeadingTemplate>
+            Page Properties
+        </HeadingTemplate>
+        <ChildContent>
+            <div>
+                <FluentNumberField @bind-Value="DocumentConfig.PageMarginLeft" Label="Margin Left" ReadOnly="@(DocumentConfig.IsReadOnly)" />
+            </div>
+            <div>
+                <FluentNumberField @bind-Value="DocumentConfig.PageMarginTop" Label="Margin Top" ReadOnly="@(DocumentConfig.IsReadOnly)" />
+            </div>
+            <div>
+                <FluentNumberField @bind-Value="DocumentConfig.PageMarginRight" Label="Margin Right" ReadOnly="@(DocumentConfig.IsReadOnly)" />
+            </div>
+            <div>
+                <FluentNumberField @bind-Value="DocumentConfig.PageMarginBottom" Label="Margin Bottom" ReadOnly="@(DocumentConfig.IsReadOnly)" />
+            </div>
+            <div>
+                <FluentNumberField @bind-Value="DocumentConfig.ParagraphSpacingBetweenLinesBefore" Label="Paragraph Spacing Lines Before" ReadOnly="@(DocumentConfig.IsReadOnly)" />
+            </div>
+            <div>
+                <FluentNumberField @bind-Value="DocumentConfig.ParagraphSpacingBetweenLinesAfter" Label="Paragraph Spacing Lines After" ReadOnly="@(DocumentConfig.IsReadOnly)" />
+            </div>
+        </ChildContent>
+    </FluentAccordionItem>
+    <FluentAccordionItem Expanded=true>
+        <HeadingTemplate>
+            Content Properties
+        </HeadingTemplate>
+        <ChildContent>
+            <div>
+                <FluentTextField Name="Font" @bind-Value="DocumentConfig.Font" Label="Font" ReadOnly="@(DocumentConfig.IsReadOnly)" />
+            </div>
+            <div>
+                <FluentNumberField Name="FontSize" @bind-Value="DocumentConfig.FontSize" Label="Font Size" ReadOnly="@(DocumentConfig.IsReadOnly)" />
+            </div>
+            <div>
+                <FluentTextField Name="FontColour" @bind-Value="DocumentConfig.Colour" Label="Font Colour" ReadOnly="@(DocumentConfig.IsReadOnly)" />
+            </div>
+        </ChildContent>
+    </FluentAccordionItem>
+</FluentAccordion>
+
+@code {
+    [Parameter, EditorRequired]
+    public DocumentConfig DocumentConfig { get; set; } = new();
+}
