@@ -51,31 +51,28 @@ namespace Origin.Core.Extensions
             {
                 if (string.IsNullOrWhiteSpace(documentParagraph.Code)) throw new NullReferenceException(nameof(documentParagraph.Code));
 
-                documentParagraph.Contents
-                    = [.. documentConfig.Contents
-                    .Where(c => c.RenderElementCode == documentParagraph.Code)
-                    .OrderBy(c => c.Order)];
+                documentParagraph.InheritProperties(documentConfig);
+
+                foreach(DocumentContent documentContent in documentParagraph.Contents)
+                {
+                    documentContent.InheritProperties(documentParagraph);
+                }
 
                 if (documentParagraph.DocumentParagraphType == DocumentParagraphType.Table)
                 {
-                    documentParagraph.Table
-                        = documentConfig.Tables.First(dt => dt.RenderElementCode == documentParagraph.Code);
+                    foreach (DocumentTableCell documentTableCell in documentParagraph.Cells)
+                    {
+                        if (string.IsNullOrWhiteSpace(documentTableCell.Code)) throw new NullReferenceException(nameof(documentTableCell.Code));
+
+                        documentTableCell.Contents 
+                            = [.. documentParagraph.Contents.Where(c => c.RenderElementCode == documentTableCell.Code).OrderBy(c => c.Order)];
+                    }
+                }
+                else
+                {
+                    documentParagraph.Contents = [.. documentParagraph.Contents.OrderBy(c => c.Order)];
                 }
             }
-
-            foreach (DocumentTableCell documentTableCell in documentConfig.Tables.SelectMany(t => t.Cells))
-            {
-                if (string.IsNullOrWhiteSpace(documentTableCell.Code)) throw new NullReferenceException(nameof(documentTableCell.Code));
-
-                IEnumerable<DocumentContent> cellContents
-                    = documentConfig.Contents
-                    .Where(c => c.RenderElementCode == documentTableCell.Code)
-                    .OrderBy(c => c.Order);
-
-                documentTableCell.Contents.AddRange(cellContents);
-            }
-
-            documentConfig.CascadeParagraphPropeties();
 
             return documentParagraphs;
         }
@@ -89,7 +86,7 @@ namespace Origin.Core.Extensions
                 substitutes.Add(documentSubstitute.Key ?? throw new NullReferenceException(nameof(documentSubstitute.Key)), documentSubstitute);
             }
 
-            foreach (DocumentContent documentContent in documentConfig.Contents)
+            foreach (DocumentContent documentContent in documentConfig.Paragraphs.SelectMany(p => p.Contents))
             {
                 documentContent.Content = documentContent.Content.ApplySubstitutesToContent(substitutes, documentConfig.SubstituteStart, documentConfig.SubstituteEnd);
             }
@@ -239,45 +236,6 @@ namespace Origin.Core.Extensions
                     }
                 }
             }
-        }
-
-        /// <summary>
-        /// Cascades <see cref="DocumentContentProperties"/> from the <see cref="DocumentParagraph"/> down its content.
-        /// If a <see cref="DocumentContent"/> has its own properties set, then it will not inherit the properties 
-        /// from its parent <see cref="DocumentParagraph"/>. 
-        /// </summary>
-        /// <param name="documentConfig"></param>
-        public static void CascadeParagraphPropeties(this DocumentConfig documentConfig)
-        {
-            foreach(DocumentParagraph documentParagraph in documentConfig.Paragraphs) 
-            {
-                documentParagraph.InheritProperties(documentConfig);
-
-                foreach(DocumentContent documentContent in documentParagraph.Contents)
-                {
-                    documentContent.InheritProperties(documentParagraph);
-                }
-
-                if(documentParagraph.DocumentParagraphType == DocumentParagraphType.Table)
-                {
-                    if(documentParagraph.Table == null) throw new NullReferenceException(nameof(documentParagraph.Table));
-
-                    foreach(DocumentTableCell documentTableCell in documentParagraph.Table.Cells)
-                    {
-                        documentTableCell.InheritProperties(documentParagraph);
-
-                        foreach(DocumentContent documentContent in documentTableCell.Contents)
-                        {
-                            documentContent.InheritProperties(documentParagraph);
-                        }
-                    }
-                }
-            }
-        }
-
-        public static List<DocumentContent> GetImages(this DocumentConfig documentConfig)
-        {
-            return documentConfig.Contents.Where(c => c.ContentType == DocumentContentType.Image).ToList();
         }
 
         public static DocumentParagraph? GetFooterParagraph(this DocumentConfig documentConfig)

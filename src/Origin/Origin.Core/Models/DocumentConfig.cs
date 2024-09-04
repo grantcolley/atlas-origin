@@ -2,6 +2,7 @@
 using Origin.Core.Interfaces;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Origin.Core.Models
 {
@@ -10,17 +11,13 @@ namespace Origin.Core.Models
         public DocumentConfig() 
         {
             Substitutes = [];
-            Contents = [];
             Paragraphs = [];
-            Tables = [];
         }
 
         public int DocumentConfigId { get; set; }
 
         public List<DocumentSubstitute> Substitutes { get; set; }
-        public List<DocumentContent> Contents { get; set; }
         public List<DocumentParagraph> Paragraphs { get; set; }
-        public List<DocumentTable> Tables { get; set; }
 
         [Required]
         [StringLength(100)]
@@ -61,6 +58,7 @@ namespace Origin.Core.Models
 
         [NotMapped]
         public DocumentServiceType DocumentServiceType { get; set; }
+
         [NotMapped]
         public string? OutputLocation { get; set; }
     }

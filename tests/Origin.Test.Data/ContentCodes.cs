@@ -2,7 +2,6 @@
 {
     public static class ContentCodes
     {
-        public const string LETTER_HEAD_PARAGRAPH = "LETTER_HEAD_PARAGRAPH";
         public const string LETTER_HEAD_TABLE = "LETTER_HEAD_TABLE";
         public const string LOGO = "LOGO";
         public const string COMPANY_LOGO = "COMPANY_LOGO";
@@ -26,7 +25,6 @@
         public const string LETTER_TITLE = "LETTER_TITLE";
         public const string FOOTER_PARAGRAPH = "FOOTER_PARAGRAPH";
         public const string FOOTER_TEXT = "FOOTER_TEXT";
-        public const string SIGNATURE_PARAGRAPH = "SIGNATURE_PARAGRAPH";
         public const string SIGNATURE = "SIGNATURE";
         public const string SIGNATURE_TABLE = "SIGNATURE_TABLE";
         public const string SIGNATURE_DETAILS = "SIGNATURE_DETAILS";

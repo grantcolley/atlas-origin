@@ -91,15 +91,6 @@ namespace Origin.Data.Access
                         .ConfigureAwait(false);
                 }
 
-                if (addDocumentConfig.Contents.Count > 0)
-                {
-                    documentConfig.Contents.AddRange(addDocumentConfig.Contents);
-
-                    await _applicationDbContext
-                        .SaveChangesAsync(cancellationToken)
-                        .ConfigureAwait(false);
-                }
-
                 if (addDocumentConfig.Paragraphs.Count > 0)
                 {
                     documentConfig.Paragraphs.AddRange(addDocumentConfig.Paragraphs);

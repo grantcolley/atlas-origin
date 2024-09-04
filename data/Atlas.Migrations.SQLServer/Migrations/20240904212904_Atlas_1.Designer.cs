@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Atlas.Migrations.SQLServer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240830130301_Atlas-Origin_1")]
-    partial class AtlasOrigin_1
+    [Migration("20240904212904_Atlas_1")]
+    partial class Atlas_1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -386,6 +386,21 @@ namespace Atlas.Migrations.SQLServer.Migrations
                     b.ToTable("Audits");
                 });
 
+            modelBuilder.Entity("DocumentConfigDocumentParagraph", b =>
+                {
+                    b.Property<int>("DocumentConfigsDocumentConfigId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ParagraphsDocumentParagraphId")
+                        .HasColumnType("int");
+
+                    b.HasKey("DocumentConfigsDocumentConfigId", "ParagraphsDocumentParagraphId");
+
+                    b.HasIndex("ParagraphsDocumentParagraphId");
+
+                    b.ToTable("DocumentConfigDocumentParagraph");
+                });
+
             modelBuilder.Entity("Origin.Core.Models.DocumentConfig", b =>
                 {
                     b.Property<int>("DocumentConfigId")
@@ -426,10 +441,6 @@ namespace Atlas.Migrations.SQLServer.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("OutputLocation")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
 
                     b.Property<int>("PageMarginBottom")
                         .HasColumnType("int");
@@ -502,7 +513,7 @@ namespace Atlas.Migrations.SQLServer.Migrations
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("DocumentConfigId")
+                    b.Property<int?>("DocumentParagraphId")
                         .HasColumnType("int");
 
                     b.Property<string>("Font")
@@ -552,7 +563,7 @@ namespace Atlas.Migrations.SQLServer.Migrations
 
                     b.HasKey("DocumentContentId");
 
-                    b.HasIndex("DocumentConfigId");
+                    b.HasIndex("DocumentParagraphId");
 
                     b.ToTable("DocumentContents");
                 });
@@ -582,9 +593,6 @@ namespace Atlas.Migrations.SQLServer.Migrations
 
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<int?>("DocumentConfigId")
-                        .HasColumnType("int");
 
                     b.Property<int>("DocumentParagraphType")
                         .HasColumnType("int");
@@ -617,8 +625,6 @@ namespace Atlas.Migrations.SQLServer.Migrations
 
                     b.HasIndex("Code")
                         .IsUnique();
-
-                    b.HasIndex("DocumentConfigId");
 
                     b.HasIndex("Name")
                         .IsUnique();
@@ -668,57 +674,6 @@ namespace Atlas.Migrations.SQLServer.Migrations
                     b.HasIndex("DocumentConfigId");
 
                     b.ToTable("DocumentSubstitutes");
-                });
-
-            modelBuilder.Entity("Origin.Core.Models.DocumentTable", b =>
-                {
-                    b.Property<int>("DocumentTableId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DocumentTableId"));
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("DocumentConfigId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<string>("RenderElementCode")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("DocumentTableId");
-
-                    b.HasIndex("Code")
-                        .IsUnique();
-
-                    b.HasIndex("DocumentConfigId");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
-
-                    b.ToTable("DocumentTables");
                 });
 
             modelBuilder.Entity("Origin.Core.Models.DocumentTableCell", b =>
@@ -774,7 +729,7 @@ namespace Atlas.Migrations.SQLServer.Migrations
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("DocumentTableId")
+                    b.Property<int?>("DocumentParagraphId")
                         .HasColumnType("int");
 
                     b.Property<string>("Font")
@@ -800,7 +755,7 @@ namespace Atlas.Migrations.SQLServer.Migrations
 
                     b.HasKey("DocumentTableCellId");
 
-                    b.HasIndex("DocumentTableId");
+                    b.HasIndex("DocumentParagraphId");
 
                     b.ToTable("DocumentTableCells");
                 });
@@ -819,7 +774,7 @@ namespace Atlas.Migrations.SQLServer.Migrations
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("DocumentTableId")
+                    b.Property<int?>("DocumentParagraphId")
                         .HasColumnType("int");
 
                     b.Property<string>("ModifiedBy")
@@ -841,7 +796,7 @@ namespace Atlas.Migrations.SQLServer.Migrations
 
                     b.HasKey("DocumentTableColumnId");
 
-                    b.HasIndex("DocumentTableId");
+                    b.HasIndex("DocumentParagraphId");
 
                     b.ToTable("DocumentTableColumns");
                 });
@@ -854,7 +809,7 @@ namespace Atlas.Migrations.SQLServer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DocumentTableRowId"));
 
-                    b.Property<int?>("DocumentTableId")
+                    b.Property<int?>("DocumentParagraphId")
                         .HasColumnType("int");
 
                     b.Property<int?>("Height")
@@ -870,7 +825,7 @@ namespace Atlas.Migrations.SQLServer.Migrations
 
                     b.HasKey("DocumentTableRowId");
 
-                    b.HasIndex("DocumentTableId");
+                    b.HasIndex("DocumentParagraphId");
 
                     b.ToTable("DocumentTableRow");
                 });
@@ -927,18 +882,26 @@ namespace Atlas.Migrations.SQLServer.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("Origin.Core.Models.DocumentContent", b =>
+            modelBuilder.Entity("DocumentConfigDocumentParagraph", b =>
                 {
                     b.HasOne("Origin.Core.Models.DocumentConfig", null)
-                        .WithMany("Contents")
-                        .HasForeignKey("DocumentConfigId");
+                        .WithMany()
+                        .HasForeignKey("DocumentConfigsDocumentConfigId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Origin.Core.Models.DocumentParagraph", null)
+                        .WithMany()
+                        .HasForeignKey("ParagraphsDocumentParagraphId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
-            modelBuilder.Entity("Origin.Core.Models.DocumentParagraph", b =>
+            modelBuilder.Entity("Origin.Core.Models.DocumentContent", b =>
                 {
-                    b.HasOne("Origin.Core.Models.DocumentConfig", null)
-                        .WithMany("Paragraphs")
-                        .HasForeignKey("DocumentConfigId");
+                    b.HasOne("Origin.Core.Models.DocumentParagraph", null)
+                        .WithMany("Contents")
+                        .HasForeignKey("DocumentParagraphId");
                 });
 
             modelBuilder.Entity("Origin.Core.Models.DocumentSubstitute", b =>
@@ -948,32 +911,25 @@ namespace Atlas.Migrations.SQLServer.Migrations
                         .HasForeignKey("DocumentConfigId");
                 });
 
-            modelBuilder.Entity("Origin.Core.Models.DocumentTable", b =>
-                {
-                    b.HasOne("Origin.Core.Models.DocumentConfig", null)
-                        .WithMany("Tables")
-                        .HasForeignKey("DocumentConfigId");
-                });
-
             modelBuilder.Entity("Origin.Core.Models.DocumentTableCell", b =>
                 {
-                    b.HasOne("Origin.Core.Models.DocumentTable", null)
+                    b.HasOne("Origin.Core.Models.DocumentParagraph", null)
                         .WithMany("Cells")
-                        .HasForeignKey("DocumentTableId");
+                        .HasForeignKey("DocumentParagraphId");
                 });
 
             modelBuilder.Entity("Origin.Core.Models.DocumentTableColumn", b =>
                 {
-                    b.HasOne("Origin.Core.Models.DocumentTable", null)
+                    b.HasOne("Origin.Core.Models.DocumentParagraph", null)
                         .WithMany("Columns")
-                        .HasForeignKey("DocumentTableId");
+                        .HasForeignKey("DocumentParagraphId");
                 });
 
             modelBuilder.Entity("Origin.Core.Models.DocumentTableRow", b =>
                 {
-                    b.HasOne("Origin.Core.Models.DocumentTable", null)
+                    b.HasOne("Origin.Core.Models.DocumentParagraph", null)
                         .WithMany("Rows")
-                        .HasForeignKey("DocumentTableId");
+                        .HasForeignKey("DocumentParagraphId");
                 });
 
             modelBuilder.Entity("PermissionRole", b =>
@@ -1018,20 +974,16 @@ namespace Atlas.Migrations.SQLServer.Migrations
 
             modelBuilder.Entity("Origin.Core.Models.DocumentConfig", b =>
                 {
-                    b.Navigation("Contents");
-
-                    b.Navigation("Paragraphs");
-
                     b.Navigation("Substitutes");
-
-                    b.Navigation("Tables");
                 });
 
-            modelBuilder.Entity("Origin.Core.Models.DocumentTable", b =>
+            modelBuilder.Entity("Origin.Core.Models.DocumentParagraph", b =>
                 {
                     b.Navigation("Cells");
 
                     b.Navigation("Columns");
+
+                    b.Navigation("Contents");
 
                     b.Navigation("Rows");
                 });

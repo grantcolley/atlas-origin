@@ -21,7 +21,6 @@ namespace Atlas.Data.Context
 
         public DbSet<DocumentConfig> DocumentConfigs { get; set; }
         public DbSet<DocumentParagraph> DocumentParagraphs { get; set; }
-        public DbSet<DocumentTable> DocumentTables { get; set; }
         public DbSet<DocumentTableRow> DocumentTableRow {  get; set; }
         public DbSet<DocumentTableColumn> DocumentTableColumns { get; set; }
         public DbSet<DocumentTableCell> DocumentTableCells { get; set; }
@@ -94,14 +93,6 @@ namespace Atlas.Data.Context
 
             builder.Entity<DocumentParagraph>()
                 .HasIndex(p => p.Code)
-                .IsUnique();
-
-            builder.Entity<DocumentTable>()
-                .HasIndex(t => t.Name)
-                .IsUnique();
-
-            builder.Entity<DocumentTable>()
-                .HasIndex(t => t.Code)
                 .IsUnique();
         }
 

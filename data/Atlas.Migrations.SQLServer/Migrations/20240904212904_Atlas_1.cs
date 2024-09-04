@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Atlas.Migrations.SQLServer.Migrations
 {
     /// <inheritdoc />
-    public partial class AtlasOrigin_1 : Migration
+    public partial class Atlas_1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -38,7 +38,6 @@ namespace Atlas.Migrations.SQLServer.Migrations
                     DocumentConfigId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    OutputLocation = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     SubstituteStart = table.Column<string>(type: "nvarchar(1)", maxLength: 1, nullable: false),
                     SubstituteEnd = table.Column<string>(type: "nvarchar(1)", maxLength: 1, nullable: false),
                     FilenameTemplate = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
@@ -59,6 +58,31 @@ namespace Atlas.Migrations.SQLServer.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_DocumentConfigs", x => x.DocumentConfigId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DocumentParagraphs",
+                columns: table => new
+                {
+                    DocumentParagraphId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Order = table.Column<int>(type: "int", nullable: false),
+                    IgnoreParapgraphSpacing = table.Column<bool>(type: "bit", nullable: true),
+                    AlignContent = table.Column<int>(type: "int", nullable: false),
+                    DocumentParagraphType = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
+                    Code = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FontSize = table.Column<int>(type: "int", nullable: true),
+                    Font = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Colour = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DocumentParagraphs", x => x.DocumentParagraphId);
                 });
 
             migrationBuilder.CreateTable(
@@ -157,76 +181,6 @@ namespace Atlas.Migrations.SQLServer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "DocumentContents",
-                columns: table => new
-                {
-                    DocumentContentId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Order = table.Column<int>(type: "int", nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Bold = table.Column<bool>(type: "bit", nullable: true),
-                    Italic = table.Column<bool>(type: "bit", nullable: true),
-                    Underscore = table.Column<bool>(type: "bit", nullable: true),
-                    ImageHeight = table.Column<int>(type: "int", nullable: true),
-                    ImageWidth = table.Column<int>(type: "int", nullable: true),
-                    IgnoreParapgraphSpacing = table.Column<bool>(type: "bit", nullable: true),
-                    ContentType = table.Column<int>(type: "int", nullable: false),
-                    AlignContent = table.Column<int>(type: "int", nullable: false),
-                    Code = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    RenderElementCode = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Source = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    DocumentConfigId = table.Column<int>(type: "int", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    FontSize = table.Column<int>(type: "int", nullable: true),
-                    Font = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Colour = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DocumentContents", x => x.DocumentContentId);
-                    table.ForeignKey(
-                        name: "FK_DocumentContents_DocumentConfigs_DocumentConfigId",
-                        column: x => x.DocumentConfigId,
-                        principalTable: "DocumentConfigs",
-                        principalColumn: "DocumentConfigId");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "DocumentParagraphs",
-                columns: table => new
-                {
-                    DocumentParagraphId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Order = table.Column<int>(type: "int", nullable: false),
-                    IgnoreParapgraphSpacing = table.Column<bool>(type: "bit", nullable: true),
-                    AlignContent = table.Column<int>(type: "int", nullable: false),
-                    DocumentParagraphType = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
-                    Code = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    DocumentConfigId = table.Column<int>(type: "int", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    FontSize = table.Column<int>(type: "int", nullable: true),
-                    Font = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Colour = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DocumentParagraphs", x => x.DocumentParagraphId);
-                    table.ForeignKey(
-                        name: "FK_DocumentParagraphs_DocumentConfigs_DocumentConfigId",
-                        column: x => x.DocumentConfigId,
-                        principalTable: "DocumentConfigs",
-                        principalColumn: "DocumentConfigId");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "DocumentSubstitutes",
                 columns: table => new
                 {
@@ -252,15 +206,116 @@ namespace Atlas.Migrations.SQLServer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "DocumentTables",
+                name: "DocumentConfigDocumentParagraph",
                 columns: table => new
                 {
-                    DocumentTableId = table.Column<int>(type: "int", nullable: false)
+                    DocumentConfigsDocumentConfigId = table.Column<int>(type: "int", nullable: false),
+                    ParagraphsDocumentParagraphId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DocumentConfigDocumentParagraph", x => new { x.DocumentConfigsDocumentConfigId, x.ParagraphsDocumentParagraphId });
+                    table.ForeignKey(
+                        name: "FK_DocumentConfigDocumentParagraph_DocumentConfigs_DocumentConfigsDocumentConfigId",
+                        column: x => x.DocumentConfigsDocumentConfigId,
+                        principalTable: "DocumentConfigs",
+                        principalColumn: "DocumentConfigId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_DocumentConfigDocumentParagraph_DocumentParagraphs_ParagraphsDocumentParagraphId",
+                        column: x => x.ParagraphsDocumentParagraphId,
+                        principalTable: "DocumentParagraphs",
+                        principalColumn: "DocumentParagraphId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DocumentContents",
+                columns: table => new
+                {
+                    DocumentContentId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
+                    Order = table.Column<int>(type: "int", nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Bold = table.Column<bool>(type: "bit", nullable: true),
+                    Italic = table.Column<bool>(type: "bit", nullable: true),
+                    Underscore = table.Column<bool>(type: "bit", nullable: true),
+                    ImageHeight = table.Column<int>(type: "int", nullable: true),
+                    ImageWidth = table.Column<int>(type: "int", nullable: true),
+                    IgnoreParapgraphSpacing = table.Column<bool>(type: "bit", nullable: true),
+                    ContentType = table.Column<int>(type: "int", nullable: false),
+                    AlignContent = table.Column<int>(type: "int", nullable: false),
                     Code = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     RenderElementCode = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    DocumentConfigId = table.Column<int>(type: "int", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Source = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    DocumentParagraphId = table.Column<int>(type: "int", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FontSize = table.Column<int>(type: "int", nullable: true),
+                    Font = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Colour = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DocumentContents", x => x.DocumentContentId);
+                    table.ForeignKey(
+                        name: "FK_DocumentContents_DocumentParagraphs_DocumentParagraphId",
+                        column: x => x.DocumentParagraphId,
+                        principalTable: "DocumentParagraphs",
+                        principalColumn: "DocumentParagraphId");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DocumentTableCells",
+                columns: table => new
+                {
+                    DocumentTableCellId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Row = table.Column<int>(type: "int", nullable: false),
+                    Column = table.Column<int>(type: "int", nullable: false),
+                    BorderLeft = table.Column<int>(type: "int", nullable: true),
+                    BorderTop = table.Column<int>(type: "int", nullable: true),
+                    BorderRight = table.Column<int>(type: "int", nullable: true),
+                    BorderBottom = table.Column<int>(type: "int", nullable: true),
+                    BorderLeftColour = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BorderTopColour = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BorderRightColour = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BorderBottomColour = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CellColour = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Code = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    RenderElementCode = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    DocumentParagraphId = table.Column<int>(type: "int", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FontSize = table.Column<int>(type: "int", nullable: true),
+                    Font = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Colour = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DocumentTableCells", x => x.DocumentTableCellId);
+                    table.ForeignKey(
+                        name: "FK_DocumentTableCells_DocumentParagraphs_DocumentParagraphId",
+                        column: x => x.DocumentParagraphId,
+                        principalTable: "DocumentParagraphs",
+                        principalColumn: "DocumentParagraphId");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DocumentTableColumns",
+                columns: table => new
+                {
+                    DocumentTableColumnId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Position = table.Column<int>(type: "int", nullable: false),
+                    Width = table.Column<int>(type: "int", nullable: true),
+                    TableCode = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    DocumentParagraphId = table.Column<int>(type: "int", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -268,12 +323,33 @@ namespace Atlas.Migrations.SQLServer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DocumentTables", x => x.DocumentTableId);
+                    table.PrimaryKey("PK_DocumentTableColumns", x => x.DocumentTableColumnId);
                     table.ForeignKey(
-                        name: "FK_DocumentTables_DocumentConfigs_DocumentConfigId",
-                        column: x => x.DocumentConfigId,
-                        principalTable: "DocumentConfigs",
-                        principalColumn: "DocumentConfigId");
+                        name: "FK_DocumentTableColumns_DocumentParagraphs_DocumentParagraphId",
+                        column: x => x.DocumentParagraphId,
+                        principalTable: "DocumentParagraphs",
+                        principalColumn: "DocumentParagraphId");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DocumentTableRow",
+                columns: table => new
+                {
+                    DocumentTableRowId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Position = table.Column<int>(type: "int", nullable: false),
+                    Height = table.Column<int>(type: "int", nullable: true),
+                    TableCode = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    DocumentParagraphId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DocumentTableRow", x => x.DocumentTableRowId);
+                    table.ForeignKey(
+                        name: "FK_DocumentTableRow_DocumentParagraphs_DocumentParagraphId",
+                        column: x => x.DocumentParagraphId,
+                        principalTable: "DocumentParagraphs",
+                        principalColumn: "DocumentParagraphId");
                 });
 
             migrationBuilder.CreateTable(
@@ -352,90 +428,6 @@ namespace Atlas.Migrations.SQLServer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "DocumentTableCells",
-                columns: table => new
-                {
-                    DocumentTableCellId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Row = table.Column<int>(type: "int", nullable: false),
-                    Column = table.Column<int>(type: "int", nullable: false),
-                    BorderLeft = table.Column<int>(type: "int", nullable: true),
-                    BorderTop = table.Column<int>(type: "int", nullable: true),
-                    BorderRight = table.Column<int>(type: "int", nullable: true),
-                    BorderBottom = table.Column<int>(type: "int", nullable: true),
-                    BorderLeftColour = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    BorderTopColour = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    BorderRightColour = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    BorderBottomColour = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CellColour = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Code = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    RenderElementCode = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    DocumentTableId = table.Column<int>(type: "int", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    FontSize = table.Column<int>(type: "int", nullable: true),
-                    Font = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Colour = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DocumentTableCells", x => x.DocumentTableCellId);
-                    table.ForeignKey(
-                        name: "FK_DocumentTableCells_DocumentTables_DocumentTableId",
-                        column: x => x.DocumentTableId,
-                        principalTable: "DocumentTables",
-                        principalColumn: "DocumentTableId");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "DocumentTableColumns",
-                columns: table => new
-                {
-                    DocumentTableColumnId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Position = table.Column<int>(type: "int", nullable: false),
-                    Width = table.Column<int>(type: "int", nullable: true),
-                    TableCode = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    DocumentTableId = table.Column<int>(type: "int", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DocumentTableColumns", x => x.DocumentTableColumnId);
-                    table.ForeignKey(
-                        name: "FK_DocumentTableColumns_DocumentTables_DocumentTableId",
-                        column: x => x.DocumentTableId,
-                        principalTable: "DocumentTables",
-                        principalColumn: "DocumentTableId");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "DocumentTableRow",
-                columns: table => new
-                {
-                    DocumentTableRowId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Position = table.Column<int>(type: "int", nullable: false),
-                    Height = table.Column<int>(type: "int", nullable: true),
-                    TableCode = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    DocumentTableId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DocumentTableRow", x => x.DocumentTableRowId);
-                    table.ForeignKey(
-                        name: "FK_DocumentTableRow_DocumentTables_DocumentTableId",
-                        column: x => x.DocumentTableId,
-                        principalTable: "DocumentTables",
-                        principalColumn: "DocumentTableId");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Pages",
                 columns: table => new
                 {
@@ -475,26 +467,26 @@ namespace Atlas.Migrations.SQLServer.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_DocumentConfigDocumentParagraph_ParagraphsDocumentParagraphId",
+                table: "DocumentConfigDocumentParagraph",
+                column: "ParagraphsDocumentParagraphId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_DocumentConfigs_Name",
                 table: "DocumentConfigs",
                 column: "Name",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_DocumentContents_DocumentConfigId",
+                name: "IX_DocumentContents_DocumentParagraphId",
                 table: "DocumentContents",
-                column: "DocumentConfigId");
+                column: "DocumentParagraphId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DocumentParagraphs_Code",
                 table: "DocumentParagraphs",
                 column: "Code",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_DocumentParagraphs_DocumentConfigId",
-                table: "DocumentParagraphs",
-                column: "DocumentConfigId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DocumentParagraphs_Name",
@@ -508,36 +500,19 @@ namespace Atlas.Migrations.SQLServer.Migrations
                 column: "DocumentConfigId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DocumentTableCells_DocumentTableId",
+                name: "IX_DocumentTableCells_DocumentParagraphId",
                 table: "DocumentTableCells",
-                column: "DocumentTableId");
+                column: "DocumentParagraphId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DocumentTableColumns_DocumentTableId",
+                name: "IX_DocumentTableColumns_DocumentParagraphId",
                 table: "DocumentTableColumns",
-                column: "DocumentTableId");
+                column: "DocumentParagraphId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DocumentTableRow_DocumentTableId",
+                name: "IX_DocumentTableRow_DocumentParagraphId",
                 table: "DocumentTableRow",
-                column: "DocumentTableId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_DocumentTables_Code",
-                table: "DocumentTables",
-                column: "Code",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_DocumentTables_DocumentConfigId",
-                table: "DocumentTables",
-                column: "DocumentConfigId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_DocumentTables_Name",
-                table: "DocumentTables",
-                column: "Name",
-                unique: true);
+                column: "DocumentParagraphId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Logs_Context",
@@ -624,10 +599,10 @@ namespace Atlas.Migrations.SQLServer.Migrations
                 name: "Audits");
 
             migrationBuilder.DropTable(
-                name: "DocumentContents");
+                name: "DocumentConfigDocumentParagraph");
 
             migrationBuilder.DropTable(
-                name: "DocumentParagraphs");
+                name: "DocumentContents");
 
             migrationBuilder.DropTable(
                 name: "DocumentSubstitutes");
@@ -654,7 +629,10 @@ namespace Atlas.Migrations.SQLServer.Migrations
                 name: "RoleUser");
 
             migrationBuilder.DropTable(
-                name: "DocumentTables");
+                name: "DocumentConfigs");
+
+            migrationBuilder.DropTable(
+                name: "DocumentParagraphs");
 
             migrationBuilder.DropTable(
                 name: "Categories");
@@ -667,9 +645,6 @@ namespace Atlas.Migrations.SQLServer.Migrations
 
             migrationBuilder.DropTable(
                 name: "Users");
-
-            migrationBuilder.DropTable(
-                name: "DocumentConfigs");
 
             migrationBuilder.DropTable(
                 name: "Modules");

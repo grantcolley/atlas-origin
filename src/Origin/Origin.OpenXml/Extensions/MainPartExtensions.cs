@@ -74,7 +74,11 @@ namespace Origin.OpenXml.Extensions
         {
             ArgumentNullException.ThrowIfNull(documentConfig);
 
-            List<DocumentContent> images = documentConfig.GetImages();
+            List<DocumentContent> images 
+                = documentConfig.Paragraphs
+                                .SelectMany(p => p.Contents)
+                                .Where(c => c.ContentType == DocumentContentType.Image)
+                                .ToList();
             
             foreach (DocumentContent image in images)
             {

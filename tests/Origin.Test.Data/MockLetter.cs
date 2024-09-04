@@ -8,7 +8,6 @@
         public const string PARAGRAPH_4 = "PARAGRAPH_4";
         public const string PARAGRAPH_5 = "PARAGRAPH_5";
         public const string PARAGRAPH_6 = "PARAGRAPH_6";
-        public const string LETTER_SUMMARY_PARAGRAPH = "LETTER_SUMMARY_PARAGRAPH";
         public const string LETTER_SUMMARY_TABLE = "LETTER_SUMMARY_TABLE";
         public const string TABLE_SUMMARY_1 = "TABLE_SUMMARY_1";
         public const string TABLE_SUMMARY_2 = "TABLE_SUMMARY_2";

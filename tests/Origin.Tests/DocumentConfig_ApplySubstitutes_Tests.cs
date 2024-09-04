@@ -17,14 +17,20 @@ namespace Origin.Tests
                 SubstituteStart = "[",
                 SubstituteEnd = "]",
                 Substitutes = { new DocumentSubstitute { Key = "[Date]", Value = DateTime.Today.ToLongDateString() } },
-                Contents = { new DocumentContent { Content = "Jane Masters, this is to inform you of an upcoming event." } }
+                Paragraphs = 
+                {
+                    new DocumentParagraph
+                    {
+                        Contents = { new DocumentContent { Content = "Jane Masters, this is to inform you of an upcoming event." } }
+                    }
+                }
             };
 
             // Act
             documentArgs.ApplySubstitutesToDocumentContent();
 
             // Assert
-            Assert.AreEqual(CONTENT, documentArgs.Contents.First().Content);
+            Assert.AreEqual(CONTENT, documentArgs.Paragraphs.First().Contents.First().Content);
         }
 
         [TestMethod]
@@ -36,14 +42,20 @@ namespace Origin.Tests
                 SubstituteStart = "[",
                 SubstituteEnd = "]",
                 Substitutes = { new DocumentSubstitute { Key = "NAME", Value = "Jane Masters" } },
-                Contents = { new DocumentContent { Content = "[NAME]" } }
+                Paragraphs =
+                {
+                    new DocumentParagraph
+                    {
+                        Contents = { new DocumentContent { Content = "[NAME]" } }
+                    }
+                }
             };
 
             // Act
             documentArgs.ApplySubstitutesToDocumentContent();
 
             // Assert
-            Assert.AreEqual(documentArgs.Substitutes.First().Value, documentArgs.Contents.First().Content);
+            Assert.AreEqual(documentArgs.Substitutes.First().Value, documentArgs.Paragraphs.First().Contents.First().Content);
         }
 
         [TestMethod]
@@ -55,14 +67,20 @@ namespace Origin.Tests
                 SubstituteStart = "[",
                 SubstituteEnd = "]",
                 Substitutes = { new DocumentSubstitute { Key = "NAME", Value = "Jane Masters" } },
-                Contents = { new DocumentContent { Content = "[NAME], this is to inform you of an upcoming event." } }
+                Paragraphs =
+                {
+                    new DocumentParagraph
+                    {
+                        Contents = { new DocumentContent { Content = "[NAME], this is to inform you of an upcoming event." } }
+                    }
+                }
             };
 
             // Act
             documentArgs.ApplySubstitutesToDocumentContent();
 
             // Assert
-            Assert.AreEqual(CONTENT, documentArgs.Contents.First().Content);
+            Assert.AreEqual(CONTENT, documentArgs.Paragraphs.First().Contents.First().Content);
         }
 
         [TestMethod]
@@ -74,14 +92,20 @@ namespace Origin.Tests
                 SubstituteStart = "[",
                 SubstituteEnd = "]",
                 Substitutes = { new DocumentSubstitute { Key = "ACTIVITY", Value = "event." } },
-                Contents = { new DocumentContent { Content = "Jane Masters, this is to inform you of an upcoming [ACTIVITY]" } }
+                Paragraphs =
+                {
+                    new DocumentParagraph
+                    {
+                        Contents = { new DocumentContent { Content = "Jane Masters, this is to inform you of an upcoming [ACTIVITY]" } }
+                    }
+                }
             };
 
             // Act
             documentArgs.ApplySubstitutesToDocumentContent();
 
             // Assert
-            Assert.AreEqual(CONTENT, documentArgs.Contents.First().Content);
+            Assert.AreEqual(CONTENT, documentArgs.Paragraphs.First().Contents.First().Content);
         }
 
         [TestMethod]
@@ -98,14 +122,20 @@ namespace Origin.Tests
                     new DocumentSubstitute { Key = "NAME", Value = "Jane Masters" },
                     new DocumentSubstitute { Key = "NOTIFICATION", Value = "inform" }
                 },
-                Contents = { new DocumentContent { Content = "[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY]." } }
+                Paragraphs =
+                {
+                    new DocumentParagraph
+                    {
+                        Contents = { new DocumentContent { Content = "[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY]." } }
+                    }
+                }
             };
 
             // Act
             documentArgs.ApplySubstitutesToDocumentContent();
 
             // Assert
-            Assert.AreEqual(CONTENT, documentArgs.Contents.First().Content);
+            Assert.AreEqual(CONTENT, documentArgs.Paragraphs.First().Contents.First().Content);
         }
 
         [TestMethod]
@@ -122,14 +152,20 @@ namespace Origin.Tests
                     new DocumentSubstitute { Key = "NAME", Value = "Jane Masters" },
                     new DocumentSubstitute { Key = "NOTIFICATION", Value = "inform" }
                 },
-                Contents = { new DocumentContent() }
+                Paragraphs =
+                {
+                    new DocumentParagraph
+                    {
+                        Contents = { new DocumentContent()}
+                    }
+                }
             };
 
             // Act
             documentArgs.ApplySubstitutesToDocumentContent();
 
             // Assert
-            Assert.IsNull(documentArgs.Contents.First().Content);
+            Assert.IsNull(documentArgs.Paragraphs.First().Contents.First().Content);
         }
 
         [TestMethod]
@@ -141,14 +177,20 @@ namespace Origin.Tests
                 SubstituteStart = "[",
                 SubstituteEnd = "]",
                 Substitutes = [],
-                Contents = { new DocumentContent { Content = "[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY]." } }
+                Paragraphs =
+                {
+                    new DocumentParagraph
+                    {
+                        Contents = { new DocumentContent { Content = "[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY]." } }
+                    }
+                }
             };
 
             // Act
             documentArgs.ApplySubstitutesToDocumentContent();
 
             // Assert
-            Assert.AreEqual("[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY].", documentArgs.Contents.First().Content);
+            Assert.AreEqual("[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY].", documentArgs.Paragraphs.First().Contents.First().Content);
         }
 
         [TestMethod]
@@ -159,14 +201,20 @@ namespace Origin.Tests
             {
                 SubstituteStart = "[",
                 SubstituteEnd = "]",
-                Contents = { new DocumentContent { Content = "[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY]." } }
+                Paragraphs =
+                {
+                    new DocumentParagraph
+                    {
+                        Contents = { new DocumentContent { Content = "[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY]." } }
+                    }
+                }
             };
 
             // Act
             documentArgs.ApplySubstitutesToDocumentContent();
 
             // Assert
-            Assert.AreEqual("[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY].", documentArgs.Contents.First().Content);
+            Assert.AreEqual("[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY].", documentArgs.Paragraphs.First().Contents.First().Content);
         }
 
         [TestMethod]
@@ -181,14 +229,20 @@ namespace Origin.Tests
                     new DocumentSubstitute { Key = "NAME", Value = "Jane Masters" },
                     new DocumentSubstitute { Key = "NOTIFICATION", Value = "inform" }
                 },
-                Contents = { new DocumentContent { Content = "[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY]." } }
+                Paragraphs =
+                {
+                    new DocumentParagraph
+                    {
+                        Contents = { new DocumentContent { Content = "[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY]." } }
+                    }
+                }
             };
 
             // Act
             documentArgs.ApplySubstitutesToDocumentContent();
 
             // Assert
-            Assert.AreEqual("[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY].", documentArgs.Contents.First().Content);
+            Assert.AreEqual("[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY].", documentArgs.Paragraphs.First().Contents.First().Content);
         }
 
         [TestMethod]
@@ -199,7 +253,13 @@ namespace Origin.Tests
             DocumentConfig documentArgs = new()
             {
                 SubstituteEnd = "]",
-                Contents = { new DocumentContent { Content = "[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY]." } }
+                Paragraphs =
+                {
+                    new DocumentParagraph
+                    {
+                        Contents = { new DocumentContent { Content = "[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY]." } }
+                    }
+                }
             };
 
             // Act
@@ -214,7 +274,13 @@ namespace Origin.Tests
             DocumentConfig documentArgs = new()
             {
                 SubstituteStart = "[",
-                Contents = { new DocumentContent { Content = "[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY]." } }
+                Paragraphs =
+                {
+                    new DocumentParagraph
+                    {
+                        Contents = { new DocumentContent { Content = "[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY]." } }
+                    }
+                }
             };
 
             // Act
@@ -236,7 +302,13 @@ namespace Origin.Tests
                     new DocumentSubstitute { Key = "NAME", Value = "Jane Masters" },
                     new DocumentSubstitute { Key = "NOTIFICATION", Value = "inform" }
                 },
-                Contents = { new DocumentContent { Content = "[NAME, this is to [NOTIFICATION] you of an upcoming [ACTIVITY]." } }
+                Paragraphs =
+                {
+                    new DocumentParagraph
+                    {
+                        Contents = { new DocumentContent { Content = "[NAME, this is to [NOTIFICATION] you of an upcoming [ACTIVITY]." } }
+                    }
+                }
             };
 
             // Act
@@ -258,7 +330,13 @@ namespace Origin.Tests
                     new DocumentSubstitute { Key = "NAME", Value = "Jane Masters" },
                     new DocumentSubstitute { Key = "NOTIFICATION", Value = "inform" }
                 },
-                Contents = { new DocumentContent { Content = "[NAME, this is to notify you of an upcoming event." } }
+                Paragraphs =
+                {
+                    new DocumentParagraph
+                    {
+                        Contents = { new DocumentContent { Content = "[NAME, this is to notify you of an upcoming event." } }
+                    }
+                }
             };
 
             // Act
@@ -280,7 +358,13 @@ namespace Origin.Tests
                     new DocumentSubstitute { Key = "NAME", Value = "Jane Masters" },
                     new DocumentSubstitute { Key = "NOTIFICATION", Value = "inform" }
                 },
-                Contents = { new DocumentContent { Content = "NAME], this is to notify you of an upcoming event." } }
+                Paragraphs =
+                {
+                    new DocumentParagraph
+                    {
+                        Contents = { new DocumentContent { Content = "NAME], this is to notify you of an upcoming event." } }
+                    }
+                }
             };
 
             // Act
