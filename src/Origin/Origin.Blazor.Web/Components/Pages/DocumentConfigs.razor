@@ -24,7 +24,7 @@
                         ResizableColumns=true GenerateHeader="GenerateHeaderOption.Sticky"
                         Pagination="@Pagination">
             <PropertyColumn Property="@(d => d.DocumentConfigId)" Sortable="true" Align="Align.Center" Title="Document Config Id"/>
-            <PropertyColumn Property="@(p => p.Name)" Sortable="true" Filtered="!string.IsNullOrWhiteSpace(Filter)" Tooltip="true" Title="Name">
+            <PropertyColumn Property="@(d => d.Name)" Sortable="true" Filtered="!string.IsNullOrWhiteSpace(Filter)" Tooltip="true" Title="Name">
                 <ColumnOptions>
                     <div class="search-box">
                         <FluentSearch type="filter" Autofocus=true @bind-Value=Filter @oninput="HandleFilter" @bind-Value:after="HandleClear" Placeholder="Document config name..." />
