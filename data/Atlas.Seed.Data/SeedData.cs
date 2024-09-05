@@ -252,8 +252,10 @@ namespace Atlas.Seed.Data
             dbContext.SaveChanges();
 
             Page documentConfigurationsPage = new() { Name = "Documents", Icon = "DocumentSettings", Route = OriginWebConstants.PAGE_DOCUMENT_CONFIGS, Order = 1, Permission = Auth.DOCUMENT_READ, Category = templatesCategory };
+            Page documentParagraphsPage = new() { Name = "Paragraphs", Icon = "TextParagraph", Route = OriginWebConstants.PAGE_DOCUMENT_PARAGRAPHS, Order = 2, Permission = Auth.DOCUMENT_READ, Category = templatesCategory };
 
             templatesCategory.Pages.Add(documentConfigurationsPage);
+            templatesCategory.Pages.Add(documentParagraphsPage);
 
             dbContext.Pages.Add(documentConfigurationsPage);
 
