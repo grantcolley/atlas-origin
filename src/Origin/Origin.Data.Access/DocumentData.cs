@@ -4,7 +4,6 @@ using Atlas.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Origin.Core.Models;
-using System.Collections.Generic;
 
 namespace Origin.Data.Access
 {
@@ -122,6 +121,41 @@ namespace Origin.Data.Access
         }
 
         public Task<int> DeleteDocumentConfigAsync(int id, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<DocumentParagraph>> GetDocumentParagraphsAsync(CancellationToken cancellationToken)
+        {
+            try
+            {
+                return await _applicationDbContext.DocumentParagraphs
+                    .AsNoTracking()
+                    .ToListAsync(cancellationToken)
+                    .ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                throw new AtlasException(ex.Message, ex);
+            }
+        }
+
+        public Task<DocumentParagraph?> GetDocumentParagraphAsync(int id, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<DocumentParagraph> CreateDocumentParagraphAsync(DocumentParagraph documentParagraph, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<DocumentParagraph> UpdateDocumentParagraphAsync(DocumentParagraph documentParagraph, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> DeleteDocumentParagraphAsync(int id, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
