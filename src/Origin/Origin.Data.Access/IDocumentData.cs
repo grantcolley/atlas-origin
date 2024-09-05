@@ -10,5 +10,10 @@ namespace Origin.Data.Access
         Task<DocumentConfig> CreateDocumentConfigAsync(DocumentConfig documentConfig, CancellationToken cancellationToken);
         Task<DocumentConfig> UpdateDocumentConfigAsync(DocumentConfig documentConfig, CancellationToken cancellationToken);
         Task<int> DeleteDocumentConfigAsync(int id, CancellationToken cancellationToken);
+        Task<IEnumerable<DocumentParagraph>> GetDocumentParagraphsAsync(CancellationToken cancellationToken);
+        Task<DocumentParagraph?> GetDocumentParagraphAsync(int id, CancellationToken cancellationToken);
+        Task<DocumentParagraph> CreateDocumentParagraphAsync(DocumentParagraph documentParagraph, CancellationToken cancellationToken);
+        Task<DocumentParagraph> UpdateDocumentParagraphAsync(DocumentParagraph documentParagraph, CancellationToken cancellationToken);
+        Task<int> DeleteDocumentParagraphAsync(int id, CancellationToken cancellationToken);
     }
 }
