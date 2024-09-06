@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using FluentValidation;
+using System.ComponentModel.DataAnnotations;
 
 namespace Origin.Core.Models
 {
@@ -31,5 +32,19 @@ namespace Origin.Core.Models
         [Required]
         [StringLength(100)]
         public string? Code { get; set; }
+    }
+
+    public class DocumentParagraphValidator : AbstractValidator<DocumentParagraph>
+    {
+        public DocumentParagraphValidator()
+        {
+            RuleFor(v => v.Name)
+                .NotNull().WithMessage("Name is required")
+                .Length(1, 250).WithMessage("Name cannot exceed 250 characters");
+
+            RuleFor(v => v.Code)
+                .NotNull().WithMessage("Code is required")
+                .Length(1, 100).WithMessage("Code cannot exceed 100 characters");
+        }
     }
 }
