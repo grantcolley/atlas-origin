@@ -1,0 +1,72 @@
+﻿<FluentAccordion>
+    <FluentAccordionItem Expanded=true>
+        <HeadingTemplate>
+            @if (DocumentParagraph.DocumentParagraphId.Equals(0))
+            {
+                <FluentLabel Typo="Typography.Body">New Document Paragraph</FluentLabel>
+            }
+            else
+            {
+                <FluentLabel Typo="Typography.Body">@($"Document Paragraph Id {DocumentParagraph.DocumentParagraphId}")</FluentLabel>
+            }
+        </HeadingTemplate>
+        <ChildContent>
+            <div>
+                <FluentTextField Name="Name" @bind-Value="DocumentParagraph.Name" Label="Name" ReadOnly="@(DocumentParagraph.IsReadOnly)" />
+                <FluentValidationMessage For="@(() => DocumentParagraph.Name)" />
+            </div>
+            <div>
+                <FluentTextField Name="Code" @bind-Value="DocumentParagraph.Code" Label="Code" ReadOnly="@(DocumentParagraph.IsReadOnly)" />
+                <FluentValidationMessage For="@(() => DocumentParagraph.Code)" />
+            </div>
+            <div>
+                <FluentNumberField @bind-Value="DocumentParagraph.Order" Label="Order" ReadOnly="@(DocumentParagraph.IsReadOnly)" />
+            </div>
+            <div>
+                <EnumSelectList T="Origin.Core.Models.DocumentParagraphType"
+                                @bind-Value="DocumentParagraph.DocumentParagraphType"
+                                Label="Paragraph Type" 
+                                FieldName="DocumentParagraphType"
+                                ReadOnly="@(DocumentParagraph.IsReadOnly)" />
+            </div>
+        </ChildContent>
+    </FluentAccordionItem>
+    <FluentAccordionItem Expanded=true>
+        <HeadingTemplate>
+            Paragraph Properties
+        </HeadingTemplate>
+        <ChildContent>
+            <div>
+                <EnumSelectList T="Origin.Core.Models.DocumentContentAlign"
+                                @bind-Value="DocumentParagraph.AlignContent"
+                                Label="Align Content"
+                                FieldName="AlignContent"
+                                ReadOnly="@(DocumentParagraph.IsReadOnly)" />
+            </div>
+            <div>
+                <FluentCheckbox @bind-CheckState="DocumentParagraph.IgnoreParapgraphSpacing" Label="Ignore Parapgraph pacing" ThreeState="true" ReadOnly="@(DocumentParagraph.IsReadOnly)" Style="margin: 20px;" />
+            </div>
+        </ChildContent>
+    </FluentAccordionItem>
+    <FluentAccordionItem Expanded=true>
+        <HeadingTemplate>
+            Content Properties
+        </HeadingTemplate>
+        <ChildContent>
+            <div>
+                <FluentTextField Name="Font" @bind-Value="DocumentParagraph.Font" Label="Font" ReadOnly="@(DocumentParagraph.IsReadOnly)" />
+            </div>
+            <div>
+                <FluentNumberField Name="FontSize" @bind-Value="DocumentParagraph.FontSize" Label="Font Size" ReadOnly="@(DocumentParagraph.IsReadOnly)" />
+            </div>
+            <div>
+                <FluentTextField Name="FontColour" @bind-Value="DocumentParagraph.Colour" Label="Font Colour" ReadOnly="@(DocumentParagraph.IsReadOnly)" />
+            </div>
+        </ChildContent>
+    </FluentAccordionItem>
+</FluentAccordion>
+
+@code {
+    [Parameter, EditorRequired]
+    public DocumentParagraph DocumentParagraph { get; set; } = new();
+}
