@@ -4,6 +4,7 @@ using Atlas.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Origin.Core.Models;
+using System.Collections.Generic;
 
 namespace Origin.Data.Access
 {
@@ -145,9 +146,55 @@ namespace Origin.Data.Access
             throw new NotImplementedException();
         }
 
-        public Task<DocumentParagraph> CreateDocumentParagraphAsync(DocumentParagraph documentParagraph, CancellationToken cancellationToken)
+        public async Task<DocumentParagraph> CreateDocumentParagraphAsync(DocumentParagraph addDocumentParagraph, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            try
+            {
+                ArgumentNullException.ThrowIfNull(nameof(addDocumentParagraph));
+
+                if (addDocumentParagraph.DocumentParagraphId > 0) throw new AtlasException($"Can not create DocumentParagraph because DocumentParagraphId is {addDocumentParagraph.DocumentParagraphId} when zero was expected.");
+
+                DocumentParagraph documentParagraph = new()
+                {
+                    Name = addDocumentParagraph.Name,
+                    //ParagraphSpacingBetweenLinesBefore = addDocumentConfig.ParagraphSpacingBetweenLinesBefore,
+                    //ParagraphSpacingBetweenLinesAfter = addDocumentConfig.ParagraphSpacingBetweenLinesAfter,
+                    Font = addDocumentParagraph.Font,
+                    FontSize = addDocumentParagraph.FontSize,
+                    Colour = addDocumentParagraph.Colour
+                };
+
+                await _applicationDbContext.DocumentParagraphs
+                    .AddAsync(documentParagraph, cancellationToken)
+                    .ConfigureAwait(false);
+
+                await _applicationDbContext
+                    .SaveChangesAsync(cancellationToken)
+                    .ConfigureAwait(false);
+
+                if (addDocumentParagraph.Contents.Count > 0)
+                {
+                    documentParagraph.Contents.AddRange(addDocumentParagraph.Contents);
+
+                    await _applicationDbContext
+                        .SaveChangesAsync(cancellationToken)
+                        .ConfigureAwait(false);
+                }
+
+                // TODO: Add tables, rows, columns and cells.
+
+                if (Authorisation == null
+                    || !Authorisation.HasPermission(Auth.DOCUMENT_WRITE))
+                {
+                    documentParagraph.IsReadOnly = true;
+                }
+
+                return documentParagraph;
+            }
+            catch (Exception ex)
+            {
+                throw new AtlasException(ex.Message, ex);
+            }
         }
 
         public Task<DocumentParagraph> UpdateDocumentParagraphAsync(DocumentParagraph documentParagraph, CancellationToken cancellationToken)
