@@ -16,10 +16,6 @@
                 <FluentValidationMessage For="@(() => DocumentConfig.Name)" />
             </div>
             <div>
-                <FluentTextField Name="OutputLocation" @bind-Value="DocumentConfig.OutputLocation" Label="Output Location" ReadOnly="@(DocumentConfig.IsReadOnly)" />
-                <FluentValidationMessage For="@(() => DocumentConfig.OutputLocation)" />
-            </div>
-            <div>
                 <FluentTextField Name="FilenameTemplate" @bind-Value="DocumentConfig.FilenameTemplate" Label="Filename Template" ReadOnly="@(DocumentConfig.IsReadOnly)" />
                 <FluentValidationMessage For="@(() => DocumentConfig.FilenameTemplate)" />
             </div>
