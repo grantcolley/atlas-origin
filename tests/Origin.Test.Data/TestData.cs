@@ -1,29 +1,26 @@
-﻿using Microsoft.VisualBasic;
-using Origin.Core.Models;
+﻿using Origin.Core.Models;
 
 namespace Origin.Test.Data
 {
     public static class TestData
     {
-        public static DocumentConfig GetDocumentArgsOpenXml()
+        public static DocumentConfig GetDocumentConfigOpenXml(string outputLocation)
         {
-            DocumentConfig args = GetDocumentArgs();
+            DocumentConfig args = GetDocumentArgs(outputLocation);
             args.DocumentServiceType = DocumentServiceType.OpenXmlDocument;
             return args;
         }
 
-        public static DocumentConfig GetDocumentArgsPdfSharp()
+        public static DocumentConfig GetDocumentArgsConfigSharp(string outputLocation)
         {
-            DocumentConfig args = GetDocumentArgs();
+            DocumentConfig args = GetDocumentArgs(outputLocation);
             args.DocumentServiceType = DocumentServiceType.PdfSharp;
             return args;
         }
 
-        public static DocumentConfig GetDocumentArgs()
+        public static DocumentConfig GetDocumentArgs(string outputLocation)
         {
-            string outputLocation = @"..\..\..\..\..\output";
-
-            DocumentConfig documentArgs = new()
+            DocumentConfig documentConfig = new()
             {
                 SubstituteStart = "[",
                 SubstituteEnd = "]",
@@ -32,7 +29,7 @@ namespace Origin.Test.Data
                 Substitutes = GetDocumentSubstitutes()
             };
 
-            documentArgs.Paragraphs.Add(new DocumentParagraph
+            documentConfig.Paragraphs.Add(new DocumentParagraph
             {
                 DocumentParagraphId = 1,
                 Order = 0,
@@ -46,7 +43,7 @@ namespace Origin.Test.Data
                 ]
             });
 
-            documentArgs.Paragraphs.Add(new DocumentParagraph
+            documentConfig.Paragraphs.Add(new DocumentParagraph
             {
                 DocumentParagraphId = 2,
                 Order = 1,
@@ -90,7 +87,7 @@ namespace Origin.Test.Data
                 ]
             });
 
-            documentArgs.Paragraphs.Add(new DocumentParagraph
+            documentConfig.Paragraphs.Add(new DocumentParagraph
             {
                 DocumentParagraphId = 3,
                 Order = 2,
@@ -104,7 +101,7 @@ namespace Origin.Test.Data
                 ]
             });
 
-            documentArgs.Paragraphs.Add(new DocumentParagraph
+            documentConfig.Paragraphs.Add(new DocumentParagraph
             {
                 DocumentParagraphId = 4,
                 Order = 3,
@@ -117,7 +114,7 @@ namespace Origin.Test.Data
                 ]
             });
 
-            documentArgs.Paragraphs.Add(new DocumentParagraph
+            documentConfig.Paragraphs.Add(new DocumentParagraph
             {
                 DocumentParagraphId = 5,
                 Order = 4,
@@ -137,7 +134,7 @@ namespace Origin.Test.Data
                 ]
             });
 
-            documentArgs.Paragraphs.Add(new DocumentParagraph
+            documentConfig.Paragraphs.Add(new DocumentParagraph
             {
                 DocumentParagraphId = 6,
                 Order = 5,
@@ -178,7 +175,7 @@ namespace Origin.Test.Data
                 ]
             });
 
-            documentArgs.Paragraphs.Add(new DocumentParagraph 
+            documentConfig.Paragraphs.Add(new DocumentParagraph 
             {
                 DocumentParagraphId = 7, 
                 Order = 6, 
@@ -189,7 +186,7 @@ namespace Origin.Test.Data
                 ]
             });
 
-            documentArgs.Paragraphs.Add(new DocumentParagraph 
+            documentConfig.Paragraphs.Add(new DocumentParagraph 
             {
                 DocumentParagraphId = 8, 
                 Order = 7, 
@@ -200,7 +197,7 @@ namespace Origin.Test.Data
                 ]
             });
 
-            documentArgs.Paragraphs.Add(new DocumentParagraph 
+            documentConfig.Paragraphs.Add(new DocumentParagraph 
             {
                 DocumentParagraphId = 9,
                 Order = 8,
@@ -211,7 +208,7 @@ namespace Origin.Test.Data
                 ]
             });
 
-            documentArgs.Paragraphs.Add(new DocumentParagraph 
+            documentConfig.Paragraphs.Add(new DocumentParagraph 
             {
                 DocumentParagraphId = 10, 
                 Order = 9, 
@@ -222,7 +219,7 @@ namespace Origin.Test.Data
                 ]
             });
 
-            documentArgs.Paragraphs.Add(new DocumentParagraph
+            documentConfig.Paragraphs.Add(new DocumentParagraph
             {
                 DocumentParagraphId = 11,
                 Order = 10,
@@ -248,7 +245,7 @@ namespace Origin.Test.Data
                 ]
             });
 
-            return documentArgs;
+            return documentConfig;
         }
 
         private static List<DocumentSubstitute> GetDocumentSubstitutes()

@@ -3,6 +3,10 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
+# origin resouorces
+output/*.docx
+output/*.pdf
+
 # Obsolete code
 [Oo]bs.sln
 [Oo]bs/

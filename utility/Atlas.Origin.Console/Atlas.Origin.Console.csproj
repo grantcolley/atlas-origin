@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Origin\Origin.Core\Origin.Core.csproj" />
+    <ProjectReference Include="..\..\src\Origin\Origin.OpenXml\Origin.OpenXml.csproj" />
+    <ProjectReference Include="..\..\src\Origin\Origin.Pdf\Origin.Pdf.csproj" />
+    <ProjectReference Include="..\..\src\Origin\Origin.Service\Origin.Service.csproj" />
+    <ProjectReference Include="..\..\tests\Origin.Test.Data\Origin.Test.Data.csproj" />
+  </ItemGroup>
+
+</Project>
