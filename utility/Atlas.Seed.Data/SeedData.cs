@@ -4,6 +4,7 @@ using Atlas.Core.Models;
 using Atlas.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Origin.Blazor.Web.Constants;
+using Origin.Core.Models;
 
 namespace Atlas.Seed.Data
 {
@@ -46,6 +47,8 @@ namespace Atlas.Seed.Data
             ((DbContext)dbContext).Database.ExecuteSqlRaw("DBCC CHECKIDENT (Categories, RESEED, 1)");
             ((DbContext)dbContext).Database.ExecuteSqlRaw("DELETE FROM Modules");
             ((DbContext)dbContext).Database.ExecuteSqlRaw("DBCC CHECKIDENT (Modules, RESEED, 1)");
+
+            ((DbContext)dbContext).Database.ExecuteSqlRaw("TRUNCATE TABLE DocumentFonts");
         }
 
         private static void CreatePermissions()
@@ -235,6 +238,12 @@ namespace Atlas.Seed.Data
 
         private static void AddOrigin()
         {
+            AddOriginNavigation();
+            AddOriginStatic();
+        }
+
+        private static void AddOriginNavigation()
+        {
             if (dbContext == null) throw new NullReferenceException(nameof(dbContext));
 
             Module originModule = new() { Name = "Origin", Icon = "BookGlobe", Order = 3, Permission = Auth.DOCUMENT_READ };
@@ -258,6 +267,27 @@ namespace Atlas.Seed.Data
             templatesCategory.Pages.Add(documentParagraphsPage);
 
             dbContext.Pages.Add(documentConfigurationsPage);
+
+            dbContext.SaveChanges();
+        }
+
+        private static void AddOriginStatic()
+        {
+            if (dbContext == null) throw new NullReferenceException(nameof(dbContext));
+
+            List<DocumentFont> documentFonts =
+            [
+                new DocumentFont{ Font = "Arial" },
+                new DocumentFont{ Font = "Comic Sans MS" },
+                new DocumentFont{ Font = "Courier" },
+                new DocumentFont{ Font = "Tahoma" },
+                new DocumentFont{ Font = "Times New Roman" }
+            ];
+
+            foreach (DocumentFont documentFont in documentFonts)
+            {
+                dbContext.DocumentFonts.Add(documentFont);
+            }
 
             dbContext.SaveChanges();
         }
