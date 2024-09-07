@@ -97,9 +97,6 @@ namespace Atlas.Data.Context
                 .IsUnique();
 
             builder.Entity<DocumentFont>()
-                .HasNoKey();
-
-            builder.Entity<DocumentFont>()
                 .HasIndex(f => f.Font)
                 .IsUnique();
         }
