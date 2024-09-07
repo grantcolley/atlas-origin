@@ -26,6 +26,7 @@ namespace Atlas.Data.Context
         public DbSet<DocumentTableCell> DocumentTableCells { get; set; }
         public DbSet<DocumentContent> DocumentContents { get; set; }
         public DbSet<DocumentSubstitute> DocumentSubstitutes { get; set; }
+        public DbSet<DocumentFont> DocumentFonts { get; set; }
 
         public void SetUser(string user)
         {
@@ -93,6 +94,10 @@ namespace Atlas.Data.Context
 
             builder.Entity<DocumentParagraph>()
                 .HasIndex(p => p.Code)
+                .IsUnique();
+
+            builder.Entity<DocumentFont>()
+                .HasIndex(f => f.Font)
                 .IsUnique();
         }
 
