@@ -10,7 +10,6 @@ namespace Origin.OpenXml.Extensions
 {
     public static class MainPartExtensions
     {
-
         public static Body AddBody(this MainDocumentPart mainPart, IDocumentProperties? documentProperties)
         {
             ArgumentNullException.ThrowIfNull(documentProperties);
@@ -53,7 +52,7 @@ namespace Origin.OpenXml.Extensions
 
             Paragraph p = footer.AppendChild(new Paragraph());
 
-            p.AddContent(footerParagraph, documentConfig);
+            p.AddContent(footerParagraph);
 
             footerPart.Footer = footer;
 

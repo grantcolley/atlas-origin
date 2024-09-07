@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Origin.Core.Models
 {
-    public abstract class DocumentContentPropertiesBase : ModelBase, IDocumentContentProperties
+    public abstract class DocumentContentProperties : ModelBase, IDocumentContentProperties
     {
         public int? FontSize { get; set; }
 

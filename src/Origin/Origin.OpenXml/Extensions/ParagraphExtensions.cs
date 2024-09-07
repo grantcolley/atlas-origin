@@ -1,17 +1,15 @@
 ﻿using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Origin.Core.Converters;
-using Origin.Core.Interfaces;
 using Origin.Core.Models;
 
 namespace Origin.OpenXml.Extensions
 {
     public static class ParagraphExtensions
     {
-        public static void AddContent(this Paragraph p, DocumentParagraph documentParagraph, IDocumentProperties documentProperties)
+        public static void AddContent(this Paragraph p, DocumentParagraph documentParagraph)
         {
             ArgumentNullException.ThrowIfNull(documentParagraph);
-            ArgumentNullException.ThrowIfNull(documentProperties);
 
             ParagraphProperties pPr = p.AppendChild(new ParagraphProperties());
             SpacingBetweenLines spacingBetweenLines = pPr.AppendChild(new SpacingBetweenLines());
@@ -24,8 +22,8 @@ namespace Origin.OpenXml.Extensions
             }
             else
             {
-                spacingBetweenLines.Before = $"{documentProperties.ParagraphSpacingBetweenLinesBefore.ToTwips()}";
-                spacingBetweenLines.After = $"{documentProperties.ParagraphSpacingBetweenLinesAfter.ToTwips()}";
+                spacingBetweenLines.Before = $"{documentParagraph.ParagraphSpacingBetweenLinesBefore.ToTwips()}";
+                spacingBetweenLines.After = $"{documentParagraph.ParagraphSpacingBetweenLinesAfter.ToTwips()}";
             }
 
             pPr.Append(new Justification { Val = documentParagraph.AlignContent.ToJustification() });

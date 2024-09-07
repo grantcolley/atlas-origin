@@ -30,7 +30,7 @@ namespace Origin.Pdf.Services
 
             foreach (DocumentParagraph documentParagraph in documentConfig.Paragraphs.Where(p => p.DocumentParagraphType != DocumentParagraphType.Footer))
             {
-                section.AddParagraph(documentParagraph, documentConfig);
+                section.AddParagraph(documentParagraph);
             }
 
             using PdfDocument pdfDocument = new();

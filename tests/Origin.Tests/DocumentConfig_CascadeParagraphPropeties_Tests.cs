@@ -32,11 +32,11 @@ namespace Origin.Tests
             // Act
             foreach (DocumentParagraph paragraph in args.Paragraphs)
             {
-                paragraph.InheritProperties(args);
+                paragraph.InheritParagraphProperties(args);
 
                 foreach (DocumentContent documentContent in paragraph.Contents)
                 {
-                    documentContent.InheritProperties(paragraph);
+                    documentContent.InheritContentProperties(paragraph);
                 }
             }
 

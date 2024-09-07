@@ -11,7 +11,7 @@ using System.Text.Json;
 
 Console.WriteLine("Origin.Console!");
 
-string outputLocation = @"..\..\..\..\..\output";
+string outputLocation = @"..\..\..\..\output";
 
 JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
 

@@ -9,10 +9,9 @@ namespace Origin.Pdf.Extensions
 {
     public static class TableExtensions
     {
-        public static void ConfigureTable(this Table table, DocumentParagraph documentParagraph, IDocumentProperties documentProperties)
+        public static void ConfigureTable(this Table table, DocumentParagraph documentParagraph)
         {
             ArgumentNullException.ThrowIfNull(documentParagraph);
-            ArgumentNullException.ThrowIfNull(documentProperties);
 
             // https://stackoverflow.com/questions/24986424/how-to-size-a-table-to-the-page-width-in-migradoc
 
@@ -52,7 +51,7 @@ namespace Origin.Pdf.Extensions
                         {
                             if (documentContent.ContentType == DocumentContentType.Text)
                             {
-                                cell.AddTableCellText(documentContent, documentProperties);
+                                cell.AddTableCellText(documentContent, documentParagraph);
                             }
                             else if (documentContent.ContentType == DocumentContentType.Image)
                             {
@@ -143,7 +142,7 @@ namespace Origin.Pdf.Extensions
             }
         }
 
-        public static void AddTableCellText(this Cell cell, DocumentContent documentContent, IDocumentProperties documentProperties)
+        public static void AddTableCellText(this Cell cell, DocumentContent documentContent, IDocumentParagraphProperties documentParagraphProperties)
         {
             ArgumentNullException.ThrowIfNull(documentContent);
 
@@ -154,8 +153,8 @@ namespace Origin.Pdf.Extensions
             if (!documentContent.IgnoreParapgraphSpacing.HasValue
                 || !documentContent.IgnoreParapgraphSpacing.Value)
             {
-                p.Format.SpaceBefore = Unit.FromMillimeter(documentProperties.ParagraphSpacingBetweenLinesBefore);
-                p.Format.SpaceAfter = Unit.FromMillimeter(documentProperties.ParagraphSpacingBetweenLinesAfter);
+                p.Format.SpaceBefore = Unit.FromMillimeter(documentParagraphProperties.ParagraphSpacingBetweenLinesBefore);
+                p.Format.SpaceAfter = Unit.FromMillimeter(documentParagraphProperties.ParagraphSpacingBetweenLinesAfter);
             }
 
             p.Format.Alignment = documentContent.AlignContent.ToJustification();

@@ -51,11 +51,11 @@ namespace Origin.Core.Extensions
             {
                 if (string.IsNullOrWhiteSpace(documentParagraph.Code)) throw new NullReferenceException(nameof(documentParagraph.Code));
 
-                documentParagraph.InheritProperties(documentConfig);
+                documentParagraph.InheritParagraphProperties(documentConfig);
 
                 foreach(DocumentContent documentContent in documentParagraph.Contents)
                 {
-                    documentContent.InheritProperties(documentParagraph);
+                    documentContent.InheritContentProperties(documentParagraph);
                 }
 
                 if (documentParagraph.DocumentParagraphType == DocumentParagraphType.Table)

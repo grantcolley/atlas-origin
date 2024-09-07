@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Origin.Core.Models
 {
-    public class DocumentParagraph : DocumentContentPropertiesBase
+    public class DocumentParagraph : DocumentParagraphProperties
     {
         public DocumentParagraph() 
         {
@@ -16,7 +16,6 @@ namespace Origin.Core.Models
 
         public int DocumentParagraphId { get; set; }
         public int Order { get; set; }
-        public bool? IgnoreParapgraphSpacing { get; set; }
         public DocumentContentAlign AlignContent { get; set; }
         public DocumentParagraphType DocumentParagraphType { get; set; }
         public List<DocumentTableRow> Rows { get; set; }

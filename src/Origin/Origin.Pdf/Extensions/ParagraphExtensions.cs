@@ -1,22 +1,20 @@
 ﻿using MigraDoc.DocumentObjectModel;
 using Origin.Core.Converters;
-using Origin.Core.Interfaces;
 using Origin.Core.Models;
 
 namespace Origin.Pdf.Extensions
 {
     public static class ParagraphExtensions
     {
-        public static void AddContent(this Paragraph p, DocumentParagraph documentParagraph, IDocumentProperties documentProperties)
+        public static void AddContent(this Paragraph p, DocumentParagraph documentParagraph)
         {
             ArgumentNullException.ThrowIfNull(documentParagraph);
-            ArgumentNullException.ThrowIfNull(documentProperties);
 
             if (!documentParagraph.IgnoreParapgraphSpacing.HasValue
                 || !documentParagraph.IgnoreParapgraphSpacing.Value)
             {
-                p.Format.SpaceBefore = Unit.FromMillimeter(documentProperties.ParagraphSpacingBetweenLinesBefore);
-                p.Format.SpaceAfter = Unit.FromMillimeter(documentProperties.ParagraphSpacingBetweenLinesAfter);
+                p.Format.SpaceBefore = Unit.FromMillimeter(documentParagraph.ParagraphSpacingBetweenLinesBefore);
+                p.Format.SpaceAfter = Unit.FromMillimeter(documentParagraph.ParagraphSpacingBetweenLinesAfter);
             }
 
             foreach (DocumentContent text in documentParagraph.Contents.OrderBy(t => t.Order))

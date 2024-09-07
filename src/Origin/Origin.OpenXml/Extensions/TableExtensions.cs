@@ -8,7 +8,7 @@ namespace Origin.OpenXml.Extensions
 {
     public static class TableExtensions
     {
-        public static void ConfigureTable(this Table tbl, DocumentParagraph documentParagraph, IDocumentProperties documentProperties)
+        public static void ConfigureTable(this Table tbl, DocumentParagraph documentParagraph)
         {
             ArgumentNullException.ThrowIfNull(documentParagraph);
 
@@ -61,7 +61,7 @@ namespace Origin.OpenXml.Extensions
                             {
                                 if (documentContent.ContentType == DocumentContentType.Text)
                                 {
-                                    tc.AddTableCellText(documentContent, documentProperties);
+                                    tc.AddTableCellText(documentContent, documentParagraph);
                                 }
                                 else if (documentContent.ContentType == DocumentContentType.Image)
                                 {
@@ -229,7 +229,7 @@ namespace Origin.OpenXml.Extensions
             r.AddImageElement(documentContent);
         }
 
-        public static void AddTableCellText(this TableCell tc, DocumentContent documentContent, IDocumentProperties documentProperties)
+        public static void AddTableCellText(this TableCell tc, DocumentContent documentContent, IDocumentParagraphProperties documentParagraphProperties)
         {
             ArgumentNullException.ThrowIfNull(documentContent);
 
@@ -248,8 +248,8 @@ namespace Origin.OpenXml.Extensions
             }
             else
             {
-                spacingBetweenLines.Before = $"{documentProperties.ParagraphSpacingBetweenLinesBefore.ToTwips()}";
-                spacingBetweenLines.After = $"{documentProperties.ParagraphSpacingBetweenLinesAfter.ToTwips()}";
+                spacingBetweenLines.Before = $"{documentParagraphProperties.ParagraphSpacingBetweenLinesBefore.ToTwips()}";
+                spacingBetweenLines.After = $"{documentParagraphProperties.ParagraphSpacingBetweenLinesAfter.ToTwips()}";
             }
 
             pPr.Append(new Justification() { Val = documentContent.AlignContent.ToJustification() });

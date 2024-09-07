@@ -1,6 +1,6 @@
 ﻿namespace Origin.Core.Interfaces
 {
-    public interface IDocumentProperties
+    public interface IDocumentParagraphProperties : IDocumentContentProperties
     {
         /// <summary>
         /// PDF in inches and OpenXml in twips, where 1 inch = 1440 twips
@@ -11,9 +11,8 @@
         ///  - 11907 x 16839 twips - twentieths of a point (OpenXml)
         /// </summary>
 
-        int PageMarginLeft { get; set; }
-        int PageMarginTop { get; set; }
-        int PageMarginRight { get; set; }
-        int PageMarginBottom { get; set; }
+        bool? IgnoreParapgraphSpacing { get; set; }
+        int ParagraphSpacingBetweenLinesAfter { get; set; }
+        int ParagraphSpacingBetweenLinesBefore { get; set; }
     }
 }

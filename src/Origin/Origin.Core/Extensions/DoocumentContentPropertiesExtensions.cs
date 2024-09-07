@@ -2,9 +2,9 @@
 
 namespace Origin.Core.Extensions
 {
-    public static class DocumentContentExtensions
+    public static class DoocumentContentPropertiesExtensions
     {
-        public static void InheritProperties(this IDocumentContentProperties documentContentProperties, IDocumentContentProperties inherit)
+        public static void InheritContentProperties(this IDocumentContentProperties documentContentProperties, IDocumentContentProperties inherit)
         {
             ArgumentNullException.ThrowIfNull(inherit);
 

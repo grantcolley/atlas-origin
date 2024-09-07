@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace Origin.Core.Models
 {
-    public class DocumentTableCell : DocumentContentPropertiesBase
+    public class DocumentTableCell : DocumentContentProperties
     {
         public DocumentTableCell() 
         {

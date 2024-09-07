@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace Origin.Core.Models
 {
-    public class DocumentContent : DocumentContentPropertiesBase
+    public class DocumentContent : DocumentContentProperties
     {
         public int DocumentContentId { get; set; }
         public int Order { get; set; }

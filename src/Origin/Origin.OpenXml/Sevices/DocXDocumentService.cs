@@ -30,7 +30,7 @@ namespace Origin.OpenXml.Sevices
 
             foreach(DocumentParagraph documentParagraph  in documentConfig.Paragraphs.Where(p => p.DocumentParagraphType != DocumentParagraphType.Footer))
             {
-                body.AddParagraph(documentParagraph, documentConfig);
+                body.AddParagraph(documentParagraph);
             }
 
             return true;

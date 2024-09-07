@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Origin.Core.Models
 {
-    public class DocumentConfig : DocumentContentPropertiesBase, IDocumentProperties
+    public class DocumentConfig : DocumentParagraphProperties, IDocumentProperties
     {
         public DocumentConfig() 
         {
@@ -48,12 +48,6 @@ namespace Origin.Core.Models
         /// </summary>
         [Required]
         public int PageMarginBottom { get; set; } = 55;
-
-        [Required]
-        public int ParagraphSpacingBetweenLinesAfter { get; set; } = 10;
-
-        [Required]
-        public int ParagraphSpacingBetweenLinesBefore { get; set; } = 10;
 
         [NotMapped]
         public DocumentServiceType DocumentServiceType { get; set; }
