@@ -54,7 +54,11 @@
         </HeadingTemplate>
         <ChildContent>
             <div>
-                <FluentTextField Name="Font" @bind-Value="DocumentParagraph.Font" Label="Font" ReadOnly="@(DocumentParagraph.IsReadOnly)" />
+                <DocumentFontSelect Label="Font"
+                                    FieldName="Font"
+                                    @bind-Value="DocumentParagraph.Font"
+                                    OptionsCode="@OriginOptions.FONT_OPTIONS"
+                                    ReadOnly="@(DocumentParagraph.IsReadOnly)" />
             </div>
             <div>
                 <FluentNumberField Name="FontSize" @bind-Value="DocumentParagraph.FontSize" Label="Font Size" ReadOnly="@(DocumentParagraph.IsReadOnly)" />
