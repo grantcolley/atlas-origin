@@ -1,4 +1,6 @@
-﻿namespace Atlas.API.Extensions
+﻿using Atlas.API.Extensions.Origin;
+
+namespace Atlas.API.Extensions
 {
     internal static class ModulesEndpointMapper
     {
