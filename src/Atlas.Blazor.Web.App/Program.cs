@@ -15,6 +15,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components.Components.Tooltip;
+using Origin.Requests.API;
+using Origin.Requests.Interfaces;
 using Serilog;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -81,6 +83,13 @@ builder.Services.AddTransient<IOptionsRequests, OptionsRequests>(sp =>
     IHttpClientFactory httpClientFactory = sp.GetRequiredService<IHttpClientFactory>();
     HttpClient httpClient = httpClientFactory.CreateClient(AtlasWebConstants.ATLAS_API);
     return new OptionsRequests(httpClient);
+});
+
+builder.Services.AddTransient<IOriginOptionsRequests, OriginOptionsRequests>(sp =>
+{
+    IHttpClientFactory httpClientFactory = sp.GetRequiredService<IHttpClientFactory>();
+    HttpClient httpClient = httpClientFactory.CreateClient(AtlasWebConstants.ATLAS_API);
+    return new OriginOptionsRequests(httpClient);
 });
 
 WebApplication app = builder.Build();

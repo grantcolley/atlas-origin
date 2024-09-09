@@ -53,6 +53,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Atlas.Migrations.SQLite", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Atlas.Migrations.SQLServer", "migrations\Atlas.Migrations.SQLServer\Atlas.Migrations.SQLServer.csproj", "{5FA5960E-01B3-4567-8F19-70A8AA743FE1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Origin.Requests", "src\Origin\Origin.Requests\Origin.Requests.csproj", "{92A204B7-6AB1-4738-BCB4-0F5630D1D23B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -139,6 +141,10 @@ Global
 		{5FA5960E-01B3-4567-8F19-70A8AA743FE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5FA5960E-01B3-4567-8F19-70A8AA743FE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5FA5960E-01B3-4567-8F19-70A8AA743FE1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92A204B7-6AB1-4738-BCB4-0F5630D1D23B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92A204B7-6AB1-4738-BCB4-0F5630D1D23B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92A204B7-6AB1-4738-BCB4-0F5630D1D23B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92A204B7-6AB1-4738-BCB4-0F5630D1D23B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -165,6 +171,7 @@ Global
 		{CF4F5023-BD96-4A8D-A331-1AF6073CAA84} = {881E7D01-54E2-4752-BDCF-BEC0D8825534}
 		{68D4AF69-D350-4515-AD53-9419D09643B0} = {5EF3D9C7-E877-425B-95A7-2C21A7407EC6}
 		{5FA5960E-01B3-4567-8F19-70A8AA743FE1} = {5EF3D9C7-E877-425B-95A7-2C21A7407EC6}
+		{92A204B7-6AB1-4738-BCB4-0F5630D1D23B} = {F7B02A96-1B5E-43C4-B4B3-26B012A8FDFE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {35D4493E-72A3-403D-AB40-7AADFBC20D09}
