@@ -1,4 +1,4 @@
-﻿namespace Origin.Core
+﻿namespace Origin.Core.Constants
 {
     public static class OriginOptions
     {
