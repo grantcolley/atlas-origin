@@ -73,6 +73,8 @@ builder.Services.AddScoped<IApplicationData, ApplicationData>();
 builder.Services.AddScoped<IAdministrationData, AdministrationData>();
 builder.Services.AddScoped<IDocumentData, DocumentData>();
 
+builder.Services.AddScoped<IOriginOptionsData, OriginOptionsData>();
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
