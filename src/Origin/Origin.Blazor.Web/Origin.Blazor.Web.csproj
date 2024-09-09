@@ -19,6 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Atlas.Blazor.Web\Atlas.Blazor.Web.csproj" />
     <ProjectReference Include="..\Origin.Core\Origin.Core.csproj" />
+    <ProjectReference Include="..\Origin.Requests\Origin.Requests.csproj" />
   </ItemGroup>
 
 </Project>
