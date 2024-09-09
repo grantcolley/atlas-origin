@@ -11,10 +11,10 @@
 
 @code {
     public override string? Title { get; set; } = "Document Configuration";
-    public override string? APIGetEndpoint { get; set; } = AtlasAPIEndpoints.GET_DOCUMENT_CONFIG;
-    public override string? APICreateEndpoint { get; set; } = AtlasAPIEndpoints.CREATE_DOCUMENT_CONFIG;
-    public override string? APIUpdateEndpoint { get; set; } = AtlasAPIEndpoints.UPDATE_DOCUMENT_CONFIG;
-    public override string? APIDeleteEndpoint { get; set; } = AtlasAPIEndpoints.DELETE_DOCUMENT_CONFIG;
+    public override string? APIGetEndpoint { get; set; } = OriginAPIEndpoints.GET_DOCUMENT_CONFIG;
+    public override string? APICreateEndpoint { get; set; } = OriginAPIEndpoints.CREATE_DOCUMENT_CONFIG;
+    public override string? APIUpdateEndpoint { get; set; } = OriginAPIEndpoints.UPDATE_DOCUMENT_CONFIG;
+    public override string? APIDeleteEndpoint { get; set; } = OriginAPIEndpoints.DELETE_DOCUMENT_CONFIG;
     public override string? ModelNameField { get; set; } = "Name";
     public override string? IdentityFieldName { get; set; } = "DocumentConfigId";
 
