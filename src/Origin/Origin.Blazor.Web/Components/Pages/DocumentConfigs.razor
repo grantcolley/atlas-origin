@@ -11,7 +11,7 @@
 @code{
     public override string? Title { get; set; } = "Document Configurations";
     public override string? NavigateTo { get; set; } = OriginWebConstants.PAGE_DOCUMENT_CONFIG;
-    public override string? APIEndpoint { get; set; } = AtlasAPIEndpoints.GET_DOCUMENT_CONFIGS;
+    public override string? APIEndpoint { get; set; } = OriginAPIEndpoints.GET_DOCUMENT_CONFIGS;
     public override int ItemsPerPage { get; set; } = 20;
     public override string? FilterFieldName { get; set; } = "Name";
     public override string? IdentityFieldName { get; set; } = "DocumentConfigId";
