@@ -14,7 +14,8 @@ using Microsoft.AspNetCore.Http.Json;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Origin.Data.Access;
+using Origin.Data.Access.Data;
+using Origin.Data.Access.Interfaces;
 using Serilog;
 using System.Text.Json.Serialization;
 
