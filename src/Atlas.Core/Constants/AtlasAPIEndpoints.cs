@@ -50,5 +50,7 @@
         public const string CREATE_DOCUMENT_PARAGRAPH = "createdocumentparagraph";
         public const string UPDATE_DOCUMENT_PARAGRAPH = "updatedocumentparagraph";
         public const string DELETE_DOCUMENT_PARAGRAPH = "deletedocumentparagraph";
+        public const string GET_ORIGIN_OPTIONS = "getoriginoptions";
+        public const string GET_GENERIC_ORIGIN_OPTIONS = "getgenericoriginoptions";
     }
 }
