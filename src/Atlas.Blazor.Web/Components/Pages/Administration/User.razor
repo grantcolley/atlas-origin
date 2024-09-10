@@ -34,7 +34,7 @@
 
             if (!response.IsSuccess)
             {
-                ShowAlert(Alerts.ERROR, "Error Creating User", response.Message);
+                RouteAlert(Alerts.ERROR, "Error Creating User", response.Message);
             }
             else if(response.Result != null)
             {
