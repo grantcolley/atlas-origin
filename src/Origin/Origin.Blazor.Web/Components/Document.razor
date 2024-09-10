@@ -60,11 +60,11 @@
         </HeadingTemplate>
         <ChildContent>
             <div>
-                <DocumentFontSelect Label="Font"
-                                    FieldName="Font"
-                                    @bind-Value="DocumentConfig.Font" 
-                                    OptionsCode="@OriginOptions.FONT_OPTIONS"
-                                    ReadOnly="@(DocumentConfig.IsReadOnly)" />
+                <FontsSelect Label="Font"
+                             FieldName="Font"
+                             Source="@FontSource"
+                             @bind-Value="DocumentConfig.Font" 
+                             ReadOnly="@(DocumentConfig.IsReadOnly)" />
             </div>
             <div>
                 <FluentNumberField Name="FontSize" @bind-Value="DocumentConfig.FontSize" Label="Font Size" ReadOnly="@(DocumentConfig.IsReadOnly)" />
@@ -79,4 +79,7 @@
 @code {
     [Parameter, EditorRequired]
     public DocumentConfig DocumentConfig { get; set; } = new();
+
+    [Parameter]
+    public IEnumerable<DocumentFont>? FontSource { get; set; }
 }
