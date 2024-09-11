@@ -53,7 +53,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Atlas.Migrations.SQLite", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Atlas.Migrations.SQLServer", "migrations\Atlas.Migrations.SQLServer\Atlas.Migrations.SQLServer.csproj", "{5FA5960E-01B3-4567-8F19-70A8AA743FE1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Origin.Requests", "src\Origin\Origin.Requests\Origin.Requests.csproj", "{92A204B7-6AB1-4738-BCB4-0F5630D1D23B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Origin.Requests", "src\Origin\Origin.Requests\Origin.Requests.csproj", "{92A204B7-6AB1-4738-BCB4-0F5630D1D23B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
