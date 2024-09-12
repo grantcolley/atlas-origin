@@ -1,0 +1,16 @@
+﻿@typeparam T where T : ModelBase, IDocumentParagraphProperties
+
+<div>
+    <FluentCheckbox @bind-CheckState="Model.IgnoreParapgraphSpacing" Label="Ignore Parapgraph spacing" ThreeState="true" ReadOnly="@(Model.IsReadOnly)" Style="margin-top: 10px;margin-bottom: 10px;" />
+</div>
+<div>
+    <FluentNumberField Name="ParagraphSpacingBetweenLinesBefore" @bind-Value="Model.ParagraphSpacingBetweenLinesBefore" Label="Paragraph Spacing Before" ReadOnly="@(Model.IsReadOnly)" Min="0" />
+</div>
+<div>
+    <FluentNumberField Name="ParagraphSpacingBetweenLinesAfter" @bind-Value="Model.ParagraphSpacingBetweenLinesAfter" Label="Paragraph Spacing After" ReadOnly="@(Model.IsReadOnly)" Min="0" />
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public T Model { get; set; }
+}
