@@ -35,23 +35,25 @@
         </HeadingTemplate>
         <ChildContent>
             <div>
-                <FluentNumberField @bind-Value="DocumentConfig.PageMarginLeft" Label="Margin Left" ReadOnly="@(DocumentConfig.IsReadOnly)" />
+                <FluentNumberField @bind-Value="DocumentConfig.PageMarginLeft" Label="Margin Left" ReadOnly="@(DocumentConfig.IsReadOnly)" Min="0" />
             </div>
             <div>
-                <FluentNumberField @bind-Value="DocumentConfig.PageMarginTop" Label="Margin Top" ReadOnly="@(DocumentConfig.IsReadOnly)" />
+                <FluentNumberField @bind-Value="DocumentConfig.PageMarginTop" Label="Margin Top" ReadOnly="@(DocumentConfig.IsReadOnly)" Min="0" />
             </div>
             <div>
-                <FluentNumberField @bind-Value="DocumentConfig.PageMarginRight" Label="Margin Right" ReadOnly="@(DocumentConfig.IsReadOnly)" />
+                <FluentNumberField @bind-Value="DocumentConfig.PageMarginRight" Label="Margin Right" ReadOnly="@(DocumentConfig.IsReadOnly)" Min="0" />
             </div>
             <div>
-                <FluentNumberField @bind-Value="DocumentConfig.PageMarginBottom" Label="Margin Bottom" ReadOnly="@(DocumentConfig.IsReadOnly)" />
+                <FluentNumberField @bind-Value="DocumentConfig.PageMarginBottom" Label="Margin Bottom" ReadOnly="@(DocumentConfig.IsReadOnly)" Min="0" />
             </div>
-            <div>
-                <FluentNumberField @bind-Value="DocumentConfig.ParagraphSpacingBetweenLinesBefore" Label="Paragraph Spacing Lines Before" ReadOnly="@(DocumentConfig.IsReadOnly)" />
-            </div>
-            <div>
-                <FluentNumberField @bind-Value="DocumentConfig.ParagraphSpacingBetweenLinesAfter" Label="Paragraph Spacing Lines After" ReadOnly="@(DocumentConfig.IsReadOnly)" />
-            </div>
+        </ChildContent>
+    </FluentAccordionItem>
+    <FluentAccordionItem Expanded=true>
+        <HeadingTemplate>
+            Paragraph Properties
+        </HeadingTemplate>
+        <ChildContent>
+            <ParagraphProperties T="DocumentParagraphProperties" Model="@DocumentConfig" />
         </ChildContent>
     </FluentAccordionItem>
     <FluentAccordionItem Expanded=true>
@@ -59,19 +61,7 @@
             Content Properties
         </HeadingTemplate>
         <ChildContent>
-            <div>
-                <FontsSelect Label="Font"
-                             FieldName="Font"
-                             Source="@FontSource"
-                             @bind-Value="DocumentConfig.Font" 
-                             ReadOnly="@(DocumentConfig.IsReadOnly)" />
-            </div>
-            <div>
-                <FluentNumberField Name="FontSize" @bind-Value="DocumentConfig.FontSize" Label="Font Size" ReadOnly="@(DocumentConfig.IsReadOnly)" />
-            </div>
-            <div>
-                <FluentTextField Name="FontColour" @bind-Value="DocumentConfig.Colour" Label="Font Colour" ReadOnly="@(DocumentConfig.IsReadOnly)" />
-            </div>
+            <ContentProperties T="DocumentContentProperties" Model="@DocumentConfig" FontSource="@FontSource" />
         </ChildContent>
     </FluentAccordionItem>
 </FluentAccordion>
