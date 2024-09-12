@@ -34,9 +34,9 @@
         {
             _isProcessing = true;
 
-            IResponse<IEnumerable<DocumentFont>?> response = await OriginOptionsRequests.GetGenericOptionsAsync<DocumentFont>(OriginOptions.FONT_OPTIONS).ConfigureAwait(false);
+            IResponse<IEnumerable<DocumentFont>?> fontsResponse = await OriginOptionsRequests.GetGenericOptionsAsync<DocumentFont>(OriginOptions.FONT_OPTIONS).ConfigureAwait(false);
 
-            _fontsSource = GetResponse<IEnumerable<DocumentFont>?>(response);
+            _fontsSource = GetResponse<IEnumerable<DocumentFont>?>(fontsResponse);
 
             _isProcessing = false;
         }
