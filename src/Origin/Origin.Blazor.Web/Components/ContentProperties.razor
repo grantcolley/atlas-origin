@@ -1,0 +1,23 @@
+﻿@typeparam T where T : ModelBase, IDocumentContentProperties
+
+<div>
+    <FontsSelect Label="Font"
+                 FieldName="Font"
+                 Source="@FontSource"
+                 @bind-Value="Model.Font"
+                 ReadOnly="@(Model.IsReadOnly)" />
+</div>
+<div>
+    <FluentNumberField Name="FontSize" @bind-Value="Model.FontSize" Label="Font Size" ReadOnly="@(Model.IsReadOnly)" Min="0" />
+</div>
+<div>
+    <FluentTextField Name="FontColour" @bind-Value="Model.Colour" Label="Font Colour" ReadOnly="@(Model.IsReadOnly)" Min="0" />
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public T Model { get; set; }
+
+    [Parameter]
+    public IEnumerable<DocumentFont>? FontSource { get; set; }
+}
