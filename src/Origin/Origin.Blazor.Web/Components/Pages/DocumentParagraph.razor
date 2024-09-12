@@ -34,9 +34,9 @@
         {
             _isProcessing = true;
 
-            IResponse<IEnumerable<DocumentFont>?> response = await OriginOptionsRequests.GetGenericOptionsAsync<DocumentFont>(OriginOptions.FONT_OPTIONS).ConfigureAwait(false);
+            IResponse<IEnumerable<DocumentFont>?> fontsResponse = await OriginOptionsRequests.GetGenericOptionsAsync<DocumentFont>(OriginOptions.FONT_OPTIONS).ConfigureAwait(false);
 
-            _fontsSource = GetResponse<IEnumerable<DocumentFont>?>(response);
+            _fontsSource = GetResponse<IEnumerable<DocumentFont>?>(fontsResponse);
 
             _isProcessing = false;
         }
@@ -54,7 +54,7 @@
             <FluentGridItem xs="12" md="12" lg="3">
                 <FluentTabs ActiveTabId="docCfg">
                     <FluentTab Id="docParagraph" Label="Paragraph">
-                        <Paragraph DocumentParagraph="@Model" />
+                        <Paragraph DocumentParagraph="@Model" FontSource="@_fontsSource" />
                     </FluentTab>
                     <FluentTab Id="docTables" Label="Tables">
                         Tables here...
