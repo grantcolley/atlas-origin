@@ -64,6 +64,10 @@ namespace Origin.Core.Models
                 .NotNull().WithMessage("Name is required")
                 .Length(1, 100).WithMessage("Name cannot exceed 100 characters");
 
+            RuleFor(v => v.FilenameTemplate)
+                .NotNull().WithMessage("FilenameTemplate is required. Do not include a file extension.")
+                .Length(1, 150).WithMessage("FilenameTemplate cannot exceed 120 characters. Do not include a file extension.");
+
             RuleFor(v => v.SubstituteStart)
                 .NotNull().WithMessage("SubstituteStart requires a single character. Consider using the open square bracket [")
                 .Length(1).WithMessage("SubstituteStart requires a single character. Consider using the open square bracket [");
@@ -71,10 +75,6 @@ namespace Origin.Core.Models
             RuleFor(v => v.SubstituteEnd)
                 .NotNull().WithMessage("SubstituteEnd requires a single character. Consider using the closed square bracket ]")
                 .Length(1).WithMessage("SubstituteEnd requires a single character. Consider using the closed square bracket ]");
-
-            RuleFor(v => v.FilenameTemplate)
-                .NotNull().WithMessage("FilenameTemplate is required. Do not include a file extension.")
-                .Length(1, 150).WithMessage("FilenameTemplate cannot exceed 120 characters. Do not include a file extension.");
         }
     }
 }
