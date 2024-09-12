@@ -20,7 +20,7 @@
                 <FluentValidationMessage For="@(() => DocumentParagraph.Code)" />
             </div>
             <div>
-                <FluentNumberField @bind-Value="DocumentParagraph.Order" Label="Order" ReadOnly="@(DocumentParagraph.IsReadOnly)" />
+                <FluentNumberField @bind-Value="DocumentParagraph.Order" Label="Order" ReadOnly="@(DocumentParagraph.IsReadOnly)" Min="0" />
             </div>
             <div>
                 <EnumSelectList T="Origin.Core.Models.DocumentParagraphType"
@@ -43,9 +43,7 @@
                                 FieldName="AlignContent"
                                 ReadOnly="@(DocumentParagraph.IsReadOnly)" />
             </div>
-            <div>
-                <FluentCheckbox @bind-CheckState="DocumentParagraph.IgnoreParapgraphSpacing" Label="Ignore Parapgraph pacing" ThreeState="true" ReadOnly="@(DocumentParagraph.IsReadOnly)" Style="margin: 20px;" />
-            </div>
+            <ParagraphProperties T="DocumentParagraphProperties" Model="@DocumentParagraph" />
         </ChildContent>
     </FluentAccordionItem>
     <FluentAccordionItem Expanded=true>
@@ -53,19 +51,7 @@
             Content Properties
         </HeadingTemplate>
         <ChildContent>
-            <div>
-                <FontsSelect Label="Font"
-                             FieldName="Font"
-                             Source="@FontSource"
-                             @bind-Value="DocumentParagraph.Font"
-                             ReadOnly="@(DocumentParagraph.IsReadOnly)" />
-            </div>
-            <div>
-                <FluentNumberField Name="FontSize" @bind-Value="DocumentParagraph.FontSize" Label="Font Size" ReadOnly="@(DocumentParagraph.IsReadOnly)" />
-            </div>
-            <div>
-                <FluentTextField Name="FontColour" @bind-Value="DocumentParagraph.Colour" Label="Font Colour" ReadOnly="@(DocumentParagraph.IsReadOnly)" />
-            </div>
+            <ContentProperties T="DocumentContentProperties" Model="@DocumentParagraph" FontSource="@FontSource" />
         </ChildContent>
     </FluentAccordionItem>
 </FluentAccordion>
