@@ -25,6 +25,7 @@ namespace Origin.Data.Access.Data
 
             // Add methods returing Json here...
             genericOptionItems[OriginOptions.FONT_OPTIONS] = new Func<IEnumerable<OptionsArg>, CancellationToken, Task<string>>(GetDocumentFontsAsync);
+            genericOptionItems[OriginOptions.COLOUR_OPTIONS] = new Func<IEnumerable<OptionsArg>, CancellationToken, Task<string>>(GetDocumentColoursAsync);
         }
 
         public async Task<IEnumerable<OptionItem>> GetOptionsAsync(IEnumerable<OptionsArg> optionsArgs, CancellationToken cancellationToken)
@@ -85,6 +86,22 @@ namespace Origin.Data.Access.Data
             }
 
             return JsonSerializer.Serialize(documentFonts);
+        }
+
+        private async Task<string> GetDocumentColoursAsync(IEnumerable<OptionsArg> optionsArgs, CancellationToken cancellationToken)
+        {
+            List<DocumentColour> documentColours = await _applicationDbContext.DocumentColours
+                .AsNoTracking()
+                .OrderBy(c => c.Name)
+                .ToListAsync(cancellationToken)
+                .ConfigureAwait(false);
+
+            if (documentColours.Count > 0)
+            {
+                documentColours.Insert(0, new DocumentColour { DocumentColourId = -1 });
+            }
+
+            return JsonSerializer.Serialize(documentColours);
         }
     }
 }
