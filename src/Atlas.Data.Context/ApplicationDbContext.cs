@@ -27,6 +27,7 @@ namespace Atlas.Data.Context
         public DbSet<DocumentContent> DocumentContents { get; set; }
         public DbSet<DocumentSubstitute> DocumentSubstitutes { get; set; }
         public DbSet<DocumentFont> DocumentFonts { get; set; }
+        public DbSet<DocumentColour> DocumentColours { get; set; }
 
         public void SetUser(string user)
         {
@@ -98,6 +99,14 @@ namespace Atlas.Data.Context
 
             builder.Entity<DocumentFont>()
                 .HasIndex(f => f.Font)
+                .IsUnique();
+
+            builder.Entity<DocumentColour>()
+                .HasIndex(c => c.Name)
+                .IsUnique();
+
+            builder.Entity<DocumentColour>()
+                .HasIndex(c => c.Rgb)
                 .IsUnique();
         }
 
