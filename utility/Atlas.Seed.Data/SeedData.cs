@@ -49,6 +49,7 @@ namespace Atlas.Seed.Data
             ((DbContext)dbContext).Database.ExecuteSqlRaw("DBCC CHECKIDENT (Modules, RESEED, 1)");
 
             ((DbContext)dbContext).Database.ExecuteSqlRaw("TRUNCATE TABLE DocumentFonts");
+            ((DbContext)dbContext).Database.ExecuteSqlRaw("TRUNCATE TABLE DocumentColours");
         }
 
         private static void CreatePermissions()
@@ -287,6 +288,23 @@ namespace Atlas.Seed.Data
             foreach (DocumentFont documentFont in documentFonts)
             {
                 dbContext.DocumentFonts.Add(documentFont);
+            }
+
+            dbContext.SaveChanges();
+
+            List<DocumentColour> documentColours =
+            [
+                new DocumentColour{ Name = "Black", Rgb = "0,0,0" },
+                new DocumentColour{ Name = "Royal Blue", Rgb = "65,105,255" },
+                new DocumentColour{ Name = "Dodger Blue", Rgb = "30,144,255" },
+                new DocumentColour{ Name = "Steel Blue", Rgb = "70,130,180" },
+                new DocumentColour{ Name = "Red", Rgb = "255,0,0" },
+                new DocumentColour{ Name = "FireBrick", Rgb = "178,34,34" }
+            ];
+
+            foreach (DocumentColour documentColour in documentColours)
+            {
+                dbContext.DocumentColours.Add(documentColour);
             }
 
             dbContext.SaveChanges();
