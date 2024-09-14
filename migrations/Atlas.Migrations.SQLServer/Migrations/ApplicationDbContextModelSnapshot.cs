@@ -406,10 +406,6 @@ namespace Atlas.Migrations.SQLServer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DocumentColourId"));
 
-                    b.Property<string>("Colour")
-                        .HasMaxLength(11)
-                        .HasColumnType("nvarchar(11)");
-
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
@@ -426,15 +422,19 @@ namespace Atlas.Migrations.SQLServer.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.HasKey("DocumentColourId");
+                    b.Property<string>("Rgb")
+                        .HasMaxLength(11)
+                        .HasColumnType("nvarchar(11)");
 
-                    b.HasIndex("Colour")
-                        .IsUnique()
-                        .HasFilter("[Colour] IS NOT NULL");
+                    b.HasKey("DocumentColourId");
 
                     b.HasIndex("Name")
                         .IsUnique()
                         .HasFilter("[Name] IS NOT NULL");
+
+                    b.HasIndex("Rgb")
+                        .IsUnique()
+                        .HasFilter("[Rgb] IS NOT NULL");
 
                     b.ToTable("DocumentColours");
                 });

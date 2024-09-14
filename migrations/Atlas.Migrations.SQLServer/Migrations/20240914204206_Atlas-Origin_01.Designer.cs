@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Atlas.Migrations.SQLServer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240914200944_Atlas-Origin_1")]
-    partial class AtlasOrigin_1
+    [Migration("20240914204206_Atlas-Origin_01")]
+    partial class AtlasOrigin_01
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -409,10 +409,6 @@ namespace Atlas.Migrations.SQLServer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DocumentColourId"));
 
-                    b.Property<string>("Colour")
-                        .HasMaxLength(11)
-                        .HasColumnType("nvarchar(11)");
-
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
@@ -429,15 +425,19 @@ namespace Atlas.Migrations.SQLServer.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.HasKey("DocumentColourId");
+                    b.Property<string>("Rgb")
+                        .HasMaxLength(11)
+                        .HasColumnType("nvarchar(11)");
 
-                    b.HasIndex("Colour")
-                        .IsUnique()
-                        .HasFilter("[Colour] IS NOT NULL");
+                    b.HasKey("DocumentColourId");
 
                     b.HasIndex("Name")
                         .IsUnique()
                         .HasFilter("[Name] IS NOT NULL");
+
+                    b.HasIndex("Rgb")
+                        .IsUnique()
+                        .HasFilter("[Rgb] IS NOT NULL");
 
                     b.ToTable("DocumentColours");
                 });

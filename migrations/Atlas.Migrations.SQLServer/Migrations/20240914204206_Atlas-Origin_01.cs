@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Atlas.Migrations.SQLServer.Migrations
 {
     /// <inheritdoc />
-    public partial class AtlasOrigin_1 : Migration
+    public partial class AtlasOrigin_01 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -38,7 +38,7 @@ namespace Atlas.Migrations.SQLServer.Migrations
                     DocumentColourId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Colour = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: true),
+                    Rgb = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -505,18 +505,18 @@ namespace Atlas.Migrations.SQLServer.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_DocumentColours_Colour",
-                table: "DocumentColours",
-                column: "Colour",
-                unique: true,
-                filter: "[Colour] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_DocumentColours_Name",
                 table: "DocumentColours",
                 column: "Name",
                 unique: true,
                 filter: "[Name] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DocumentColours_Rgb",
+                table: "DocumentColours",
+                column: "Rgb",
+                unique: true,
+                filter: "[Rgb] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DocumentConfigDocumentParagraph_ParagraphsDocumentParagraphId",
