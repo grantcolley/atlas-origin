@@ -1,0 +1,74 @@
+﻿@using System.Drawing
+
+@if (ReadOnly)
+{
+    <FluentTextField Value="@Value" Label="@Label" ReadOnly="true" />
+}
+else
+{
+    <FluentSelect TOption="DocumentColour"
+                  @onchange="OnChange"
+                  Disabled="@ReadOnly"
+                  Items="@Source"
+                  Label="@Label"
+                  OptionValue="@(c => c.Rgb)"
+                  SelectedOption="@_selectedDocumentColour"
+                  Height="300px">
+        <OptionTemplate>
+            <div style="@($"display: inline-block; background-color: {ColorTranslator.ToHtml(context.Color)}; width: 10px; height: 10px")" />
+            @context.Name
+        </OptionTemplate>
+    </FluentSelect>
+}
+
+@code {
+
+    [CascadingParameter]
+    private EditContext? CascadedEditContext { get; set; }
+
+    [Parameter]
+    public string? Label { get; set; }
+
+    [Parameter]
+    public string? FieldName { get; set; }
+
+    [Parameter]
+    public string? Value { get; set; }
+
+    [Parameter]
+    public bool ReadOnly { get; set; }
+
+    [Parameter]
+    public IEnumerable<DocumentColour>? Source { get; set; }
+
+    [Parameter]
+    public EventCallback<string?> ValueChanged { get; set; }
+
+    private DocumentColour? _selectedDocumentColour;
+
+    protected override void OnInitialized()
+    {
+        ArgumentNullException.ThrowIfNull(Source);
+
+        foreach (DocumentColour documentColour in Source)
+        {
+            if (string.IsNullOrWhiteSpace(documentColour.Rgb)) throw new NullReferenceException();
+
+            documentColour.Color = documentColour.Rgb.RgbToColor();
+
+            if (documentColour.Rgb == Value)
+            {
+                _selectedDocumentColour = documentColour;
+            }
+        }
+    }
+
+    private async Task OnChange(ChangeEventArgs args)
+    {
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(FieldName);
+
+        string? value = args?.Value?.ToString();
+        await ValueChanged.InvokeAsync(value);
+        CascadedEditContext?.NotifyFieldChanged(CascadedEditContext.Field(FieldName));
+    }
+}
