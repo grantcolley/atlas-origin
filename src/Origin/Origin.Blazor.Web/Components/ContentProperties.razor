@@ -11,7 +11,11 @@
     <FluentNumberField Name="FontSize" @bind-Value="Model.FontSize" Label="Font Size" ReadOnly="@(Model.IsReadOnly)" Min="0" />
 </div>
 <div>
-    <FluentTextField Name="FontColour" @bind-Value="Model.Colour" Label="Font Colour" ReadOnly="@(Model.IsReadOnly)" Min="0" />
+    <ColorSelect Label="Colour"
+                 FieldName="Colour"
+                 Source="@ColourSource"
+                 @bind-Value="Model.Colour"
+                 ReadOnly="@(Model.IsReadOnly)" />
 </div>
 
 @code {
@@ -20,4 +24,7 @@
 
     [Parameter]
     public IEnumerable<DocumentFont>? FontSource { get; set; }
+
+    [Parameter]
+    public IEnumerable<DocumentColour>? ColourSource { get; set; }
 }
