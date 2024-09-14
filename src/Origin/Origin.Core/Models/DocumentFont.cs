@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Atlas.Core.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace Origin.Core.Models
 {
-    public class DocumentFont
+    public class DocumentFont : ModelBase
     {
         public int DocumentFontId { get; set; }
 
