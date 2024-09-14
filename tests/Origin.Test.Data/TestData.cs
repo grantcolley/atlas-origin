@@ -121,7 +121,7 @@ namespace Origin.Test.Data
                 Code = MockLetter.PARAGRAPH_2,
                 Font = "Times New Roman",
                 FontSize = 12,
-                Colour = "68,114,196",
+                Colour = "65,105,225",
                 Contents =
                 [
                     new DocumentContent { DocumentContentId = 21, Order = 21, Code = MockLetter.PARAGRAPH_2_TEXT_1, RenderElementCode = MockLetter.PARAGRAPH_2, Content = MockLetter.LOREM_IPSUM_IS_NONSENSE_MICROSOFT_1_CONTENT },
