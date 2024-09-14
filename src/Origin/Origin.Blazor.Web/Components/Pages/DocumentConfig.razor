@@ -23,6 +23,7 @@
     public override string? IdentityFieldName { get; set; } = "DocumentConfigId";
 
     private IEnumerable<DocumentFont>? _fontsSource = [];
+    private IEnumerable<DocumentColour>? _coloursSource = [];
 
     protected override async Task OnInitializedAsync()
     {
@@ -37,6 +38,10 @@
             IResponse<IEnumerable<DocumentFont>?> fontsResponse = await OriginOptionsRequests.GetGenericOptionsAsync<DocumentFont>(OriginOptions.FONT_OPTIONS).ConfigureAwait(false);
 
             _fontsSource = GetResponse<IEnumerable<DocumentFont>?>(fontsResponse);
+
+            IResponse<IEnumerable<DocumentColour>?> coloursResponse = await OriginOptionsRequests.GetGenericOptionsAsync<DocumentColour>(OriginOptions.COLOUR_OPTIONS).ConfigureAwait(false);
+
+            _coloursSource = GetResponse<IEnumerable<DocumentColour>?>(coloursResponse);
 
             _isProcessing = false;
         }
@@ -54,7 +59,7 @@
             <FluentGridItem xs="12" md="12" lg="3">
                 <FluentTabs ActiveTabId="docCfg">
                     <FluentTab Id="docConfig" Label="Document">
-                        <Document DocumentConfig="@Model" FontSource="@_fontsSource"/>
+                        <Document DocumentConfig="@Model" FontSource="@_fontsSource" ColourSource="@_coloursSource"/>
                     </FluentTab>
                     <FluentTab Id="docParagraphs" Label="Paragraphs">
                         Paragraphs here...
