@@ -15,7 +15,7 @@ else
                   SelectedOption="@_selectedDocumentColour"
                   Height="300px">
         <OptionTemplate>
-            <div style="@($"display: inline-block; background-color: {ColorTranslator.ToHtml(context.Color)}; width: 10px; height: 10px")" />
+            <div style="@($"display: inline-block; background-color: rgb({context.Rgb?.Replace(",", " ")}); width: 10px; height: 10px")" />
             @context.Name
         </OptionTemplate>
     </FluentSelect>
