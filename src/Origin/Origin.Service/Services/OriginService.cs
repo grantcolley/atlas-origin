@@ -20,7 +20,9 @@ namespace Origin.Service.Services
 
             documentService.FileDeleteIfExists(fullFilename);
 
-            documentConfig.BuildDocument();
+            documentConfig.ConstructDocumentConfig();
+
+            documentConfig.ApplySubstitutesToDocumentContent();
 
             return documentService.TryCreateDocument(documentConfig, fullFilename);
         }
