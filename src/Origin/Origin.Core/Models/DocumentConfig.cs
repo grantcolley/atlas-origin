@@ -23,18 +23,6 @@ namespace Origin.Core.Models
         public string? Name { get; set; }
 
         [Required]
-        [StringLength(1)]
-        public string? SubstituteStart { get; set; }
-
-        [Required]
-        [StringLength(1)]
-        public string? SubstituteEnd { get; set; }
-
-        [Required]
-        [StringLength(150)]
-        public string? FilenameTemplate { get; set; }
-
-        [Required]
         public int PageMarginLeft { get; set; } = 10;
 
         [Required]
@@ -54,6 +42,9 @@ namespace Origin.Core.Models
 
         [NotMapped]
         public string? OutputLocation { get; set; }
+
+        [NotMapped]
+        public string? FilenameTemplate { get; set; }
     }
 
     public class DocumentConfigValidator : AbstractValidator<DocumentConfig>
@@ -63,10 +54,6 @@ namespace Origin.Core.Models
             RuleFor(v => v.Name)
                 .NotNull().WithMessage("Name is required")
                 .Length(1, 100).WithMessage("Name cannot exceed 100 characters");
-
-            RuleFor(v => v.FilenameTemplate)
-                .NotNull().WithMessage("FilenameTemplate is required. Do not include a file extension.")
-                .Length(1, 150).WithMessage("FilenameTemplate cannot exceed 120 characters. Do not include a file extension.");
 
             RuleFor(v => v.SubstituteStart)
                 .NotNull().WithMessage("SubstituteStart requires a single character. Consider using the open square bracket [")
