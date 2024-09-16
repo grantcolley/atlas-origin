@@ -11,6 +11,8 @@ namespace Origin.Core.Extensions
             if (string.IsNullOrWhiteSpace(documentContentProperties.Font)) documentContentProperties.Font = inherit.Font;
             if (string.IsNullOrWhiteSpace(documentContentProperties.Colour)) documentContentProperties.Colour = inherit.Colour;
             if (!documentContentProperties.FontSize.HasValue) documentContentProperties.FontSize = inherit.FontSize;
+            if (string.IsNullOrWhiteSpace(documentContentProperties.SubstituteStart)) documentContentProperties.SubstituteStart = inherit.SubstituteStart;
+            if (string.IsNullOrWhiteSpace(documentContentProperties.SubstituteEnd)) documentContentProperties.SubstituteEnd = inherit.SubstituteEnd;
         }
     }
 }
