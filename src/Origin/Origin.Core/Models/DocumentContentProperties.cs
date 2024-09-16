@@ -16,5 +16,11 @@ namespace Origin.Core.Models
         /// </summary>
         [StringLength(11)]
         public string? Colour { get; set; }
+
+        [StringLength(1)]
+        public string? SubstituteStart { get; set; }
+
+        [StringLength(1)]
+        public string? SubstituteEnd { get; set; }
     }
 }
