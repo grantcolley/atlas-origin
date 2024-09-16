@@ -31,19 +31,15 @@ namespace Origin.Core.Extensions
         }
 
         /// <summary>
-        /// First collapses substitute groups, then applies substitutes to <see cref="DocumentContent.Content"/>, 
-        /// followed by linking <see cref="DocumentContent"/>'s and <see cref="DocumentTable"/>'s to their 
-        /// <see cref="DocumentParagraph"/> by <see cref="DocumentContent.RenderElementCode"/>. Finally, cascades
-        /// <see cref="DocumentParagraph"/>'s <see cref="DocumentContentProperties"/> to it's content.
+        /// Collapses substitute groups, cascades properties from <see cref="DocumentConfig"/> down to <see cref="DocumentContent"/>,
+        /// and links <see cref="DocumentContent"/> to their <see cref="DocumentParagraph"/>'s and <see cref="DocumentTableCell"/>'s
+        /// by <see cref="DocumentContent.RenderElementCode"/>.
         /// </summary>
         /// <param name="documentConfig">The <see cref="DocumentConfig"/>.</param>
-        /// <returns>A list of <see cref="DocumentParagraph"/>'s</returns>
         /// <exception cref="NullReferenceException"></exception>
-        public static List<DocumentParagraph> BuildDocument(this DocumentConfig documentConfig)
+        public static void ConstructDocumentConfig(this DocumentConfig documentConfig)
         {
             documentConfig.CollapseSubstituteGroups();
-
-            documentConfig.ApplySubstitutesToDocumentContent();
 
             List<DocumentParagraph> documentParagraphs = [.. documentConfig.Paragraphs.OrderBy(p => p.Order)];
 
@@ -73,8 +69,6 @@ namespace Origin.Core.Extensions
                     documentParagraph.Contents = [.. documentParagraph.Contents.OrderBy(c => c.Order)];
                 }
             }
-
-            return documentParagraphs;
         }
 
         public static void ApplySubstitutesToDocumentContent(this DocumentConfig documentConfig)
@@ -88,7 +82,7 @@ namespace Origin.Core.Extensions
 
             foreach (DocumentContent documentContent in documentConfig.Paragraphs.SelectMany(p => p.Contents))
             {
-                documentContent.Content = documentContent.Content.ApplySubstitutesToContent(substitutes, documentConfig.SubstituteStart, documentConfig.SubstituteEnd);
+                documentContent.Content = documentContent.Content.ApplySubstitutesToContent(substitutes, documentContent.SubstituteStart, documentContent.SubstituteEnd);
             }
         }
 
