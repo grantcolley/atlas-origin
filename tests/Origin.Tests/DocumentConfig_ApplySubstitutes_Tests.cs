@@ -12,7 +12,7 @@ namespace Origin.Tests
         public void Content_With_No_Substitute_Keys_Unchanged_Pass()
         {
             // Arrange
-            DocumentConfig documentArgs = new()
+            DocumentConfig documentConfig = new()
             {
                 SubstituteStart = "[",
                 SubstituteEnd = "]",
@@ -27,17 +27,17 @@ namespace Origin.Tests
             };
 
             // Act
-            documentArgs.ApplySubstitutesToDocumentContent();
+            documentConfig.ApplySubstitutesToDocumentContent();
 
             // Assert
-            Assert.AreEqual(CONTENT, documentArgs.Paragraphs.First().Contents.First().Content);
+            Assert.AreEqual(CONTENT, documentConfig.Paragraphs.First().Contents.First().Content);
         }
 
         [TestMethod]
         public void Substitute_Full_Content_Pass()
         {
             // Arrange
-            DocumentConfig documentArgs = new()
+            DocumentConfig documentConfig = new()
             {
                 SubstituteStart = "[",
                 SubstituteEnd = "]",
@@ -46,23 +46,26 @@ namespace Origin.Tests
                 {
                     new DocumentParagraph
                     {
+                        Code = "ParagraphCode",
                         Contents = { new DocumentContent { Content = "[NAME]" } }
                     }
                 }
             };
 
+            documentConfig.ConstructDocumentConfig();
+
             // Act
-            documentArgs.ApplySubstitutesToDocumentContent();
+            documentConfig.ApplySubstitutesToDocumentContent();
 
             // Assert
-            Assert.AreEqual(documentArgs.Substitutes.First().Value, documentArgs.Paragraphs.First().Contents.First().Content);
+            Assert.AreEqual(documentConfig.Substitutes.First().Value, documentConfig.Paragraphs.First().Contents.First().Content);
         }
 
         [TestMethod]
         public void Substitute_Content_Starting_With_Key_Pass()
         {
             // Arrange
-            DocumentConfig documentArgs = new()
+            DocumentConfig documentConfig = new()
             {
                 SubstituteStart = "[",
                 SubstituteEnd = "]",
@@ -71,23 +74,26 @@ namespace Origin.Tests
                 {
                     new DocumentParagraph
                     {
+                        Code = "ParagraphCode",
                         Contents = { new DocumentContent { Content = "[NAME], this is to inform you of an upcoming event." } }
                     }
                 }
             };
 
+            documentConfig.ConstructDocumentConfig();
+
             // Act
-            documentArgs.ApplySubstitutesToDocumentContent();
+            documentConfig.ApplySubstitutesToDocumentContent();
 
             // Assert
-            Assert.AreEqual(CONTENT, documentArgs.Paragraphs.First().Contents.First().Content);
+            Assert.AreEqual(CONTENT, documentConfig.Paragraphs.First().Contents.First().Content);
         }
 
         [TestMethod]
         public void Substitute_Content_Ends_With_Key_Pass()
         {
             // Arrange
-            DocumentConfig documentArgs = new()
+            DocumentConfig documentConfig = new()
             {
                 SubstituteStart = "[",
                 SubstituteEnd = "]",
@@ -96,23 +102,26 @@ namespace Origin.Tests
                 {
                     new DocumentParagraph
                     {
+                        Code = "ParagraphCode",
                         Contents = { new DocumentContent { Content = "Jane Masters, this is to inform you of an upcoming [ACTIVITY]" } }
                     }
                 }
             };
 
+            documentConfig.ConstructDocumentConfig();
+
             // Act
-            documentArgs.ApplySubstitutesToDocumentContent();
+            documentConfig.ApplySubstitutesToDocumentContent();
 
             // Assert
-            Assert.AreEqual(CONTENT, documentArgs.Paragraphs.First().Contents.First().Content);
+            Assert.AreEqual(CONTENT, documentConfig.Paragraphs.First().Contents.First().Content);
         }
 
         [TestMethod]
         public void Substitute_Content_Multiple_Keys_Pass()
         {
             // Arrange
-            DocumentConfig documentArgs = new()
+            DocumentConfig documentConfig = new()
             {
                 SubstituteStart = "[",
                 SubstituteEnd = "]",
@@ -126,23 +135,26 @@ namespace Origin.Tests
                 {
                     new DocumentParagraph
                     {
+                        Code = "ParagraphCode",
                         Contents = { new DocumentContent { Content = "[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY]." } }
                     }
                 }
             };
 
+            documentConfig.ConstructDocumentConfig();
+
             // Act
-            documentArgs.ApplySubstitutesToDocumentContent();
+            documentConfig.ApplySubstitutesToDocumentContent();
 
             // Assert
-            Assert.AreEqual(CONTENT, documentArgs.Paragraphs.First().Contents.First().Content);
+            Assert.AreEqual(CONTENT, documentConfig.Paragraphs.First().Contents.First().Content);
         }
 
         [TestMethod]
         public void Content_Null_Returns_Pass()
         {
             // Arrange
-            DocumentConfig documentArgs = new()
+            DocumentConfig documentConfig = new()
             {
                 SubstituteStart = "[",
                 SubstituteEnd = "]",
@@ -162,17 +174,17 @@ namespace Origin.Tests
             };
 
             // Act
-            documentArgs.ApplySubstitutesToDocumentContent();
+            documentConfig.ApplySubstitutesToDocumentContent();
 
             // Assert
-            Assert.IsNull(documentArgs.Paragraphs.First().Contents.First().Content);
+            Assert.IsNull(documentConfig.Paragraphs.First().Contents.First().Content);
         }
 
         [TestMethod]
         public void Substitutes_Empty_Content_Unchanged_Pass()
         {
             // Arrange
-            DocumentConfig documentArgs = new()
+            DocumentConfig documentConfig = new()
             {
                 SubstituteStart = "[",
                 SubstituteEnd = "]",
@@ -187,17 +199,17 @@ namespace Origin.Tests
             };
 
             // Act
-            documentArgs.ApplySubstitutesToDocumentContent();
+            documentConfig.ApplySubstitutesToDocumentContent();
 
             // Assert
-            Assert.AreEqual("[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY].", documentArgs.Paragraphs.First().Contents.First().Content);
+            Assert.AreEqual("[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY].", documentConfig.Paragraphs.First().Contents.First().Content);
         }
 
         [TestMethod]
         public void Substitutes_Null_Content_Unchanged_Pass()
         {
             // Arrange
-            DocumentConfig documentArgs = new()
+            DocumentConfig documentConfig = new()
             {
                 SubstituteStart = "[",
                 SubstituteEnd = "]",
@@ -211,17 +223,17 @@ namespace Origin.Tests
             };
 
             // Act
-            documentArgs.ApplySubstitutesToDocumentContent();
+            documentConfig.ApplySubstitutesToDocumentContent();
 
             // Assert
-            Assert.AreEqual("[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY].", documentArgs.Paragraphs.First().Contents.First().Content);
+            Assert.AreEqual("[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY].", documentConfig.Paragraphs.First().Contents.First().Content);
         }
 
         [TestMethod]
         public void SubstituteStart_Null_SubstituteEnd_Null_Content_Unchanged_Pass()
         {
             // Arrange
-            DocumentConfig documentArgs = new()
+            DocumentConfig documentConfig = new()
             {
                 Substitutes =
                 {
@@ -239,10 +251,10 @@ namespace Origin.Tests
             };
 
             // Act
-            documentArgs.ApplySubstitutesToDocumentContent();
+            documentConfig.ApplySubstitutesToDocumentContent();
 
             // Assert
-            Assert.AreEqual("[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY].", documentArgs.Paragraphs.First().Contents.First().Content);
+            Assert.AreEqual("[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY].", documentConfig.Paragraphs.First().Contents.First().Content);
         }
 
         [TestMethod]
@@ -250,20 +262,23 @@ namespace Origin.Tests
         public void SubstituteStart_Null_SubstituteEnd_Not_Null_Expected_InvalidDataException()
         {
             // Arrange
-            DocumentConfig documentArgs = new()
+            DocumentConfig documentConfig = new()
             {
                 SubstituteEnd = "]",
                 Paragraphs =
                 {
                     new DocumentParagraph
                     {
+                        Code = "ParagraphCode",
                         Contents = { new DocumentContent { Content = "[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY]." } }
                     }
                 }
             };
 
+            documentConfig.ConstructDocumentConfig();
+
             // Act
-            documentArgs.ApplySubstitutesToDocumentContent();
+            documentConfig.ApplySubstitutesToDocumentContent();
         }
 
         [TestMethod]
@@ -271,20 +286,23 @@ namespace Origin.Tests
         public void SubstituteStart_Not_Null_SubstituteEnd_Null_Expected_InvalidDataException()
         {
             // Arrange
-            DocumentConfig documentArgs = new()
+            DocumentConfig documentConfig = new()
             {
                 SubstituteStart = "[",
                 Paragraphs =
                 {
                     new DocumentParagraph
                     {
+                        Code = "ParagraphCode",
                         Contents = { new DocumentContent { Content = "[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY]." } }
                     }
                 }
             };
 
+            documentConfig.ConstructDocumentConfig();
+
             // Act
-            documentArgs.ApplySubstitutesToDocumentContent();
+            documentConfig.ApplySubstitutesToDocumentContent();
         }
 
         [TestMethod]
@@ -292,7 +310,7 @@ namespace Origin.Tests
         public void SubstituteStart_Missing_Corresponding_SubstituteEnd_1_Expected_ArgumentNullException()
         {
             // Arrange
-            DocumentConfig documentArgs = new()
+            DocumentConfig documentConfig = new()
             {
                 SubstituteStart = "[",
                 SubstituteEnd = "]",
@@ -306,13 +324,16 @@ namespace Origin.Tests
                 {
                     new DocumentParagraph
                     {
+                        Code = "ParagraphCode",
                         Contents = { new DocumentContent { Content = "[NAME, this is to [NOTIFICATION] you of an upcoming [ACTIVITY]." } }
                     }
                 }
             };
 
+            documentConfig.ConstructDocumentConfig();
+
             // Act
-            documentArgs.ApplySubstitutesToDocumentContent();
+            documentConfig.ApplySubstitutesToDocumentContent();
         }
 
         [TestMethod]
@@ -320,7 +341,7 @@ namespace Origin.Tests
         public void SubstituteStart_Missing_Corresponding_SubstituteEnd_2_Expected_ArgumentNullException()
         {
             // Arrange
-            DocumentConfig documentArgs = new()
+            DocumentConfig documentConfig = new()
             {
                 SubstituteStart = "[",
                 SubstituteEnd = "]",
@@ -334,13 +355,16 @@ namespace Origin.Tests
                 {
                     new DocumentParagraph
                     {
+                        Code = "ParagraphCode",
                         Contents = { new DocumentContent { Content = "[NAME, this is to notify you of an upcoming event." } }
                     }
                 }
             };
 
+            documentConfig.ConstructDocumentConfig();
+
             // Act
-            documentArgs.ApplySubstitutesToDocumentContent();
+            documentConfig.ApplySubstitutesToDocumentContent();
         }
 
         [TestMethod]
@@ -348,7 +372,7 @@ namespace Origin.Tests
         public void SubstituteEnd_Missing_Corresponding_SubstituteStart_Expected_ArgumentNullException()
         {
             // Arrange
-            DocumentConfig documentArgs = new()
+            DocumentConfig documentConfig = new()
             {
                 SubstituteStart = "[",
                 SubstituteEnd = "]",
@@ -362,13 +386,16 @@ namespace Origin.Tests
                 {
                     new DocumentParagraph
                     {
+                        Code = "ParagraphCode",
                         Contents = { new DocumentContent { Content = "NAME], this is to notify you of an upcoming event." } }
                     }
                 }
             };
 
+            documentConfig.ConstructDocumentConfig();
+
             // Act
-            documentArgs.ApplySubstitutesToDocumentContent();
+            documentConfig.ApplySubstitutesToDocumentContent();
         }
     }
 }
