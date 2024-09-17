@@ -4,13 +4,6 @@ namespace Origin.Core.Converters
 {
     public static class ColourConverter
     {
-        public static Color RgbToColor(this string value)
-        {
-            int[] rgb = value.SplitRgb();
-
-            return Color.FromArgb(rgb[0], rgb[1], rgb[2]);
-        }
-
         public static string RgbToHex(this string value)
         {
             int[] rgb = value.SplitRgb();
