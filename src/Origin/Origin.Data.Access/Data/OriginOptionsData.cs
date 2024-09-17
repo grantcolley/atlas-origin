@@ -98,7 +98,7 @@ namespace Origin.Data.Access.Data
 
             if (documentColours.Count > 0)
             {
-                documentColours.Insert(0, new DocumentColour { DocumentColourId = -1 });
+                documentColours.Insert(0, new DocumentColour { DocumentColourId = -1, Rgb="-"});
             }
 
             return JsonSerializer.Serialize(documentColours);
