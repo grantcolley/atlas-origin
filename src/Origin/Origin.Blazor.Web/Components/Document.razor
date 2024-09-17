@@ -16,10 +16,6 @@
                 <FluentValidationMessage For="@(() => DocumentConfig.Name)" />
             </div>
             <div>
-                <FluentTextField Name="FilenameTemplate" @bind-Value="DocumentConfig.FilenameTemplate" Label="Filename Template" ReadOnly="@(DocumentConfig.IsReadOnly)" />
-                <FluentValidationMessage For="@(() => DocumentConfig.FilenameTemplate)" />
-            </div>
-            <div>
                 <FluentTextField Name="SubstituteStart" @bind-Value="DocumentConfig.SubstituteStart" Label="Substitute Start" Maxlength="1" ReadOnly="@(DocumentConfig.IsReadOnly)" />
                 <FluentValidationMessage For="@(() => DocumentConfig.SubstituteStart)" />
             </div>
