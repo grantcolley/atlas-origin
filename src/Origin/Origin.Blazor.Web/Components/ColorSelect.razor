@@ -52,13 +52,12 @@ else
 
         foreach (DocumentColour documentColour in Source)
         {
-            if (string.IsNullOrWhiteSpace(documentColour.Rgb)) throw new NullReferenceException();
-
-            documentColour.Color = documentColour.Rgb.RgbToColor();
-
-            if (documentColour.Rgb == Value)
+            if (!string.IsNullOrWhiteSpace(documentColour.Rgb))
             {
-                _selectedDocumentColour = documentColour;
+                if (documentColour.Rgb == Value)
+                {
+                    _selectedDocumentColour = documentColour;
+                }
             }
         }
     }
