@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Atlas.Migrations.SQLServer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240914204206_Atlas-Origin_01")]
-    partial class AtlasOrigin_01
+    [Migration("20240917205621_Atlas-Origin_1")]
+    partial class AtlasOrigin_1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -460,11 +460,6 @@ namespace Atlas.Migrations.SQLServer.Migrations
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("FilenameTemplate")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
-
                     b.Property<string>("Font")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
@@ -505,12 +500,10 @@ namespace Atlas.Migrations.SQLServer.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("SubstituteEnd")
-                        .IsRequired()
                         .HasMaxLength(1)
                         .HasColumnType("nvarchar(1)");
 
                     b.Property<string>("SubstituteStart")
-                        .IsRequired()
                         .HasMaxLength(1)
                         .HasColumnType("nvarchar(1)");
 
@@ -601,6 +594,14 @@ namespace Atlas.Migrations.SQLServer.Migrations
                     b.Property<string>("Source")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("SubstituteEnd")
+                        .HasMaxLength(1)
+                        .HasColumnType("nvarchar(1)");
+
+                    b.Property<string>("SubstituteStart")
+                        .HasMaxLength(1)
+                        .HasColumnType("nvarchar(1)");
 
                     b.Property<bool?>("Underscore")
                         .HasColumnType("bit");
@@ -703,6 +704,14 @@ namespace Atlas.Migrations.SQLServer.Migrations
 
                     b.Property<int>("ParagraphSpacingBetweenLinesBefore")
                         .HasColumnType("int");
+
+                    b.Property<string>("SubstituteEnd")
+                        .HasMaxLength(1)
+                        .HasColumnType("nvarchar(1)");
+
+                    b.Property<string>("SubstituteStart")
+                        .HasMaxLength(1)
+                        .HasColumnType("nvarchar(1)");
 
                     b.HasKey("DocumentParagraphId");
 
@@ -835,6 +844,14 @@ namespace Atlas.Migrations.SQLServer.Migrations
 
                     b.Property<int>("Row")
                         .HasColumnType("int");
+
+                    b.Property<string>("SubstituteEnd")
+                        .HasMaxLength(1)
+                        .HasColumnType("nvarchar(1)");
+
+                    b.Property<string>("SubstituteStart")
+                        .HasMaxLength(1)
+                        .HasColumnType("nvarchar(1)");
 
                     b.HasKey("DocumentTableCellId");
 

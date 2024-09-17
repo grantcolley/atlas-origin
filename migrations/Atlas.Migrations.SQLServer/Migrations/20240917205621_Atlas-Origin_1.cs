@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Atlas.Migrations.SQLServer.Migrations
 {
     /// <inheritdoc />
-    public partial class AtlasOrigin_01 : Migration
+    public partial class AtlasOrigin_1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -56,9 +56,6 @@ namespace Atlas.Migrations.SQLServer.Migrations
                     DocumentConfigId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    SubstituteStart = table.Column<string>(type: "nvarchar(1)", maxLength: 1, nullable: false),
-                    SubstituteEnd = table.Column<string>(type: "nvarchar(1)", maxLength: 1, nullable: false),
-                    FilenameTemplate = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     PageMarginLeft = table.Column<int>(type: "int", nullable: false),
                     PageMarginTop = table.Column<int>(type: "int", nullable: false),
                     PageMarginRight = table.Column<int>(type: "int", nullable: false),
@@ -70,6 +67,8 @@ namespace Atlas.Migrations.SQLServer.Migrations
                     FontSize = table.Column<int>(type: "int", nullable: true),
                     Font = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Colour = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: true),
+                    SubstituteStart = table.Column<string>(type: "nvarchar(1)", maxLength: 1, nullable: true),
+                    SubstituteEnd = table.Column<string>(type: "nvarchar(1)", maxLength: 1, nullable: true),
                     IgnoreParapgraphSpacing = table.Column<bool>(type: "bit", nullable: true),
                     ParagraphSpacingBetweenLinesAfter = table.Column<int>(type: "int", nullable: false),
                     ParagraphSpacingBetweenLinesBefore = table.Column<int>(type: "int", nullable: false)
@@ -114,6 +113,8 @@ namespace Atlas.Migrations.SQLServer.Migrations
                     FontSize = table.Column<int>(type: "int", nullable: true),
                     Font = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Colour = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: true),
+                    SubstituteStart = table.Column<string>(type: "nvarchar(1)", maxLength: 1, nullable: true),
+                    SubstituteEnd = table.Column<string>(type: "nvarchar(1)", maxLength: 1, nullable: true),
                     IgnoreParapgraphSpacing = table.Column<bool>(type: "bit", nullable: true),
                     ParagraphSpacingBetweenLinesAfter = table.Column<int>(type: "int", nullable: false),
                     ParagraphSpacingBetweenLinesBefore = table.Column<int>(type: "int", nullable: false)
@@ -294,7 +295,9 @@ namespace Atlas.Migrations.SQLServer.Migrations
                     ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FontSize = table.Column<int>(type: "int", nullable: true),
                     Font = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Colour = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: true)
+                    Colour = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: true),
+                    SubstituteStart = table.Column<string>(type: "nvarchar(1)", maxLength: 1, nullable: true),
+                    SubstituteEnd = table.Column<string>(type: "nvarchar(1)", maxLength: 1, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -332,7 +335,9 @@ namespace Atlas.Migrations.SQLServer.Migrations
                     ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FontSize = table.Column<int>(type: "int", nullable: true),
                     Font = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Colour = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: true)
+                    Colour = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: true),
+                    SubstituteStart = table.Column<string>(type: "nvarchar(1)", maxLength: 1, nullable: true),
+                    SubstituteEnd = table.Column<string>(type: "nvarchar(1)", maxLength: 1, nullable: true)
                 },
                 constraints: table =>
                 {
