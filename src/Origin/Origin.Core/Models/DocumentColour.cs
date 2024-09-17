@@ -18,9 +18,5 @@ namespace Origin.Core.Models
         /// </summary>
         [StringLength(11)]
         public string? Rgb { get; set; }
-
-        [NotMapped]
-        [JsonIgnore]
-        public Color Color { get; set; }
     }
 }
