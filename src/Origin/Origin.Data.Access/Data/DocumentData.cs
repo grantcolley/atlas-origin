@@ -141,9 +141,27 @@ namespace Origin.Data.Access.Data
             }
         }
 
-        public Task<DocumentParagraph?> GetDocumentParagraphAsync(int id, CancellationToken cancellationToken)
+        public async Task<DocumentParagraph?> GetDocumentParagraphAsync(int id, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            try
+            {
+                DocumentParagraph documentParagraph = await _applicationDbContext.DocumentParagraphs
+                    .AsNoTracking()
+                    .FirstAsync(d => d.DocumentParagraphId.Equals(id), cancellationToken)
+                    .ConfigureAwait(false);
+
+                if (Authorisation == null
+                    || !Authorisation.HasPermission(Auth.DEVELOPER))
+                {
+                    documentParagraph.IsReadOnly = true;
+                }
+
+                return documentParagraph;
+            }
+            catch (Exception ex)
+            {
+                throw new AtlasException(ex.Message, ex, $"DocumentParagraphId={id}");
+            }
         }
 
         public async Task<DocumentParagraph> CreateDocumentParagraphAsync(DocumentParagraph addDocumentParagraph, CancellationToken cancellationToken)
