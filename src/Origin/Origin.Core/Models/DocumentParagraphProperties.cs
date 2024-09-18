@@ -5,7 +5,7 @@ namespace Origin.Core.Models
 {
     public abstract class DocumentParagraphProperties : DocumentContentProperties, IDocumentParagraphProperties
     {
-        public bool? IgnoreParapgraphSpacing { get; set; }
+        public bool? IgnoreParapgraphSpacing { get; set; } = false;
 
         [Required]
         public int ParagraphSpacingBetweenLinesAfter { get; set; } = 10;
