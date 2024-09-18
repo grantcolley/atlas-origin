@@ -55,13 +55,23 @@ namespace Origin.Core.Models
                 .NotNull().WithMessage("Name is required")
                 .Length(1, 100).WithMessage("Name cannot exceed 100 characters");
 
-            RuleFor(v => v.SubstituteStart)
-                .NotNull().WithMessage("SubstituteStart requires a single character. Consider using the open square bracket [")
-                .Length(1).WithMessage("SubstituteStart requires a single character. Consider using the open square bracket [");
+            RuleFor(v => v.PageMarginLeft)
+                .GreaterThan(-1).WithMessage("PageMarginLeft must be 0 or greater.");
 
-            RuleFor(v => v.SubstituteEnd)
-                .NotNull().WithMessage("SubstituteEnd requires a single character. Consider using the closed square bracket ]")
-                .Length(1).WithMessage("SubstituteEnd requires a single character. Consider using the closed square bracket ]");
+            RuleFor(v => v.PageMarginTop)
+                .GreaterThan(-1).WithMessage("PageMarginTop must be 0 or greater.");
+
+            RuleFor(v => v.PageMarginRight)
+                .GreaterThan(-1).WithMessage("PageMarginRight must be 0 or greater.");
+
+            RuleFor(v => v.PageMarginBottom)
+                .GreaterThan(-1).WithMessage("PageMarginBottom must be 0 or greater.");
+
+            RuleFor(v => v.ParagraphSpacingBetweenLinesBefore)
+                .GreaterThan(-1).WithMessage("ParagraphSpacingBetweenLinesBefore must be 0 or greater.");
+
+            RuleFor(v => v.ParagraphSpacingBetweenLinesAfter)
+                .GreaterThan(-1).WithMessage("ParagraphSpacingBetweenLinesAfter must be 0 or greater.");
         }
     }
 }
