@@ -51,7 +51,7 @@
             Content Properties
         </HeadingTemplate>
         <ChildContent>
-            <ContentProperties T="DocumentContentProperties" Model="@DocumentParagraph" FontSource="@FontSource" />
+            <ContentProperties T="DocumentContentProperties" Model="@DocumentParagraph" FontSource="@FontSource" ColourSource="@ColourSource" />
         </ChildContent>
     </FluentAccordionItem>
 </FluentAccordion>
@@ -62,4 +62,7 @@
 
     [Parameter]
     public IEnumerable<DocumentFont>? FontSource { get; set; }
+
+    [Parameter]
+    public IEnumerable<DocumentColour>? ColourSource { get; set; }
 }
