@@ -91,6 +91,8 @@ namespace Origin.Data.Access.Data
                         .ConfigureAwait(false);
                 }
 
+                // TODO: Add paragraphs, rows, columns, cells and content and substitutes.
+
                 if (addDocumentConfig.Paragraphs.Count > 0)
                 {
                     documentConfig.Paragraphs.AddRange(addDocumentConfig.Paragraphs);
@@ -99,8 +101,6 @@ namespace Origin.Data.Access.Data
                         .SaveChangesAsync(cancellationToken)
                         .ConfigureAwait(false);
                 }
-
-                // TODO: Add tables, rows, columns and cells.
 
                 if (Authorisation == null
                     || !Authorisation.HasPermission(Auth.DOCUMENT_WRITE))
@@ -116,9 +116,40 @@ namespace Origin.Data.Access.Data
             }
         }
 
-        public Task<DocumentConfig> UpdateDocumentConfigAsync(DocumentConfig documentConfig, CancellationToken cancellationToken)
+        public async Task<DocumentConfig> UpdateDocumentConfigAsync(DocumentConfig documentConfig, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            try
+            {
+                DocumentConfig existing = await _applicationDbContext.DocumentConfigs
+                    .FirstOrDefaultAsync(d => d.DocumentConfigId.Equals(documentConfig.DocumentConfigId), cancellationToken)
+                    .ConfigureAwait(false)
+                    ?? throw new NullReferenceException(
+                        $"{nameof(documentConfig)} DocumentConfigId {documentConfig.DocumentConfigId} not found.");
+
+                _applicationDbContext
+                    .Entry(existing)
+                    .CurrentValues.SetValues(documentConfig);
+
+                // TODO: add/remove paragraphs, rows, columns, cells and content...
+
+                _applicationDbContext.DocumentConfigs.Update(existing);
+
+                await _applicationDbContext
+                    .SaveChangesAsync(cancellationToken)
+                    .ConfigureAwait(false);
+
+                if (Authorisation == null
+                    || !Authorisation.HasPermission(Auth.DOCUMENT_WRITE))
+                {
+                    documentConfig.IsReadOnly = true;
+                }
+
+                return documentConfig;
+            }
+            catch (Exception ex)
+            {
+                throw new AtlasException(ex.Message, ex, $"DocumentConfigId={documentConfig.DocumentConfigId}");
+            }
         }
 
         public async Task<int> DeleteDocumentConfigAsync(int id, CancellationToken cancellationToken)
@@ -221,7 +252,7 @@ namespace Origin.Data.Access.Data
                         .ConfigureAwait(false);
                 }
 
-                // TODO: Add tables, rows, columns and cells.
+                // TODO: Add rows, columns, cells and content.
 
                 if (Authorisation == null
                     || !Authorisation.HasPermission(Auth.DOCUMENT_WRITE))
@@ -237,9 +268,40 @@ namespace Origin.Data.Access.Data
             }
         }
 
-        public Task<DocumentParagraph> UpdateDocumentParagraphAsync(DocumentParagraph documentParagraph, CancellationToken cancellationToken)
+        public async Task<DocumentParagraph> UpdateDocumentParagraphAsync(DocumentParagraph documentParagraph, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            try
+            {
+                DocumentParagraph existing = await _applicationDbContext.DocumentParagraphs
+                    .FirstOrDefaultAsync(p => p.DocumentParagraphId.Equals(documentParagraph.DocumentParagraphId), cancellationToken)
+                    .ConfigureAwait(false)
+                    ?? throw new NullReferenceException(
+                        $"{nameof(documentParagraph)} DocumentParagraphId {documentParagraph.DocumentParagraphId} not found.");
+
+                _applicationDbContext
+                    .Entry(existing)
+                    .CurrentValues.SetValues(documentParagraph);
+
+                // TODO: add/remove rows, columns, cells and content...
+
+                _applicationDbContext.DocumentParagraphs.Update(existing);
+
+                await _applicationDbContext
+                    .SaveChangesAsync(cancellationToken)
+                    .ConfigureAwait(false);
+
+                if (Authorisation == null
+                    || !Authorisation.HasPermission(Auth.DOCUMENT_WRITE))
+                {
+                    documentParagraph.IsReadOnly = true;
+                }
+
+                return documentParagraph;
+            }
+            catch (Exception ex)
+            {
+                throw new AtlasException(ex.Message, ex, $"DocumentParagraphId={documentParagraph.DocumentParagraphId}");
+            }
         }
 
         public async Task<int> DeleteDocumentParagraphAsync(int id, CancellationToken cancellationToken)
