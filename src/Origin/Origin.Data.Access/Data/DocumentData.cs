@@ -60,8 +60,6 @@ namespace Origin.Data.Access.Data
                 DocumentConfig documentConfig = new()
                 {
                     Name = addDocumentConfig.Name,
-                    SubstituteStart = addDocumentConfig.SubstituteStart,
-                    SubstituteEnd = addDocumentConfig.SubstituteEnd,
                     PageMarginLeft = addDocumentConfig.PageMarginLeft,
                     PageMarginTop = addDocumentConfig.PageMarginTop,
                     PageMarginRight = addDocumentConfig.PageMarginRight,
@@ -71,7 +69,9 @@ namespace Origin.Data.Access.Data
                     ParagraphSpacingBetweenLinesAfter = addDocumentConfig.ParagraphSpacingBetweenLinesAfter,
                     Font = addDocumentConfig.Font,
                     FontSize = addDocumentConfig.FontSize,
-                    Colour = addDocumentConfig.Colour
+                    Colour = addDocumentConfig.Colour,
+                    SubstituteStart = addDocumentConfig.SubstituteStart,
+                    SubstituteEnd = addDocumentConfig.SubstituteEnd,
                 };
 
                 await _applicationDbContext.DocumentConfigs
@@ -121,9 +121,24 @@ namespace Origin.Data.Access.Data
             throw new NotImplementedException();
         }
 
-        public Task<int> DeleteDocumentConfigAsync(int id, CancellationToken cancellationToken)
+        public async Task<int> DeleteDocumentConfigAsync(int id, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            try
+            {
+                DocumentConfig documentConfig = await _applicationDbContext.DocumentConfigs
+                    .FirstAsync(d =>d.DocumentConfigId.Equals(id), cancellationToken)
+                    .ConfigureAwait(false);
+
+                _applicationDbContext.DocumentConfigs.Remove(documentConfig);
+
+                return await _applicationDbContext
+                    .SaveChangesAsync(cancellationToken)
+                    .ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                throw new AtlasException(ex.Message, ex, $"DocumentConfigId={id}");
+            }
         }
 
         public async Task<IEnumerable<DocumentParagraph>> GetDocumentParagraphsAsync(CancellationToken cancellationToken)
@@ -175,11 +190,18 @@ namespace Origin.Data.Access.Data
                 DocumentParagraph documentParagraph = new()
                 {
                     Name = addDocumentParagraph.Name,
-                    //ParagraphSpacingBetweenLinesBefore = addDocumentConfig.ParagraphSpacingBetweenLinesBefore,
-                    //ParagraphSpacingBetweenLinesAfter = addDocumentConfig.ParagraphSpacingBetweenLinesAfter,
+                    Code = addDocumentParagraph.Code,
+                    Order = addDocumentParagraph.Order,
+                    DocumentParagraphType = addDocumentParagraph.DocumentParagraphType,
+                    AlignContent = addDocumentParagraph.AlignContent,
+                    IgnoreParapgraphSpacing = addDocumentParagraph.IgnoreParapgraphSpacing,
+                    ParagraphSpacingBetweenLinesBefore = addDocumentParagraph.ParagraphSpacingBetweenLinesBefore,
+                    ParagraphSpacingBetweenLinesAfter = addDocumentParagraph.ParagraphSpacingBetweenLinesAfter,
                     Font = addDocumentParagraph.Font,
                     FontSize = addDocumentParagraph.FontSize,
-                    Colour = addDocumentParagraph.Colour
+                    Colour = addDocumentParagraph.Colour,
+                    SubstituteStart = addDocumentParagraph.SubstituteStart,
+                    SubstituteEnd = addDocumentParagraph.SubstituteEnd,
                 };
 
                 await _applicationDbContext.DocumentParagraphs
@@ -220,9 +242,24 @@ namespace Origin.Data.Access.Data
             throw new NotImplementedException();
         }
 
-        public Task<int> DeleteDocumentParagraphAsync(int id, CancellationToken cancellationToken)
+        public async Task<int> DeleteDocumentParagraphAsync(int id, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            try
+            {
+                DocumentParagraph documentParagraph = await _applicationDbContext.DocumentParagraphs
+                    .FirstAsync(p => p.DocumentParagraphId.Equals(id), cancellationToken)
+                    .ConfigureAwait(false);
+
+                _applicationDbContext.DocumentParagraphs.Remove(documentParagraph);
+
+                return await _applicationDbContext
+                    .SaveChangesAsync(cancellationToken)
+                    .ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                throw new AtlasException(ex.Message, ex, $"DocumentParagraphId={id}");
+            }
         }
     }
 }
