@@ -1,0 +1,46 @@
+﻿@page "/DocumentFont"
+@page "/DocumentFont/{Id:int?}"
+@rendermode @(new InteractiveServerRenderMode(prerender: false))
+@inherits ModelContainerBase<Origin.Core.Models.DocumentFont>
+
+@{
+    // Display the markup for the underlying base
+    // ModelContainerBase<T> we are inheriting.
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+    public override string? Title { get; set; } = "Document Font";
+    public override string? APIGetEndpoint { get; set; } = OriginAPIEndpoints.GET_DOCUMENT_FONT;
+    public override string? APICreateEndpoint { get; set; } = OriginAPIEndpoints.CREATE_DOCUMENT_FONT;
+    public override string? APIUpdateEndpoint { get; set; } = OriginAPIEndpoints.UPDATE_DOCUMENT_FONT;
+    public override string? APIDeleteEndpoint { get; set; } = OriginAPIEndpoints.DELETE_DOCUMENT_FONT;
+    public override string? ModelNameField { get; set; } = "Font";
+    public override string? IdentityFieldName { get; set; } = "DocumentFontId";
+
+    public override RenderFragment RenderModelContent() => __builder =>
+    {
+        if (Model == null) throw new NullReferenceException(nameof(Model));
+
+        <FluentAccordion>
+            <FluentAccordionItem Expanded=true>
+                <HeadingTemplate>
+                    @if (Model.DocumentFontId.Equals(0))
+                    {
+                        <FluentLabel Typo="Typography.Body">New Font</FluentLabel>
+                    }
+                    else
+                    {
+                        <FluentLabel Typo="Typography.Body">@($"Document Font Id {Model.DocumentFontId}")</FluentLabel>
+                    }
+                </HeadingTemplate>
+                <ChildContent>
+                    <div>
+                        <FluentTextField Name="Font" @bind-Value="Model.Font" Label="Font" ReadOnly="@(Model.IsReadOnly)" />
+                        <FluentValidationMessage For="@(() => Model.Font)" />
+                    </div>
+                </ChildContent>
+            </FluentAccordionItem>
+        </FluentAccordion>
+    };
+}
