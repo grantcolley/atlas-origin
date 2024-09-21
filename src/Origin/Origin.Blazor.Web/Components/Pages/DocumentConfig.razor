@@ -22,8 +22,8 @@
     public override string? ModelNameField { get; set; } = "Name";
     public override string? IdentityFieldName { get; set; } = "DocumentConfigId";
 
-    private IEnumerable<DocumentFont>? _fontsSource = [];
-    private IEnumerable<DocumentColour>? _coloursSource = [];
+    private IEnumerable<Origin.Core.Models.DocumentFont>? _fontsSource = [];
+    private IEnumerable<Origin.Core.Models.DocumentColour>? _coloursSource = [];
 
     protected override async Task OnInitializedAsync()
     {
@@ -35,13 +35,13 @@
         {
             _isProcessing = true;
 
-            IResponse<IEnumerable<DocumentFont>?> fontsResponse = await OriginOptionsRequests.GetGenericOptionsAsync<DocumentFont>(OriginOptions.FONT_OPTIONS).ConfigureAwait(false);
+            IResponse<IEnumerable<Origin.Core.Models.DocumentFont>?> fontsResponse = await OriginOptionsRequests.GetGenericOptionsAsync<Origin.Core.Models.DocumentFont>(OriginOptions.FONT_OPTIONS).ConfigureAwait(false);
 
-            _fontsSource = GetResponse<IEnumerable<DocumentFont>?>(fontsResponse);
+            _fontsSource = GetResponse<IEnumerable<Origin.Core.Models.DocumentFont>?>(fontsResponse);
 
-            IResponse<IEnumerable<DocumentColour>?> coloursResponse = await OriginOptionsRequests.GetGenericOptionsAsync<DocumentColour>(OriginOptions.COLOUR_OPTIONS).ConfigureAwait(false);
+            IResponse<IEnumerable<Origin.Core.Models.DocumentColour>?> coloursResponse = await OriginOptionsRequests.GetGenericOptionsAsync<Origin.Core.Models.DocumentColour>(OriginOptions.COLOUR_OPTIONS).ConfigureAwait(false);
 
-            _coloursSource = GetResponse<IEnumerable<DocumentColour>?>(coloursResponse);
+            _coloursSource = GetResponse<IEnumerable<Origin.Core.Models.DocumentColour>?>(coloursResponse);
 
             _isProcessing = false;
         }
