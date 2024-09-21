@@ -1,0 +1,39 @@
+﻿@page "/DocumentFonts"
+@rendermode @(new InteractiveServerRenderMode(prerender: false))
+@inherits GridContainerBase<Origin.Core.Models.DocumentFont>
+
+@{
+    // Display the markup for the underlying base 
+    // GenericGridContainer<T> we are inheriting.
+    base.BuildRenderTree(__builder);
+}
+
+@code{
+    public override string? Title { get; set; } = "Document Fonts";
+    public override string? NavigateTo { get; set; } = OriginWebConstants.PAGE_DOCUMENT_FONT;
+    public override string? APIEndpoint { get; set; } = OriginAPIEndpoints.GET_DOCUMENT_FONTS;
+    public override int ItemsPerPage { get; set; } = 20;
+    public override string? FilterFieldName { get; set; } = "Name";
+    public override string? IdentityFieldName { get; set; } = "DocumentFontId";
+    public override string? CreatePermission { get; set; } = Auth.DOCUMENT_WRITE;
+
+    public override RenderFragment RenderGridContent() => __builder =>
+    {
+        <FluentDataGrid TGridItem=Origin.Core.Models.DocumentFont Items="@FilteredItems"
+                        Style="height: 600px;overflow:auto;" GridTemplateColumns="0.2fr 1fr"
+                        ResizableColumns=true GenerateHeader="GenerateHeaderOption.Sticky"
+                        Pagination="@Pagination">
+            <PropertyColumn Property="@(f => f.DocumentFontId)" Sortable="true" Align="Align.Center" Title="Document Font Id"/>
+            <PropertyColumn Property="@(f => f.Font)" Sortable="true" Filtered="!string.IsNullOrWhiteSpace(Filter)" Tooltip="true" Title="Font">
+                <ColumnOptions>
+                    <div class="search-box">
+                        <FluentSearch type="filter" Autofocus=true @bind-Value=Filter @oninput="HandleFilter" @bind-Value:after="HandleClear" Placeholder="Document font..." />
+                    </div>
+                </ColumnOptions>
+            </PropertyColumn>
+            <TemplateColumn Align="@Align.Center">
+                <FluentButton aria-label="Open" IconEnd="@(new Icons.Regular.Size16.MoreHorizontal())" OnClick="@(() => Edit(context))" />
+            </TemplateColumn>
+        </FluentDataGrid>
+    };
+}
