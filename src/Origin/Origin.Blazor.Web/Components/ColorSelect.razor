@@ -16,7 +16,7 @@ else
                   Height="300px">
         <OptionTemplate>
             <div style="@($"display: inline-block; background-color: rgb({context.Rgb?.Replace(",", " ")}); width: 10px; height: 10px")" />
-            @context.Name
+            @context.Colour
         </OptionTemplate>
     </FluentSelect>
 }

@@ -254,18 +254,25 @@ namespace Atlas.Seed.Data
             dbContext.SaveChanges();
 
             Category templatesCategory = new() { Name = "Templates", Icon = "DocumentOnePageSparkle", Order = 1, Permission = Auth.DOCUMENT_READ, Module = originModule };
+            Category staticDataCategory = new() { Name = "Static Data", Icon = "DocumentTable", Order = 2, Permission = Auth.DOCUMENT_READ, Module = originModule };
 
             originModule.Categories.Add(templatesCategory);
+            originModule.Categories.Add(staticDataCategory);
 
             dbContext.Categories.Add(templatesCategory);
+            dbContext.Categories.Add(staticDataCategory);
 
             dbContext.SaveChanges();
 
             Page documentConfigurationsPage = new() { Name = "Documents", Icon = "DocumentSettings", Route = OriginWebConstants.PAGE_DOCUMENT_CONFIGS, Order = 1, Permission = Auth.DOCUMENT_READ, Category = templatesCategory };
             Page documentParagraphsPage = new() { Name = "Paragraphs", Icon = "TextParagraph", Route = OriginWebConstants.PAGE_DOCUMENT_PARAGRAPHS, Order = 2, Permission = Auth.DOCUMENT_READ, Category = templatesCategory };
+            Page documentFontsPage = new() { Name = "Fonts", Icon = "TextFont", Route = OriginWebConstants.PAGE_DOCUMENT_FONTS, Order = 3, Permission = Auth.DOCUMENT_READ, Category = staticDataCategory };
+            Page documentColoursPage = new() { Name = "Colours", Icon = "Color", Route = OriginWebConstants.PAGE_DOCUMENT_COLOURS, Order = 4, Permission = Auth.DOCUMENT_READ, Category = staticDataCategory };
 
             templatesCategory.Pages.Add(documentConfigurationsPage);
             templatesCategory.Pages.Add(documentParagraphsPage);
+            staticDataCategory.Pages.Add(documentFontsPage);
+            staticDataCategory.Pages.Add(documentColoursPage);
 
             dbContext.Pages.Add(documentConfigurationsPage);
 
@@ -294,12 +301,12 @@ namespace Atlas.Seed.Data
 
             List<DocumentColour> documentColours =
             [
-                new DocumentColour{ Name = "Black", Rgb = "0,0,0" },
-                new DocumentColour{ Name = "Royal Blue", Rgb = "65,105,255" },
-                new DocumentColour{ Name = "Dodger Blue", Rgb = "30,144,255" },
-                new DocumentColour{ Name = "Steel Blue", Rgb = "70,130,180" },
-                new DocumentColour{ Name = "Red", Rgb = "255,0,0" },
-                new DocumentColour{ Name = "FireBrick", Rgb = "178,34,34" }
+                new DocumentColour{ Colour = "Black", Rgb = "0,0,0" },
+                new DocumentColour{ Colour = "Royal Blue", Rgb = "65,105,255" },
+                new DocumentColour{ Colour = "Dodger Blue", Rgb = "30,144,255" },
+                new DocumentColour{ Colour = "Steel Blue", Rgb = "70,130,180" },
+                new DocumentColour{ Colour = "Red", Rgb = "255,0,0" },
+                new DocumentColour{ Colour = "FireBrick", Rgb = "178,34,34" }
             ];
 
             foreach (DocumentColour documentColour in documentColours)

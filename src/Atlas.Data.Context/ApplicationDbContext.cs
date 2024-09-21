@@ -102,7 +102,7 @@ namespace Atlas.Data.Context
                 .IsUnique();
 
             builder.Entity<DocumentColour>()
-                .HasIndex(c => c.Name)
+                .HasIndex(c => c.Colour)
                 .IsUnique();
 
             builder.Entity<DocumentColour>()

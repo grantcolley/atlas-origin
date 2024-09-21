@@ -497,7 +497,7 @@ namespace Origin.Data.Access.Data
 
                 DocumentColour documentColour = new()
                 {
-                    Name = addDocumentColour.Name,
+                    Colour = addDocumentColour.Colour,
                     Rgb = addDocumentColour.Rgb
                 };
 

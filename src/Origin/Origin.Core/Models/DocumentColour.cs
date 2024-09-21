@@ -1,8 +1,5 @@
 ﻿using Atlas.Core.Models;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Drawing;
-using System.Text.Json.Serialization;
 
 namespace Origin.Core.Models
 {
@@ -10,12 +7,14 @@ namespace Origin.Core.Models
     {
         public int DocumentColourId { get; set; }
 
+        [Required]
         [StringLength(100)]
-        public string? Name { get; set; }
+        public string? Colour { get; set; }
 
         /// <summary>
         /// RGB 0-255 e.g. 0,176,240
         /// </summary>
+        [Required]
         [StringLength(11)]
         public string? Rgb { get; set; }
     }

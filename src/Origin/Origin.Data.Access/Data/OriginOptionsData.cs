@@ -92,7 +92,7 @@ namespace Origin.Data.Access.Data
         {
             List<DocumentColour> documentColours = await _applicationDbContext.DocumentColours
                 .AsNoTracking()
-                .OrderBy(c => c.Name)
+                .OrderBy(c => c.Colour)
                 .ToListAsync(cancellationToken)
                 .ConfigureAwait(false);
 
