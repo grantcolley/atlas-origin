@@ -22,4 +22,10 @@
     <ProjectReference Include="..\Origin.Requests\Origin.Requests.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Components\Pages\DocumentColours.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+  </ItemGroup>
+
 </Project>
