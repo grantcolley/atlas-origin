@@ -1,0 +1,53 @@
+﻿@page "/DocumentColour"
+@page "/DocumentColour/{Id:int?}"
+@rendermode @(new InteractiveServerRenderMode(prerender: false))
+@inherits ModelContainerBase<Origin.Core.Models.DocumentColour>
+
+@{
+    // Display the markup for the underlying base
+    // ModelContainerBase<T> we are inheriting.
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+    public override string? Title { get; set; } = "Document Colour";
+    public override string? APIGetEndpoint { get; set; } = OriginAPIEndpoints.GET_DOCUMENT_COLOUR;
+    public override string? APICreateEndpoint { get; set; } = OriginAPIEndpoints.CREATE_DOCUMENT_COLOUR;
+    public override string? APIUpdateEndpoint { get; set; } = OriginAPIEndpoints.UPDATE_DOCUMENT_COLOUR;
+    public override string? APIDeleteEndpoint { get; set; } = OriginAPIEndpoints.DELETE_DOCUMENT_COLOUR;
+    public override string? ModelNameField { get; set; } = "Colour";
+    public override string? IdentityFieldName { get; set; } = "DocumentColourId";
+
+    public override RenderFragment RenderModelContent() => __builder =>
+    {
+        if (Model == null) throw new NullReferenceException(nameof(Model));
+
+        <FluentAccordion>
+            <FluentAccordionItem Expanded=true>
+                <HeadingTemplate>
+                    @if (Model.DocumentColourId.Equals(0))
+                    {
+                        <FluentLabel Typo="Typography.Body">New Colour</FluentLabel>
+                    }
+                    else
+                    {
+                        <FluentLabel Typo="Typography.Body">@($"Document Colour Id {Model.DocumentColourId}")</FluentLabel>
+                    }
+                </HeadingTemplate>
+                <ChildContent>
+                    <div>
+                        <FluentTextField Name="Colour" @bind-Value="Model.Colour" Label="Colour" ReadOnly="@(Model.IsReadOnly)" />
+                        <FluentValidationMessage For="@(() => Model.Colour)" />
+                    </div>
+                    <div>
+                        <FluentTextField Name="Rgb" @bind-Value="Model.Rgb" Label="RGB" ReadOnly="@(Model.IsReadOnly)" />
+                        <FluentValidationMessage For="@(() => Model.Rgb)" />
+                    </div>
+                    <div>
+                        <div style="@($"display: inline-block; background-color: rgb({Model.Rgb?.Replace(",", " ")}); width: 30px; height: 30px; margin-top: 10px; margin-left: 5px")" />
+                    </div>
+                </ChildContent>
+            </FluentAccordionItem>
+        </FluentAccordion>
+    };
+}
