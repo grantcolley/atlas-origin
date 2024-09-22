@@ -93,10 +93,6 @@ namespace Atlas.Data.Context
                 .HasIndex(p => p.Name)
                 .IsUnique();
 
-            builder.Entity<DocumentParagraph>()
-                .HasIndex(p => p.Code)
-                .IsUnique();
-
             builder.Entity<DocumentFont>()
                 .HasIndex(f => f.Font)
                 .IsUnique();

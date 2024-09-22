@@ -8,9 +8,5 @@ namespace Origin.Core.Models
         public int DocumentTableColumnId { get; set; }
         public int Position { get; set; }
         public int? Width { get; set; }
-
-        [Required]
-        [StringLength(100)]
-        public string? TableCode { get; set; }
     }
 }

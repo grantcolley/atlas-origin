@@ -33,7 +33,7 @@ namespace Origin.Core.Extensions
         /// <summary>
         /// Collapses substitute groups, cascades properties from <see cref="DocumentConfig"/> down to <see cref="DocumentContent"/>,
         /// and links <see cref="DocumentContent"/> to their <see cref="DocumentParagraph"/>'s and <see cref="DocumentTableCell"/>'s
-        /// by <see cref="DocumentContent.RenderElementCode"/>.
+        /// by <see cref="DocumentContent.RenderCellCode"/>.
         /// </summary>
         /// <param name="documentConfig">The <see cref="DocumentConfig"/>.</param>
         /// <exception cref="NullReferenceException"></exception>
@@ -45,8 +45,6 @@ namespace Origin.Core.Extensions
 
             foreach (DocumentParagraph documentParagraph in documentParagraphs)
             {
-                if (string.IsNullOrWhiteSpace(documentParagraph.Code)) throw new NullReferenceException(nameof(documentParagraph.Code));
-
                 documentParagraph.InheritParagraphProperties(documentConfig);
 
                 foreach(DocumentContent documentContent in documentParagraph.Contents)
@@ -61,7 +59,7 @@ namespace Origin.Core.Extensions
                         if (string.IsNullOrWhiteSpace(documentTableCell.Code)) throw new NullReferenceException(nameof(documentTableCell.Code));
 
                         documentTableCell.Contents 
-                            = [.. documentParagraph.Contents.Where(c => c.RenderElementCode == documentTableCell.Code).OrderBy(c => c.Order)];
+                            = [.. documentParagraph.Contents.Where(c => c.RenderCellCode == documentTableCell.Code).OrderBy(c => c.Order)];
                     }
                 }
                 else

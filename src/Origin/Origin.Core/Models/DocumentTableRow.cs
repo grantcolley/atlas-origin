@@ -7,10 +7,5 @@ namespace Origin.Core.Models
         public int DocumentTableRowId { get; set; }
         public int Position { get; set; }
         public int? Height { get; set; }
-
-        [Required]
-        [StringLength(100)]
-        public string? TableCode { get; set; }
-
     }
 }

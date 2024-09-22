@@ -221,7 +221,6 @@ namespace Origin.Data.Access.Data
                 DocumentParagraph documentParagraph = new()
                 {
                     Name = addDocumentParagraph.Name,
-                    Code = addDocumentParagraph.Code,
                     Order = addDocumentParagraph.Order,
                     DocumentParagraphType = addDocumentParagraph.DocumentParagraphType,
                     AlignContent = addDocumentParagraph.AlignContent,

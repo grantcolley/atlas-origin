@@ -27,10 +27,6 @@ namespace Origin.Core.Models
         [Required]
         [StringLength(250)]
         public string? Name { get; set; }
-
-        [Required]
-        [StringLength(100)]
-        public string? Code { get; set; }
     }
 
     public class DocumentParagraphValidator : AbstractValidator<DocumentParagraph>
@@ -40,10 +36,6 @@ namespace Origin.Core.Models
             RuleFor(v => v.Name)
                 .NotNull().WithMessage("Name is required")
                 .Length(1, 250).WithMessage("Name cannot exceed 250 characters");
-
-            RuleFor(v => v.Code)
-                .NotNull().WithMessage("Code is required")
-                .Length(1, 100).WithMessage("Code cannot exceed 100 characters");
         }
     }
 }

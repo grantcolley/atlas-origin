@@ -28,10 +28,6 @@ namespace Origin.Core.Models
         [StringLength(100)]
         public string? Code { get; set; }
 
-        [Required]
-        [StringLength(100)]
-        public string? RenderElementCode { get; set; }
-
         [NotMapped]
         [JsonIgnore]
         public List<DocumentContent> Contents { get; set; }

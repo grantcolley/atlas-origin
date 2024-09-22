@@ -24,7 +24,7 @@ namespace Origin.Core.Models
 
         [Required]
         [StringLength(100)]
-        public string? RenderElementCode { get; set; }
+        public string? RenderCellCode { get; set; }
 
         [Required]
         [StringLength(100)]

@@ -46,7 +46,7 @@ namespace Origin.Tests
                 {
                     new DocumentParagraph
                     {
-                        Code = "ParagraphCode",
+                        Name = "ParagraphCode",
                         Contents = { new DocumentContent { Content = "[NAME]" } }
                     }
                 }
@@ -74,7 +74,7 @@ namespace Origin.Tests
                 {
                     new DocumentParagraph
                     {
-                        Code = "ParagraphCode",
+                        Name = "ParagraphCode",
                         Contents = { new DocumentContent { Content = "[NAME], this is to inform you of an upcoming event." } }
                     }
                 }
@@ -102,7 +102,7 @@ namespace Origin.Tests
                 {
                     new DocumentParagraph
                     {
-                        Code = "ParagraphCode",
+                        Name = "ParagraphCode",
                         Contents = { new DocumentContent { Content = "Jane Masters, this is to inform you of an upcoming [ACTIVITY]" } }
                     }
                 }
@@ -135,7 +135,7 @@ namespace Origin.Tests
                 {
                     new DocumentParagraph
                     {
-                        Code = "ParagraphCode",
+                        Name = "ParagraphCode",
                         Contents = { new DocumentContent { Content = "[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY]." } }
                     }
                 }
@@ -269,7 +269,7 @@ namespace Origin.Tests
                 {
                     new DocumentParagraph
                     {
-                        Code = "ParagraphCode",
+                        Name = "ParagraphCode",
                         Contents = { new DocumentContent { Content = "[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY]." } }
                     }
                 }
@@ -293,7 +293,7 @@ namespace Origin.Tests
                 {
                     new DocumentParagraph
                     {
-                        Code = "ParagraphCode",
+                        Name = "ParagraphCode",
                         Contents = { new DocumentContent { Content = "[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY]." } }
                     }
                 }
@@ -324,7 +324,7 @@ namespace Origin.Tests
                 {
                     new DocumentParagraph
                     {
-                        Code = "ParagraphCode",
+                        Name = "ParagraphCode",
                         Contents = { new DocumentContent { Content = "[NAME, this is to [NOTIFICATION] you of an upcoming [ACTIVITY]." } }
                     }
                 }
@@ -355,7 +355,7 @@ namespace Origin.Tests
                 {
                     new DocumentParagraph
                     {
-                        Code = "ParagraphCode",
+                        Name = "ParagraphCode",
                         Contents = { new DocumentContent { Content = "[NAME, this is to notify you of an upcoming event." } }
                     }
                 }
@@ -386,7 +386,7 @@ namespace Origin.Tests
                 {
                     new DocumentParagraph
                     {
-                        Code = "ParagraphCode",
+                        Name = "ParagraphCode",
                         Contents = { new DocumentContent { Content = "NAME], this is to notify you of an upcoming event." } }
                     }
                 }
