@@ -1,0 +1,81 @@
+﻿<FluentAccordion>
+    <FluentAccordionItem Expanded=true>
+        <HeadingTemplate>
+            <FluentStack Orientation="Orientation.Horizontal">
+                Columns
+            </FluentStack>
+        </HeadingTemplate>
+        <ChildContent>
+            <FluentButton IconStart="@(new Icons.Regular.Size16.TableInsertColumn())" OnClick="@AddColumn">
+                Add Column
+            </FluentButton>
+            @foreach (Origin.Core.Models.DocumentTableColumn column in DocumentParagraph.Columns.OrderBy(r => r.Number))
+            {
+                <FluentStack Orientation="Orientation.Horizontal">
+                    <FluentNumberField @bind-Value="column.Number" Label="Number" ReadOnly="@(DocumentParagraph.IsReadOnly)" Min="0" />
+                    <FluentNumberField @bind-Value="column.Width" Label="Width" ReadOnly="@(DocumentParagraph.IsReadOnly)" Min="0" />
+                    <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => RemoveColumn(column))" />
+                </FluentStack>
+            }
+        </ChildContent>
+    </FluentAccordionItem>
+    <FluentAccordionItem Expanded=true>
+        <HeadingTemplate>
+            <FluentStack Orientation="Orientation.Horizontal">
+                Rows
+            </FluentStack>
+        </HeadingTemplate>
+        <ChildContent>
+            <FluentButton IconStart="@(new Icons.Regular.Size16.TableInsertRow())" OnClick="@AddRow">
+                Add Row
+            </FluentButton>
+            @foreach (Origin.Core.Models.DocumentTableRow row in DocumentParagraph.Rows.OrderBy(r => r.Number))
+            {
+                <FluentStack Orientation="Orientation.Horizontal">
+                    <FluentNumberField @bind-Value="row.Number" Label="Number" ReadOnly="@(DocumentParagraph.IsReadOnly)" Min="0" />
+                    <FluentNumberField @bind-Value="row.Height" Label="Height" ReadOnly="@(DocumentParagraph.IsReadOnly)" Min="0" />
+                    <FluentButton aria-label="Remove" IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => RemoveRow(row))" />
+                </FluentStack>
+            }
+        </ChildContent>
+    </FluentAccordionItem>
+    <FluentAccordionItem Expanded=true>
+        <HeadingTemplate>
+            Cells
+        </HeadingTemplate>
+        <ChildContent>
+
+        </ChildContent>
+    </FluentAccordionItem>
+</FluentAccordion>
+
+@code {
+    [Parameter, EditorRequired]
+    public DocumentParagraph DocumentParagraph { get; set; } = new();
+
+    [Parameter]
+    public IEnumerable<DocumentFont>? FontSource { get; set; }
+
+    [Parameter]
+    public IEnumerable<DocumentColour>? ColourSource { get; set; }
+
+    protected void AddColumn()
+    {
+        DocumentParagraph.Columns.Add(new DocumentTableColumn());
+    }
+
+    protected void AddRow()
+    {
+        DocumentParagraph.Rows.Add(new DocumentTableRow());
+    }
+
+    protected void RemoveColumn(Origin.Core.Models.DocumentTableColumn column)
+    {
+        DocumentParagraph.Columns.Remove(column);
+    }
+
+    protected void RemoveRow(Origin.Core.Models.DocumentTableRow row)
+    {
+        DocumentParagraph.Rows.Remove(row);
+    }
+}
