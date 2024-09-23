@@ -51,21 +51,21 @@ namespace Origin.Test.Data
                 Name = ContentCodes.LETTER_HEAD_TABLE,
                 Rows =
                 [
-                    new DocumentTableRow { DocumentTableRowId = 1, Position = 1 },
-                    new DocumentTableRow { DocumentTableRowId = 2, Position = 2 },
-                    new DocumentTableRow { DocumentTableRowId = 3, Position = 3 }
+                    new DocumentTableRow { DocumentTableRowId = 1, Number = 1 },
+                    new DocumentTableRow { DocumentTableRowId = 2, Number = 2 },
+                    new DocumentTableRow { DocumentTableRowId = 3, Number = 3 }
                 ],
                 Columns =
                 [
-                    new DocumentTableColumn { DocumentTableColumnId = 1, Position = 1, Width = 62 },
-                    new DocumentTableColumn { DocumentTableColumnId = 2, Position = 2, Width = 63 },
-                    new DocumentTableColumn { DocumentTableColumnId = 3, Position = 3, Width = 55 }
+                    new DocumentTableColumn { DocumentTableColumnId = 1, Number = 1, Width = 62 },
+                    new DocumentTableColumn { DocumentTableColumnId = 2, Number = 2, Width = 63 },
+                    new DocumentTableColumn { DocumentTableColumnId = 3, Number = 3, Width = 55 }
                 ],
                 Cells =
                 [
-                    new DocumentTableCell{ DocumentTableCellId = 1, Row = 1, Column = 1, Code = ContentCodes.COMPANY_LOGO },
-                    new DocumentTableCell{ DocumentTableCellId = 2, Row = 2, Column = 3, Code = ContentCodes.COMPANY_DETAILS },
-                    new DocumentTableCell{ DocumentTableCellId = 3, Row = 3, Column = 1, Code = ContentCodes.CUSTOMER_DETAILS }
+                    new DocumentTableCell{ DocumentTableCellId = 1, RowNumber = 1, ColumnNumber = 1, Code = ContentCodes.COMPANY_LOGO },
+                    new DocumentTableCell{ DocumentTableCellId = 2, RowNumber = 2, ColumnNumber = 3, Code = ContentCodes.COMPANY_DETAILS },
+                    new DocumentTableCell{ DocumentTableCellId = 3, RowNumber = 3, ColumnNumber = 1, Code = ContentCodes.CUSTOMER_DETAILS }
                 ],
                 Contents = 
                 [
@@ -142,26 +142,26 @@ namespace Origin.Test.Data
                 Name = MockLetter.LETTER_SUMMARY_TABLE,
                 Rows =
                 [
-                    new DocumentTableRow { DocumentTableRowId = 1, Position = 1 },
-                    new DocumentTableRow { DocumentTableRowId = 2, Position = 2 },
-                    new DocumentTableRow { DocumentTableRowId = 3, Position = 3 },
-                    new DocumentTableRow { DocumentTableRowId = 4, Position = 4 }
+                    new DocumentTableRow { DocumentTableRowId = 1, Number = 1 },
+                    new DocumentTableRow { DocumentTableRowId = 2, Number = 2 },
+                    new DocumentTableRow { DocumentTableRowId = 3, Number = 3 },
+                    new DocumentTableRow { DocumentTableRowId = 4, Number = 4 }
                 ],
                 Columns =
                 [
-                    new DocumentTableColumn { DocumentTableColumnId = 1, Position = 1, Width = 160 },
-                    new DocumentTableColumn { DocumentTableColumnId = 2, Position = 2, Width = 30 }
+                    new DocumentTableColumn { DocumentTableColumnId = 1, Number = 1, Width = 160 },
+                    new DocumentTableColumn { DocumentTableColumnId = 2, Number = 2, Width = 30 }
                 ],
                 Cells =
                 [
-                    new DocumentTableCell{ DocumentTableCellId = 1, Row = 1, Column = 1, Code = MockLetter.TABLE_SUMMARY_1, CellColour = "150,200,250", BorderLeft = 1, BorderLeftColour = "150,200,250", BorderTop = 1, BorderTopColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250", BorderBottom = 1, BorderBottomColour = "150,200,250" },
-                    new DocumentTableCell{ DocumentTableCellId = 2, Row = 1, Column = 2, Code = MockLetter.TABLE_SUMMARY_2, CellColour = "150,200,250", BorderLeft = 1, BorderLeftColour = "150,200,250", BorderTop = 1, BorderTopColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250", BorderBottom = 1, BorderBottomColour = "150,200,250" },
-                    new DocumentTableCell{ DocumentTableCellId = 3, Row = 2, Column = 1, Code = MockLetter.TABLE_LINE_1, BorderLeft = 1, BorderLeftColour = "150,200,250", BorderTop = 1, BorderTopColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250" },
-                    new DocumentTableCell{ DocumentTableCellId = 4, Row = 2, Column = 2, Code = MockLetter.TABLE_LINE_1_AMOUNT, BorderLeft = 1, BorderLeftColour = "150,200,250", BorderTop = 1, BorderTopColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250" },
-                    new DocumentTableCell{ DocumentTableCellId = 5, Row = 3, Column = 1, Code = MockLetter.TABLE_LINE_2, BorderLeft = 1, BorderLeftColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250" },
-                    new DocumentTableCell{ DocumentTableCellId = 6, Row = 3, Column = 2, Code = MockLetter.TABLE_LINE_2_AMOUNT, BorderLeft = 1, BorderLeftColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250" },
-                    new DocumentTableCell{ DocumentTableCellId = 7, Row = 4, Column = 1, Code = MockLetter.TABLE_TOTAL, BorderLeft = 1, BorderLeftColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250", BorderBottom = 1, BorderBottomColour = "150,200,250" },
-                    new DocumentTableCell{ DocumentTableCellId = 8, Row = 4, Column = 2, Code = MockLetter.TABLE_TOTAL_AMOUNT, BorderLeft = 1, BorderLeftColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250", BorderBottom = 1, BorderBottomColour = "150,200,250" }
+                    new DocumentTableCell{ DocumentTableCellId = 1, RowNumber = 1, ColumnNumber = 1, Code = MockLetter.TABLE_SUMMARY_1, CellColour = "150,200,250", BorderLeft = 1, BorderLeftColour = "150,200,250", BorderTop = 1, BorderTopColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250", BorderBottom = 1, BorderBottomColour = "150,200,250" },
+                    new DocumentTableCell{ DocumentTableCellId = 2, RowNumber = 1, ColumnNumber = 2, Code = MockLetter.TABLE_SUMMARY_2, CellColour = "150,200,250", BorderLeft = 1, BorderLeftColour = "150,200,250", BorderTop = 1, BorderTopColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250", BorderBottom = 1, BorderBottomColour = "150,200,250" },
+                    new DocumentTableCell{ DocumentTableCellId = 3, RowNumber = 2, ColumnNumber = 1, Code = MockLetter.TABLE_LINE_1, BorderLeft = 1, BorderLeftColour = "150,200,250", BorderTop = 1, BorderTopColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250" },
+                    new DocumentTableCell{ DocumentTableCellId = 4, RowNumber = 2, ColumnNumber = 2, Code = MockLetter.TABLE_LINE_1_AMOUNT, BorderLeft = 1, BorderLeftColour = "150,200,250", BorderTop = 1, BorderTopColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250" },
+                    new DocumentTableCell{ DocumentTableCellId = 5, RowNumber = 3, ColumnNumber = 1, Code = MockLetter.TABLE_LINE_2, BorderLeft = 1, BorderLeftColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250" },
+                    new DocumentTableCell{ DocumentTableCellId = 6, RowNumber = 3, ColumnNumber = 2, Code = MockLetter.TABLE_LINE_2_AMOUNT, BorderLeft = 1, BorderLeftColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250" },
+                    new DocumentTableCell{ DocumentTableCellId = 7, RowNumber = 4, ColumnNumber = 1, Code = MockLetter.TABLE_TOTAL, BorderLeft = 1, BorderLeftColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250", BorderBottom = 1, BorderBottomColour = "150,200,250" },
+                    new DocumentTableCell{ DocumentTableCellId = 8, RowNumber = 4, ColumnNumber = 2, Code = MockLetter.TABLE_TOTAL_AMOUNT, BorderLeft = 1, BorderLeftColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250", BorderBottom = 1, BorderBottomColour = "150,200,250" }
                 ],
                 Contents =
                 [
@@ -227,15 +227,15 @@ namespace Origin.Test.Data
                 Name = ContentCodes.SIGNATURE_TABLE,
                 Rows =
                 [
-                    new DocumentTableRow { DocumentTableRowId = 1, Position = 1 }
+                    new DocumentTableRow { DocumentTableRowId = 1, Number = 1 }
                 ],
                 Columns =
                 [
-                    new DocumentTableColumn { DocumentTableColumnId = 1, Position = 1, Width = 35 }
+                    new DocumentTableColumn { DocumentTableColumnId = 1, Number = 1, Width = 35 }
                 ],
                 Cells =
                 [
-                    new DocumentTableCell { DocumentTableCellId = 1, Row = 1, Column = 1, Code = ContentCodes.SIGNATURE_DETAILS }
+                    new DocumentTableCell { DocumentTableCellId = 1, RowNumber = 1, ColumnNumber = 1, Code = ContentCodes.SIGNATURE_DETAILS }
                 ],
                 Contents =
                 [
