@@ -12,7 +12,7 @@ namespace Origin.OpenXml.Extensions
         {
             ArgumentNullException.ThrowIfNull(documentParagraph);
 
-            List<DocumentTableColumn> documentTableColumns = [.. documentParagraph.Columns.OrderBy(c => c.Position)];
+            List<DocumentTableColumn> documentTableColumns = [.. documentParagraph.Columns.OrderBy(c => c.Number)];
 
             TableProperties tblPr = tbl.AppendChild(new TableProperties());
             TableWidth tblW = tblPr.AppendChild(new TableWidth());
@@ -27,14 +27,14 @@ namespace Origin.OpenXml.Extensions
                 tblGrid.AddGridColumn(documentTableColumn);
             }
 
-            foreach (DocumentTableRow documentTableRow in documentParagraph.Rows.OrderBy(r => r.Position))
+            foreach (DocumentTableRow documentTableRow in documentParagraph.Rows.OrderBy(r => r.Number))
             {
                 TableRow tr = tbl.CreateTableRow(documentTableRow);
 
                 for (int i = 0; i < documentTableColumns.Count; i++)
                 {
                     DocumentTableCell? documentTableCell = documentParagraph.Cells
-                        .FirstOrDefault(c => c.Row == documentTableRow.Position && c.Column == documentTableColumns[i].Position);
+                        .FirstOrDefault(c => c.RowNumber == documentTableRow.Number && c.ColumnNumber == documentTableColumns[i].Number);
 
                     string cellWidth = string.Empty;
 
