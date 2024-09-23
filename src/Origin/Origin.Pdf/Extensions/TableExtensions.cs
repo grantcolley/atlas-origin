@@ -15,7 +15,7 @@ namespace Origin.Pdf.Extensions
 
             // https://stackoverflow.com/questions/24986424/how-to-size-a-table-to-the-page-width-in-migradoc
 
-            List<DocumentTableColumn> documentTableColumns = [.. documentParagraph.Columns.OrderBy(c => c.Position)];
+            List<DocumentTableColumn> documentTableColumns = [.. documentParagraph.Columns.OrderBy(c => c.Number)];
 
             foreach (DocumentTableColumn documentTableColumn in documentTableColumns)
             {
@@ -27,7 +27,7 @@ namespace Origin.Pdf.Extensions
                 }
             }
 
-            foreach (DocumentTableRow documentTableRow in documentParagraph.Rows.OrderBy(r => r.Position))
+            foreach (DocumentTableRow documentTableRow in documentParagraph.Rows.OrderBy(r => r.Number))
             {
                 Row row = table.AddRow();
 
@@ -39,7 +39,7 @@ namespace Origin.Pdf.Extensions
                 for (int i = 0; i < documentTableColumns.Count; i++)
                 {
                     DocumentTableCell? documentTableCell = documentParagraph.Cells
-                        .FirstOrDefault(c => c.Row == documentTableRow.Position && c.Column == documentTableColumns[i].Position);
+                        .FirstOrDefault(c => c.RowNumber == documentTableRow.Number && c.ColumnNumber == documentTableColumns[i].Number);
 
                     if(documentTableCell != null) 
                     {
