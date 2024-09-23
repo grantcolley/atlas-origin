@@ -12,8 +12,8 @@ namespace Origin.Core.Models
         }
 
         public int DocumentTableCellId { get; set; }
-        public int Row { get; set; }
-        public int Column { get; set; }
+        public int RowNumber { get; set; }
+        public int ColumnNumber { get; set; }
         public int? BorderLeft { get; set; }
         public int? BorderTop { get; set; }
         public int? BorderRight { get; set; }
