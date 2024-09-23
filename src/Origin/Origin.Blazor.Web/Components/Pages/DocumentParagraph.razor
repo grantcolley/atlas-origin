@@ -61,9 +61,14 @@
                     <FluentTab Id="docParagraph" Label="Paragraph">
                         <Paragraph DocumentParagraph="@Model" FontSource="@_fontsSource" ColourSource="@_coloursSource" />
                     </FluentTab>
-                    <FluentTab Id="docTables" Label="Tables">
-                        Tables here...
-                    </FluentTab>
+
+                    @if (Model.DocumentParagraphType == DocumentParagraphType.Table)
+                    {
+                        <FluentTab Id="docTable" Label="Table">
+                            <Table DocumentParagraph="@Model" FontSource="@_fontsSource" ColourSource="@_coloursSource" />
+                        </FluentTab>
+                    }
+
                     <FluentTab Id="docContents" Label="Content">
                         Contents here...
                     </FluentTab>
