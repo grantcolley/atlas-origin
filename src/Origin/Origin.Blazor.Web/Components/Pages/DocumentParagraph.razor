@@ -10,7 +10,6 @@
 }
 
 @code {
-
     [Inject]
     internal IOriginOptionsRequests? OriginOptionsRequests { get; set; }
 
@@ -24,6 +23,8 @@
 
     private IEnumerable<Origin.Core.Models.DocumentFont>? _fontsSource = [];
     private IEnumerable<Origin.Core.Models.DocumentColour>? _coloursSource = [];
+    private List<string> _tabs = new List<string>() { "Paragraph", "Table" , "Content" };
+    private string? _selectedTab;
 
     protected override async Task OnInitializedAsync()
     {
@@ -33,6 +34,8 @@
 
         try
         {
+            _selectedTab = _tabs[0];
+
             _isProcessing = true;
 
             IResponse<IEnumerable<Origin.Core.Models.DocumentFont>?> fontsResponse = await OriginOptionsRequests.GetGenericOptionsAsync<Origin.Core.Models.DocumentFont>(OriginOptions.FONT_OPTIONS).ConfigureAwait(false);
@@ -57,19 +60,19 @@
 
         <FluentGrid Spacing="3" Justify="JustifyContent.FlexStart">        
             <FluentGridItem xs="12" md="12" lg="3">
-                <FluentTabs ActiveTabId="docCfg">
-                    <FluentTab Id="docParagraph" Label="Paragraph">
+                <FluentTabs @bind-ActiveTabId="@_selectedTab">
+                    <FluentTab Id="@_tabs[0]" Label="@_tabs[0]">
                         <Paragraph DocumentParagraph="@Model" FontSource="@_fontsSource" ColourSource="@_coloursSource" />
                     </FluentTab>
 
                     @if (Model.DocumentParagraphType == DocumentParagraphType.Table)
                     {
-                        <FluentTab Id="docTable" Label="Table">
+                        <FluentTab Id="@_tabs[1]" Label="@_tabs[1]">
                             <Table DocumentParagraph="@Model" FontSource="@_fontsSource" ColourSource="@_coloursSource" />
                         </FluentTab>
                     }
 
-                    <FluentTab Id="docContents" Label="Content">
+                    <FluentTab Id="@_tabs[2]" Label="@_tabs[2]">
                         Contents here...
                     </FluentTab>
                 </FluentTabs>
