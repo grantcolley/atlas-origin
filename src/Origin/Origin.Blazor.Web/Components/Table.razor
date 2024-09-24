@@ -6,12 +6,12 @@
             </FluentStack>
         </HeadingTemplate>
         <ChildContent>
-            <FluentButton IconStart="@(new Icons.Regular.Size16.TableInsertColumn())" OnClick="@AddColumn">
+            <FluentButton IconStart="@(new Icons.Regular.Size16.TableInsertColumn())" OnClick="@AddColumn" Style="margin: 3px">
                 Add Column
             </FluentButton>
             @foreach (Origin.Core.Models.DocumentTableColumn column in DocumentParagraph.Columns.OrderBy(r => r.Number))
             {
-                <FluentStack Orientation="Orientation.Horizontal">
+                <FluentStack Orientation="Orientation.Horizontal" Style="margin: 3px">
                     <FluentNumberField @bind-Value="column.Number" Label="Number" ReadOnly="@(DocumentParagraph.IsReadOnly)" Min="0" />
                     <FluentNumberField @bind-Value="column.Width" Label="Width" ReadOnly="@(DocumentParagraph.IsReadOnly)" Min="0" />
                     <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => RemoveColumn(column))" />
@@ -26,12 +26,12 @@
             </FluentStack>
         </HeadingTemplate>
         <ChildContent>
-            <FluentButton IconStart="@(new Icons.Regular.Size16.TableInsertRow())" OnClick="@AddRow">
+            <FluentButton IconStart="@(new Icons.Regular.Size16.TableInsertRow())" OnClick="@AddRow" Style="margin: 3px">
                 Add Row
             </FluentButton>
             @foreach (Origin.Core.Models.DocumentTableRow row in DocumentParagraph.Rows.OrderBy(r => r.Number))
             {
-                <FluentStack Orientation="Orientation.Horizontal">
+                <FluentStack Orientation="Orientation.Horizontal" Style="margin: 3px">
                     <FluentNumberField @bind-Value="row.Number" Label="Number" ReadOnly="@(DocumentParagraph.IsReadOnly)" Min="0" />
                     <FluentNumberField @bind-Value="row.Height" Label="Height" ReadOnly="@(DocumentParagraph.IsReadOnly)" Min="0" />
                     <FluentButton aria-label="Remove" IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => RemoveRow(row))" />
