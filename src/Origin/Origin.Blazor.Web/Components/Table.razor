@@ -6,17 +6,21 @@
             </FluentStack>
         </HeadingTemplate>
         <ChildContent>
+
             <FluentButton IconStart="@(new Icons.Regular.Size16.TableInsertColumn())" OnClick="@AddColumn" Style="margin: 3px">
                 Add Column
             </FluentButton>
-            @foreach (Origin.Core.Models.DocumentTableColumn column in DocumentParagraph.Columns.OrderBy(r => r.Number))
+
+            @foreach (Origin.Core.Models.DocumentTableColumn column in DocumentParagraph.Columns.OrderBy(c => c.Number))
             {
                 <FluentStack Orientation="Orientation.Horizontal" Style="margin: 3px">
-                    <FluentNumberField @bind-Value="column.Number" Label="Number" ReadOnly="@(DocumentParagraph.IsReadOnly)" Min="0" />
-                    <FluentNumberField @bind-Value="column.Width" Label="Width" ReadOnly="@(DocumentParagraph.IsReadOnly)" Min="0" />
+                    <FluentNumberField @bind-Value="column.Number" Label="Number" ReadOnly="@(DocumentParagraph.IsReadOnly)" Min="0" Style="width: 70px" />
+                    <FluentNumberField @bind-Value="column.Width" Label="Width" ReadOnly="@(DocumentParagraph.IsReadOnly)" Min="0" Style="width: 70px" />
                     <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => RemoveColumn(column))" />
+                    <FluentSpacer />
                 </FluentStack>
             }
+
         </ChildContent>
     </FluentAccordionItem>
     <FluentAccordionItem Expanded=true>
@@ -26,17 +30,21 @@
             </FluentStack>
         </HeadingTemplate>
         <ChildContent>
+
             <FluentButton IconStart="@(new Icons.Regular.Size16.TableInsertRow())" OnClick="@AddRow" Style="margin: 3px">
                 Add Row
             </FluentButton>
+
             @foreach (Origin.Core.Models.DocumentTableRow row in DocumentParagraph.Rows.OrderBy(r => r.Number))
             {
                 <FluentStack Orientation="Orientation.Horizontal" Style="margin: 3px">
-                    <FluentNumberField @bind-Value="row.Number" Label="Number" ReadOnly="@(DocumentParagraph.IsReadOnly)" Min="0" />
-                    <FluentNumberField @bind-Value="row.Height" Label="Height" ReadOnly="@(DocumentParagraph.IsReadOnly)" Min="0" />
+                    <FluentNumberField @bind-Value="row.Number" Label="Number" ReadOnly="@(DocumentParagraph.IsReadOnly)" Min="0" Style="width: 70px" />
+                    <FluentNumberField @bind-Value="row.Height" Label="Height" ReadOnly="@(DocumentParagraph.IsReadOnly)" Min="0" Style="width: 70px" />
                     <FluentButton aria-label="Remove" IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => RemoveRow(row))" />
+                    <FluentSpacer />
                 </FluentStack>
             }
+
         </ChildContent>
     </FluentAccordionItem>
     <FluentAccordionItem Expanded=true>
@@ -44,6 +52,30 @@
             Cells
         </HeadingTemplate>
         <ChildContent>
+           
+            <FluentButton IconStart="@(new Icons.Regular.Size16.TableCellEdit())" OnClick="@AddCell" Style="margin: 3px">
+                Add Cell
+            </FluentButton>
+
+            @foreach (Origin.Core.Models.DocumentTableCell cell in DocumentParagraph.Cells.OrderBy(c => c.RowNumber).ThenBy(c => c.ColumnNumber))
+            {
+                <FluentStack Orientation="Orientation.Horizontal" Style="margin: 3px">
+                    <FluentNumberField @bind-Value="cell.RowNumber" Label="Row" ReadOnly="@(DocumentParagraph.IsReadOnly)" Min="0" Style="width: 70px" />
+                    <FluentNumberField @bind-Value="cell.ColumnNumber" Label="Column" ReadOnly="@(DocumentParagraph.IsReadOnly)" Min="0" Style="width: 70px" />
+                    <FluentTextField Name="Code" @bind-Value="cell.Code" Label="Code" ReadOnly="@(DocumentParagraph.IsReadOnly)" />
+                    <FluentButton aria-label="Remove" IconEnd="@(new Icons.Regular.Size16.MoreHorizontal())" OnClick="@(() => EditCell(cell))" />
+                    <FluentButton aria-label="Remove" IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => RemoveCell(cell))" />
+                </FluentStack>
+            }
+
+            @if (_activeCell != null)
+            {
+                <p/>
+
+                <FluentDivider Style="margin: 5px; width: 100%;" Orientation=Orientation.Horizontal Role="DividerRole.Separator"></FluentDivider>
+
+                <p />
+            }
 
         </ChildContent>
     </FluentAccordionItem>
@@ -59,6 +91,8 @@
     [Parameter]
     public IEnumerable<DocumentColour>? ColourSource { get; set; }
 
+    private DocumentTableCell? _activeCell = null;
+
     protected void AddColumn()
     {
         DocumentParagraph.Columns.Add(new DocumentTableColumn());
@@ -69,6 +103,11 @@
         DocumentParagraph.Rows.Add(new DocumentTableRow());
     }
 
+    protected void AddCell()
+    {
+        DocumentParagraph.Cells.Add(new DocumentTableCell());
+    }
+
     protected void RemoveColumn(Origin.Core.Models.DocumentTableColumn column)
     {
         DocumentParagraph.Columns.Remove(column);
@@ -77,5 +116,15 @@
     protected void RemoveRow(Origin.Core.Models.DocumentTableRow row)
     {
         DocumentParagraph.Rows.Remove(row);
+    }
+
+    protected void RemoveCell(Origin.Core.Models.DocumentTableCell cell)
+    {
+        DocumentParagraph.Cells.Remove(cell);
+    }
+
+    protected void EditCell(Origin.Core.Models.DocumentTableCell cell)
+    {
+        _activeCell = cell;
     }
 }
