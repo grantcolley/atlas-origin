@@ -1,4 +1,5 @@
-﻿<FluentAccordion>
+﻿<FluentButton IconEnd="@(new Icons.Regular.Size20.DismissCircle())" OnClick="@OnCloseActiveCell" Appearance="Appearance.Stealth"/>
+<FluentAccordion>
     <FluentAccordionItem Expanded=true>
         <HeadingTemplate>
             @if (DocumentTableCell.DocumentTableCellId.Equals(0))
@@ -89,4 +90,12 @@
 
     [Parameter]
     public IEnumerable<DocumentColour>? ColourSource { get; set; }
+
+    [Parameter]
+    public EventCallback CloseActiveCell { get; set; }
+
+    private async Task OnCloseActiveCell(MouseEventArgs args)
+    {
+        await CloseActiveCell.InvokeAsync();
+    }
 }
