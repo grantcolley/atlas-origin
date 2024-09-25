@@ -15,14 +15,6 @@
                 <FluentTextField Name="Name" @bind-Value="DocumentConfig.Name" Label="Name" ReadOnly="@(DocumentConfig.IsReadOnly)" />
                 <FluentValidationMessage For="@(() => DocumentConfig.Name)" />
             </div>
-            <div>
-                <FluentTextField Name="SubstituteStart" @bind-Value="DocumentConfig.SubstituteStart" Label="Substitute Start" Maxlength="1" ReadOnly="@(DocumentConfig.IsReadOnly)" />
-                <FluentValidationMessage For="@(() => DocumentConfig.SubstituteStart)" />
-            </div>
-            <div>
-                <FluentTextField Name="SubstituteEnd" @bind-Value="DocumentConfig.SubstituteEnd" Label="Substitute End" Maxlength="1" ReadOnly="@(DocumentConfig.IsReadOnly)" />
-                <FluentValidationMessage For="@(() => DocumentConfig.SubstituteEnd)" />
-            </div>
         </ChildContent>
     </FluentAccordionItem>
     <FluentAccordionItem Expanded=true>
