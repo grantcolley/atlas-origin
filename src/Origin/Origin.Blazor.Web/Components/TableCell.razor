@@ -1,0 +1,92 @@
+﻿<FluentAccordion>
+    <FluentAccordionItem Expanded=true>
+        <HeadingTemplate>
+            @if (DocumentTableCell.DocumentTableCellId.Equals(0))
+            {
+                <FluentLabel Typo="Typography.Body">New Document Table Cell</FluentLabel>
+            }
+            else
+            {
+                <FluentLabel Typo="Typography.Body">@($"Document Table Cell Id {DocumentTableCell.DocumentTableCellId}")</FluentLabel>
+            }
+        </HeadingTemplate>
+        <ChildContent>
+            <div>
+                <FluentTextField Name="Code" @bind-Value="DocumentTableCell.Code" Label="Code" ReadOnly="@(DocumentTableCell.IsReadOnly)" />
+                <FluentValidationMessage For="@(() => DocumentTableCell.Code)" />
+            </div>
+            <div>
+                <FluentNumberField @bind-Value="DocumentTableCell.RowNumber" Label="Row Number" ReadOnly="@(DocumentTableCell.IsReadOnly)" Min="0" />
+            </div>
+            <div>
+                <FluentNumberField @bind-Value="DocumentTableCell.ColumnNumber" Label="Column Number" ReadOnly="@(DocumentTableCell.IsReadOnly)" Min="0" />
+            </div>
+            <div>
+                <FluentNumberField @bind-Value="DocumentTableCell.BorderLeft" Label="Border Left" ReadOnly="@(DocumentTableCell.IsReadOnly)" Min="0" />
+            </div>
+            <div>
+                <FluentNumberField @bind-Value="DocumentTableCell.BorderTop" Label="Border Top" ReadOnly="@(DocumentTableCell.IsReadOnly)" Min="0" />
+            </div>
+            <div>
+                <FluentNumberField @bind-Value="DocumentTableCell.BorderRight" Label="Border Right" ReadOnly="@(DocumentTableCell.IsReadOnly)" Min="0" />
+            </div>
+            <div>
+                <FluentNumberField @bind-Value="DocumentTableCell.BorderBottom" Label="Border Bottom" ReadOnly="@(DocumentTableCell.IsReadOnly)" Min="0" />
+            </div>
+            <div>
+                <ColorSelect Label="Border Left Colour"
+                             FieldName="BorderLeftColour"
+                             Source="@ColourSource"
+                             @bind-Value="DocumentTableCell.BorderLeftColour"
+                             ReadOnly="@(DocumentTableCell.IsReadOnly)" />
+            </div>
+            <div>
+                <ColorSelect Label="Border Top Colour"
+                             FieldName="BorderTopColour"
+                             Source="@ColourSource"
+                             @bind-Value="DocumentTableCell.BorderTopColour"
+                             ReadOnly="@(DocumentTableCell.IsReadOnly)" />
+            </div>
+            <div>
+                <ColorSelect Label="Border Right Colour"
+                             FieldName="BorderRightColour"
+                             Source="@ColourSource"
+                             @bind-Value="DocumentTableCell.BorderRightColour"
+                             ReadOnly="@(DocumentTableCell.IsReadOnly)" />
+            </div>
+            <div>
+                <ColorSelect Label="Border Bottom Colour"
+                             FieldName="BorderBottomColour"
+                             Source="@ColourSource"
+                             @bind-Value="DocumentTableCell.BorderBottomColour"
+                             ReadOnly="@(DocumentTableCell.IsReadOnly)" />
+            </div>
+            <div>
+                <ColorSelect Label="Cell Colour"
+                             FieldName="CellColour"
+                             Source="@ColourSource"
+                             @bind-Value="DocumentTableCell.CellColour"
+                             ReadOnly="@(DocumentTableCell.IsReadOnly)" />
+            </div>
+        </ChildContent>
+    </FluentAccordionItem>
+    <FluentAccordionItem Expanded=true>
+        <HeadingTemplate>
+            Table Cell Content Properties
+        </HeadingTemplate>
+        <ChildContent>
+            <ContentProperties T="DocumentContentProperties" Model="@DocumentTableCell" FontSource="@FontSource" ColourSource="@ColourSource" />
+        </ChildContent>
+    </FluentAccordionItem>
+</FluentAccordion>
+
+@code {
+    [Parameter, EditorRequired]
+    public DocumentTableCell DocumentTableCell { get; set; } = new();
+
+    [Parameter]
+    public IEnumerable<DocumentFont>? FontSource { get; set; }
+
+    [Parameter]
+    public IEnumerable<DocumentColour>? ColourSource { get; set; }
+}
