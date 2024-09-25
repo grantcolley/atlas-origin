@@ -74,7 +74,7 @@
 
                 <FluentDivider Style="margin: 5px; width: 100%;" Orientation=Orientation.Horizontal Role="DividerRole.Separator"></FluentDivider>
 
-                <TableCell DocumentTableCell="@_activeCell" FontSource="@FontSource" ColourSource="@ColourSource" />
+                <TableCell DocumentTableCell="@_activeCell" FontSource="@FontSource" ColourSource="@ColourSource" CloseActiveCell="@CloseActiveCell"/>
 
                 <p />
             }
@@ -123,10 +123,19 @@
     protected void RemoveCell(Origin.Core.Models.DocumentTableCell cell)
     {
         DocumentParagraph.Cells.Remove(cell);
+        if (_activeCell == cell)
+        {
+            _activeCell = null;
+        }
     }
 
     protected void EditCell(Origin.Core.Models.DocumentTableCell cell)
     {
         _activeCell = cell;
+    }
+
+    private void CloseActiveCell()
+    {
+        _activeCell = null;
     }
 }
