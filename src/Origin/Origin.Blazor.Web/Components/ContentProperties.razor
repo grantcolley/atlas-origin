@@ -17,6 +17,14 @@
                  @bind-Value="Model.Colour"
                  ReadOnly="@(Model.IsReadOnly)" />
 </div>
+<div>
+    <FluentTextField Name="SubstituteStart" @bind-Value="Model.SubstituteStart" Label="Substitute Start" Maxlength="1" ReadOnly="@(Model.IsReadOnly)" />
+    <FluentValidationMessage For="@(() => Model.SubstituteStart)" />
+</div>
+<div>
+    <FluentTextField Name="SubstituteEnd" @bind-Value="Model.SubstituteEnd" Label="Substitute End" Maxlength="1" ReadOnly="@(Model.IsReadOnly)" />
+    <FluentValidationMessage For="@(() => Model.SubstituteEnd)" />
+</div>
 
 @code {
     [Parameter, EditorRequired]
