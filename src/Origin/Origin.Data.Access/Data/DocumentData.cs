@@ -193,6 +193,10 @@ namespace Origin.Data.Access.Data
             {
                 DocumentParagraph documentParagraph = await _applicationDbContext.DocumentParagraphs
                     .AsNoTracking()
+                    .Include(d => d.Contents)
+                    .Include(d => d.Columns)
+                    .Include(d => d.Rows)
+                    .Include (d => d.Cells)
                     .FirstAsync(d => d.DocumentParagraphId.Equals(id), cancellationToken)
                     .ConfigureAwait(false);
 
@@ -253,7 +257,7 @@ namespace Origin.Data.Access.Data
 
                 if(documentParagraph.DocumentParagraphType == DocumentParagraphType.Table)
                 {
-                    if(documentParagraph.Columns.Count > 0)
+                    if(addDocumentParagraph.Columns.Count > 0)
                     {
                         documentParagraph.Columns.AddRange(addDocumentParagraph.Columns);
 
@@ -262,7 +266,7 @@ namespace Origin.Data.Access.Data
                             .ConfigureAwait(false);
                     }
 
-                    if (documentParagraph.Rows.Count > 0)
+                    if (addDocumentParagraph.Rows.Count > 0)
                     {
                         documentParagraph.Rows.AddRange(addDocumentParagraph.Rows);
 
@@ -271,7 +275,7 @@ namespace Origin.Data.Access.Data
                             .ConfigureAwait(false);
                     }
 
-                    if (documentParagraph.Cells.Count > 0)
+                    if (addDocumentParagraph.Cells.Count > 0)
                     {
                         documentParagraph.Cells.AddRange(addDocumentParagraph.Cells);
 
