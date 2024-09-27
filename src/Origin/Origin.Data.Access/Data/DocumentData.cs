@@ -251,7 +251,35 @@ namespace Origin.Data.Access.Data
                         .ConfigureAwait(false);
                 }
 
-                // TODO: Add rows, columns, cells and content.
+                if(documentParagraph.DocumentParagraphType == DocumentParagraphType.Table)
+                {
+                    if(documentParagraph.Columns.Count > 0)
+                    {
+                        documentParagraph.Columns.AddRange(addDocumentParagraph.Columns);
+
+                        await _applicationDbContext
+                            .SaveChangesAsync(cancellationToken)
+                            .ConfigureAwait(false);
+                    }
+
+                    if (documentParagraph.Rows.Count > 0)
+                    {
+                        documentParagraph.Rows.AddRange(addDocumentParagraph.Rows);
+
+                        await _applicationDbContext
+                            .SaveChangesAsync(cancellationToken)
+                            .ConfigureAwait(false);
+                    }
+
+                    if (documentParagraph.Cells.Count > 0)
+                    {
+                        documentParagraph.Cells.AddRange(addDocumentParagraph.Cells);
+
+                        await _applicationDbContext
+                            .SaveChangesAsync(cancellationToken)
+                            .ConfigureAwait(false);
+                    }
+                }
 
                 if (Authorisation == null
                     || !Authorisation.HasPermission(Auth.DOCUMENT_WRITE))
