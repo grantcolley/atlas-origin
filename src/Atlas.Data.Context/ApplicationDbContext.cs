@@ -21,7 +21,7 @@ namespace Atlas.Data.Context
 
         public DbSet<DocumentConfig> DocumentConfigs { get; set; }
         public DbSet<DocumentParagraph> DocumentParagraphs { get; set; }
-        public DbSet<DocumentTableRow> DocumentTableRow {  get; set; }
+        public DbSet<DocumentTableRow> DocumentTableRows {  get; set; }
         public DbSet<DocumentTableColumn> DocumentTableColumns { get; set; }
         public DbSet<DocumentTableCell> DocumentTableCells { get; set; }
         public DbSet<DocumentContent> DocumentContents { get; set; }
