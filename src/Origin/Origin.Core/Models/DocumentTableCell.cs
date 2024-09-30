@@ -31,5 +31,10 @@ namespace Origin.Core.Models
         [NotMapped]
         [JsonIgnore]
         public List<DocumentContent> Contents { get; set; }
+
+        public override int? GetId()
+        {
+            return DocumentTableCellId;
+        }
     }
 }
