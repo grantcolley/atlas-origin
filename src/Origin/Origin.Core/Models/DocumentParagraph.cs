@@ -16,7 +16,6 @@ namespace Origin.Core.Models
 
         public int DocumentParagraphId { get; set; }
         public int Order { get; set; }
-        public DocumentContentAlign AlignContent { get; set; }
         public DocumentParagraphType DocumentParagraphType { get; set; }
         public List<DocumentTableRow> Rows { get; set; }
         public List<DocumentTableColumn> Columns { get; set; }
