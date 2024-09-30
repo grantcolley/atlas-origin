@@ -8,6 +8,7 @@ namespace Origin.Core.Extensions
         {
             ArgumentNullException.ThrowIfNull(inherit);
 
+            if (!documentContentProperties.IgnoreParapgraphSpacing.HasValue) documentContentProperties.IgnoreParapgraphSpacing = inherit.IgnoreParapgraphSpacing;
             if (string.IsNullOrWhiteSpace(documentContentProperties.Font)) documentContentProperties.Font = inherit.Font;
             if (string.IsNullOrWhiteSpace(documentContentProperties.Colour)) documentContentProperties.Colour = inherit.Colour;
             if (!documentContentProperties.FontSize.HasValue) documentContentProperties.FontSize = inherit.FontSize;
