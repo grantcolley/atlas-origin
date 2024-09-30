@@ -32,13 +32,6 @@
             Paragraph Properties
         </HeadingTemplate>
         <ChildContent>
-            <div>
-                <EnumSelectList T="Origin.Core.Models.DocumentContentAlign"
-                                @bind-Value="DocumentParagraph.AlignContent"
-                                Label="Align Content"
-                                FieldName="AlignContent"
-                                ReadOnly="@(DocumentParagraph.IsReadOnly)" />
-            </div>
             <ParagraphProperties T="DocumentParagraphProperties" Model="@DocumentParagraph" />
         </ChildContent>
     </FluentAccordionItem>
