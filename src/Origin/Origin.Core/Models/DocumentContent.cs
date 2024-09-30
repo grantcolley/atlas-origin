@@ -14,9 +14,7 @@ namespace Origin.Core.Models
         public bool? Underscore { get; set; }
         public int? ImageHeight { get; set; }
         public int? ImageWidth { get; set; }
-        public bool? IgnoreParapgraphSpacing { get; set; }
         public DocumentContentType ContentType { get; set; }
-        public DocumentContentAlign AlignContent { get; set; }
 
         [Required]
         [StringLength(100)]
