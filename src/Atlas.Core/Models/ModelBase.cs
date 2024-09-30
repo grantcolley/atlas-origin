@@ -26,6 +26,8 @@ namespace Atlas.Core.Models
             }
         }
 
+        public virtual int? GetId() { return null; }
+
         /// <summary>
         /// Overriden by derived classes for propagating <see cref="IsReadOnly"/>
         /// to all it's properties that also inherit from <see cref="ModelBase"/>.
