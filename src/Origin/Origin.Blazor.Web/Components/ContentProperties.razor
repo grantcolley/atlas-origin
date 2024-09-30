@@ -1,7 +1,8 @@
 ﻿@typeparam T where T : ModelBase, IDocumentContentProperties
 
 <div>
-    <FontsSelect Label="Font"
+    <FontsSelect @key="Model.GetId()" 
+                 Label="Font"
                  FieldName="Font"
                  Source="@FontSource"
                  @bind-Value="Model.Font"
@@ -11,7 +12,8 @@
     <FluentNumberField Name="FontSize" @bind-Value="Model.FontSize" Label="Font Size" ReadOnly="@(Model.IsReadOnly)" Min="0" />
 </div>
 <div>
-    <ColorSelect Label="Colour"
+    <ColorSelect @key="Model.GetId()"
+                 Label="Colour"
                  FieldName="Colour"
                  Source="@ColourSource"
                  @bind-Value="Model.Colour"
