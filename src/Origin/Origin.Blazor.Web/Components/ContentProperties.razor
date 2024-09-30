@@ -1,6 +1,17 @@
 ﻿@typeparam T where T : ModelBase, IDocumentContentProperties
 
 <div>
+    <EnumSelectList T="Origin.Core.Models.DocumentContentAlign"
+                    @key="Model.GetId()"
+                    @bind-Value="Model.AlignContent"
+                    Label="Align Content"
+                    FieldName="AlignContent"
+                    ReadOnly="@(Model.IsReadOnly)" />
+</div>
+<div>
+    <FluentCheckbox @bind-CheckState="Model.IgnoreParapgraphSpacing" Label="Ignore Parapgraph spacing" ThreeState="true" ReadOnly="@(Model.IsReadOnly)" Style="margin-top: 10px;margin-bottom: 10px;" />
+</div>
+<div>
     <FontsSelect @key="Model.GetId()" 
                  Label="Font"
                  FieldName="Font"
