@@ -27,6 +27,11 @@ namespace Origin.Core.Models
         [Required]
         [StringLength(250)]
         public string? Name { get; set; }
+
+        public override int? GetId()
+        {
+            return DocumentParagraphId;
+        }
     }
 
     public class DocumentParagraphValidator : AbstractValidator<DocumentParagraph>
