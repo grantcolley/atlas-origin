@@ -6,6 +6,10 @@ namespace Origin.Core.Models
 {
     public abstract class DocumentContentProperties : ModelBase, IDocumentContentProperties
     {
+        public DocumentContentAlign AlignContent { get; set; }
+
+        public bool? IgnoreParapgraphSpacing { get; set; }
+
         public int? FontSize { get; set; }
 
         [StringLength(100)]
