@@ -11,7 +11,6 @@
         ///  - 11907 x 16839 twips - twentieths of a point (OpenXml)
         /// </summary>
 
-        bool? IgnoreParapgraphSpacing { get; set; }
         int ParagraphSpacingBetweenLinesAfter { get; set; }
         int ParagraphSpacingBetweenLinesBefore { get; set; }
     }
