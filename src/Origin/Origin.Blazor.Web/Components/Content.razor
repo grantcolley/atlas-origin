@@ -1,0 +1,96 @@
+﻿<FluentButton IconEnd="@(new Icons.Regular.Size20.DismissCircle())" OnClick="@OnCloseActiveContent" Appearance="Appearance.Stealth" />
+<FluentAccordion>
+    <FluentAccordionItem Expanded=true>
+        <HeadingTemplate>
+            @if (DocumentContent.DocumentContentId.Equals(0))
+            {
+                <FluentLabel Typo="Typography.Body">New Document Content</FluentLabel>
+            }
+            else
+            {
+                <FluentLabel Typo="Typography.Body">@($"Document Content Id {DocumentContent.DocumentContentId}")</FluentLabel>
+            }
+        </HeadingTemplate>
+        <ChildContent>
+            <div>
+                <FluentTextArea @bind-Value="DocumentContent.Content" />
+            </div>
+        </ChildContent>
+    </FluentAccordionItem>
+    <FluentAccordionItem Expanded=true>
+        <HeadingTemplate>
+            Content Properties
+        </HeadingTemplate>
+        <ChildContent>
+            <div>
+                <FluentTextField Name="Code" @bind-Value="DocumentContent.Code" Label="Code" ReadOnly="@(DocumentContent.IsReadOnly)" />
+                <FluentValidationMessage For="@(() => DocumentContent.Code)" />
+            </div>
+            <div>
+                <FluentTextField Name="Name" @bind-Value="DocumentContent.Name" Label="Name" ReadOnly="@(DocumentContent.IsReadOnly)" />
+                <FluentValidationMessage For="@(() => DocumentContent.Name)" />
+            </div>
+            <div>
+                <FluentTextField Name="RenderCellCode" @bind-Value="DocumentContent.RenderCellCode" Label="RenderCellCode" ReadOnly="@(DocumentContent.IsReadOnly)" />
+                <FluentValidationMessage For="@(() => DocumentContent.RenderCellCode)" />
+            </div>
+            <div>
+                <FluentNumberField @bind-Value="DocumentContent.Order" Label="Order" ReadOnly="@(DocumentContent.IsReadOnly)" Min="0" />
+            </div>
+            <div>
+                <EnumSelectList T="DocumentContentType"
+                                @key="DocumentContent.DocumentContentId"
+                                @bind-Value="DocumentContent.ContentType"
+                                Label="Content Type"
+                                FieldName="ContentType"
+                                ReadOnly="@(DocumentContent.IsReadOnly)" />
+            </div>
+
+            @if (DocumentContent.ContentType == DocumentContentType.Text)
+            {
+                <div>
+                    <FluentCheckbox @bind-CheckState="DocumentContent.Bold" Label="Bold" ThreeState="true" ReadOnly="@(DocumentContent.IsReadOnly)" Style="margin-top: 10px;margin-bottom: 10px;" />
+                </div>
+                <div>
+                    <FluentCheckbox @bind-CheckState="DocumentContent.Italic" Label="Italic" ThreeState="true" ReadOnly="@(DocumentContent.IsReadOnly)" Style="margin-top: 10px;margin-bottom: 10px;" />
+                </div>
+                <div>
+                    <FluentCheckbox @bind-CheckState="DocumentContent.Underscore" Label="Underscore" ThreeState="true" ReadOnly="@(DocumentContent.IsReadOnly)" Style="margin-top: 10px;margin-bottom: 10px;" />
+                </div>
+                <ContentProperties T="DocumentContentProperties" Model="@DocumentContent" FontSource="@FontSource" ColourSource="@ColourSource" />
+            }
+            else if (DocumentContent.ContentType == DocumentContentType.Image)
+            {
+                <div>
+                    <FluentTextField Name="Source" @bind-Value="DocumentContent.Source" Label="Source" ReadOnly="@(DocumentContent.IsReadOnly)" />
+                    <FluentValidationMessage For="@(() => DocumentContent.Source)" />
+                </div>
+                <div>
+                    <FluentNumberField Name="ImageHeight" @bind-Value="DocumentContent.ImageHeight" Label="Image Height" ReadOnly="@(DocumentContent.IsReadOnly)" Min="0" />
+                </div>
+                <div>
+                    <FluentNumberField Name="ImageWidth" @bind-Value="DocumentContent.ImageWidth" Label="Image Width" ReadOnly="@(DocumentContent.IsReadOnly)" Min="0" />
+                </div>
+            }
+        </ChildContent>
+    </FluentAccordionItem>
+</FluentAccordion>
+
+@code {
+    [Parameter, EditorRequired]
+    public DocumentContent DocumentContent { get; set; } = new();
+
+    [Parameter]
+    public IEnumerable<DocumentFont>? FontSource { get; set; }
+
+    [Parameter]
+    public IEnumerable<DocumentColour>? ColourSource { get; set; }
+
+    [Parameter]
+    public EventCallback CloseActiveContent { get; set; }
+
+    private async Task OnCloseActiveContent(MouseEventArgs args)
+    {
+        await CloseActiveContent.InvokeAsync();
+    }
+}
