@@ -1,0 +1,73 @@
+﻿<FluentAccordion>
+    <FluentAccordionItem Expanded=true>
+        <HeadingTemplate>
+            Contents
+        </HeadingTemplate>
+        <ChildContent>
+
+            <FluentButton IconStart="@(new Icons.Regular.Size16.SlideTextEdit())" OnClick="@AddContent" Style="margin: 3px">
+                Add Content
+            </FluentButton>
+
+            @foreach (DocumentContent content in DocumentParagraph.Contents.OrderBy(c => c.Order))
+            {
+                <FluentStack Orientation="Orientation.Horizontal" Style="margin: 3px">
+                    <FluentTextField Name="Code" @bind-Value="content.Code" Label="Code" ReadOnly="@(DocumentParagraph.IsReadOnly)" />
+                    <FluentTextField Name="Name" @bind-Value="content.Name" Label="Name" ReadOnly="@(DocumentParagraph.IsReadOnly)" />
+                    <FluentTextField Name="RenderCellCode" @bind-Value="content.RenderCellCode" Label="Render Cell Code" ReadOnly="@(DocumentParagraph.IsReadOnly)" />
+                    <FluentButton aria-label="Edit" IconEnd="@(new Icons.Regular.Size16.MoreHorizontal())" OnClick="@(() => EditContent(content))" />
+                    <FluentButton aria-label="Remove" IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => RemoveContent(content))" />
+                </FluentStack>
+            }
+
+            @if (_activeContent != null)
+            {
+                <p />
+
+                <FluentDivider Style="margin: 5px; width: 100%;" Orientation=Orientation.Horizontal Role="DividerRole.Separator"></FluentDivider>
+
+                <Content DocumentContent="@_activeContent" FontSource="@FontSource" ColourSource="@ColourSource" CloseActiveContent="@CloseActiveContent" />
+
+                <p />
+            }
+
+        </ChildContent>
+    </FluentAccordionItem>
+</FluentAccordion>
+
+@code {
+    [Parameter, EditorRequired]
+    public DocumentParagraph DocumentParagraph { get; set; } = new();
+
+    [Parameter]
+    public IEnumerable<DocumentFont>? FontSource { get; set; }
+
+    [Parameter]
+    public IEnumerable<DocumentColour>? ColourSource { get; set; }
+
+    private DocumentContent? _activeContent = null;
+
+    protected void AddContent()
+    {
+        DocumentParagraph.Contents.Add(new DocumentContent());
+    }
+
+    protected void RemoveContent(DocumentContent content)
+    {
+        DocumentParagraph.Contents.Remove(content);
+        if (_activeContent == content)
+        {
+            _activeContent = null;
+        }
+    }
+
+    protected void EditContent(DocumentContent content)
+    {
+        _activeContent = content;
+    }
+
+    private void CloseActiveContent()
+    {
+        _activeContent = null;
+    }
+}
