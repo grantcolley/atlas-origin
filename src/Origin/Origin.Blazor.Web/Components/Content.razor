@@ -13,16 +13,6 @@
         </HeadingTemplate>
         <ChildContent>
             <div>
-                <FluentTextArea @bind-Value="DocumentContent.Content" />
-            </div>
-        </ChildContent>
-    </FluentAccordionItem>
-    <FluentAccordionItem Expanded=true>
-        <HeadingTemplate>
-            Content Properties
-        </HeadingTemplate>
-        <ChildContent>
-            <div>
                 <FluentTextField Name="Code" @bind-Value="DocumentContent.Code" Label="Code" ReadOnly="@(DocumentContent.IsReadOnly)" />
                 <FluentValidationMessage For="@(() => DocumentContent.Code)" />
             </div>
@@ -48,6 +38,9 @@
 
             @if (DocumentContent.ContentType == DocumentContentType.Text)
             {
+                <div>
+                    <FluentTextArea @bind-Value="DocumentContent.Content" Label="Content" Rows="10" style="width: 100%;" />
+                </div>
                 <div>
                     <FluentCheckbox @bind-CheckState="DocumentContent.Bold" Label="Bold" ThreeState="true" ReadOnly="@(DocumentContent.IsReadOnly)" Style="margin-top: 10px;margin-bottom: 10px;" />
                 </div>
