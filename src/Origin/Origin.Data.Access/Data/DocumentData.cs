@@ -300,78 +300,48 @@ namespace Origin.Data.Access.Data
             }
         }
 
-        public async Task<DocumentParagraph> UpdateDocumentParagraphAsync(DocumentParagraph documentParagraph, CancellationToken cancellationToken)
+        public async Task<DocumentParagraph> UpdateDocumentParagraphAsync(DocumentParagraph updateDocumentParagraph, CancellationToken cancellationToken)
         {
             try
             {
                 DocumentParagraph existingParagraph = await _applicationDbContext.DocumentParagraphs
                     .Include(c => c.Contents)
-                    .FirstOrDefaultAsync(p => p.DocumentParagraphId.Equals(documentParagraph.DocumentParagraphId), cancellationToken)
+                    .FirstOrDefaultAsync(p => p.DocumentParagraphId.Equals(updateDocumentParagraph.DocumentParagraphId), cancellationToken)
                     .ConfigureAwait(false)
                     ?? throw new NullReferenceException(
-                        $"{nameof(documentParagraph)} DocumentParagraphId {documentParagraph.DocumentParagraphId} not found.");
+                        $"{nameof(updateDocumentParagraph)} DocumentParagraphId {updateDocumentParagraph.DocumentParagraphId} not found.");
 
                 _applicationDbContext
                     .Entry(existingParagraph)
-                    .CurrentValues.SetValues(documentParagraph);
+                    .CurrentValues.SetValues(updateDocumentParagraph);
 
-                List<DocumentContent> paragraphContents = documentParagraph.Contents
-                    .Where(c => c.DocumentContentId > 0)
-                    .ToList();
+                await UpdateParagraphContents(existingParagraph, updateDocumentParagraph).ConfigureAwait(false);
 
-                List<DocumentContent> removeContents = existingParagraph.Contents
-                    .Where(rc => !paragraphContents.Any(c => c.DocumentContentId.Equals(rc.DocumentContentId)))
-                    .ToList();
-
-                foreach (DocumentContent content in removeContents)
+                if (updateDocumentParagraph.DocumentParagraphType == DocumentParagraphType.Table)
                 {
-                    existingParagraph.Contents.Remove(content);
+                    await UpdateParagraphTableRows(existingParagraph, updateDocumentParagraph).ConfigureAwait(false);
+
+                    await UpdateParagraphTableColumns(existingParagraph, updateDocumentParagraph).ConfigureAwait(false);
+
+                    await UpdateParagraphTableCells(existingParagraph, updateDocumentParagraph).ConfigureAwait(false);
                 }
-
-                if (paragraphContents.Count > 0)
+                else
                 {
-                    List<int> paragraphContentsIds = paragraphContents.Select(c => c.DocumentContentId).ToList();
-
-                    IEnumerable<DocumentContent> existingContents = await _applicationDbContext.DocumentContents
-                        .Where(c => paragraphContentsIds.Contains(c.DocumentContentId))
-                        .ToListAsync();
-
-                    foreach (DocumentContent existingContent in existingContents)
+                    foreach(DocumentTableRow row in existingParagraph.Rows)
                     {
-                        DocumentContent documentContent = paragraphContents
-                            .First(c => c.DocumentContentId == existingContent.DocumentContentId);
+                        existingParagraph.Rows.Remove(row);
+                    }
 
-                        _applicationDbContext
-                            .Entry(existingContent)
-                            .CurrentValues.SetValues(documentContent);
+                    foreach (DocumentTableColumn column in existingParagraph.Columns)
+                    {
+                        existingParagraph.Columns.Remove(column);
+                    }
 
-                        _applicationDbContext.DocumentContents.Update(existingContent);
+                    foreach (DocumentTableCell cell in existingParagraph.Cells)
+                    {
+                        existingParagraph.Cells.Remove(cell);
                     }
                 }
-
-                List<DocumentContent> newContents = documentParagraph.Contents
-                    .Where(c => c.DocumentContentId == 0)
-                    .ToList();
-
-                foreach (DocumentContent content in newContents)
-                {
-                    await _applicationDbContext.DocumentContents.AddAsync(content).ConfigureAwait(false);
-
-                    existingParagraph.Contents.Add(content);
-                }
-
-                // TODO: add/remove rows, columns, cells and content...
-
-
-
-
-
-
-
-
-
-
-
 
                 _applicationDbContext.DocumentParagraphs.Update(existingParagraph);
 
@@ -382,14 +352,14 @@ namespace Origin.Data.Access.Data
                 if (Authorisation == null
                     || !Authorisation.HasPermission(Auth.DOCUMENT_WRITE))
                 {
-                    documentParagraph.IsReadOnly = true;
+                    updateDocumentParagraph.IsReadOnly = true;
                 }
 
-                return documentParagraph;
+                return updateDocumentParagraph;
             }
             catch (Exception ex)
             {
-                throw new AtlasException(ex.Message, ex, $"DocumentParagraphId={documentParagraph.DocumentParagraphId}");
+                throw new AtlasException(ex.Message, ex, $"DocumentParagraphId={updateDocumentParagraph.DocumentParagraphId}");
             }
         }
 
@@ -661,6 +631,198 @@ namespace Origin.Data.Access.Data
             catch (Exception ex)
             {
                 throw new AtlasException(ex.Message, ex, $"DocumentColourId={id}");
+            }
+        }
+
+        private async Task UpdateParagraphTableRows(DocumentParagraph existingParagraph, DocumentParagraph updateDocumentParagraph)
+        {
+            List<DocumentTableRow> tableRows = updateDocumentParagraph.Rows
+                .Where(r => r.DocumentTableRowId > 0)
+                .ToList();
+
+            List<DocumentTableRow> removeRows = existingParagraph.Rows
+                .Where(rr => !tableRows.Any(r => r.DocumentTableRowId.Equals(rr.DocumentTableRowId)))
+                .ToList();
+
+            foreach (DocumentTableRow row in removeRows)
+            {
+                existingParagraph.Rows.Remove(row);
+            }
+
+            if (tableRows.Count > 0)
+            {
+                List<int> rowIds = tableRows.Select(r => r.DocumentTableRowId).ToList();
+
+                IEnumerable<DocumentTableRow> existingRows = await _applicationDbContext.DocumentTableRows
+                    .Where(r => rowIds.Contains(r.DocumentTableRowId))
+                    .ToListAsync();
+
+                foreach (DocumentTableRow existingRow in existingRows)
+                {
+                    DocumentTableRow row = tableRows
+                        .First(r => r.DocumentTableRowId == existingRow.DocumentTableRowId);
+
+                    _applicationDbContext
+                        .Entry(existingRow)
+                        .CurrentValues.SetValues(row);
+
+                    _applicationDbContext.DocumentTableRows.Update(existingRow);
+                }
+            }
+
+            List<DocumentTableRow> newRows = updateDocumentParagraph.Rows
+                .Where(r => r.DocumentTableRowId == 0)
+                .ToList();
+
+            foreach (DocumentTableRow row in newRows)
+            {
+                await _applicationDbContext.DocumentTableRows.AddAsync(row).ConfigureAwait(false);
+
+                existingParagraph.Rows.Add(row);
+            }
+        }
+
+        private async Task UpdateParagraphTableColumns(DocumentParagraph existingParagraph, DocumentParagraph updateDocumentParagraph)
+        {
+            List<DocumentTableColumn> tableColumns = updateDocumentParagraph.Columns
+                .Where(c => c.DocumentTableColumnId > 0)
+                .ToList();
+
+            List<DocumentTableColumn> removeColumns = existingParagraph.Columns
+                .Where(rc => !tableColumns.Any(c => c.DocumentTableColumnId.Equals(rc.DocumentTableColumnId)))
+                .ToList();
+
+            foreach (DocumentTableColumn column in removeColumns)
+            {
+                existingParagraph.Columns.Remove(column);
+            }
+
+            if (tableColumns.Count > 0)
+            {
+                List<int> columnIds = tableColumns.Select(c => c.DocumentTableColumnId).ToList();
+
+                IEnumerable<DocumentTableColumn> existingColumns = await _applicationDbContext.DocumentTableColumns
+                    .Where(c => columnIds.Contains(c.DocumentTableColumnId))
+                    .ToListAsync();
+
+                foreach (DocumentTableColumn existingColumn in existingColumns)
+                {
+                    DocumentTableColumn column = tableColumns
+                        .First(c => c.DocumentTableColumnId == existingColumn.DocumentTableColumnId);
+
+                    _applicationDbContext
+                        .Entry(existingColumn)
+                        .CurrentValues.SetValues(column);
+
+                    _applicationDbContext.DocumentTableColumns.Update(existingColumn);
+                }
+            }
+
+            List<DocumentTableColumn> newColumns = updateDocumentParagraph.Columns
+                .Where(c => c.DocumentTableColumnId == 0)
+                .ToList();
+
+            foreach (DocumentTableColumn column in newColumns)
+            {
+                await _applicationDbContext.DocumentTableColumns.AddAsync(column).ConfigureAwait(false);
+
+                existingParagraph.Columns.Add(column);
+            }
+        }
+
+        private async Task UpdateParagraphTableCells(DocumentParagraph existingParagraph, DocumentParagraph updateDocumentParagraph)
+        {
+            List<DocumentTableCell> tableCells = updateDocumentParagraph.Cells
+                .Where(c => c.DocumentTableCellId > 0)
+                .ToList();
+
+            List<DocumentTableCell> removeCells = existingParagraph.Cells
+                .Where(rc => !tableCells.Any(c => c.DocumentTableCellId.Equals(rc.DocumentTableCellId)))
+                .ToList();
+
+            foreach (DocumentTableCell cell in removeCells)
+            {
+                existingParagraph.Cells.Remove(cell);
+            }
+
+            if (tableCells.Count > 0)
+            {
+                List<int> cellIds = tableCells.Select(c => c.DocumentTableCellId).ToList();
+
+                IEnumerable<DocumentTableCell> existingCells = await _applicationDbContext.DocumentTableCells
+                    .Where(c => cellIds.Contains(c.DocumentTableCellId))
+                    .ToListAsync();
+
+                foreach (DocumentTableCell existingCell in existingCells)
+                {
+                    DocumentTableCell cell = tableCells
+                        .First(c => c.DocumentTableCellId == existingCell.DocumentTableCellId);
+
+                    _applicationDbContext
+                        .Entry(existingCell)
+                        .CurrentValues.SetValues(cell);
+
+                    _applicationDbContext.DocumentTableCells.Update(existingCell);
+                }
+            }
+
+            List<DocumentTableCell> newCells = updateDocumentParagraph.Cells
+                .Where(c => c.DocumentTableCellId == 0)
+                .ToList();
+
+            foreach (DocumentTableCell cell in newCells)
+            {
+                await _applicationDbContext.DocumentTableCells.AddAsync(cell).ConfigureAwait(false);
+
+                existingParagraph.Cells.Add(cell);
+            }
+        }
+
+        private async Task UpdateParagraphContents(DocumentParagraph existingParagraph, DocumentParagraph updateDocumentParagraph)
+        {
+            List<DocumentContent> paragraphContents = updateDocumentParagraph.Contents
+                .Where(c => c.DocumentContentId > 0)
+                .ToList();
+
+            List<DocumentContent> removeContents = existingParagraph.Contents
+                .Where(rc => !paragraphContents.Any(c => c.DocumentContentId.Equals(rc.DocumentContentId)))
+                .ToList();
+
+            foreach (DocumentContent content in removeContents)
+            {
+                existingParagraph.Contents.Remove(content);
+            }
+
+            if (paragraphContents.Count > 0)
+            {
+                List<int> paragraphContentsIds = paragraphContents.Select(c => c.DocumentContentId).ToList();
+
+                IEnumerable<DocumentContent> existingContents = await _applicationDbContext.DocumentContents
+                    .Where(c => paragraphContentsIds.Contains(c.DocumentContentId))
+                    .ToListAsync();
+
+                foreach (DocumentContent existingContent in existingContents)
+                {
+                    DocumentContent documentContent = paragraphContents
+                        .First(c => c.DocumentContentId == existingContent.DocumentContentId);
+
+                    _applicationDbContext
+                        .Entry(existingContent)
+                        .CurrentValues.SetValues(documentContent);
+
+                    _applicationDbContext.DocumentContents.Update(existingContent);
+                }
+            }
+
+            List<DocumentContent> newContents = updateDocumentParagraph.Contents
+                .Where(c => c.DocumentContentId == 0)
+                .ToList();
+
+            foreach (DocumentContent content in newContents)
+            {
+                await _applicationDbContext.DocumentContents.AddAsync(content).ConfigureAwait(false);
+
+                existingParagraph.Contents.Add(content);
             }
         }
     }
