@@ -304,19 +304,76 @@ namespace Origin.Data.Access.Data
         {
             try
             {
-                DocumentParagraph existing = await _applicationDbContext.DocumentParagraphs
+                DocumentParagraph existingParagraph = await _applicationDbContext.DocumentParagraphs
+                    .Include(c => c.Contents)
                     .FirstOrDefaultAsync(p => p.DocumentParagraphId.Equals(documentParagraph.DocumentParagraphId), cancellationToken)
                     .ConfigureAwait(false)
                     ?? throw new NullReferenceException(
                         $"{nameof(documentParagraph)} DocumentParagraphId {documentParagraph.DocumentParagraphId} not found.");
 
                 _applicationDbContext
-                    .Entry(existing)
+                    .Entry(existingParagraph)
                     .CurrentValues.SetValues(documentParagraph);
+
+                List<DocumentContent> paragraphContents = documentParagraph.Contents
+                    .Where(c => c.DocumentContentId > 0)
+                    .ToList();
+
+                List<DocumentContent> removeContents = existingParagraph.Contents
+                    .Where(rc => !paragraphContents.Any(c => c.DocumentContentId.Equals(rc.DocumentContentId)))
+                    .ToList();
+
+                foreach (DocumentContent content in removeContents)
+                {
+                    existingParagraph.Contents.Remove(content);
+                }
+
+                if (paragraphContents.Count > 0)
+                {
+                    List<int> paragraphContentsIds = paragraphContents.Select(c => c.DocumentContentId).ToList();
+
+                    IEnumerable<DocumentContent> existingContents = await _applicationDbContext.DocumentContents
+                        .Where(c => paragraphContentsIds.Contains(c.DocumentContentId))
+                        .ToListAsync();
+
+                    foreach (DocumentContent existingContent in existingContents)
+                    {
+                        DocumentContent documentContent = paragraphContents
+                            .First(c => c.DocumentContentId == existingContent.DocumentContentId);
+
+                        _applicationDbContext
+                            .Entry(existingContent)
+                            .CurrentValues.SetValues(documentContent);
+
+                        _applicationDbContext.DocumentContents.Update(existingContent);
+                    }
+                }
+
+                List<DocumentContent> newContents = documentParagraph.Contents
+                    .Where(c => c.DocumentContentId == 0)
+                    .ToList();
+
+                foreach (DocumentContent content in newContents)
+                {
+                    await _applicationDbContext.DocumentContents.AddAsync(content).ConfigureAwait(false);
+
+                    existingParagraph.Contents.Add(content);
+                }
 
                 // TODO: add/remove rows, columns, cells and content...
 
-                _applicationDbContext.DocumentParagraphs.Update(existing);
+
+
+
+
+
+
+
+
+
+
+
+                _applicationDbContext.DocumentParagraphs.Update(existingParagraph);
 
                 await _applicationDbContext
                     .SaveChangesAsync(cancellationToken)
