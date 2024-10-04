@@ -56,9 +56,9 @@
         if (Model == null) throw new NullReferenceException(nameof(Model));
 
         <FluentGrid Spacing="3" Justify="JustifyContent.FlexStart">        
-            <FluentGridItem xs="12" md="12" lg="3">
-                <FluentTabs ActiveTabId="docCfg">
-                    <FluentTab Id="docConfig" Label="Document">
+            <FluentGridItem xs="12" md="12" lg="12">
+                <FluentTabs ActiveTabId="docCfg" >
+                    <FluentTab Id="docConfig" Label="Document" >
                         <Document DocumentConfig="@Model" FontSource="@_fontsSource" ColourSource="@_coloursSource"/>
                     </FluentTab>
                     <FluentTab Id="docParagraphs" Label="Paragraphs">
