@@ -11,13 +11,13 @@ namespace Atlas.API.Endpoints.Origin
 {
     internal static class DocumentPropertiesEndpoints
     {
-        internal static async Task<IResult> GetDocumentFonts(IDocumentData documentData, IClaimService claimService, ILogService logService, CancellationToken cancellationToken)
+        internal static async Task<IResult> GetDocumentFonts(IDocumentPropertiesData documentPropertiesData, IClaimService claimService, ILogService logService, CancellationToken cancellationToken)
         {
             Authorisation? authorisation = null;
 
             try
             {
-                authorisation = await documentData.GetAuthorisationAsync(claimService.GetClaim(), cancellationToken)
+                authorisation = await documentPropertiesData.GetAuthorisationAsync(claimService.GetClaim(), cancellationToken)
                     .ConfigureAwait(false);
 
                 if (authorisation == null
@@ -26,7 +26,7 @@ namespace Atlas.API.Endpoints.Origin
                     return Results.Unauthorized();
                 }
 
-                IEnumerable<DocumentFont>? documentFonts = await documentData.GetDocumentFontsAsync(cancellationToken)
+                IEnumerable<DocumentFont>? documentFonts = await documentPropertiesData.GetDocumentFontsAsync(cancellationToken)
                     .ConfigureAwait(false);
 
                 return Results.Ok(new AuthResult<IEnumerable<DocumentFont>?> { Authorisation = authorisation, Result = documentFonts });
@@ -39,13 +39,13 @@ namespace Atlas.API.Endpoints.Origin
             }
         }
 
-        internal static async Task<IResult> GetDocumentFont(int id, IDocumentData documentData, IClaimService claimService, ILogService logService, CancellationToken cancellationToken)
+        internal static async Task<IResult> GetDocumentFont(int id, IDocumentPropertiesData documentPropertiesData, IClaimService claimService, ILogService logService, CancellationToken cancellationToken)
         {
             Authorisation? authorisation = null;
 
             try
             {
-                authorisation = await documentData.GetAuthorisationAsync(claimService.GetClaim(), cancellationToken)
+                authorisation = await documentPropertiesData.GetAuthorisationAsync(claimService.GetClaim(), cancellationToken)
                     .ConfigureAwait(false);
 
                 if (authorisation == null
@@ -54,7 +54,7 @@ namespace Atlas.API.Endpoints.Origin
                     return Results.Unauthorized();
                 }
 
-                DocumentFont? documentFont = await documentData.GetDocumentFontAsync(id, cancellationToken)
+                DocumentFont? documentFont = await documentPropertiesData.GetDocumentFontAsync(id, cancellationToken)
                     .ConfigureAwait(false);
 
                 return Results.Ok(documentFont);
@@ -67,13 +67,13 @@ namespace Atlas.API.Endpoints.Origin
             }
         }
 
-        internal static async Task<IResult> CreateDocumentFont([FromBody] DocumentFont documentFont, IDocumentData documentData, IClaimService claimService, ILogService logService, CancellationToken cancellationToken)
+        internal static async Task<IResult> CreateDocumentFont([FromBody] DocumentFont documentFont, IDocumentPropertiesData documentPropertiesData, IClaimService claimService, ILogService logService, CancellationToken cancellationToken)
         {
             Authorisation? authorisation = null;
 
             try
             {
-                authorisation = await documentData.GetAuthorisationAsync(claimService.GetClaim(), cancellationToken)
+                authorisation = await documentPropertiesData.GetAuthorisationAsync(claimService.GetClaim(), cancellationToken)
                     .ConfigureAwait(false);
 
                 if (authorisation == null
@@ -82,7 +82,7 @@ namespace Atlas.API.Endpoints.Origin
                     return Results.Unauthorized();
                 }
 
-                DocumentFont? newdocumentFont = await documentData.CreateDocumentFontAsync(documentFont, cancellationToken)
+                DocumentFont? newdocumentFont = await documentPropertiesData.CreateDocumentFontAsync(documentFont, cancellationToken)
                     .ConfigureAwait(false);
 
                 return Results.Ok(newdocumentFont);
@@ -95,13 +95,13 @@ namespace Atlas.API.Endpoints.Origin
             }
         }
 
-        internal static async Task<IResult> UpdateDocumentFont([FromBody] DocumentFont documentFont, IDocumentData documentData, IClaimService claimService, ILogService logService, CancellationToken cancellationToken)
+        internal static async Task<IResult> UpdateDocumentFont([FromBody] DocumentFont documentFont, IDocumentPropertiesData documentPropertiesData, IClaimService claimService, ILogService logService, CancellationToken cancellationToken)
         {
             Authorisation? authorisation = null;
 
             try
             {
-                authorisation = await documentData.GetAuthorisationAsync(claimService.GetClaim(), cancellationToken)
+                authorisation = await documentPropertiesData.GetAuthorisationAsync(claimService.GetClaim(), cancellationToken)
                     .ConfigureAwait(false);
 
                 if (authorisation == null
@@ -110,7 +110,7 @@ namespace Atlas.API.Endpoints.Origin
                     return Results.Unauthorized();
                 }
 
-                DocumentFont? updatedDocumentFont = await documentData.UpdateDocumentFontAsync(documentFont, cancellationToken)
+                DocumentFont? updatedDocumentFont = await documentPropertiesData.UpdateDocumentFontAsync(documentFont, cancellationToken)
                     .ConfigureAwait(false);
 
                 return Results.Ok(updatedDocumentFont);
@@ -123,13 +123,13 @@ namespace Atlas.API.Endpoints.Origin
             }
         }
 
-        internal static async Task<IResult> DeleteDocumentFont(int id, IDocumentData documentData, IClaimService claimService, ILogService logService, CancellationToken cancellationToken)
+        internal static async Task<IResult> DeleteDocumentFont(int id, IDocumentPropertiesData documentPropertiesData, IClaimService claimService, ILogService logService, CancellationToken cancellationToken)
         {
             Authorisation? authorisation = null;
 
             try
             {
-                authorisation = await documentData.GetAuthorisationAsync(claimService.GetClaim(), cancellationToken)
+                authorisation = await documentPropertiesData.GetAuthorisationAsync(claimService.GetClaim(), cancellationToken)
                     .ConfigureAwait(false);
 
                 if (authorisation == null
@@ -138,7 +138,7 @@ namespace Atlas.API.Endpoints.Origin
                     return Results.Unauthorized();
                 }
 
-                int affectedRows = await documentData.DeleteDocumentFontAsync(id, cancellationToken)
+                int affectedRows = await documentPropertiesData.DeleteDocumentFontAsync(id, cancellationToken)
                     .ConfigureAwait(false);
 
                 return Results.Ok(affectedRows);
@@ -151,13 +151,13 @@ namespace Atlas.API.Endpoints.Origin
             }
         }
 
-        internal static async Task<IResult> GetDocumentColours(IDocumentData documentData, IClaimService claimService, ILogService logService, CancellationToken cancellationToken)
+        internal static async Task<IResult> GetDocumentColours(IDocumentPropertiesData documentPropertiesData, IClaimService claimService, ILogService logService, CancellationToken cancellationToken)
         {
             Authorisation? authorisation = null;
 
             try
             {
-                authorisation = await documentData.GetAuthorisationAsync(claimService.GetClaim(), cancellationToken)
+                authorisation = await documentPropertiesData.GetAuthorisationAsync(claimService.GetClaim(), cancellationToken)
                     .ConfigureAwait(false);
 
                 if (authorisation == null
@@ -166,7 +166,7 @@ namespace Atlas.API.Endpoints.Origin
                     return Results.Unauthorized();
                 }
 
-                IEnumerable<DocumentColour>? documentColours = await documentData.GetDocumentColoursAsync(cancellationToken)
+                IEnumerable<DocumentColour>? documentColours = await documentPropertiesData.GetDocumentColoursAsync(cancellationToken)
                     .ConfigureAwait(false);
 
                 return Results.Ok(new AuthResult<IEnumerable<DocumentColour>?> { Authorisation = authorisation, Result = documentColours });
@@ -179,13 +179,13 @@ namespace Atlas.API.Endpoints.Origin
             }
         }
 
-        internal static async Task<IResult> GetDocumentColour(int id, IDocumentData documentData, IClaimService claimService, ILogService logService, CancellationToken cancellationToken)
+        internal static async Task<IResult> GetDocumentColour(int id, IDocumentPropertiesData documentPropertiesData, IClaimService claimService, ILogService logService, CancellationToken cancellationToken)
         {
             Authorisation? authorisation = null;
 
             try
             {
-                authorisation = await documentData.GetAuthorisationAsync(claimService.GetClaim(), cancellationToken)
+                authorisation = await documentPropertiesData.GetAuthorisationAsync(claimService.GetClaim(), cancellationToken)
                     .ConfigureAwait(false);
 
                 if (authorisation == null
@@ -194,7 +194,7 @@ namespace Atlas.API.Endpoints.Origin
                     return Results.Unauthorized();
                 }
 
-                DocumentColour? documentColour = await documentData.GetDocumentColourAsync(id, cancellationToken)
+                DocumentColour? documentColour = await documentPropertiesData.GetDocumentColourAsync(id, cancellationToken)
                     .ConfigureAwait(false);
 
                 return Results.Ok(documentColour);
@@ -207,13 +207,13 @@ namespace Atlas.API.Endpoints.Origin
             }
         }
 
-        internal static async Task<IResult> CreateDocumentColour([FromBody] DocumentColour documentColour, IDocumentData documentData, IClaimService claimService, ILogService logService, CancellationToken cancellationToken)
+        internal static async Task<IResult> CreateDocumentColour([FromBody] DocumentColour documentColour, IDocumentPropertiesData documentPropertiesData, IClaimService claimService, ILogService logService, CancellationToken cancellationToken)
         {
             Authorisation? authorisation = null;
 
             try
             {
-                authorisation = await documentData.GetAuthorisationAsync(claimService.GetClaim(), cancellationToken)
+                authorisation = await documentPropertiesData.GetAuthorisationAsync(claimService.GetClaim(), cancellationToken)
                     .ConfigureAwait(false);
 
                 if (authorisation == null
@@ -222,7 +222,7 @@ namespace Atlas.API.Endpoints.Origin
                     return Results.Unauthorized();
                 }
 
-                DocumentColour? newDocumentColour = await documentData.CreateDocumentColourAsync(documentColour, cancellationToken)
+                DocumentColour? newDocumentColour = await documentPropertiesData.CreateDocumentColourAsync(documentColour, cancellationToken)
                     .ConfigureAwait(false);
 
                 return Results.Ok(newDocumentColour);
@@ -235,13 +235,13 @@ namespace Atlas.API.Endpoints.Origin
             }
         }
 
-        internal static async Task<IResult> UpdateDocumentColour([FromBody] DocumentColour documentColour, IDocumentData documentData, IClaimService claimService, ILogService logService, CancellationToken cancellationToken)
+        internal static async Task<IResult> UpdateDocumentColour([FromBody] DocumentColour documentColour, IDocumentPropertiesData documentPropertiesData, IClaimService claimService, ILogService logService, CancellationToken cancellationToken)
         {
             Authorisation? authorisation = null;
 
             try
             {
-                authorisation = await documentData.GetAuthorisationAsync(claimService.GetClaim(), cancellationToken)
+                authorisation = await documentPropertiesData.GetAuthorisationAsync(claimService.GetClaim(), cancellationToken)
                     .ConfigureAwait(false);
 
                 if (authorisation == null
@@ -250,7 +250,7 @@ namespace Atlas.API.Endpoints.Origin
                     return Results.Unauthorized();
                 }
 
-                DocumentColour? updatedDocumentColour = await documentData.UpdateDocumentColourAsync(documentColour, cancellationToken)
+                DocumentColour? updatedDocumentColour = await documentPropertiesData.UpdateDocumentColourAsync(documentColour, cancellationToken)
                     .ConfigureAwait(false);
 
                 return Results.Ok(updatedDocumentColour);
@@ -263,13 +263,13 @@ namespace Atlas.API.Endpoints.Origin
             }
         }
 
-        internal static async Task<IResult> DeleteDocumentColour(int id, IDocumentData documentData, IClaimService claimService, ILogService logService, CancellationToken cancellationToken)
+        internal static async Task<IResult> DeleteDocumentColour(int id, IDocumentPropertiesData documentPropertiesData, IClaimService claimService, ILogService logService, CancellationToken cancellationToken)
         {
             Authorisation? authorisation = null;
 
             try
             {
-                authorisation = await documentData.GetAuthorisationAsync(claimService.GetClaim(), cancellationToken)
+                authorisation = await documentPropertiesData.GetAuthorisationAsync(claimService.GetClaim(), cancellationToken)
                     .ConfigureAwait(false);
 
                 if (authorisation == null
@@ -278,7 +278,7 @@ namespace Atlas.API.Endpoints.Origin
                     return Results.Unauthorized();
                 }
 
-                int affectedRows = await documentData.DeleteDocumentColourAsync(id, cancellationToken)
+                int affectedRows = await documentPropertiesData.DeleteDocumentColourAsync(id, cancellationToken)
                     .ConfigureAwait(false);
 
                 return Results.Ok(affectedRows);
