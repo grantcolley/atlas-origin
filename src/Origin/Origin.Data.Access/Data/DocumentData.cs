@@ -31,6 +31,8 @@ namespace Origin.Data.Access.Data
             try
             {
                 DocumentConfig documentConfig = await _applicationDbContext.DocumentConfigs
+                    .Include(c => c.Substitutes)
+                    .Include(c => c.Paragraphs)
                     .AsNoTracking()
                     .FirstAsync(d => d.DocumentConfigId.Equals(id), cancellationToken)
                     .ConfigureAwait(false);
