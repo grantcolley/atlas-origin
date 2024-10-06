@@ -16,9 +16,6 @@
                 <FluentValidationMessage For="@(() => DocumentParagraph.Name)" />
             </div>
             <div>
-                <FluentNumberField @bind-Value="DocumentParagraph.Order" Label="Order" ReadOnly="@(DocumentParagraph.IsReadOnly)" Min="0" />
-            </div>
-            <div>
                 <EnumSelectList T="Origin.Core.Models.DocumentParagraphType"
                                 @bind-Value="DocumentParagraph.DocumentParagraphType"
                                 Label="Paragraph Type" 
