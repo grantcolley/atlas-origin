@@ -17,20 +17,25 @@ namespace Origin.Tests
                 SubstituteStart = "[",
                 SubstituteEnd = "]",
                 Substitutes = { new DocumentSubstitute { Key = "[Date]", Value = DateTime.Today.ToLongDateString() } },
-                Paragraphs = 
+            };
+
+            documentConfig.ConfigParagraphs =
+            [
+                new DocumentConfigParagraph()
                 {
-                    new DocumentParagraph
+                    DocumentConfig = documentConfig,
+                    DocumentParagraph = new DocumentParagraph
                     {
                         Contents = { new DocumentContent { Content = "Jane Masters, this is to inform you of an upcoming event." } }
                     }
                 }
-            };
+            ];
 
             // Act
             documentConfig.ApplySubstitutesToDocumentContent();
 
             // Assert
-            Assert.AreEqual(CONTENT, documentConfig.Paragraphs.First().Contents.First().Content);
+            Assert.AreEqual(CONTENT, documentConfig.ConfigParagraphs.Select(cp => cp.DocumentParagraph).First().Contents.First().Content);
         }
 
         [TestMethod]
@@ -41,16 +46,21 @@ namespace Origin.Tests
             {
                 SubstituteStart = "[",
                 SubstituteEnd = "]",
-                Substitutes = { new DocumentSubstitute { Key = "NAME", Value = "Jane Masters" } },
-                Paragraphs =
+                Substitutes = { new DocumentSubstitute { Key = "NAME", Value = "Jane Masters" } }
+            };
+
+            documentConfig.ConfigParagraphs =
+            [
+                new DocumentConfigParagraph()
                 {
-                    new DocumentParagraph
+                    DocumentConfig = documentConfig,
+                    DocumentParagraph = new DocumentParagraph
                     {
                         Name = "ParagraphCode",
                         Contents = { new DocumentContent { Content = "[NAME]" } }
                     }
                 }
-            };
+            ];
 
             documentConfig.ConstructDocumentConfig();
 
@@ -58,7 +68,7 @@ namespace Origin.Tests
             documentConfig.ApplySubstitutesToDocumentContent();
 
             // Assert
-            Assert.AreEqual(documentConfig.Substitutes.First().Value, documentConfig.Paragraphs.First().Contents.First().Content);
+            Assert.AreEqual(documentConfig.Substitutes.First().Value, documentConfig.ConfigParagraphs.Select(cp => cp.DocumentParagraph).First().Contents.First().Content);
         }
 
         [TestMethod]
@@ -69,16 +79,21 @@ namespace Origin.Tests
             {
                 SubstituteStart = "[",
                 SubstituteEnd = "]",
-                Substitutes = { new DocumentSubstitute { Key = "NAME", Value = "Jane Masters" } },
-                Paragraphs =
+                Substitutes = { new DocumentSubstitute { Key = "NAME", Value = "Jane Masters" } }
+            };
+
+            documentConfig.ConfigParagraphs =
+            [
+                new DocumentConfigParagraph()
                 {
-                    new DocumentParagraph
+                    DocumentConfig = documentConfig,
+                    DocumentParagraph = new DocumentParagraph
                     {
                         Name = "ParagraphCode",
                         Contents = { new DocumentContent { Content = "[NAME], this is to inform you of an upcoming event." } }
                     }
                 }
-            };
+            ];
 
             documentConfig.ConstructDocumentConfig();
 
@@ -86,7 +101,7 @@ namespace Origin.Tests
             documentConfig.ApplySubstitutesToDocumentContent();
 
             // Assert
-            Assert.AreEqual(CONTENT, documentConfig.Paragraphs.First().Contents.First().Content);
+            Assert.AreEqual(CONTENT, documentConfig.ConfigParagraphs.Select(cp => cp.DocumentParagraph).First().Contents.First().Content);
         }
 
         [TestMethod]
@@ -97,16 +112,21 @@ namespace Origin.Tests
             {
                 SubstituteStart = "[",
                 SubstituteEnd = "]",
-                Substitutes = { new DocumentSubstitute { Key = "ACTIVITY", Value = "event." } },
-                Paragraphs =
+                Substitutes = { new DocumentSubstitute { Key = "ACTIVITY", Value = "event." } }
+            };
+
+            documentConfig.ConfigParagraphs =
+            [
+                new DocumentConfigParagraph()
                 {
-                    new DocumentParagraph
+                    DocumentConfig = documentConfig,
+                    DocumentParagraph = new DocumentParagraph
                     {
                         Name = "ParagraphCode",
                         Contents = { new DocumentContent { Content = "Jane Masters, this is to inform you of an upcoming [ACTIVITY]" } }
                     }
                 }
-            };
+            ];
 
             documentConfig.ConstructDocumentConfig();
 
@@ -114,7 +134,7 @@ namespace Origin.Tests
             documentConfig.ApplySubstitutesToDocumentContent();
 
             // Assert
-            Assert.AreEqual(CONTENT, documentConfig.Paragraphs.First().Contents.First().Content);
+            Assert.AreEqual(CONTENT, documentConfig.ConfigParagraphs.Select(cp => cp.DocumentParagraph).First().Contents.First().Content);
         }
 
         [TestMethod]
@@ -130,16 +150,21 @@ namespace Origin.Tests
                     new DocumentSubstitute { Key = "ACTIVITY", Value = "event" },
                     new DocumentSubstitute { Key = "NAME", Value = "Jane Masters" },
                     new DocumentSubstitute { Key = "NOTIFICATION", Value = "inform" }
-                },
-                Paragraphs =
+                }
+            };
+
+            documentConfig.ConfigParagraphs =
+            [
+                new DocumentConfigParagraph()
                 {
-                    new DocumentParagraph
+                    DocumentConfig = documentConfig,
+                    DocumentParagraph = new DocumentParagraph
                     {
                         Name = "ParagraphCode",
                         Contents = { new DocumentContent { Content = "[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY]." } }
                     }
                 }
-            };
+            ];
 
             documentConfig.ConstructDocumentConfig();
 
@@ -147,7 +172,7 @@ namespace Origin.Tests
             documentConfig.ApplySubstitutesToDocumentContent();
 
             // Assert
-            Assert.AreEqual(CONTENT, documentConfig.Paragraphs.First().Contents.First().Content);
+            Assert.AreEqual(CONTENT, documentConfig.ConfigParagraphs.Select(cp => cp.DocumentParagraph).First().Contents.First().Content);
         }
 
         [TestMethod]
@@ -163,21 +188,26 @@ namespace Origin.Tests
                     new DocumentSubstitute { Key = "ACTIVITY", Value = "event" },
                     new DocumentSubstitute { Key = "NAME", Value = "Jane Masters" },
                     new DocumentSubstitute { Key = "NOTIFICATION", Value = "inform" }
-                },
-                Paragraphs =
+                }
+            };
+
+            documentConfig.ConfigParagraphs =
+            [
+                new DocumentConfigParagraph()
                 {
-                    new DocumentParagraph
+                    DocumentConfig = documentConfig,
+                    DocumentParagraph = new DocumentParagraph
                     {
                         Contents = { new DocumentContent()}
                     }
                 }
-            };
+            ];
 
             // Act
             documentConfig.ApplySubstitutesToDocumentContent();
 
             // Assert
-            Assert.IsNull(documentConfig.Paragraphs.First().Contents.First().Content);
+            Assert.IsNull(documentConfig.ConfigParagraphs.Select(cp => cp.DocumentParagraph).First().Contents.First().Content);
         }
 
         [TestMethod]
@@ -188,21 +218,26 @@ namespace Origin.Tests
             {
                 SubstituteStart = "[",
                 SubstituteEnd = "]",
-                Substitutes = [],
-                Paragraphs =
+                Substitutes = []
+            };
+
+            documentConfig.ConfigParagraphs =
+            [
+                new DocumentConfigParagraph()
                 {
-                    new DocumentParagraph
+                    DocumentConfig = documentConfig,
+                    DocumentParagraph = new DocumentParagraph
                     {
                         Contents = { new DocumentContent { Content = "[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY]." } }
                     }
                 }
-            };
+            ];
 
             // Act
             documentConfig.ApplySubstitutesToDocumentContent();
 
             // Assert
-            Assert.AreEqual("[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY].", documentConfig.Paragraphs.First().Contents.First().Content);
+            Assert.AreEqual("[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY].", documentConfig.ConfigParagraphs.Select(cp => cp.DocumentParagraph).First().Contents.First().Content);
         }
 
         [TestMethod]
@@ -212,21 +247,26 @@ namespace Origin.Tests
             DocumentConfig documentConfig = new()
             {
                 SubstituteStart = "[",
-                SubstituteEnd = "]",
-                Paragraphs =
+                SubstituteEnd = "]"
+            };
+
+            documentConfig.ConfigParagraphs =
+            [
+                new DocumentConfigParagraph()
                 {
-                    new DocumentParagraph
+                    DocumentConfig = documentConfig,
+                    DocumentParagraph = new DocumentParagraph
                     {
                         Contents = { new DocumentContent { Content = "[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY]." } }
                     }
                 }
-            };
+            ];
 
             // Act
             documentConfig.ApplySubstitutesToDocumentContent();
 
             // Assert
-            Assert.AreEqual("[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY].", documentConfig.Paragraphs.First().Contents.First().Content);
+            Assert.AreEqual("[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY].", documentConfig.ConfigParagraphs.Select(cp => cp.DocumentParagraph).First().Contents.First().Content);
         }
 
         [TestMethod]
@@ -240,21 +280,26 @@ namespace Origin.Tests
                     new DocumentSubstitute { Key = "ACTIVITY", Value = "event" },
                     new DocumentSubstitute { Key = "NAME", Value = "Jane Masters" },
                     new DocumentSubstitute { Key = "NOTIFICATION", Value = "inform" }
-                },
-                Paragraphs =
+                }
+            };
+
+            documentConfig.ConfigParagraphs =
+            [
+                new DocumentConfigParagraph()
                 {
-                    new DocumentParagraph
+                    DocumentConfig = documentConfig,
+                    DocumentParagraph = new DocumentParagraph
                     {
                         Contents = { new DocumentContent { Content = "[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY]." } }
                     }
                 }
-            };
+            ];
 
             // Act
             documentConfig.ApplySubstitutesToDocumentContent();
 
             // Assert
-            Assert.AreEqual("[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY].", documentConfig.Paragraphs.First().Contents.First().Content);
+            Assert.AreEqual("[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY].", documentConfig.ConfigParagraphs.Select(cp => cp.DocumentParagraph).First().Contents.First().Content);
         }
 
         [TestMethod]
@@ -264,16 +309,21 @@ namespace Origin.Tests
             // Arrange
             DocumentConfig documentConfig = new()
             {
-                SubstituteEnd = "]",
-                Paragraphs =
+                SubstituteEnd = "]"
+            };
+
+            documentConfig.ConfigParagraphs =
+            [
+                new DocumentConfigParagraph()
                 {
-                    new DocumentParagraph
+                    DocumentConfig = documentConfig,
+                    DocumentParagraph = new DocumentParagraph
                     {
                         Name = "ParagraphCode",
                         Contents = { new DocumentContent { Content = "[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY]." } }
                     }
                 }
-            };
+            ];
 
             documentConfig.ConstructDocumentConfig();
 
@@ -288,16 +338,21 @@ namespace Origin.Tests
             // Arrange
             DocumentConfig documentConfig = new()
             {
-                SubstituteStart = "[",
-                Paragraphs =
+                SubstituteStart = "["
+            };
+
+            documentConfig.ConfigParagraphs =
+            [
+                new DocumentConfigParagraph()
                 {
-                    new DocumentParagraph
+                    DocumentConfig = documentConfig,
+                    DocumentParagraph = new DocumentParagraph
                     {
                         Name = "ParagraphCode",
                         Contents = { new DocumentContent { Content = "[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY]." } }
                     }
                 }
-            };
+            ];
 
             documentConfig.ConstructDocumentConfig();
 
@@ -319,16 +374,21 @@ namespace Origin.Tests
                     new DocumentSubstitute { Key = "ACTIVITY", Value = "event" },
                     new DocumentSubstitute { Key = "NAME", Value = "Jane Masters" },
                     new DocumentSubstitute { Key = "NOTIFICATION", Value = "inform" }
-                },
-                Paragraphs =
+                }
+            };
+
+            documentConfig.ConfigParagraphs =
+            [
+                new DocumentConfigParagraph()
                 {
-                    new DocumentParagraph
+                    DocumentConfig = documentConfig,
+                    DocumentParagraph = new DocumentParagraph
                     {
                         Name = "ParagraphCode",
                         Contents = { new DocumentContent { Content = "[NAME, this is to [NOTIFICATION] you of an upcoming [ACTIVITY]." } }
                     }
                 }
-            };
+            ];
 
             documentConfig.ConstructDocumentConfig();
 
@@ -350,16 +410,21 @@ namespace Origin.Tests
                     new DocumentSubstitute { Key = "ACTIVITY", Value = "event" },
                     new DocumentSubstitute { Key = "NAME", Value = "Jane Masters" },
                     new DocumentSubstitute { Key = "NOTIFICATION", Value = "inform" }
-                },
-                Paragraphs =
+                }
+            };
+
+            documentConfig.ConfigParagraphs =
+            [
+                new DocumentConfigParagraph()
                 {
-                    new DocumentParagraph
+                    DocumentConfig = documentConfig,
+                    DocumentParagraph = new DocumentParagraph
                     {
                         Name = "ParagraphCode",
                         Contents = { new DocumentContent { Content = "[NAME, this is to notify you of an upcoming event." } }
                     }
                 }
-            };
+            ];
 
             documentConfig.ConstructDocumentConfig();
 
@@ -381,16 +446,21 @@ namespace Origin.Tests
                     new DocumentSubstitute { Key = "ACTIVITY", Value = "event" },
                     new DocumentSubstitute { Key = "NAME", Value = "Jane Masters" },
                     new DocumentSubstitute { Key = "NOTIFICATION", Value = "inform" }
-                },
-                Paragraphs =
+                }
+            };
+
+            documentConfig.ConfigParagraphs =
+            [
+                new DocumentConfigParagraph()
                 {
-                    new DocumentParagraph
+                    DocumentConfig = documentConfig,
+                    DocumentParagraph = new DocumentParagraph
                     {
                         Name = "ParagraphCode",
                         Contents = { new DocumentContent { Content = "NAME], this is to notify you of an upcoming event." } }
                     }
                 }
-            };
+            ];
 
             documentConfig.ConstructDocumentConfig();
 
