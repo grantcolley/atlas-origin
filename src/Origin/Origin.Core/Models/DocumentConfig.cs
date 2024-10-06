@@ -10,13 +10,13 @@ namespace Origin.Core.Models
         public DocumentConfig() 
         {
             Substitutes = [];
-            Paragraphs = [];
+            ConfigParagraphs = [];
         }
 
         public int DocumentConfigId { get; set; }
 
         public List<DocumentSubstitute> Substitutes { get; set; }
-        public List<DocumentParagraph> Paragraphs { get; set; }
+        public List<DocumentConfigParagraph> ConfigParagraphs { get; set; }
 
         [Required]
         [StringLength(100)]
