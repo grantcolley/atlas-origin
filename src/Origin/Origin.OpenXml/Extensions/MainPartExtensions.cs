@@ -74,7 +74,8 @@ namespace Origin.OpenXml.Extensions
             ArgumentNullException.ThrowIfNull(documentConfig);
 
             List<DocumentContent> images 
-                = documentConfig.Paragraphs
+                = documentConfig.ConfigParagraphs
+                                .Select(cp => cp.DocumentParagraph)
                                 .SelectMany(p => p.Contents)
                                 .Where(c => c.ContentType == DocumentContentType.Image)
                                 .ToList();
