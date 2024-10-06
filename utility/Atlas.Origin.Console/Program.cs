@@ -8,12 +8,13 @@ using Origin.Service.Services;
 using Origin.Test.Data;
 using System.Diagnostics;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 Console.WriteLine("Origin.Console!");
 
 string outputLocation = @"..\..\..\..\output";
 
-JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
+JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true, ReferenceHandler = ReferenceHandler.Preserve };
 
 IDocumentService[] documentServices = [new DocXDocumentService(), new PdfDocumentService()];
 IDocumentServiceProvider documentServiceProvider = new DocumentServiceProvider(documentServices);
