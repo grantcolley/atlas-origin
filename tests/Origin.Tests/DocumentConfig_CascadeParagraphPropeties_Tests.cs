@@ -15,26 +15,38 @@ namespace Origin.Tests
                 Colour = "Blue",
                 Font = "HelloWorld",
                 FontSize = 10,
-                SubstituteStart = "[",
-                Paragraphs = [new DocumentParagraph
-                {
-                    Colour = "Red",
-                    Font = "Test",
-                    FontSize = 12,
-                    SubstituteEnd = "]",
-                    Contents = [new DocumentContent()]
-                },
-                new DocumentParagraph
-                {
-                    SubstituteStart = "%",
-                    SubstituteEnd= "&",
-                    DocumentParagraphType = DocumentParagraphType.Table,
-                    Contents = [new DocumentContent { SubstituteStart = "(", SubstituteEnd = ")" }]
-                }]
+                SubstituteStart = "["
             };
 
+            args.ConfigParagraphs =
+            [
+                new DocumentConfigParagraph()
+                {
+                    DocumentConfig = args,
+                    DocumentParagraph = new DocumentParagraph
+                    {
+                        Colour = "Red",
+                        Font = "Test",
+                        FontSize = 12,
+                        SubstituteEnd = "]",
+                        Contents = [new DocumentContent()]
+                    }
+                },
+                new DocumentConfigParagraph()
+                {
+                    DocumentConfig = args,
+                    DocumentParagraph = new DocumentParagraph
+                    {
+                        SubstituteStart = "%",
+                        SubstituteEnd= "&",
+                        DocumentParagraphType = DocumentParagraphType.Table,
+                        Contents = [new DocumentContent { SubstituteStart = "(", SubstituteEnd = ")" }]
+                    }
+                }
+            ];
+
             // Act
-            foreach (DocumentParagraph paragraph in args.Paragraphs)
+            foreach (DocumentParagraph paragraph in args.ConfigParagraphs.Select(cp => cp.DocumentParagraph))
             {
                 paragraph.InheritParagraphProperties(args);
 
@@ -45,24 +57,24 @@ namespace Origin.Tests
             }
 
             // Assert
-            Assert.AreEqual(args.Paragraphs[0].Colour, args.Paragraphs[0].Contents[0].Colour);
-            Assert.AreEqual(args.Paragraphs[0].Font, args.Paragraphs[0].Contents[0].Font);
-            Assert.AreEqual(args.Paragraphs[0].FontSize, args.Paragraphs[0].Contents[0].FontSize);
-            Assert.AreEqual(args.SubstituteStart, args.Paragraphs[0].Contents[0].SubstituteStart);
-            Assert.AreEqual(args.Paragraphs[0].SubstituteEnd, args.Paragraphs[0].Contents[0].SubstituteEnd);
-            Assert.AreEqual("[", args.Paragraphs[0].Contents[0].SubstituteStart);
-            Assert.AreEqual("]", args.Paragraphs[0].Contents[0].SubstituteEnd);
-            Assert.AreEqual("(", args.Paragraphs[1].Contents[0].SubstituteStart);
-            Assert.AreEqual(")", args.Paragraphs[1].Contents[0].SubstituteEnd);
+            Assert.AreEqual(args.ConfigParagraphs.Select(cp => cp.DocumentParagraph).ToList()[0].Colour, args.ConfigParagraphs.Select(cp => cp.DocumentParagraph).ToList()[0].Contents[0].Colour);
+            Assert.AreEqual(args.ConfigParagraphs.Select(cp => cp.DocumentParagraph).ToList()[0].Font, args.ConfigParagraphs.Select(cp => cp.DocumentParagraph).ToList()[0].Contents[0].Font);
+            Assert.AreEqual(args.ConfigParagraphs.Select(cp => cp.DocumentParagraph).ToList()[0].FontSize, args.ConfigParagraphs.Select(cp => cp.DocumentParagraph).ToList()[0].Contents[0].FontSize);
+            Assert.AreEqual(args.SubstituteStart, args.ConfigParagraphs.Select(cp => cp.DocumentParagraph).ToList()[0].Contents[0].SubstituteStart);
+            Assert.AreEqual(args.ConfigParagraphs.Select(cp => cp.DocumentParagraph).ToList()[0].SubstituteEnd, args.ConfigParagraphs.Select(cp => cp.DocumentParagraph).ToList()[0].Contents[0].SubstituteEnd);
+            Assert.AreEqual("[", args.ConfigParagraphs.Select(cp => cp.DocumentParagraph).ToList()[0].Contents[0].SubstituteStart);
+            Assert.AreEqual("]", args.ConfigParagraphs.Select(cp => cp.DocumentParagraph).ToList()[0].Contents[0].SubstituteEnd);
+            Assert.AreEqual("(", args.ConfigParagraphs.Select(cp => cp.DocumentParagraph).ToList()[1].Contents[0].SubstituteStart);
+            Assert.AreEqual(")", args.ConfigParagraphs.Select(cp => cp.DocumentParagraph).ToList()[1].Contents[0].SubstituteEnd);
 
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
-            Assert.AreEqual(args.Colour, args.Paragraphs[1].Colour);
-            Assert.AreEqual(args.Font, args.Paragraphs[1].Font);
-            Assert.AreEqual(args.FontSize, args.Paragraphs[1].FontSize);
+            Assert.AreEqual(args.Colour, args.ConfigParagraphs.Select(cp => cp.DocumentParagraph).ToList()[1].Colour);
+            Assert.AreEqual(args.Font, args.ConfigParagraphs.Select(cp => cp.DocumentParagraph).ToList()[1].Font);
+            Assert.AreEqual(args.FontSize, args.ConfigParagraphs.Select(cp => cp.DocumentParagraph).ToList()[1].FontSize);
 
-            Assert.AreEqual(args.Colour, args.Paragraphs[1].Contents[0].Colour);
-            Assert.AreEqual(args.Font, args.Paragraphs[1].Contents[0].Font);
-            Assert.AreEqual(args.FontSize, args.Paragraphs[1].Contents[0].FontSize);
+            Assert.AreEqual(args.Colour, args.ConfigParagraphs.Select(cp => cp.DocumentParagraph).ToList()[1].Contents[0].Colour);
+            Assert.AreEqual(args.Font, args.ConfigParagraphs.Select(cp => cp.DocumentParagraph).ToList()[1].Contents[0].Font);
+            Assert.AreEqual(args.FontSize, args.ConfigParagraphs.Select(cp => cp.DocumentParagraph).ToList()[1].Contents[0].FontSize);
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
         }
     }
