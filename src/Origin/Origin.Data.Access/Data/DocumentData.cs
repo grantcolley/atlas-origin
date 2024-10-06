@@ -32,7 +32,7 @@ namespace Origin.Data.Access.Data
             {
                 DocumentConfig documentConfig = await _applicationDbContext.DocumentConfigs
                     .Include(c => c.Substitutes)
-                    .Include(c => c.Paragraphs)
+                    .Include(c => c.ConfigParagraphs)
                     .AsNoTracking()
                     .FirstAsync(d => d.DocumentConfigId.Equals(id), cancellationToken)
                     .ConfigureAwait(false);
@@ -96,9 +96,9 @@ namespace Origin.Data.Access.Data
 
                 // TODO: Add paragraphs, rows, columns, cells and content and substitutes.
 
-                if (addDocumentConfig.Paragraphs.Count > 0)
+                if (addDocumentConfig.ConfigParagraphs.Count > 0)
                 {
-                    documentConfig.Paragraphs.AddRange(addDocumentConfig.Paragraphs);
+                    documentConfig.ConfigParagraphs.AddRange(addDocumentConfig.ConfigParagraphs);
 
                     await _applicationDbContext
                         .SaveChangesAsync(cancellationToken)
@@ -228,7 +228,6 @@ namespace Origin.Data.Access.Data
                 DocumentParagraph documentParagraph = new()
                 {
                     Name = addDocumentParagraph.Name,
-                    Order = addDocumentParagraph.Order,
                     DocumentParagraphType = addDocumentParagraph.DocumentParagraphType,
                     ParagraphSpacingBetweenLinesBefore = addDocumentParagraph.ParagraphSpacingBetweenLinesBefore,
                     ParagraphSpacingBetweenLinesAfter = addDocumentParagraph.ParagraphSpacingBetweenLinesAfter,
