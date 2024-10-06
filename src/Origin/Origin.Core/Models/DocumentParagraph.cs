@@ -11,17 +11,14 @@ namespace Origin.Core.Models
             Columns = [];
             Cells = [];
             Contents = [];
-            DocumentConfigs = [];
         }
 
         public int DocumentParagraphId { get; set; }
-        public int Order { get; set; }
         public DocumentParagraphType DocumentParagraphType { get; set; }
         public List<DocumentTableRow> Rows { get; set; }
         public List<DocumentTableColumn> Columns { get; set; }
         public List<DocumentTableCell> Cells { get; set; }
         public List<DocumentContent> Contents { get; set; }
-        public List<DocumentConfig> DocumentConfigs { get; set; }
 
         [Required]
         [StringLength(250)]
