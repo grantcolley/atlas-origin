@@ -28,7 +28,7 @@ namespace Origin.Pdf.Services
 
             section.AddFooter(documentConfig);
 
-            foreach (DocumentParagraph documentParagraph in documentConfig.Paragraphs.Where(p => p.DocumentParagraphType != DocumentParagraphType.Footer))
+            foreach (DocumentParagraph documentParagraph in documentConfig.ConfigParagraphs.Select(cp => cp.DocumentParagraph).Where(p => p.DocumentParagraphType != DocumentParagraphType.Footer))
             {
                 section.AddParagraph(documentParagraph);
             }
