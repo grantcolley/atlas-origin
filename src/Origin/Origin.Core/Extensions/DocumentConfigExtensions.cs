@@ -1,4 +1,5 @@
 ﻿using Origin.Core.Models;
+using System.Linq;
 using System.Text;
 
 namespace Origin.Core.Extensions
@@ -41,7 +42,7 @@ namespace Origin.Core.Extensions
         {
             documentConfig.CollapseSubstituteGroups();
 
-            List<DocumentParagraph> documentParagraphs = [.. documentConfig.Paragraphs.OrderBy(p => p.Order)];
+            List<DocumentParagraph> documentParagraphs = [.. documentConfig.ConfigParagraphs.OrderBy(cp => cp.Order).Select(cp => cp.DocumentParagraph)];
 
             foreach (DocumentParagraph documentParagraph in documentParagraphs)
             {
@@ -78,7 +79,7 @@ namespace Origin.Core.Extensions
                 substitutes.Add(documentSubstitute.Key ?? throw new NullReferenceException(nameof(documentSubstitute.Key)), documentSubstitute);
             }
 
-            foreach (DocumentContent documentContent in documentConfig.Paragraphs.SelectMany(p => p.Contents))
+            foreach (DocumentContent documentContent in documentConfig.ConfigParagraphs.Select(cp => cp.DocumentParagraph).SelectMany(p => p.Contents))
             {
                 documentContent.Content = documentContent.Content.ApplySubstitutesToContent(substitutes, documentContent.SubstituteStart, documentContent.SubstituteEnd);
             }
@@ -232,7 +233,7 @@ namespace Origin.Core.Extensions
 
         public static DocumentParagraph? GetFooterParagraph(this DocumentConfig documentConfig)
         {
-            return documentConfig.Paragraphs.Single(p => p.DocumentParagraphType == DocumentParagraphType.Footer);
+            return documentConfig.ConfigParagraphs.Select(cp => cp.DocumentParagraph).Single(p => p.DocumentParagraphType == DocumentParagraphType.Footer);
         }
     }
 }
