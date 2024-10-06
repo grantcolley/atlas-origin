@@ -28,7 +28,7 @@ namespace Origin.OpenXml.Sevices
 
             mainPart.AddFooter(documentConfig);
 
-            foreach(DocumentParagraph documentParagraph  in documentConfig.Paragraphs.Where(p => p.DocumentParagraphType != DocumentParagraphType.Footer))
+            foreach(DocumentParagraph documentParagraph in documentConfig.ConfigParagraphs.Select(cp => cp.DocumentParagraph).Where(p => p.DocumentParagraphType != DocumentParagraphType.Footer))
             {
                 body.AddParagraph(documentParagraph);
             }
