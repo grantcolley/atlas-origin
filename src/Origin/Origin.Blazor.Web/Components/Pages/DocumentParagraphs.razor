@@ -20,7 +20,7 @@
     public override RenderFragment RenderGridContent() => __builder =>
     {
         <FluentDataGrid TGridItem=Origin.Core.Models.DocumentParagraph Items="@FilteredItems"
-                        Style="height: 600px;overflow:auto;" GridTemplateColumns="0.3fr 1fr"
+                        Style="height: 600px;overflow:auto;" GridTemplateColumns="0.3fr 1fr 0.2fr"
                         ResizableColumns=true GenerateHeader="GenerateHeaderOption.Sticky"
                         Pagination="@Pagination">
             <PropertyColumn Property="@(p => p.DocumentParagraphId)" Sortable="true" Align="Align.Center" Title="Document Paragraph Id" />
@@ -31,6 +31,7 @@
                     </div>
                 </ColumnOptions>
             </PropertyColumn>
+            <PropertyColumn Property="@(p => p.DocumentParagraphType)" Sortable="true" Align="Align.Center" Title="Type" />
             <TemplateColumn Align="@Align.Center">
                 <FluentButton aria-label="Open" IconEnd="@(new Icons.Regular.Size16.MoreHorizontal())" OnClick="@(() => Edit(context))" />
             </TemplateColumn>
