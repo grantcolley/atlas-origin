@@ -10,7 +10,6 @@
 }
 
 @code {
-
     [Inject]
     internal IOriginOptionsRequests? OriginOptionsRequests { get; set; }
 
@@ -24,16 +23,24 @@
 
     private IEnumerable<Origin.Core.Models.DocumentFont>? _fontsSource = [];
     private IEnumerable<Origin.Core.Models.DocumentColour>? _coloursSource = [];
+    private IEnumerable<Origin.Core.Models.DocumentParagraph>? _paragraphsSource = [];
 
     protected override async Task OnInitializedAsync()
     {
-        ArgumentNullException.ThrowIfNull(OriginOptionsRequests);
-
-        await base.OnInitializedAsync();
-
         try
         {
+            ArgumentNullException.ThrowIfNull(GenericRequests);
+            ArgumentNullException.ThrowIfNull(OriginOptionsRequests);
+
+            await base.OnInitializedAsync().ConfigureAwait(false);
+
             _isProcessing = true;
+
+            IResponse<IEnumerable<Origin.Core.Models.DocumentParagraph>> paragraphsResponse
+                        = await GenericRequests.GetListAsync<Origin.Core.Models.DocumentParagraph>(OriginAPIEndpoints.GET_DOCUMENT_PARAGRAPHS)
+                                                .ConfigureAwait(false);
+
+            _paragraphsSource = GetResponse<IEnumerable<Origin.Core.Models.DocumentParagraph>>(paragraphsResponse);
 
             IResponse<IEnumerable<Origin.Core.Models.DocumentFont>?> fontsResponse = await OriginOptionsRequests.GetGenericOptionsAsync<Origin.Core.Models.DocumentFont>(OriginOptions.FONT_OPTIONS).ConfigureAwait(false);
 
@@ -58,14 +65,29 @@
         <FluentGrid Spacing="3" Justify="JustifyContent.FlexStart">        
             <FluentGridItem xs="12" md="12" lg="12">
                 <FluentTabs ActiveTabId="docCfg" >
-                    <FluentTab Id="docConfig" Label="Document" >
-                        <Document DocumentConfig="@Model" FontSource="@_fontsSource" ColourSource="@_coloursSource"/>
+                    <FluentTab Id="docConfig">
+                        <Header>
+                            <FluentLabel Typo="Typography.Subject">Document</FluentLabel>
+                        </Header>
+                        <Content>
+                            <Document DocumentConfig="@Model" FontSource="@_fontsSource" ColourSource="@_coloursSource"/>
+                        </Content>
                     </FluentTab>
-                    <FluentTab Id="docParagraphs" Label="Paragraphs">
-                        Paragraphs here...
+                    <FluentTab Id="docParagraphs">
+                        <Header>
+                            <FluentLabel Typo="Typography.Subject">Paragraphs</FluentLabel>
+                        </Header>
+                        <Content>
+                            <DocumentConfigParagraphs DocumentConfig="@Model" Paragraphs="@_paragraphsSource" />
+                        </Content>
                     </FluentTab>
-                    <FluentTab Id="docSubstitutes" Label="Substitutes">
-                        <Substitutes DocumentConfig="@Model" />
+                    <FluentTab Id="docSubstitutes">
+                        <Header>
+                            <FluentLabel Typo="Typography.Subject">Substitutes</FluentLabel>
+                        </Header>
+                        <Content>
+                            <Substitutes DocumentConfig="@Model" />
+                        </Content>
                     </FluentTab>
                 </FluentTabs>
             </FluentGridItem>
