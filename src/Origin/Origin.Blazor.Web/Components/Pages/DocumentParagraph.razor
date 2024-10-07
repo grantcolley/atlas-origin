@@ -28,12 +28,12 @@
 
     protected override async Task OnInitializedAsync()
     {
-        ArgumentNullException.ThrowIfNull(OriginOptionsRequests);
-
-        await base.OnInitializedAsync();
-
         try
         {
+            ArgumentNullException.ThrowIfNull(OriginOptionsRequests);
+            
+            await base.OnInitializedAsync().ConfigureAwait(false);
+
             _activeTab = _tabs[0];
 
             _isProcessing = true;
@@ -61,19 +61,34 @@
         <FluentGrid Spacing="3" Justify="JustifyContent.FlexStart">        
             <FluentGridItem xs="12" md="12" lg="12">
                 <FluentTabs @bind-ActiveTabId="@_activeTab">
-                    <FluentTab Id="@_tabs[0]" Label="@_tabs[0]">
-                        <Paragraph DocumentParagraph="@Model" FontSource="@_fontsSource" ColourSource="@_coloursSource" />
+                    <FluentTab Id="@_tabs[0]">
+                        <Header>
+                            <FluentLabel Typo="Typography.Subject">@_tabs[0]</FluentLabel>
+                        </Header>
+                        <Content>
+                            <Paragraph DocumentParagraph="@Model" FontSource="@_fontsSource" ColourSource="@_coloursSource" />
+                        </Content>
                     </FluentTab>
 
                     @if (Model.DocumentParagraphType == DocumentParagraphType.Table)
                     {
-                        <FluentTab Id="@_tabs[1]" Label="@_tabs[1]">
-                            <Table DocumentParagraph="@Model" FontSource="@_fontsSource" ColourSource="@_coloursSource" />
+                        <FluentTab Id="@_tabs[1]">
+                            <Header>
+                                <FluentLabel Typo="Typography.Subject">@_tabs[1]</FluentLabel>
+                            </Header>
+                            <Content>
+                                <Table DocumentParagraph="@Model" FontSource="@_fontsSource" ColourSource="@_coloursSource" />
+                            </Content>
                         </FluentTab>
                     }
 
-                    <FluentTab Id="@_tabs[2]" Label="@_tabs[2]">
-                        <Contents DocumentParagraph="@Model" FontSource="@_fontsSource" ColourSource="@_coloursSource" />
+                    <FluentTab Id="@_tabs[2]">
+                        <Header>
+                            <FluentLabel Typo="Typography.Subject">@_tabs[2]</FluentLabel>
+                        </Header>
+                        <Content>
+                            <Contents DocumentParagraph="@Model" FontSource="@_fontsSource" ColourSource="@_coloursSource" />
+                        </Content>
                     </FluentTab>
                 </FluentTabs>
             </FluentGridItem>
