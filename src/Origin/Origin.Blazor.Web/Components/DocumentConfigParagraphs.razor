@@ -1,0 +1,62 @@
+﻿<FluentDataGrid TGridItem=DocumentParagraph Items="@FilteredItems"
+                Style="height: 300px;overflow:auto;" GridTemplateColumns="0.3fr 1fr 0.2fr"
+                ResizableColumns=true GenerateHeader="GenerateHeaderOption.Sticky"
+                Pagination="@_pagination">
+    <PropertyColumn Property="@(p => p.DocumentParagraphId)" Sortable="true" Align="Align.Center" Title="Document Paragraph Id" />
+    <PropertyColumn Property="@(p => p.Name)" Sortable="true" Filtered="!string.IsNullOrWhiteSpace(_filter)" Tooltip="true" Title="Name">
+        <ColumnOptions>
+            <div class="search-box">
+                <FluentSearch type="filter" Autofocus=true @bind-Value=_filter @oninput="HandleFilter" @bind-Value:after="HandleClear" Placeholder="Paragraph name..." />
+            </div>
+        </ColumnOptions>
+    </PropertyColumn>
+    <PropertyColumn Property="@(p => p.DocumentParagraphType)" Sortable="true" Align="Align.Center" Title="Type" />
+    <TemplateColumn Align="@Align.Center">
+        <FluentButton aria-label="Open" IconEnd="@(new Icons.Regular.Size16.MoreHorizontal())" OnClick="@(() => Edit(context))" />
+    </TemplateColumn>
+</FluentDataGrid>
+
+<FluentPaginator State="@_pagination" />
+
+@code {
+    [Parameter, EditorRequired]
+    public DocumentConfig DocumentConfig { get; set; } = new();
+
+    [Parameter]
+    public IEnumerable<DocumentParagraph>? Paragraphs { get; set; }
+
+    public IQueryable<DocumentParagraph>? FilteredItems
+    {
+        get
+        {
+            if (string.IsNullOrWhiteSpace(_filter)) return Paragraphs?.AsQueryable();
+
+            return Paragraphs?.AsQueryable().Where(p => !string.IsNullOrWhiteSpace(p.Name)
+            && p.Name.Contains(_filter, StringComparison.CurrentCultureIgnoreCase));
+        }
+    }
+
+    private string _filter = string.Empty;
+    private PaginationState _pagination = new PaginationState { ItemsPerPage = 5 };
+
+    private void Edit(DocumentParagraph paragraph)
+    {
+
+    }
+
+    private void HandleFilter(ChangeEventArgs args)
+    {
+        if (args.Value is string value)
+        {
+            _filter = value;
+        }
+    }
+
+    private void HandleClear()
+    {
+        if (string.IsNullOrWhiteSpace(_filter))
+        {
+            _filter = string.Empty;
+        }
+    }
+}
