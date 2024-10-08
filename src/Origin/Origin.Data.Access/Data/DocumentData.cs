@@ -94,8 +94,6 @@ namespace Origin.Data.Access.Data
                         .ConfigureAwait(false);
                 }
 
-                // TODO: Add paragraphs, rows, columns, cells and content and substitutes.
-
                 if (addDocumentConfig.ConfigParagraphs.Count > 0)
                 {
                     documentConfig.ConfigParagraphs.AddRange(addDocumentConfig.ConfigParagraphs);
