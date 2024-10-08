@@ -39,7 +39,7 @@
             @if (DocumentContent.ContentType == DocumentContentType.Text)
             {
                 <div>
-                    <FluentTextArea @bind-Value="DocumentContent.Content" Label="Content" Rows="10" style="width: 100%;" />
+                    <FluentTextArea @bind-Value="DocumentContent.Content" Label="Content" Rows="10" style="width: 100%;" ReadOnly="@(DocumentContent.IsReadOnly)" />
                 </div>
                 <div>
                     <FluentCheckbox @bind-CheckState="DocumentContent.Bold" Label="Bold" ThreeState="true" ReadOnly="@(DocumentContent.IsReadOnly)" Style="margin-top: 10px;margin-bottom: 10px;" />
