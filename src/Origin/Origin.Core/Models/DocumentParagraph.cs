@@ -1,5 +1,7 @@
 ﻿using FluentValidation;
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace Origin.Core.Models
 {
@@ -27,6 +29,20 @@ namespace Origin.Core.Models
         public override int? GetId()
         {
             return DocumentParagraphId;
+        }
+
+        public string GetContents()
+        {
+            if (DocumentParagraphType == DocumentParagraphType.Table) return DocumentParagraphType.Table.ToString();
+
+            StringBuilder contents = new StringBuilder();
+
+            foreach(DocumentContent content in Contents)
+            {
+                contents.Append(content.Content);
+            }
+
+            return contents.ToString();
         }
     }
 
