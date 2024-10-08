@@ -1,5 +1,5 @@
 ﻿<FluentDataGrid TGridItem=DocumentParagraph Items="@FilteredItems"
-                Style="height: 300px;overflow:auto;" GridTemplateColumns="0.3fr 1fr 0.2fr"
+                Style="height: 300px;overflow:auto;" GridTemplateColumns="0.3fr 1fr 0.2fr 0.1fr"
                 ResizableColumns=true GenerateHeader="GenerateHeaderOption.Sticky"
                 Pagination="@_pagination">
     <PropertyColumn Property="@(p => p.DocumentParagraphId)" Sortable="true" Align="Align.Center" Title="Document Paragraph Id" />
@@ -12,11 +12,33 @@
     </PropertyColumn>
     <PropertyColumn Property="@(p => p.DocumentParagraphType)" Sortable="true" Align="Align.Center" Title="Type" />
     <TemplateColumn Align="@Align.Center">
+        <FluentButton aria-label="Open" IconEnd="@(new Icons.Regular.Size16.Add())" OnClick="@(() => Add(context))" ReadOnly="@(DocumentConfig.IsReadOnly)" />
         <FluentButton aria-label="Open" IconEnd="@(new Icons.Regular.Size16.MoreHorizontal())" OnClick="@(() => Edit(context))" />
     </TemplateColumn>
 </FluentDataGrid>
 
 <FluentPaginator State="@_pagination" />
+
+@foreach (DocumentConfigParagraph configParagraph in DocumentConfig.ConfigParagraphs.OrderBy(c => c.Order))
+{
+    <FluentAccordion>
+        <FluentAccordionItem Expanded=true>
+            <HeadingTemplate>
+                <FluentStack Orientation="Orientation.Horizontal" Style="margin: 3px">
+                    <FluentNumberField @bind-Value="configParagraph.Order" Label="Order" ReadOnly="@(configParagraph.IsReadOnly)" Min="0" />
+                    <FluentTextField @bind-Value="configParagraph.DocumentParagraph.Name" Label="Name" ReadOnly="@(configParagraph.IsReadOnly)" Min="0" />
+                    <FluentSpacer />
+                    <FluentButton aria-label="Remove" IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => Remove(configParagraph))" />
+                </FluentStack>
+            </HeadingTemplate>
+            <ChildContent>
+                <FluentTextArea Label="Contents" Rows="5" style="width: 100%;">
+                    @configParagraph.DocumentParagraph.GetContents()
+                </FluentTextArea>
+            </ChildContent>
+        </FluentAccordionItem>
+    </FluentAccordion>
+}
 
 @code {
     [Parameter, EditorRequired]
@@ -38,6 +60,22 @@
 
     private string _filter = string.Empty;
     private PaginationState _pagination = new PaginationState { ItemsPerPage = 5 };
+
+    private void Remove(DocumentConfigParagraph configParagraph)
+    {
+        DocumentConfig.ConfigParagraphs.Remove(configParagraph);
+    }
+
+    private void Add(DocumentParagraph paragraph)
+    {
+        DocumentConfigParagraph configParagraph = new() 
+        {
+            DocumentConfig = DocumentConfig,
+            DocumentParagraph = paragraph
+        };
+
+        DocumentConfig.ConfigParagraphs.Add(configParagraph);
+    }
 
     private void Edit(DocumentParagraph paragraph)
     {
