@@ -1,7 +1,9 @@
 ﻿using FluentValidation;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace Origin.Core.Models
 {
@@ -31,15 +33,22 @@ namespace Origin.Core.Models
             return DocumentParagraphId;
         }
 
-        public string GetContents()
+        public string? DisplayContent()
         {
-            if (DocumentParagraphType == DocumentParagraphType.Table) return DocumentParagraphType.Table.ToString();
+            if (DocumentParagraphType == DocumentParagraphType.Table) return Name;
 
-            StringBuilder contents = new StringBuilder();
+            StringBuilder contents = new();
 
-            foreach(DocumentContent content in Contents)
+            foreach (DocumentContent content in Contents)
             {
-                contents.Append(content.Content);
+                if(content.ContentType == DocumentContentType.Text)
+                {
+                    contents.Append(content.Content);
+                }
+                else
+                {
+                    contents.Append(content.Name);
+                }
             }
 
             return contents.ToString();
