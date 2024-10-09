@@ -178,6 +178,7 @@ namespace Origin.Data.Access.Data
             try
             {
                 return await _applicationDbContext.DocumentParagraphs
+                    .Include(p => p.Contents)
                     .AsNoTracking()
                     .ToListAsync(cancellationToken)
                     .ConfigureAwait(false);
@@ -194,11 +195,11 @@ namespace Origin.Data.Access.Data
             {
                 DocumentParagraph documentParagraph = await _applicationDbContext.DocumentParagraphs
                     .AsNoTracking()
-                    .Include(d => d.Contents)
-                    .Include(d => d.Columns)
-                    .Include(d => d.Rows)
-                    .Include (d => d.Cells)
-                    .FirstAsync(d => d.DocumentParagraphId.Equals(id), cancellationToken)
+                    .Include(p => p.Contents)
+                    .Include(p => p.Columns)
+                    .Include(p => p.Rows)
+                    .Include(p => p.Cells)
+                    .FirstAsync(p => p.DocumentParagraphId.Equals(id), cancellationToken)
                     .ConfigureAwait(false);
 
                 if (Authorisation == null
