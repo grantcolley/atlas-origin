@@ -18,10 +18,6 @@ namespace Origin.Core.Models
 
         [Required]
         [StringLength(100)]
-        public string? Code { get; set; }
-
-        [Required]
-        [StringLength(100)]
         public string? Name { get; set; }
 
         [StringLength(100)]
