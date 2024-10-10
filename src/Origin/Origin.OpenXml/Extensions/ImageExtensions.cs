@@ -30,7 +30,6 @@ namespace Origin.OpenXml.Extensions
         {
             ArgumentNullException.ThrowIfNull(image);
 
-            if (image.Code == null) throw new NullReferenceException(nameof(image.Code));
             if (image.Name == null) throw new NullReferenceException(nameof(image.Name));
             if (image.Tag == null) throw new NullReferenceException(nameof(image.Tag));
             if (image.ImageWidth == null) throw new NullReferenceException(nameof(image.ImageWidth));
@@ -50,7 +49,7 @@ namespace Origin.OpenXml.Extensions
                          new DW.DocProperties()
                          {
                              Id = (UInt32Value)1U,
-                             Name = image.Code
+                             Name = image.Name
                          },
                          new DW.NonVisualGraphicFrameDrawingProperties(
                              new A.GraphicFrameLocks() { NoChangeAspect = true }),
