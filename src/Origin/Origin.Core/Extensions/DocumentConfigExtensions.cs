@@ -57,10 +57,10 @@ namespace Origin.Core.Extensions
                 {
                     foreach (DocumentTableCell documentTableCell in documentParagraph.Cells)
                     {
-                        if (string.IsNullOrWhiteSpace(documentTableCell.Code)) throw new NullReferenceException(nameof(documentTableCell.Code));
+                        if (string.IsNullOrWhiteSpace(documentTableCell.CellCode)) throw new NullReferenceException(nameof(documentTableCell.CellCode));
 
                         documentTableCell.Contents 
-                            = [.. documentParagraph.Contents.Where(c => c.RenderCellCode == documentTableCell.Code).OrderBy(c => c.Order)];
+                            = [.. documentParagraph.Contents.Where(c => c.RenderCellCode == documentTableCell.CellCode).OrderBy(c => c.Order)];
                     }
                 }
                 else
