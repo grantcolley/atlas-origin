@@ -1,5 +1,5 @@
 ﻿<FluentDataGrid TGridItem=DocumentParagraph Items="@FilteredItems"
-                Style="height: 300px;overflow:auto;" GridTemplateColumns="0.3fr 1fr 0.2fr 0.1fr"
+                Style="height: 300px;overflow:auto;" GridTemplateColumns="0.2fr 1fr 0.1fr 0.1fr"
                 ResizableColumns=true GenerateHeader="GenerateHeaderOption.Sticky"
                 Pagination="@_pagination">
     <PropertyColumn Property="@(p => p.DocumentParagraphId)" Sortable="true" Align="Align.Center" Title="Document Paragraph Id" />
@@ -12,8 +12,8 @@
     </PropertyColumn>
     <PropertyColumn Property="@(p => p.DocumentParagraphType)" Sortable="true" Align="Align.Center" Title="Type" />
     <TemplateColumn Align="@Align.Center">
-        <FluentButton aria-label="Open" IconEnd="@(new Icons.Regular.Size16.Add())" OnClick="@(() => Add(context))" ReadOnly="@(DocumentConfig.IsReadOnly)" />
-        <FluentButton aria-label="Open" IconEnd="@(new Icons.Regular.Size16.MoreHorizontal())" OnClick="@(() => Edit(context))" />
+        <FluentButton aria-label="Open" IconEnd="@(new Icons.Regular.Size16.Add())" OnClick="@(() => Add(context))" Type="ButtonType.Button" />
+        <FluentButton aria-label="Edit" IconEnd="@(new Icons.Regular.Size16.MoreHorizontal())" OnClick="@(() => Edit(context))" Type="ButtonType.Button" />
     </TemplateColumn>
 </FluentDataGrid>
 
@@ -26,15 +26,15 @@
             <HeadingTemplate>
                 <FluentStack Orientation="Orientation.Horizontal" Style="margin: 3px">
                     <FluentNumberField @bind-Value="configParagraph.Order" Label="Order" ReadOnly="@(configParagraph.IsReadOnly)" Min="0" />
-                    <FluentTextField @bind-Value="configParagraph.DocumentParagraph.Name" Label="Name" ReadOnly="@(configParagraph.IsReadOnly)" Min="0" />
+                    <FluentTextField @bind-Value="configParagraph.DocumentParagraph.Name" Label="Name" ReadOnly="true"/>
                     <FluentSpacer />
                     <FluentButton aria-label="Remove" IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => Remove(configParagraph))" />
                 </FluentStack>
             </HeadingTemplate>
             <ChildContent>
-                <FluentTextArea Label="Contents" Rows="5" style="width: 100%;">
-                    @configParagraph.DocumentParagraph.GetContents()
-                </FluentTextArea>
+                <div style="margin-top: 10px;margin-bottom: 10px">
+                    @configParagraph.DocumentParagraph.DisplayContent()
+                </div>
             </ChildContent>
         </FluentAccordionItem>
     </FluentAccordion>
