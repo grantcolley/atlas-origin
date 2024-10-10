@@ -26,7 +26,7 @@ namespace Origin.Core.Models
 
         [Required]
         [StringLength(100)]
-        public string? Code { get; set; }
+        public string? CellCode { get; set; }
 
         [NotMapped]
         [JsonIgnore]
