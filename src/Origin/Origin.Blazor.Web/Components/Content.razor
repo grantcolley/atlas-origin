@@ -13,10 +13,6 @@
         </HeadingTemplate>
         <ChildContent>
             <div>
-                <FluentTextField Name="Code" @bind-Value="DocumentContent.Code" Label="Code" ReadOnly="@(DocumentContent.IsReadOnly)" />
-                <FluentValidationMessage For="@(() => DocumentContent.Code)" />
-            </div>
-            <div>
                 <FluentTextField Name="Name" @bind-Value="DocumentContent.Name" Label="Name" ReadOnly="@(DocumentContent.IsReadOnly)" />
                 <FluentValidationMessage For="@(() => DocumentContent.Name)" />
             </div>
