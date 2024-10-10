@@ -12,7 +12,6 @@
             @foreach (DocumentContent content in DocumentParagraph.Contents.OrderBy(c => c.Order))
             {
                 <FluentStack Orientation="Orientation.Horizontal" Style="margin: 3px">
-                    <FluentTextField Name="Code" @bind-Value="content.Code" Label="Code" ReadOnly="@(DocumentParagraph.IsReadOnly)" />
                     <FluentTextField Name="Name" @bind-Value="content.Name" Label="Name" ReadOnly="@(DocumentParagraph.IsReadOnly)" />
                     <FluentTextField Name="RenderCellCode" @bind-Value="content.RenderCellCode" Label="Render Cell Code" ReadOnly="@(DocumentParagraph.IsReadOnly)" />
                     <FluentButton aria-label="Edit" IconEnd="@(new Icons.Regular.Size16.MoreHorizontal())" OnClick="@(() => EditContent(content))" />
