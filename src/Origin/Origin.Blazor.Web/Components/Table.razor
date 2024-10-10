@@ -62,8 +62,8 @@
                 <FluentStack Orientation="Orientation.Horizontal" Style="margin: 3px">
                     <FluentNumberField @bind-Value="cell.RowNumber" Label="Row" ReadOnly="@(DocumentParagraph.IsReadOnly)" Min="0" Style="width: 70px" />
                     <FluentNumberField @bind-Value="cell.ColumnNumber" Label="Column" ReadOnly="@(DocumentParagraph.IsReadOnly)" Min="0" Style="width: 70px" />
-                    <FluentTextField Name="Code" @bind-Value="cell.Code" Label="Code" ReadOnly="@(DocumentParagraph.IsReadOnly)" />
-                    <FluentButton aria-label="Remove" IconEnd="@(new Icons.Regular.Size16.MoreHorizontal())" OnClick="@(() => EditCell(cell))" />
+                    <FluentTextField Name="CellCode" @bind-Value="cell.CellCode" Label="Cell Code" ReadOnly="@(DocumentParagraph.IsReadOnly)" />
+                    <FluentButton aria-label="Edit" IconEnd="@(new Icons.Regular.Size16.MoreHorizontal())" OnClick="@(() => EditCell(cell))" />
                     <FluentButton aria-label="Remove" IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => RemoveCell(cell))" />
                 </FluentStack>
             }
