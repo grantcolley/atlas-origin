@@ -13,8 +13,8 @@
         </HeadingTemplate>
         <ChildContent>
             <div>
-                <FluentTextField Name="Code" @bind-Value="DocumentTableCell.Code" Label="Code" ReadOnly="@(DocumentTableCell.IsReadOnly)" />
-                <FluentValidationMessage For="@(() => DocumentTableCell.Code)" />
+                <FluentTextField Name="CellCode" @bind-Value="DocumentTableCell.CellCode" Label="Cell Code" ReadOnly="@(DocumentTableCell.IsReadOnly)" />
+                <FluentValidationMessage For="@(() => DocumentTableCell.CellCode)" />
             </div>
             <div>
                 <FluentNumberField @bind-Value="DocumentTableCell.RowNumber" Label="Row Number" ReadOnly="@(DocumentTableCell.IsReadOnly)" Min="0" />
