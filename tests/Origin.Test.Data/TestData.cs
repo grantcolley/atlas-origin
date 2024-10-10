@@ -39,12 +39,12 @@ namespace Origin.Test.Data
                     {
                         DocumentParagraphId = 1,
                         DocumentParagraphType = DocumentParagraphType.Footer,
-                        Name = ContentCodes.FOOTER_PARAGRAPH,
+                        Name = ParagraphNames.FOOTER_PARAGRAPH,
                         FontSize = 10,
                         IgnoreParapgraphSpacing = true,
                         Contents =
                         [
-                            new DocumentContent { DocumentContentId = 32, Order = 32, Code = ContentCodes.FOOTER_TEXT, RenderCellCode = ContentCodes.FOOTER_PARAGRAPH, Content = MockLetter.FOOTER_CONTENT }
+                            new DocumentContent { DocumentContentId = 32, Order = 32, Name = ContentNames.FOOTER_TEXT, Content = MockLetter.FOOTER_CONTENT }
                         ]
                     }
                 },
@@ -56,7 +56,7 @@ namespace Origin.Test.Data
                     {
                         DocumentParagraphId = 2,
                         DocumentParagraphType = DocumentParagraphType.Table,
-                        Name = ContentCodes.LETTER_HEAD_TABLE,
+                        Name = ParagraphNames.LETTER_HEAD_TABLE,
                         Rows =
                         [
                             new DocumentTableRow { DocumentTableRowId = 1, Number = 1 },
@@ -71,27 +71,27 @@ namespace Origin.Test.Data
                         ],
                         Cells =
                         [
-                            new DocumentTableCell{ DocumentTableCellId = 1, RowNumber = 1, ColumnNumber = 1, Code = ContentCodes.COMPANY_LOGO },
-                            new DocumentTableCell{ DocumentTableCellId = 2, RowNumber = 2, ColumnNumber = 3, Code = ContentCodes.COMPANY_DETAILS },
-                            new DocumentTableCell{ DocumentTableCellId = 3, RowNumber = 3, ColumnNumber = 1, Code = ContentCodes.CUSTOMER_DETAILS }
+                            new DocumentTableCell{ DocumentTableCellId = 1, RowNumber = 1, ColumnNumber = 1, CellCode = TableCellCodes.COMPANY_LOGO },
+                            new DocumentTableCell{ DocumentTableCellId = 2, RowNumber = 2, ColumnNumber = 3, CellCode = TableCellCodes.COMPANY_DETAILS },
+                            new DocumentTableCell{ DocumentTableCellId = 3, RowNumber = 3, ColumnNumber = 1, CellCode = TableCellCodes.CUSTOMER_DETAILS }
                         ],
                         Contents =
                         [
-                            new DocumentContent { DocumentContentId = 1, Order = 1, Code = ContentCodes.LOGO, RenderCellCode = ContentCodes.COMPANY_LOGO, ContentType = DocumentContentType.Image, Name = "Logo", Source = Path.Combine(outputLocation, "logo.png"), ImageHeight = 15, ImageWidth = 35 },
-                            new DocumentContent { DocumentContentId = 2, Order = 2, Code = ContentCodes.COMPANY_NAME, RenderCellCode = ContentCodes.COMPANY_DETAILS, Content = MockLetter.COMPANY_NAME_CONTENT, IgnoreParapgraphSpacing = true },
-                            new DocumentContent { DocumentContentId = 3, Order = 3, Code = ContentCodes.COMPANY_ADDRESS_1, RenderCellCode = ContentCodes.COMPANY_DETAILS, Content = MockLetter.COMPANY_ADDRESS_1_CONTENT, IgnoreParapgraphSpacing = true },
-                            new DocumentContent { DocumentContentId = 4, Order = 4, Code = ContentCodes.COMPANY_ADDRESS_2, RenderCellCode = ContentCodes.COMPANY_DETAILS, Content = MockLetter.COMPANY_ADDRESS_2_CONTENT, IgnoreParapgraphSpacing = true },
-                            new DocumentContent { DocumentContentId = 5, Order = 5, Code = ContentCodes.COMPANY_ADDRESS_3, RenderCellCode = ContentCodes.COMPANY_DETAILS, Content = MockLetter.COMPANY_ADDRESS_3_CONTENT, IgnoreParapgraphSpacing = true },
-                            new DocumentContent { DocumentContentId = 6, Order = 6, Code = ContentCodes.COMPANY_PHONE_NUMBER, RenderCellCode = ContentCodes.COMPANY_DETAILS, Content = MockLetter.COMPANY_PHONE_NUMBER_CONTENT, IgnoreParapgraphSpacing = true },
-                            new DocumentContent { DocumentContentId = 7, Order = 7, Code = ContentCodes.COMPANY_EMAIL, RenderCellCode = ContentCodes.COMPANY_DETAILS, Content = MockLetter.COMPANY_EMAIL_CONTENT, IgnoreParapgraphSpacing = true },
-                            new DocumentContent { DocumentContentId = 8, Order = 8, Code = ContentCodes.CUSTOMER_NAME, RenderCellCode = ContentCodes.CUSTOMER_DETAILS, Content = MockLetter.CUSTOMER_NAME_CONTENT, IgnoreParapgraphSpacing = true },
-                            new DocumentContent { DocumentContentId = 9, Order = 9, Code = ContentCodes.CUSTOMER_ADDRESS_1, RenderCellCode = ContentCodes.CUSTOMER_DETAILS, Content = MockLetter.CUSTOMER_ADDRESS_1_CONTENT, IgnoreParapgraphSpacing = true },
-                            new DocumentContent { DocumentContentId = 10, Order = 10, Code = ContentCodes.CUSTOMER_ADDRESS_2, RenderCellCode = ContentCodes.CUSTOMER_DETAILS, Content = MockLetter.CUSTOMER_ADDRESS_2_CONTENT, IgnoreParapgraphSpacing = true },
-                            new DocumentContent { DocumentContentId = 11, Order = 11, Code = ContentCodes.CUSTOMER_ADDRESS_3, RenderCellCode = ContentCodes.CUSTOMER_DETAILS, Content = MockLetter.CUSTOMER_ADDRESS_3_CONTENT, IgnoreParapgraphSpacing = true },
-                            new DocumentContent { DocumentContentId = 12, Order = 12, Code = ContentCodes.CUSTOMER_ADDRESS_4, RenderCellCode = ContentCodes.CUSTOMER_DETAILS, Content = MockLetter.CUSTOMER_ADDRESS_4_CONTENT, IgnoreParapgraphSpacing = true },
-                            new DocumentContent { DocumentContentId = 13, Order = 13, Code = ContentCodes.CUSTOMER_ADDRESS_5, RenderCellCode = ContentCodes.CUSTOMER_DETAILS, Content = MockLetter.CUSTOMER_ADDRESS_5_CONTENT, IgnoreParapgraphSpacing = true },
-                            new DocumentContent { DocumentContentId = 14, Order = 14, Code = ContentCodes.CUSTOMER_ADDRESS_6, RenderCellCode = ContentCodes.CUSTOMER_DETAILS, Content = MockLetter.CUSTOMER_ADDRESS_6_CONTENT, IgnoreParapgraphSpacing = true },
-                            new DocumentContent { DocumentContentId = 15, Order = 15, Code = ContentCodes.CUSTOMER_ADDRESS_7, RenderCellCode = ContentCodes.CUSTOMER_DETAILS, Content = MockLetter.CUSTOMER_ADDRESS_7_CONTENT, IgnoreParapgraphSpacing = true }
+                            new DocumentContent { DocumentContentId = 1, Order = 1, Name = ContentNames.LOGO, RenderCellCode = TableCellCodes.COMPANY_LOGO, ContentType = DocumentContentType.Image, Source = Path.Combine(outputLocation, "logo.png"), ImageHeight = 15, ImageWidth = 35 },
+                            new DocumentContent { DocumentContentId = 2, Order = 2, Name = ContentNames.COMPANY_NAME, RenderCellCode = TableCellCodes.COMPANY_DETAILS, Content = MockLetter.COMPANY_NAME_CONTENT, IgnoreParapgraphSpacing = true },
+                            new DocumentContent { DocumentContentId = 3, Order = 3, Name = ContentNames.COMPANY_ADDRESS_1, RenderCellCode = TableCellCodes.COMPANY_DETAILS, Content = MockLetter.COMPANY_ADDRESS_1_CONTENT, IgnoreParapgraphSpacing = true },
+                            new DocumentContent { DocumentContentId = 4, Order = 4, Name = ContentNames.COMPANY_ADDRESS_2, RenderCellCode = TableCellCodes.COMPANY_DETAILS, Content = MockLetter.COMPANY_ADDRESS_2_CONTENT, IgnoreParapgraphSpacing = true },
+                            new DocumentContent { DocumentContentId = 5, Order = 5, Name = ContentNames.COMPANY_ADDRESS_3, RenderCellCode = TableCellCodes.COMPANY_DETAILS, Content = MockLetter.COMPANY_ADDRESS_3_CONTENT, IgnoreParapgraphSpacing = true },
+                            new DocumentContent { DocumentContentId = 6, Order = 6, Name = ContentNames.COMPANY_PHONE_NUMBER, RenderCellCode = TableCellCodes.COMPANY_DETAILS, Content = MockLetter.COMPANY_PHONE_NUMBER_CONTENT, IgnoreParapgraphSpacing = true },
+                            new DocumentContent { DocumentContentId = 7, Order = 7, Name = ContentNames.COMPANY_EMAIL, RenderCellCode = TableCellCodes.COMPANY_DETAILS, Content = MockLetter.COMPANY_EMAIL_CONTENT, IgnoreParapgraphSpacing = true },
+                            new DocumentContent { DocumentContentId = 8, Order = 8, Name = ContentNames.CUSTOMER_NAME, RenderCellCode = TableCellCodes.CUSTOMER_DETAILS, Content = MockLetter.CUSTOMER_NAME_CONTENT, IgnoreParapgraphSpacing = true },
+                            new DocumentContent { DocumentContentId = 9, Order = 9, Name = ContentNames.CUSTOMER_ADDRESS_1, RenderCellCode = TableCellCodes.CUSTOMER_DETAILS, Content = MockLetter.CUSTOMER_ADDRESS_1_CONTENT, IgnoreParapgraphSpacing = true },
+                            new DocumentContent { DocumentContentId = 10, Order = 10, Name = ContentNames.CUSTOMER_ADDRESS_2, RenderCellCode = TableCellCodes.CUSTOMER_DETAILS, Content = MockLetter.CUSTOMER_ADDRESS_2_CONTENT, IgnoreParapgraphSpacing = true },
+                            new DocumentContent { DocumentContentId = 11, Order = 11, Name = ContentNames.CUSTOMER_ADDRESS_3, RenderCellCode = TableCellCodes.CUSTOMER_DETAILS, Content = MockLetter.CUSTOMER_ADDRESS_3_CONTENT, IgnoreParapgraphSpacing = true },
+                            new DocumentContent { DocumentContentId = 12, Order = 12, Name = ContentNames.CUSTOMER_ADDRESS_4, RenderCellCode = TableCellCodes.CUSTOMER_DETAILS, Content = MockLetter.CUSTOMER_ADDRESS_4_CONTENT, IgnoreParapgraphSpacing = true },
+                            new DocumentContent { DocumentContentId = 13, Order = 13, Name = ContentNames.CUSTOMER_ADDRESS_5, RenderCellCode = TableCellCodes.CUSTOMER_DETAILS, Content = MockLetter.CUSTOMER_ADDRESS_5_CONTENT, IgnoreParapgraphSpacing = true },
+                            new DocumentContent { DocumentContentId = 14, Order = 14, Name = ContentNames.CUSTOMER_ADDRESS_6, RenderCellCode = TableCellCodes.CUSTOMER_DETAILS, Content = MockLetter.CUSTOMER_ADDRESS_6_CONTENT, IgnoreParapgraphSpacing = true },
+                            new DocumentContent { DocumentContentId = 15, Order = 15, Name = ContentNames.CUSTOMER_ADDRESS_7, RenderCellCode = TableCellCodes.CUSTOMER_DETAILS, Content = MockLetter.CUSTOMER_ADDRESS_7_CONTENT, IgnoreParapgraphSpacing = true }
                         ]
                     }
                 },
@@ -102,13 +102,13 @@ namespace Origin.Test.Data
                     DocumentParagraph = new DocumentParagraph
                     {
                         DocumentParagraphId = 3,
-                        Name = ContentCodes.LETTER_TITLE_PARAGRAPH,
+                        Name = ParagraphNames.LETTER_TITLE_PARAGRAPH,
                         Font = "Courier",
                         FontSize = 16,
                         Colour = "0,176,240",
                         Contents =
                         [
-                            new DocumentContent { DocumentContentId = 16, Order = 16, Code = ContentCodes.LETTER_TITLE, RenderCellCode = ContentCodes.LETTER_TITLE_PARAGRAPH, Content = MockLetter.LETTER_TITLE_CONTENT }
+                            new DocumentContent { DocumentContentId = 16, Order = 16, Name = ContentNames.LETTER_TITLE, Content = MockLetter.LETTER_TITLE_CONTENT }
                         ]
                     }
                 },
@@ -124,7 +124,7 @@ namespace Origin.Test.Data
                         FontSize = 11,
                         Contents =
                         [
-                            new DocumentContent { DocumentContentId = 20, Order = 20, Code = MockLetter.PARAGRAPH_1_TEXT, RenderCellCode = MockLetter.PARAGRAPH_1, Content = MockLetter.LOREM_IPSUM_STANDARD_1500 }
+                            new DocumentContent { DocumentContentId = 20, Order = 20, Name = MockLetter.PARAGRAPH_1_TEXT, RenderCellCode = MockLetter.PARAGRAPH_1, Content = MockLetter.LOREM_IPSUM_STANDARD_1500 }
                         ]
                     }
                 },
@@ -141,13 +141,13 @@ namespace Origin.Test.Data
                         Colour = "65,105,225",
                         Contents =
                         [
-                            new DocumentContent { DocumentContentId = 21, Order = 21, Code = MockLetter.PARAGRAPH_2_TEXT_1, RenderCellCode = MockLetter.PARAGRAPH_2, Content = MockLetter.LOREM_IPSUM_IS_NONSENSE_MICROSOFT_1_CONTENT },
-                            new DocumentContent { DocumentContentId = 22, Order = 22, Code = MockLetter.PARAGRAPH_2_TEXT_2, RenderCellCode = MockLetter.PARAGRAPH_2, Content = MockLetter.LOREM_IPSUM_IS_NONSENSE_MICROSOFT_2_CONTENT, Font = "Arial", FontSize = 14, Bold = true },
-                            new DocumentContent { DocumentContentId = 23, Order = 23, Code = MockLetter.PARAGRAPH_2_TEXT_3, RenderCellCode = MockLetter.PARAGRAPH_2, Content = MockLetter.LOREM_IPSUM_IS_NONSENSE_MICROSOFT_3_CONTENT },
-                            new DocumentContent { DocumentContentId = 24, Order = 24, Code = MockLetter.PARAGRAPH_2_TEXT_4, RenderCellCode = MockLetter.PARAGRAPH_2, Content = MockLetter.LOREM_IPSUM_IS_NONSENSE_MICROSOFT_4_CONTENT, Font = "Comic Sans MS", FontSize = 14, Colour = "255,0,0" },
-                            new DocumentContent { DocumentContentId = 25, Order = 25, Code = MockLetter.PARAGRAPH_2_TEXT_5, RenderCellCode = MockLetter.PARAGRAPH_2, Content = MockLetter.LOREM_IPSUM_IS_NONSENSE_MICROSOFT_5_CONTENT },
-                            new DocumentContent { DocumentContentId = 26, Order = 26, Code = MockLetter.PARAGRAPH_2_TEXT_6, RenderCellCode = MockLetter.PARAGRAPH_2, Content = MockLetter.LOREM_IPSUM_IS_NONSENSE_MICROSOFT_6_CONTENT, FontSize = 14, Colour = "192,0,0", Italic = true, Underscore = true },
-                            new DocumentContent { DocumentContentId = 27, Order = 27, Code = MockLetter.PARAGRAPH_2_TEXT_7, RenderCellCode = MockLetter.PARAGRAPH_2, Content = MockLetter.LOREM_IPSUM_IS_NONSENSE_MICROSOFT_7_CONTENT }
+                            new DocumentContent { DocumentContentId = 21, Order = 21, Name = MockLetter.PARAGRAPH_2_TEXT_1, RenderCellCode = MockLetter.PARAGRAPH_2, Content = MockLetter.LOREM_IPSUM_IS_NONSENSE_MICROSOFT_1_CONTENT },
+                            new DocumentContent { DocumentContentId = 22, Order = 22, Name = MockLetter.PARAGRAPH_2_TEXT_2, RenderCellCode = MockLetter.PARAGRAPH_2, Content = MockLetter.LOREM_IPSUM_IS_NONSENSE_MICROSOFT_2_CONTENT, Font = "Arial", FontSize = 14, Bold = true },
+                            new DocumentContent { DocumentContentId = 23, Order = 23, Name = MockLetter.PARAGRAPH_2_TEXT_3, RenderCellCode = MockLetter.PARAGRAPH_2, Content = MockLetter.LOREM_IPSUM_IS_NONSENSE_MICROSOFT_3_CONTENT },
+                            new DocumentContent { DocumentContentId = 24, Order = 24, Name = MockLetter.PARAGRAPH_2_TEXT_4, RenderCellCode = MockLetter.PARAGRAPH_2, Content = MockLetter.LOREM_IPSUM_IS_NONSENSE_MICROSOFT_4_CONTENT, Font = "Comic Sans MS", FontSize = 14, Colour = "255,0,0" },
+                            new DocumentContent { DocumentContentId = 25, Order = 25, Name = MockLetter.PARAGRAPH_2_TEXT_5, RenderCellCode = MockLetter.PARAGRAPH_2, Content = MockLetter.LOREM_IPSUM_IS_NONSENSE_MICROSOFT_5_CONTENT },
+                            new DocumentContent { DocumentContentId = 26, Order = 26, Name = MockLetter.PARAGRAPH_2_TEXT_6, RenderCellCode = MockLetter.PARAGRAPH_2, Content = MockLetter.LOREM_IPSUM_IS_NONSENSE_MICROSOFT_6_CONTENT, FontSize = 14, Colour = "192,0,0", Italic = true, Underscore = true },
+                            new DocumentContent { DocumentContentId = 27, Order = 27, Name = MockLetter.PARAGRAPH_2_TEXT_7, RenderCellCode = MockLetter.PARAGRAPH_2, Content = MockLetter.LOREM_IPSUM_IS_NONSENSE_MICROSOFT_7_CONTENT }
                         ]
                     }
                 },
@@ -174,24 +174,24 @@ namespace Origin.Test.Data
                         ],
                         Cells =
                         [
-                            new DocumentTableCell{ DocumentTableCellId = 1, RowNumber = 1, ColumnNumber = 1, Code = MockLetter.TABLE_SUMMARY_1, CellColour = "150,200,250", BorderLeft = 1, BorderLeftColour = "150,200,250", BorderTop = 1, BorderTopColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250", BorderBottom = 1, BorderBottomColour = "150,200,250" },
-                            new DocumentTableCell{ DocumentTableCellId = 2, RowNumber = 1, ColumnNumber = 2, Code = MockLetter.TABLE_SUMMARY_2, CellColour = "150,200,250", BorderLeft = 1, BorderLeftColour = "150,200,250", BorderTop = 1, BorderTopColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250", BorderBottom = 1, BorderBottomColour = "150,200,250" },
-                            new DocumentTableCell{ DocumentTableCellId = 3, RowNumber = 2, ColumnNumber = 1, Code = MockLetter.TABLE_LINE_1, BorderLeft = 1, BorderLeftColour = "150,200,250", BorderTop = 1, BorderTopColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250" },
-                            new DocumentTableCell{ DocumentTableCellId = 4, RowNumber = 2, ColumnNumber = 2, Code = MockLetter.TABLE_LINE_1_AMOUNT, BorderLeft = 1, BorderLeftColour = "150,200,250", BorderTop = 1, BorderTopColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250" },
-                            new DocumentTableCell{ DocumentTableCellId = 5, RowNumber = 3, ColumnNumber = 1, Code = MockLetter.TABLE_LINE_2, BorderLeft = 1, BorderLeftColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250" },
-                            new DocumentTableCell{ DocumentTableCellId = 6, RowNumber = 3, ColumnNumber = 2, Code = MockLetter.TABLE_LINE_2_AMOUNT, BorderLeft = 1, BorderLeftColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250" },
-                            new DocumentTableCell{ DocumentTableCellId = 7, RowNumber = 4, ColumnNumber = 1, Code = MockLetter.TABLE_TOTAL, BorderLeft = 1, BorderLeftColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250", BorderBottom = 1, BorderBottomColour = "150,200,250" },
-                            new DocumentTableCell{ DocumentTableCellId = 8, RowNumber = 4, ColumnNumber = 2, Code = MockLetter.TABLE_TOTAL_AMOUNT, BorderLeft = 1, BorderLeftColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250", BorderBottom = 1, BorderBottomColour = "150,200,250" }
+                            new DocumentTableCell{ DocumentTableCellId = 1, RowNumber = 1, ColumnNumber = 1, CellCode = MockLetter.TABLE_SUMMARY_1, CellColour = "150,200,250", BorderLeft = 1, BorderLeftColour = "150,200,250", BorderTop = 1, BorderTopColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250", BorderBottom = 1, BorderBottomColour = "150,200,250" },
+                            new DocumentTableCell{ DocumentTableCellId = 2, RowNumber = 1, ColumnNumber = 2, CellCode = MockLetter.TABLE_SUMMARY_2, CellColour = "150,200,250", BorderLeft = 1, BorderLeftColour = "150,200,250", BorderTop = 1, BorderTopColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250", BorderBottom = 1, BorderBottomColour = "150,200,250" },
+                            new DocumentTableCell{ DocumentTableCellId = 3, RowNumber = 2, ColumnNumber = 1, CellCode = MockLetter.TABLE_LINE_1, BorderLeft = 1, BorderLeftColour = "150,200,250", BorderTop = 1, BorderTopColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250" },
+                            new DocumentTableCell{ DocumentTableCellId = 4, RowNumber = 2, ColumnNumber = 2, CellCode = MockLetter.TABLE_LINE_1_AMOUNT, BorderLeft = 1, BorderLeftColour = "150,200,250", BorderTop = 1, BorderTopColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250" },
+                            new DocumentTableCell{ DocumentTableCellId = 5, RowNumber = 3, ColumnNumber = 1, CellCode = MockLetter.TABLE_LINE_2, BorderLeft = 1, BorderLeftColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250" },
+                            new DocumentTableCell{ DocumentTableCellId = 6, RowNumber = 3, ColumnNumber = 2, CellCode = MockLetter.TABLE_LINE_2_AMOUNT, BorderLeft = 1, BorderLeftColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250" },
+                            new DocumentTableCell{ DocumentTableCellId = 7, RowNumber = 4, ColumnNumber = 1, CellCode = MockLetter.TABLE_TOTAL, BorderLeft = 1, BorderLeftColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250", BorderBottom = 1, BorderBottomColour = "150,200,250" },
+                            new DocumentTableCell{ DocumentTableCellId = 8, RowNumber = 4, ColumnNumber = 2, CellCode = MockLetter.TABLE_TOTAL_AMOUNT, BorderLeft = 1, BorderLeftColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250", BorderBottom = 1, BorderBottomColour = "150,200,250" }
                         ],
                         Contents =
                         [
-                            new DocumentContent { DocumentContentId = 33, Order = 33, Code = MockLetter.TABLE_SUMMARY_TEXT, RenderCellCode = MockLetter.TABLE_SUMMARY_1, Content = MockLetter.TABLE_SUMMARY_CONTENT, IgnoreParapgraphSpacing = true },
-                            new DocumentContent { DocumentContentId = 34, Order = 34, Code = MockLetter.TABLE_LINE_1_TEXT, RenderCellCode = MockLetter.TABLE_LINE_1, Content = MockLetter.TABLE_LINE_1_CONTENT, IgnoreParapgraphSpacing = true },
-                            new DocumentContent { DocumentContentId = 35, Order = 35, Code = MockLetter.TABLE_LINE_1_AMOUNT_TEXT, RenderCellCode = MockLetter.TABLE_LINE_1_AMOUNT, Content = MockLetter.TABLE_LINE_1_AMOUNT_CONTENT, AlignContent = DocumentContentAlign.End, IgnoreParapgraphSpacing = true },
-                            new DocumentContent { DocumentContentId = 36, Order = 36, Code = MockLetter.TABLE_LINE_2_TEXT, RenderCellCode = MockLetter.TABLE_LINE_2, Content = MockLetter.TABLE_LINE_2_CONTENT, IgnoreParapgraphSpacing = true },
-                            new DocumentContent { DocumentContentId = 37, Order = 37, Code = MockLetter.TABLE_LINE_2_AMOUNT_TEXT, RenderCellCode = MockLetter.TABLE_LINE_2_AMOUNT, Content = MockLetter.TABLE_LINE_2_AMOUNT_CONTENT, AlignContent = DocumentContentAlign.End, IgnoreParapgraphSpacing = true },
-                            new DocumentContent { DocumentContentId = 38, Order = 38, Code = MockLetter.TABLE_TOTAL_TEXT, RenderCellCode = MockLetter.TABLE_TOTAL, Content = MockLetter.TABLE_TOTAL_CONTENT, IgnoreParapgraphSpacing = true },
-                            new DocumentContent { DocumentContentId = 39, Order = 39, Code = MockLetter.TABLE_TOTAL_AMOUNT_TEXT, RenderCellCode = MockLetter.TABLE_TOTAL_AMOUNT, Content = MockLetter.TABLE_TOTAL_AMOUNT_CONTENT, AlignContent = DocumentContentAlign.End, IgnoreParapgraphSpacing = true }
+                            new DocumentContent { DocumentContentId = 33, Order = 33, Name = MockLetter.TABLE_SUMMARY_TEXT, RenderCellCode = MockLetter.TABLE_SUMMARY_1, Content = MockLetter.TABLE_SUMMARY_CONTENT, IgnoreParapgraphSpacing = true },
+                            new DocumentContent { DocumentContentId = 34, Order = 34, Name = MockLetter.TABLE_LINE_1_TEXT, RenderCellCode = MockLetter.TABLE_LINE_1, Content = MockLetter.TABLE_LINE_1_CONTENT, IgnoreParapgraphSpacing = true },
+                            new DocumentContent { DocumentContentId = 35, Order = 35, Name = MockLetter.TABLE_LINE_1_AMOUNT_TEXT, RenderCellCode = MockLetter.TABLE_LINE_1_AMOUNT, Content = MockLetter.TABLE_LINE_1_AMOUNT_CONTENT, AlignContent = DocumentContentAlign.End, IgnoreParapgraphSpacing = true },
+                            new DocumentContent { DocumentContentId = 36, Order = 36, Name = MockLetter.TABLE_LINE_2_TEXT, RenderCellCode = MockLetter.TABLE_LINE_2, Content = MockLetter.TABLE_LINE_2_CONTENT, IgnoreParapgraphSpacing = true },
+                            new DocumentContent { DocumentContentId = 37, Order = 37, Name = MockLetter.TABLE_LINE_2_AMOUNT_TEXT, RenderCellCode = MockLetter.TABLE_LINE_2_AMOUNT, Content = MockLetter.TABLE_LINE_2_AMOUNT_CONTENT, AlignContent = DocumentContentAlign.End, IgnoreParapgraphSpacing = true },
+                            new DocumentContent { DocumentContentId = 38, Order = 38, Name = MockLetter.TABLE_TOTAL_TEXT, RenderCellCode = MockLetter.TABLE_TOTAL, Content = MockLetter.TABLE_TOTAL_CONTENT, IgnoreParapgraphSpacing = true },
+                            new DocumentContent { DocumentContentId = 39, Order = 39, Name = MockLetter.TABLE_TOTAL_AMOUNT_TEXT, RenderCellCode = MockLetter.TABLE_TOTAL_AMOUNT, Content = MockLetter.TABLE_TOTAL_AMOUNT_CONTENT, AlignContent = DocumentContentAlign.End, IgnoreParapgraphSpacing = true }
                         ]
                     }
                 },
@@ -205,7 +205,7 @@ namespace Origin.Test.Data
                         Name = MockLetter.PARAGRAPH_3,
                         Contents =
                         [
-                            new DocumentContent { DocumentContentId = 28, Order = 28, Code = MockLetter.PARAGRAPH_3_TEXT, RenderCellCode = MockLetter.PARAGRAPH_3, Content = MockLetter.LOREM_IPSUM_SECTION_1_10_32 }
+                            new DocumentContent { DocumentContentId = 28, Order = 28, Name = MockLetter.PARAGRAPH_3_TEXT, RenderCellCode = MockLetter.PARAGRAPH_3, Content = MockLetter.LOREM_IPSUM_SECTION_1_10_32 }
                         ]
                     }
                 },
@@ -219,7 +219,7 @@ namespace Origin.Test.Data
                         Name = MockLetter.PARAGRAPH_4,
                         Contents =
                         [
-                            new DocumentContent { DocumentContentId = 29, Order = 29, Code = MockLetter.PARAGRAPH_4_TEXT, RenderCellCode = MockLetter.PARAGRAPH_4, Content = MockLetter.LOREM_IPSUM_SECTION_1_10_32_HACKMAN_1914 }
+                            new DocumentContent { DocumentContentId = 29, Order = 29, Name = MockLetter.PARAGRAPH_4_TEXT, RenderCellCode = MockLetter.PARAGRAPH_4, Content = MockLetter.LOREM_IPSUM_SECTION_1_10_32_HACKMAN_1914 }
                         ]
                     }
                 },
@@ -233,7 +233,7 @@ namespace Origin.Test.Data
                         Name = MockLetter.PARAGRAPH_5,
                         Contents =
                         [
-                            new DocumentContent { DocumentContentId = 30, Order = 30, Code = MockLetter.PARAGRAPH_5_TEXT, RenderCellCode = MockLetter.PARAGRAPH_5, Content = MockLetter.LOREM_IPSUM_SECTION_1_10_33 }
+                            new DocumentContent { DocumentContentId = 30, Order = 30, Name = MockLetter.PARAGRAPH_5_TEXT, RenderCellCode = MockLetter.PARAGRAPH_5, Content = MockLetter.LOREM_IPSUM_SECTION_1_10_33 }
                         ]
                     }
                 },
@@ -247,7 +247,7 @@ namespace Origin.Test.Data
                         Name = MockLetter.PARAGRAPH_6,
                         Contents =
                         [
-                            new DocumentContent { DocumentContentId = 31, Order = 31, Code = MockLetter.PARAGRAPH_6_TEXT, RenderCellCode = MockLetter.PARAGRAPH_6, Content = MockLetter.LOREM_IPSUM_SECTION_1_10_33_HACKMAN_1914 }
+                            new DocumentContent { DocumentContentId = 31, Order = 31, Name = MockLetter.PARAGRAPH_6_TEXT, RenderCellCode = MockLetter.PARAGRAPH_6, Content = MockLetter.LOREM_IPSUM_SECTION_1_10_33_HACKMAN_1914 }
                         ]
                     }
                 },
@@ -259,7 +259,7 @@ namespace Origin.Test.Data
                     {
                         DocumentParagraphId = 11,
                         DocumentParagraphType = DocumentParagraphType.Table,
-                        Name = ContentCodes.SIGNATURE_TABLE,
+                        Name = ParagraphNames.SIGNATURE_TABLE,
                         Rows =
                         [
                             new DocumentTableRow { DocumentTableRowId = 1, Number = 1 }
@@ -270,13 +270,13 @@ namespace Origin.Test.Data
                         ],
                         Cells =
                         [
-                            new DocumentTableCell { DocumentTableCellId = 1, RowNumber = 1, ColumnNumber = 1, Code = ContentCodes.SIGNATURE_DETAILS }
+                            new DocumentTableCell { DocumentTableCellId = 1, RowNumber = 1, ColumnNumber = 1, CellCode = TableCellCodes.SIGNATURE_DETAILS }
                         ],
                         Contents =
                         [
-                            new DocumentContent { DocumentContentId = 17, Order = 17, Code = ContentCodes.SIGNATURE, RenderCellCode = ContentCodes.SIGNATURE_DETAILS, ContentType = DocumentContentType.Image, Name = "Signature", Source = Path.Combine(outputLocation, "signature.png"), ImageHeight = 15, ImageWidth = 35 },
-                            new DocumentContent { DocumentContentId = 18, Order = 18, Code = ContentCodes.SIGNEE, RenderCellCode = ContentCodes.SIGNATURE_DETAILS, Content = MockLetter.SIGNEE_CONTENT, IgnoreParapgraphSpacing = true },
-                            new DocumentContent { DocumentContentId = 19, Order = 19, Code = ContentCodes.SIGNEE_TITLE, RenderCellCode = ContentCodes.SIGNATURE_DETAILS, Content = MockLetter.SIGNEE_TITLE_CONTENT, IgnoreParapgraphSpacing = true }
+                            new DocumentContent { DocumentContentId = 17, Order = 17, Name = ContentNames.SIGNATURE, RenderCellCode = TableCellCodes.SIGNATURE_DETAILS, ContentType = DocumentContentType.Image, Source = Path.Combine(outputLocation, "signature.png"), ImageHeight = 15, ImageWidth = 35 },
+                            new DocumentContent { DocumentContentId = 18, Order = 18, Name = ContentNames.SIGNEE, RenderCellCode = TableCellCodes.SIGNATURE_DETAILS, Content = MockLetter.SIGNEE_CONTENT, IgnoreParapgraphSpacing = true },
+                            new DocumentContent { DocumentContentId = 19, Order = 19, Name = ContentNames.SIGNEE_TITLE, RenderCellCode = TableCellCodes.SIGNATURE_DETAILS, Content = MockLetter.SIGNEE_TITLE_CONTENT, IgnoreParapgraphSpacing = true }
                         ]
                     }
                 }
