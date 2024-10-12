@@ -52,7 +52,7 @@ namespace Origin.Core.Models
         public DocumentConfigValidator()
         {
             RuleFor(v => v.Name)
-                .NotNull().WithMessage("Name is required")
+                .NotEmpty().WithMessage("Name is required")
                 .Length(1, 100).WithMessage("Name cannot exceed 100 characters");
 
             RuleFor(v => v.PageMarginLeft)
@@ -67,11 +67,10 @@ namespace Origin.Core.Models
             RuleFor(v => v.PageMarginBottom)
                 .GreaterThan(-1).WithMessage("PageMarginBottom must be 0 or greater.");
 
-            RuleFor(v => v.ParagraphSpacingBetweenLinesBefore)
-                .GreaterThan(-1).WithMessage("ParagraphSpacingBetweenLinesBefore must be 0 or greater.");
+            RuleForEach(v => v.Substitutes).SetValidator(new DocumentSubstituteValidator());
 
-            RuleFor(v => v.ParagraphSpacingBetweenLinesAfter)
-                .GreaterThan(-1).WithMessage("ParagraphSpacingBetweenLinesAfter must be 0 or greater.");
+            Include(new DocumentParagraphPropertiesValidator());
+            Include(new DocumentContentPropertiesValidator());
         }
     }
 }
