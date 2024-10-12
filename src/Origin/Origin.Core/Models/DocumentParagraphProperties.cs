@@ -1,4 +1,5 @@
-﻿using Origin.Core.Interfaces;
+﻿using FluentValidation;
+using Origin.Core.Interfaces;
 using System.ComponentModel.DataAnnotations;
 
 namespace Origin.Core.Models
@@ -10,5 +11,17 @@ namespace Origin.Core.Models
 
         [Required]
         public int ParagraphSpacingBetweenLinesBefore { get; set; } = 10;
+    }
+
+    public class DocumentParagraphPropertiesValidator : AbstractValidator<DocumentParagraphProperties>
+    {
+        public DocumentParagraphPropertiesValidator()
+        {
+            RuleFor(v => v.ParagraphSpacingBetweenLinesBefore)
+                .GreaterThan(-1).WithMessage("ParagraphSpacingBetweenLinesBefore must be 0 or greater.");
+
+            RuleFor(v => v.ParagraphSpacingBetweenLinesAfter)
+                .GreaterThan(-1).WithMessage("ParagraphSpacingBetweenLinesAfter must be 0 or greater.");
+        }
     }
 }
