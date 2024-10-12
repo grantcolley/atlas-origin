@@ -1,9 +1,6 @@
 ﻿using FluentValidation;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Runtime.CompilerServices;
 using System.Text;
-using System.Text.Json.Serialization;
 
 namespace Origin.Core.Models
 {
@@ -60,8 +57,14 @@ namespace Origin.Core.Models
         public DocumentParagraphValidator()
         {
             RuleFor(v => v.Name)
-                .NotNull().WithMessage("Name is required")
+                .NotEmpty().WithMessage("Name is required")
                 .Length(1, 250).WithMessage("Name cannot exceed 250 characters");
+
+            RuleForEach(v => v.Cells).SetValidator(new DocumentTableCellValidator());
+            RuleForEach(v => v.Contents).SetValidator(new DocumentContentValidator());
+
+            Include(new DocumentParagraphPropertiesValidator());
+            Include(new DocumentContentPropertiesValidator());
         }
     }
 }
