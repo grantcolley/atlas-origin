@@ -35,11 +35,11 @@ namespace Atlas.Core.Models
         public RoleValidator()
         {
             RuleFor(v => v.Name)
-                .NotNull().WithMessage("Name is required")
+                .NotEmpty().WithMessage("Name is required")
                 .Length(1, 50).WithMessage("Name cannot exceed 50 characters");
 
             RuleFor(v => v.Description)
-                .NotNull().WithMessage("Description is required")
+                .NotEmpty().WithMessage("Description is required")
                 .Length(1, 150).WithMessage("Description cannot exceed 150 characters");
         }
     }
