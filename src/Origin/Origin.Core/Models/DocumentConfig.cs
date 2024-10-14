@@ -67,10 +67,10 @@ namespace Origin.Core.Models
             RuleFor(v => v.PageMarginBottom)
                 .GreaterThan(-1).WithMessage("PageMarginBottom must be 0 or greater.");
 
-            RuleForEach(v => v.Substitutes).SetValidator(new DocumentSubstituteValidator());
-
             Include(new DocumentParagraphPropertiesValidator());
             Include(new DocumentContentPropertiesValidator());
+
+            RuleForEach(v => v.Substitutes).SetValidator(new DocumentSubstituteValidator());
         }
     }
 }
