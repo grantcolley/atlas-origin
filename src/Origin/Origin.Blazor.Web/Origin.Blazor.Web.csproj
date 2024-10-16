@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -20,12 +20,6 @@
     <ProjectReference Include="..\..\Atlas.Blazor.Web\Atlas.Blazor.Web.csproj" />
     <ProjectReference Include="..\Origin.Core\Origin.Core.csproj" />
     <ProjectReference Include="..\Origin.Requests\Origin.Requests.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Update="Components\Pages\DocumentColours.razor">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-    </Content>
   </ItemGroup>
 
 </Project>
