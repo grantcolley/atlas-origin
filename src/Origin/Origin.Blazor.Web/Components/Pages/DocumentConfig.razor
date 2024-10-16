@@ -24,6 +24,8 @@
     private IEnumerable<Origin.Core.Models.DocumentFont>? _fontsSource = [];
     private IEnumerable<Origin.Core.Models.DocumentColour>? _coloursSource = [];
     private IEnumerable<Origin.Core.Models.DocumentParagraph>? _paragraphsSource = [];
+    private List<string> _tabs = new List<string>() { "Document", "Paragraphs", "Substitutes" };
+    private string? _activeTab;
 
     protected override async Task OnInitializedAsync()
     {
@@ -33,6 +35,8 @@
             ArgumentNullException.ThrowIfNull(OriginOptionsRequests);
 
             await base.OnInitializedAsync().ConfigureAwait(false);
+
+            _activeTab = _tabs[0];
 
             _isProcessing = true;
 
@@ -64,26 +68,26 @@
 
         <FluentGrid Spacing="3" Justify="JustifyContent.FlexStart">        
             <FluentGridItem xs="12" md="12" lg="12">
-                <FluentTabs ActiveTabId="docCfg" >
-                    <FluentTab Id="docConfig">
+                <FluentTabs @bind-ActiveTabId="@_activeTab">
+                    <FluentTab Id="@_tabs[0]">
                         <Header>
-                            <FluentLabel Typo="Typography.Subject">Document</FluentLabel>
+                            <FluentLabel Typo="Typography.Subject">@_tabs[0]</FluentLabel>
                         </Header>
                         <Content>
                             <Document DocumentConfig="@Model" FontSource="@_fontsSource" ColourSource="@_coloursSource"/>
                         </Content>
                     </FluentTab>
-                    <FluentTab Id="docParagraphs">
+                    <FluentTab Id="@_tabs[1]">
                         <Header>
-                            <FluentLabel Typo="Typography.Subject">Paragraphs</FluentLabel>
+                            <FluentLabel Typo="Typography.Subject">@_tabs[1]</FluentLabel>
                         </Header>
                         <Content>
                             <DocumentConfigParagraphs DocumentConfig="@Model" Paragraphs="@_paragraphsSource" />
                         </Content>
                     </FluentTab>
-                    <FluentTab Id="docSubstitutes">
+                    <FluentTab Id="@_tabs[2]">
                         <Header>
-                            <FluentLabel Typo="Typography.Subject">Substitutes</FluentLabel>
+                            <FluentLabel Typo="Typography.Subject">@_tabs[2]</FluentLabel>
                         </Header>
                         <Content>
                             <Substitutes DocumentConfig="@Model" />
