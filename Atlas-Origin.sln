@@ -55,6 +55,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Atlas.Migrations.SQLServer"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Origin.Requests", "src\Origin\Origin.Requests\Origin.Requests.csproj", "{92A204B7-6AB1-4738-BCB4-0F5630D1D23B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Origin.Core.Validation", "src\Origin\Origin.Core.Validation\Origin.Core.Validation.csproj", "{3DDDC353-36F0-48C7-B45E-21258432BD40}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atlas.Core.Validation", "src\Atlas.Core.Validation\Atlas.Core.Validation.csproj", "{944113A7-49EA-4B68-917B-B9AC56D1FC12}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -145,6 +149,14 @@ Global
 		{92A204B7-6AB1-4738-BCB4-0F5630D1D23B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{92A204B7-6AB1-4738-BCB4-0F5630D1D23B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{92A204B7-6AB1-4738-BCB4-0F5630D1D23B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3DDDC353-36F0-48C7-B45E-21258432BD40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DDDC353-36F0-48C7-B45E-21258432BD40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DDDC353-36F0-48C7-B45E-21258432BD40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DDDC353-36F0-48C7-B45E-21258432BD40}.Release|Any CPU.Build.0 = Release|Any CPU
+		{944113A7-49EA-4B68-917B-B9AC56D1FC12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{944113A7-49EA-4B68-917B-B9AC56D1FC12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{944113A7-49EA-4B68-917B-B9AC56D1FC12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{944113A7-49EA-4B68-917B-B9AC56D1FC12}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -172,6 +184,8 @@ Global
 		{68D4AF69-D350-4515-AD53-9419D09643B0} = {5EF3D9C7-E877-425B-95A7-2C21A7407EC6}
 		{5FA5960E-01B3-4567-8F19-70A8AA743FE1} = {5EF3D9C7-E877-425B-95A7-2C21A7407EC6}
 		{92A204B7-6AB1-4738-BCB4-0F5630D1D23B} = {F7B02A96-1B5E-43C4-B4B3-26B012A8FDFE}
+		{3DDDC353-36F0-48C7-B45E-21258432BD40} = {F7B02A96-1B5E-43C4-B4B3-26B012A8FDFE}
+		{944113A7-49EA-4B68-917B-B9AC56D1FC12} = {4D561DB1-6F2C-4895-88D3-91379F9CFEE6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {35D4493E-72A3-403D-AB40-7AADFBC20D09}

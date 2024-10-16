@@ -7,6 +7,7 @@ using Atlas.Blazor.Web.Services;
 using Atlas.Core.Constants;
 using Atlas.Core.Logging.Interfaces;
 using Atlas.Core.Logging.Services;
+using Atlas.Core.Validation.Extensions;
 using Atlas.Requests.API;
 using Atlas.Requests.Interfaces;
 using Auth0.AspNetCore.Authentication;
@@ -14,7 +15,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.FluentUI.AspNetCore.Components;
-using Microsoft.FluentUI.AspNetCore.Components.Components.Tooltip;
+using Origin.Core.Validation.Extensions;
 using Origin.Requests.API;
 using Origin.Requests.Interfaces;
 using Serilog;
@@ -31,7 +32,10 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
 
-builder.Services.AddFluentUIComponents();
+builder.Services.AddFluentUIComponents(new LibraryConfiguration { UseTooltipServiceProvider = true });
+
+builder.Services.AddAtlasValidators();
+builder.Services.AddOriginValidators();
 
 builder.Services
     .AddAuth0WebAppAuthentication(Auth0Constants.AuthenticationScheme, options =>
@@ -52,8 +56,6 @@ builder.Services.AddScoped<AuthenticationStateProvider, PersistingRevalidatingAu
 
 builder.Services.AddSingleton<IAtlasRoutesService, AtlasRoutesService>();
 builder.Services.AddScoped<ILogService, LogService>();
-builder.Services.AddScoped<ITooltipService, TooltipService>();
-builder.Services.AddScoped<IDialogService, DialogService>();
 builder.Services.AddScoped<IAtlasDialogService, AtlasDialogService>();
 builder.Services.AddScoped<IOptionsService, OptionsService>();
 
