@@ -1,5 +1,4 @@
-﻿using FluentValidation;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
@@ -30,23 +29,5 @@ namespace Origin.Core.Models
         [NotMapped]
         [JsonIgnore]
         public string? Tag { get; set; }
-    }
-
-    public class DocumentContentValidator : AbstractValidator<DocumentContent>
-    {
-        public DocumentContentValidator()
-        {
-            RuleFor(v => v.Name)
-                .NotEmpty().WithMessage("Name is required")
-                .Length(1, 100).WithMessage("Cell Code cannot exceed 100 characters");
-
-            RuleFor(v => v.RenderCellCode)
-                .MaximumLength(100).WithMessage("Render Cell Code cannot exceed 100 characters");
-
-            RuleFor(v => v.Source)
-                .MaximumLength(500).WithMessage("Source cannot exceed 100 characters");
-
-            Include(new DocumentContentPropertiesValidator());
-        }
     }
 }
