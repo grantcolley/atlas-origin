@@ -213,7 +213,7 @@ namespace Atlas.API.Endpoints.Origin
             }
         }
 
-        internal static async Task<IResult> CreateDocumentColour([FromBody] DocumentColour documentColour, IValidator<DocumentFont> validator, IDocumentPropertiesData documentPropertiesData, IClaimService claimService, ILogService logService, CancellationToken cancellationToken)
+        internal static async Task<IResult> CreateDocumentColour([FromBody] DocumentColour documentColour, IValidator<DocumentColour> validator, IDocumentPropertiesData documentPropertiesData, IClaimService claimService, ILogService logService, CancellationToken cancellationToken)
         {
             Authorisation? authorisation = null;
 
@@ -243,7 +243,7 @@ namespace Atlas.API.Endpoints.Origin
             }
         }
 
-        internal static async Task<IResult> UpdateDocumentColour([FromBody] DocumentColour documentColour, IValidator<DocumentFont> validator, IDocumentPropertiesData documentPropertiesData, IClaimService claimService, ILogService logService, CancellationToken cancellationToken)
+        internal static async Task<IResult> UpdateDocumentColour([FromBody] DocumentColour documentColour, IValidator<DocumentColour> validator, IDocumentPropertiesData documentPropertiesData, IClaimService claimService, ILogService logService, CancellationToken cancellationToken)
         {
             Authorisation? authorisation = null;
 

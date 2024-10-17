@@ -5,6 +5,7 @@ using Atlas.Core.Constants;
 using Atlas.Core.Exceptions;
 using Atlas.Core.Logging.Interfaces;
 using Atlas.Core.Logging.Services;
+using Atlas.Core.Validation.Extensions;
 using Atlas.Data.Access.Data;
 using Atlas.Data.Access.Interfaces;
 using Atlas.Data.Context;
@@ -29,6 +30,7 @@ builder.Host.UseSerilog((hostingContext, loggerConfiguration) =>
                   loggerConfiguration.ReadFrom.Configuration(hostingContext.Configuration)
                                         .Enrich.FromLogContext());
 
+builder.Services.AddAtlasValidators();
 builder.Services.AddOriginValidators();
 
 builder.Services.AddEndpointsApiExplorer();
