@@ -1,8 +1,10 @@
 ﻿using Atlas.API.Interfaces;
+using Atlas.API.Utility;
 using Atlas.Core.Constants;
 using Atlas.Core.Exceptions;
 using Atlas.Core.Logging.Interfaces;
 using Atlas.Core.Models;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Origin.Core.Models;
 using Origin.Data.Access.Interfaces;
@@ -67,7 +69,7 @@ namespace Atlas.API.Endpoints.Origin
             }
         }
 
-        internal static async Task<IResult> CreateDocumentConfig([FromBody] DocumentConfig documentConfig, IDocumentData documentData, IClaimService claimService, ILogService logService, CancellationToken cancellationToken)
+        internal static async Task<IResult> CreateDocumentConfig([FromBody] DocumentConfig documentConfig, IValidator<DocumentConfig> validator, IDocumentData documentData, IClaimService claimService, ILogService logService, CancellationToken cancellationToken)
         {
             Authorisation? authorisation = null;
 
@@ -81,6 +83,8 @@ namespace Atlas.API.Endpoints.Origin
                 {
                     return Results.Unauthorized();
                 }
+
+                await validator.ValidateAndThrowAtlasException(documentConfig, "CreateDocumentConfig", cancellationToken).ConfigureAwait(false);
 
                 DocumentConfig? newDocumentConfig = await documentData.CreateDocumentConfigAsync(documentConfig, cancellationToken)
                     .ConfigureAwait(false);
@@ -95,7 +99,7 @@ namespace Atlas.API.Endpoints.Origin
             }
         }
 
-        internal static async Task<IResult> UpdateDocumentConfig([FromBody] DocumentConfig documentConfig, IDocumentData documentData, IClaimService claimService, ILogService logService, CancellationToken cancellationToken)
+        internal static async Task<IResult> UpdateDocumentConfig([FromBody] DocumentConfig documentConfig, IValidator<DocumentConfig> validator, IDocumentData documentData, IClaimService claimService, ILogService logService, CancellationToken cancellationToken)
         {
             Authorisation? authorisation = null;
 
@@ -109,6 +113,8 @@ namespace Atlas.API.Endpoints.Origin
                 {
                     return Results.Unauthorized();
                 }
+
+                await validator.ValidateAndThrowAtlasException(documentConfig, "UpdateDocumentConfig", cancellationToken).ConfigureAwait(false);
 
                 DocumentConfig? updatedDocumentConfig = await documentData.UpdateDocumentConfigAsync(documentConfig, cancellationToken)
                     .ConfigureAwait(false);
@@ -207,7 +213,7 @@ namespace Atlas.API.Endpoints.Origin
             }
         }
 
-        internal static async Task<IResult> CreateDocumentParagraph([FromBody] DocumentParagraph documentParagraph, IDocumentData documentData, IClaimService claimService, ILogService logService, CancellationToken cancellationToken)
+        internal static async Task<IResult> CreateDocumentParagraph([FromBody] DocumentParagraph documentParagraph, IValidator<DocumentParagraph> validator, IDocumentData documentData, IClaimService claimService, ILogService logService, CancellationToken cancellationToken)
         {
             Authorisation? authorisation = null;
 
@@ -221,6 +227,8 @@ namespace Atlas.API.Endpoints.Origin
                 {
                     return Results.Unauthorized();
                 }
+
+                await validator.ValidateAndThrowAtlasException(documentParagraph, "CreateDocumentParagraph", cancellationToken).ConfigureAwait(false);
 
                 DocumentParagraph? newDocumentParagraph = await documentData.CreateDocumentParagraphAsync(documentParagraph, cancellationToken)
                     .ConfigureAwait(false);
@@ -235,7 +243,7 @@ namespace Atlas.API.Endpoints.Origin
             }
         }
 
-        internal static async Task<IResult> UpdateDocumentParagraph([FromBody] DocumentParagraph documentParagraph, IDocumentData documentData, IClaimService claimService, ILogService logService, CancellationToken cancellationToken)
+        internal static async Task<IResult> UpdateDocumentParagraph([FromBody] DocumentParagraph documentParagraph, IValidator<DocumentParagraph> validator, IDocumentData documentData, IClaimService claimService, ILogService logService, CancellationToken cancellationToken)
         {
             Authorisation? authorisation = null;
 
@@ -250,6 +258,8 @@ namespace Atlas.API.Endpoints.Origin
                     return Results.Unauthorized();
                 }
 
+                await validator.ValidateAndThrowAtlasException(documentParagraph, "UpdateDocumentParagraph", cancellationToken).ConfigureAwait(false);
+                
                 DocumentParagraph? updatedDocumentParagraph = await documentData.UpdateDocumentParagraphAsync(documentParagraph, cancellationToken)
                     .ConfigureAwait(false);
 

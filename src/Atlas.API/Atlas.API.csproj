@@ -35,6 +35,7 @@
     <ProjectReference Include="..\Atlas.Core.Logging\Atlas.Core.Logging.csproj" />  
     <ProjectReference Include="..\Atlas.Data.Access\Atlas.Data.Access.csproj" />  
     <ProjectReference Include="..\Atlas.Data.Context\Atlas.Data.Context.csproj" />  
+    <ProjectReference Include="..\Origin\Origin.Core.Validation\Origin.Core.Validation.csproj" />  
     <ProjectReference Include="..\Origin\Origin.Core\Origin.Core.csproj" />  
     <ProjectReference Include="..\Origin\Origin.Data.Access\Origin.Data.Access.csproj" />
   </ItemGroup>

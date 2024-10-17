@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Http.Json;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Origin.Core.Validation.Extensions;
 using Origin.Data.Access.Data;
 using Origin.Data.Access.Interfaces;
 using Serilog;
@@ -27,6 +28,8 @@ builder.Logging.AddConsole();
 builder.Host.UseSerilog((hostingContext, loggerConfiguration) =>
                   loggerConfiguration.ReadFrom.Configuration(hostingContext.Configuration)
                                         .Enrich.FromLogContext());
+
+builder.Services.AddOriginValidators();
 
 builder.Services.AddEndpointsApiExplorer();
 

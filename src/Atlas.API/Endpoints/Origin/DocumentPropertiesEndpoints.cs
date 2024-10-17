@@ -1,8 +1,10 @@
 ﻿using Atlas.API.Interfaces;
+using Atlas.API.Utility;
 using Atlas.Core.Constants;
 using Atlas.Core.Exceptions;
 using Atlas.Core.Logging.Interfaces;
 using Atlas.Core.Models;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Origin.Core.Models;
 using Origin.Data.Access.Interfaces;
@@ -67,7 +69,7 @@ namespace Atlas.API.Endpoints.Origin
             }
         }
 
-        internal static async Task<IResult> CreateDocumentFont([FromBody] DocumentFont documentFont, IDocumentPropertiesData documentPropertiesData, IClaimService claimService, ILogService logService, CancellationToken cancellationToken)
+        internal static async Task<IResult> CreateDocumentFont([FromBody] DocumentFont documentFont, IValidator<DocumentFont> validator, IDocumentPropertiesData documentPropertiesData, IClaimService claimService, ILogService logService, CancellationToken cancellationToken)
         {
             Authorisation? authorisation = null;
 
@@ -81,6 +83,8 @@ namespace Atlas.API.Endpoints.Origin
                 {
                     return Results.Unauthorized();
                 }
+
+                await validator.ValidateAndThrowAtlasException(documentFont, "CreateDocumentFont", cancellationToken).ConfigureAwait(false);
 
                 DocumentFont? newdocumentFont = await documentPropertiesData.CreateDocumentFontAsync(documentFont, cancellationToken)
                     .ConfigureAwait(false);
@@ -95,7 +99,7 @@ namespace Atlas.API.Endpoints.Origin
             }
         }
 
-        internal static async Task<IResult> UpdateDocumentFont([FromBody] DocumentFont documentFont, IDocumentPropertiesData documentPropertiesData, IClaimService claimService, ILogService logService, CancellationToken cancellationToken)
+        internal static async Task<IResult> UpdateDocumentFont([FromBody] DocumentFont documentFont, IValidator<DocumentFont> validator, IDocumentPropertiesData documentPropertiesData, IClaimService claimService, ILogService logService, CancellationToken cancellationToken)
         {
             Authorisation? authorisation = null;
 
@@ -109,6 +113,8 @@ namespace Atlas.API.Endpoints.Origin
                 {
                     return Results.Unauthorized();
                 }
+
+                await validator.ValidateAndThrowAtlasException(documentFont, "UpdateDocumentFont", cancellationToken).ConfigureAwait(false);
 
                 DocumentFont? updatedDocumentFont = await documentPropertiesData.UpdateDocumentFontAsync(documentFont, cancellationToken)
                     .ConfigureAwait(false);
@@ -207,7 +213,7 @@ namespace Atlas.API.Endpoints.Origin
             }
         }
 
-        internal static async Task<IResult> CreateDocumentColour([FromBody] DocumentColour documentColour, IDocumentPropertiesData documentPropertiesData, IClaimService claimService, ILogService logService, CancellationToken cancellationToken)
+        internal static async Task<IResult> CreateDocumentColour([FromBody] DocumentColour documentColour, IValidator<DocumentFont> validator, IDocumentPropertiesData documentPropertiesData, IClaimService claimService, ILogService logService, CancellationToken cancellationToken)
         {
             Authorisation? authorisation = null;
 
@@ -221,6 +227,8 @@ namespace Atlas.API.Endpoints.Origin
                 {
                     return Results.Unauthorized();
                 }
+
+                await validator.ValidateAndThrowAtlasException(documentColour, "CreateDocumentColour", cancellationToken).ConfigureAwait(false);
 
                 DocumentColour? newDocumentColour = await documentPropertiesData.CreateDocumentColourAsync(documentColour, cancellationToken)
                     .ConfigureAwait(false);
@@ -235,7 +243,7 @@ namespace Atlas.API.Endpoints.Origin
             }
         }
 
-        internal static async Task<IResult> UpdateDocumentColour([FromBody] DocumentColour documentColour, IDocumentPropertiesData documentPropertiesData, IClaimService claimService, ILogService logService, CancellationToken cancellationToken)
+        internal static async Task<IResult> UpdateDocumentColour([FromBody] DocumentColour documentColour, IValidator<DocumentFont> validator, IDocumentPropertiesData documentPropertiesData, IClaimService claimService, ILogService logService, CancellationToken cancellationToken)
         {
             Authorisation? authorisation = null;
 
@@ -249,6 +257,8 @@ namespace Atlas.API.Endpoints.Origin
                 {
                     return Results.Unauthorized();
                 }
+
+                await validator.ValidateAndThrowAtlasException(documentColour, "UpdateDocumentColour", cancellationToken).ConfigureAwait(false);
 
                 DocumentColour? updatedDocumentColour = await documentPropertiesData.UpdateDocumentColourAsync(documentColour, cancellationToken)
                     .ConfigureAwait(false);
