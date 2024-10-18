@@ -3,6 +3,7 @@ using Atlas.Requests.Base;
 using Atlas.Requests.Interfaces;
 using Atlas.Requests.Model;
 using System.Net.Http.Json;
+using System.Text.Json;
 
 namespace Atlas.Requests.API
 {
@@ -82,7 +83,7 @@ namespace Atlas.Requests.API
             ArgumentNullException.ThrowIfNull(model, nameof(model));
             ArgumentNullException.ThrowIfNullOrWhiteSpace(endpoint, nameof(endpoint));
 
-            using HttpResponseMessage addResponse = await _httpClient.PostAsJsonAsync(endpoint, model)
+            using HttpResponseMessage addResponse = await _httpClient.PostAsJsonAsync(endpoint, model, _jsonSerializerOptions)
                 .ConfigureAwait(false);
 
             return await GetResponseAsync<T>(addResponse)
@@ -94,7 +95,7 @@ namespace Atlas.Requests.API
             ArgumentNullException.ThrowIfNull(model, nameof(model));
             ArgumentNullException.ThrowIfNullOrWhiteSpace(endpoint, nameof(endpoint));
 
-            using HttpResponseMessage updateResponse = await _httpClient.PutAsJsonAsync(endpoint, model)
+            using HttpResponseMessage updateResponse = await _httpClient.PutAsJsonAsync(endpoint, model, _jsonSerializerOptions)
                 .ConfigureAwait(false);
 
             return await GetResponseAsync<T>(updateResponse)
