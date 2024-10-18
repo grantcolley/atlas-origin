@@ -2,6 +2,7 @@
 using Atlas.Core.Exceptions;
 using Atlas.Data.Context;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
 using Origin.Core.Models;
 using Origin.Data.Access.Interfaces;
@@ -53,6 +54,8 @@ namespace Origin.Data.Access.Data
 
         public async Task<DocumentConfig> CreateDocumentConfigAsync(DocumentConfig addDocumentConfig, CancellationToken cancellationToken)
         {
+            using IDbContextTransaction transaction = _applicationDbContext.Database.BeginTransaction();
+
             try
             {
                 ArgumentNullException.ThrowIfNull(nameof(addDocumentConfig));
@@ -109,6 +112,8 @@ namespace Origin.Data.Access.Data
                     documentConfig.IsReadOnly = true;
                 }
 
+                await transaction.CommitAsync(cancellationToken).ConfigureAwait(false);
+
                 return documentConfig;
             }
             catch (Exception ex)
@@ -119,6 +124,8 @@ namespace Origin.Data.Access.Data
 
         public async Task<DocumentConfig> UpdateDocumentConfigAsync(DocumentConfig documentConfig, CancellationToken cancellationToken)
         {
+            using IDbContextTransaction transaction = _applicationDbContext.Database.BeginTransaction();
+
             try
             {
                 DocumentConfig existing = await _applicationDbContext.DocumentConfigs
@@ -145,6 +152,8 @@ namespace Origin.Data.Access.Data
                     documentConfig.IsReadOnly = true;
                 }
 
+                await transaction.CommitAsync(cancellationToken).ConfigureAwait(false);
+
                 return documentConfig;
             }
             catch (Exception ex)
@@ -158,8 +167,11 @@ namespace Origin.Data.Access.Data
             try
             {
                 DocumentConfig documentConfig = await _applicationDbContext.DocumentConfigs
+                    .Include(d => d.Substitutes)
                     .FirstAsync(d =>d.DocumentConfigId.Equals(id), cancellationToken)
                     .ConfigureAwait(false);
+
+                _applicationDbContext.DocumentSubstitutes.RemoveRange(documentConfig.Substitutes);
 
                 _applicationDbContext.DocumentConfigs.Remove(documentConfig);
 
@@ -218,6 +230,8 @@ namespace Origin.Data.Access.Data
 
         public async Task<DocumentParagraph> CreateDocumentParagraphAsync(DocumentParagraph addDocumentParagraph, CancellationToken cancellationToken)
         {
+            using IDbContextTransaction transaction = _applicationDbContext.Database.BeginTransaction();
+
             try
             {
                 ArgumentNullException.ThrowIfNull(nameof(addDocumentParagraph));
@@ -292,6 +306,8 @@ namespace Origin.Data.Access.Data
                     documentParagraph.IsReadOnly = true;
                 }
 
+                await transaction.CommitAsync(cancellationToken).ConfigureAwait(false);
+
                 return documentParagraph;
             }
             catch (Exception ex)
@@ -302,6 +318,8 @@ namespace Origin.Data.Access.Data
 
         public async Task<DocumentParagraph> UpdateDocumentParagraphAsync(DocumentParagraph updateDocumentParagraph, CancellationToken cancellationToken)
         {
+            using IDbContextTransaction transaction = _applicationDbContext.Database.BeginTransaction();
+
             try
             {
                 DocumentParagraph existingParagraph = await _applicationDbContext.DocumentParagraphs
@@ -354,6 +372,8 @@ namespace Origin.Data.Access.Data
                 {
                     updateDocumentParagraph.IsReadOnly = true;
                 }
+
+                await transaction.CommitAsync(cancellationToken).ConfigureAwait(false);
 
                 return updateDocumentParagraph;
             }

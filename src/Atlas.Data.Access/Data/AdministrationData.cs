@@ -4,6 +4,7 @@ using Atlas.Core.Models;
 using Atlas.Data.Access.Interfaces;
 using Atlas.Data.Context;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
 
 namespace Atlas.Data.Access.Data
@@ -55,6 +56,8 @@ namespace Atlas.Data.Access.Data
 
         public async Task<User> CreateUserAsync(User addUser, CancellationToken cancellationToken)
         {
+            using IDbContextTransaction transaction = _applicationDbContext.Database.BeginTransaction();
+
             try
             {
                 ArgumentNullException.ThrowIfNull(nameof(addUser));
@@ -92,6 +95,8 @@ namespace Atlas.Data.Access.Data
                 {
                     user.IsReadOnly = true;
                 }
+
+                await transaction.CommitAsync(cancellationToken).ConfigureAwait(false);
 
                 return user;
             }
@@ -339,6 +344,8 @@ namespace Atlas.Data.Access.Data
 
         public async Task<Role> CreateRoleAsync(Role addRole, CancellationToken cancellationToken)
         {
+            using IDbContextTransaction transaction = _applicationDbContext.Database.BeginTransaction();
+
             try
             {
                 ArgumentNullException.ThrowIfNull(nameof(addRole));
@@ -381,6 +388,8 @@ namespace Atlas.Data.Access.Data
                 {
                     role.IsReadOnly = true;
                 }
+
+                await transaction.CommitAsync(cancellationToken).ConfigureAwait(false);
 
                 return role;
             }
