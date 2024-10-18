@@ -5,13 +5,13 @@
         </HeadingTemplate>
         <ChildContent>
 
-            <FluentButton IconStart="@(new Icons.Regular.Size16.SlideTextEdit())" OnClick="@AddContent" Style="margin: 3px">
+            <FluentButton IconStart="@(new Icons.Regular.Size16.SlideTextEdit())" OnClick="@AddContent" Style="margin: 10px">
                 Add Content
             </FluentButton>
 
             @foreach (DocumentContent content in DocumentParagraph.Contents.OrderBy(c => c.Order))
             {
-                <FluentStack Orientation="Orientation.Horizontal" Style="margin: 3px">
+                <FluentStack Orientation="Orientation.Horizontal" Style="margin: 10px">
                     <FluentTextField Name="Name" @bind-Value="content.Name" Label="Name" ReadOnly="@(DocumentParagraph.IsReadOnly)" />
                     <FluentTextField Name="RenderCellCode" @bind-Value="content.RenderCellCode" Label="Render Cell Code" ReadOnly="@(DocumentParagraph.IsReadOnly)" />
                     <FluentButton aria-label="Edit" IconEnd="@(new Icons.Regular.Size16.MoreHorizontal())" OnClick="@(() => EditContent(content))" />
