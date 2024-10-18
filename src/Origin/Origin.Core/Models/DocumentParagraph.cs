@@ -28,26 +28,5 @@ namespace Origin.Core.Models
         {
             return DocumentParagraphId;
         }
-
-        public string? DisplayContent()
-        {
-            if (DocumentParagraphType == DocumentParagraphType.Table) return Name;
-
-            StringBuilder contents = new();
-
-            foreach (DocumentContent content in Contents)
-            {
-                if(content.ContentType == DocumentContentType.Text)
-                {
-                    contents.Append(content.Content);
-                }
-                else
-                {
-                    contents.Append(content.Name);
-                }
-            }
-
-            return contents.ToString();
-        }
     }
 }
