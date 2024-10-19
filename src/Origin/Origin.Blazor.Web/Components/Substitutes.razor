@@ -1,4 +1,5 @@
-﻿<FluentAccordion>
+﻿<br />
+<FluentAccordion>
     <FluentAccordionItem Expanded=true>
         <HeadingTemplate>
             <FluentStack Orientation="Orientation.Horizontal">
@@ -13,7 +14,7 @@
 
             @foreach (Origin.Core.Models.DocumentSubstitute substitute in DocumentConfig.Substitutes.OrderBy(s => s.Key))
             {
-                <FluentStack Orientation="Orientation.Horizontal" Style="margin: 3px;">
+                <FluentStack Orientation="Orientation.Horizontal" Style="margin: 10px;">
                     <FluentNumberField @bind-Value="substitute.DocumentSubstituteId" Label="Document Substitute Id" ReadOnly="true" Style="width: 100px" />
                     <FluentTextField Name="Code" @bind-Value="substitute.Key" Label="Key" ReadOnly="@(DocumentConfig.IsReadOnly)" Minlength="150"/>
                     <FluentTextField Name="Code" @bind-Value="substitute.Group" Label="Group" ReadOnly="@(DocumentConfig.IsReadOnly)" />
