@@ -35,6 +35,7 @@ namespace Origin.Data.Access.Data
                     .Include(c => c.Substitutes)
                     .Include(c => c.ConfigParagraphs)
                     .ThenInclude(cp => cp.DocumentParagraph)
+                    .ThenInclude(p => p.Contents)
                     .AsNoTracking()
                     .FirstAsync(d => d.DocumentConfigId.Equals(id), cancellationToken)
                     .ConfigureAwait(false);
