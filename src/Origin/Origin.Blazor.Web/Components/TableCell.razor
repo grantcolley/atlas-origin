@@ -1,5 +1,6 @@
-﻿<FluentButton IconEnd="@(new Icons.Regular.Size20.DismissCircle())" OnClick="@OnCloseActiveCell" Appearance="Appearance.Stealth"/>
-<FluentAccordion>
+﻿<br />
+<FluentButton IconEnd="@(new Icons.Regular.Size20.DismissCircle())" OnClick="@OnCloseActiveCell" Appearance="Appearance.Stealth"/>
+<FluentAccordion Style="margin-top: 10px">
     <FluentAccordionItem Expanded=true>
         <HeadingTemplate>
             @if (DocumentTableCell.DocumentTableCellId.Equals(0))
@@ -76,7 +77,7 @@
             </div>
         </ChildContent>
     </FluentAccordionItem>
-    <FluentAccordionItem Expanded=true>
+    <FluentAccordionItem Expanded=true Style="margin-top: 10px">
         <HeadingTemplate>
             Table Cell Content Properties
         </HeadingTemplate>
