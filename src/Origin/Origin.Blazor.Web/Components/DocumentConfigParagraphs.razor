@@ -1,7 +1,8 @@
-﻿<FluentGrid Spacing="3">
+﻿<br />
+<FluentGrid Spacing="3">
     <FluentGridItem xs="12" sm="6">
         <FluentDataGrid TGridItem=DocumentParagraph Items="@FilteredItems"
-                        Style="height: 600px;" GridTemplateColumns="0.2fr 0.7fr 0.1fr 0.1fr"
+                        Style="height: 600px;" GridTemplateColumns="0.2fr 1fr 0.2fr 0.1fr"
                         ResizableColumns=true GenerateHeader="GenerateHeaderOption.Sticky"
                         Pagination="@_pagination">
             <PropertyColumn Property="@(p => p.DocumentParagraphId)" Sortable="true" Align="Align.Center" Title="Document Paragraph Id" />
@@ -25,12 +26,23 @@
         <br/>
         @foreach (DocumentConfigParagraph configParagraph in DocumentConfig.ConfigParagraphs.OrderBy(c => c.Order))
         {
-            <FluentStack Orientation="Orientation.Horizontal" Style="margin: 10px">
-                <FluentNumberField @bind-Value="configParagraph.Order" Label="Order" ReadOnly="@(configParagraph.IsReadOnly)" Min="0" Style="width: 100px" />
-                <FluentLabel>@configParagraph.DocumentParagraph.Name</FluentLabel>
-                <FluentSpacer />
-                <FluentButton aria-label="Remove" IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => Remove(configParagraph))" />
-            </FluentStack>
+            <FluentAccordion>
+                <FluentAccordionItem Expanded=true Style="margin: 10px">
+                    <HeadingTemplate>
+                        <FluentStack Orientation="Orientation.Horizontal">
+                            <FluentNumberField @bind-Value="configParagraph.Order" Label="Order" ReadOnly="@(configParagraph.IsReadOnly)" Min="0" Style="width: 100px" />
+                            <FluentLabel>@configParagraph.DocumentParagraph.Name</FluentLabel>
+                            <FluentSpacer />
+                            <FluentButton aria-label="Remove" IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => Remove(configParagraph))" />
+                        </FluentStack>
+                    </HeadingTemplate>
+                    <ChildContent>
+                        <div style="margin-top: 10px;margin-bottom: 10px">
+                            @configParagraph.DocumentParagraph.DisplayContent()
+                        </div>
+                    </ChildContent>
+                </FluentAccordionItem>
+            </FluentAccordion>
         }
     </FluentGridItem>
 </FluentGrid>
