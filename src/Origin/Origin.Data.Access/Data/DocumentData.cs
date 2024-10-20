@@ -126,25 +126,27 @@ namespace Origin.Data.Access.Data
             }
         }
 
-        public async Task<DocumentConfig> UpdateDocumentConfigAsync(DocumentConfig documentConfig, CancellationToken cancellationToken)
+        public async Task<DocumentConfig> UpdateDocumentConfigAsync(DocumentConfig updateDocumentConfig, CancellationToken cancellationToken)
         {
             using IDbContextTransaction transaction = _applicationDbContext.Database.BeginTransaction();
 
             try
             {
-                DocumentConfig existing = await _applicationDbContext.DocumentConfigs
-                    .FirstOrDefaultAsync(d => d.DocumentConfigId.Equals(documentConfig.DocumentConfigId), cancellationToken)
+                DocumentConfig existingDocumentConfig = await _applicationDbContext.DocumentConfigs
+                    .FirstOrDefaultAsync(d => d.DocumentConfigId.Equals(updateDocumentConfig.DocumentConfigId), cancellationToken)
                     .ConfigureAwait(false)
                     ?? throw new NullReferenceException(
-                        $"{nameof(documentConfig)} DocumentConfigId {documentConfig.DocumentConfigId} not found.");
+                        $"{nameof(updateDocumentConfig)} DocumentConfigId {updateDocumentConfig.DocumentConfigId} not found.");
 
                 _applicationDbContext
-                    .Entry(existing)
-                    .CurrentValues.SetValues(documentConfig);
+                    .Entry(existingDocumentConfig)
+                    .CurrentValues.SetValues(updateDocumentConfig);
 
-                // TODO: add/remove paragraphs, rows, columns, cells and content...
+                await UpdateDocumentSubstitutesAsync(existingDocumentConfig, updateDocumentConfig).ConfigureAwait(false);
 
-                _applicationDbContext.DocumentConfigs.Update(existing);
+                await UpdateDocumentConfigParagraphsAsync(existingDocumentConfig, updateDocumentConfig).ConfigureAwait(false);
+
+                _applicationDbContext.DocumentConfigs.Update(existingDocumentConfig);
 
                 await _applicationDbContext
                     .SaveChangesAsync(cancellationToken)
@@ -153,18 +155,18 @@ namespace Origin.Data.Access.Data
                 if (Authorisation == null
                     || !Authorisation.HasPermission(Auth.DOCUMENT_WRITE))
                 {
-                    documentConfig.IsReadOnly = true;
+                    updateDocumentConfig.IsReadOnly = true;
                 }
 
                 await transaction.CommitAsync(cancellationToken).ConfigureAwait(false);
 
-                return documentConfig;
+                return updateDocumentConfig;
             }
             catch (Exception ex)
             {
                 await transaction.RollbackAsync(cancellationToken).ConfigureAwait(false);
 
-                throw new AtlasException(ex.Message, ex, $"DocumentConfigId={documentConfig.DocumentConfigId}");
+                throw new AtlasException(ex.Message, ex, $"DocumentConfigId={updateDocumentConfig.DocumentConfigId}");
             }
         }
 
@@ -344,15 +346,15 @@ namespace Origin.Data.Access.Data
                     .Entry(existingParagraph)
                     .CurrentValues.SetValues(updateDocumentParagraph);
 
-                await UpdateParagraphContents(existingParagraph, updateDocumentParagraph).ConfigureAwait(false);
+                await UpdateParagraphContentsAsync(existingParagraph, updateDocumentParagraph).ConfigureAwait(false);
 
                 if (updateDocumentParagraph.DocumentParagraphType == DocumentParagraphType.Table)
                 {
-                    await UpdateParagraphTableRows(existingParagraph, updateDocumentParagraph).ConfigureAwait(false);
+                    await UpdateParagraphTableRowsAsync(existingParagraph, updateDocumentParagraph).ConfigureAwait(false);
 
-                    await UpdateParagraphTableColumns(existingParagraph, updateDocumentParagraph).ConfigureAwait(false);
+                    await UpdateParagraphTableColumnsAsync(existingParagraph, updateDocumentParagraph).ConfigureAwait(false);
 
-                    await UpdateParagraphTableCells(existingParagraph, updateDocumentParagraph).ConfigureAwait(false);
+                    await UpdateParagraphTableCellsAsync(existingParagraph, updateDocumentParagraph).ConfigureAwait(false);
                 }
                 else
                 {
@@ -425,7 +427,7 @@ namespace Origin.Data.Access.Data
             }
         }
 
-        private async Task UpdateParagraphTableRows(DocumentParagraph existingParagraph, DocumentParagraph updateDocumentParagraph)
+        private async Task UpdateParagraphTableRowsAsync(DocumentParagraph existingParagraph, DocumentParagraph updateDocumentParagraph)
         {
             List<DocumentTableRow> tableRows = updateDocumentParagraph.Rows
                 .Where(r => r.DocumentTableRowId > 0)
@@ -473,7 +475,7 @@ namespace Origin.Data.Access.Data
             }
         }
 
-        private async Task UpdateParagraphTableColumns(DocumentParagraph existingParagraph, DocumentParagraph updateDocumentParagraph)
+        private async Task UpdateParagraphTableColumnsAsync(DocumentParagraph existingParagraph, DocumentParagraph updateDocumentParagraph)
         {
             List<DocumentTableColumn> tableColumns = updateDocumentParagraph.Columns
                 .Where(c => c.DocumentTableColumnId > 0)
@@ -521,7 +523,7 @@ namespace Origin.Data.Access.Data
             }
         }
 
-        private async Task UpdateParagraphTableCells(DocumentParagraph existingParagraph, DocumentParagraph updateDocumentParagraph)
+        private async Task UpdateParagraphTableCellsAsync(DocumentParagraph existingParagraph, DocumentParagraph updateDocumentParagraph)
         {
             List<DocumentTableCell> tableCells = updateDocumentParagraph.Cells
                 .Where(c => c.DocumentTableCellId > 0)
@@ -569,7 +571,7 @@ namespace Origin.Data.Access.Data
             }
         }
 
-        private async Task UpdateParagraphContents(DocumentParagraph existingParagraph, DocumentParagraph updateDocumentParagraph)
+        private async Task UpdateParagraphContentsAsync(DocumentParagraph existingParagraph, DocumentParagraph updateDocumentParagraph)
         {
             List<DocumentContent> paragraphContents = updateDocumentParagraph.Contents
                 .Where(c => c.DocumentContentId > 0)
@@ -614,6 +616,102 @@ namespace Origin.Data.Access.Data
                 await _applicationDbContext.DocumentContents.AddAsync(content).ConfigureAwait(false);
 
                 existingParagraph.Contents.Add(content);
+            }
+        }
+
+        private async Task UpdateDocumentSubstitutesAsync(DocumentConfig existingDocument, DocumentConfig updateDocument)
+        {
+            List<DocumentSubstitute> documentSubstitutes = updateDocument.Substitutes
+                .Where(s => s.DocumentSubstituteId > 0)
+                .ToList();
+
+            List<DocumentSubstitute> removeSubstitutes = existingDocument.Substitutes
+                .Where(rs => !documentSubstitutes.Any(s => s.DocumentSubstituteId.Equals(rs.DocumentSubstituteId)))
+                .ToList();
+
+            foreach (DocumentSubstitute substitute in removeSubstitutes)
+            {
+                existingDocument.Substitutes.Remove(substitute);
+            }
+
+            if (documentSubstitutes.Count > 0)
+            {
+                List<int> documentSubstituteIds = documentSubstitutes.Select(s => s.DocumentSubstituteId).ToList();
+
+                IEnumerable<DocumentSubstitute> existingSubstitutes = await _applicationDbContext.DocumentSubstitutes
+                    .Where(s => documentSubstituteIds.Contains(s.DocumentSubstituteId))
+                    .ToListAsync();
+
+                foreach (DocumentSubstitute existingSubstitute in existingSubstitutes)
+                {
+                    DocumentSubstitute documentSubstitute = documentSubstitutes
+                        .First(s => s.DocumentSubstituteId == existingSubstitute.DocumentSubstituteId);
+
+                    _applicationDbContext
+                        .Entry(existingSubstitute)
+                        .CurrentValues.SetValues(documentSubstitute);
+
+                    _applicationDbContext.DocumentSubstitutes.Update(existingSubstitute);
+                }
+            }
+
+            List<DocumentSubstitute> newSubstitutes = updateDocument.Substitutes
+                .Where(s => s.DocumentSubstituteId == 0)
+                .ToList();
+
+            foreach (DocumentSubstitute substitute in newSubstitutes)
+            {
+                await _applicationDbContext.DocumentSubstitutes.AddAsync(substitute).ConfigureAwait(false);
+
+                existingDocument.Substitutes.Add(substitute);
+            }
+        }
+
+        private async Task UpdateDocumentConfigParagraphsAsync(DocumentConfig existingDocument, DocumentConfig updateDocument)
+        {
+            List<DocumentConfigParagraph> documentConfigParagraphs = updateDocument.ConfigParagraphs
+                .Where(p => p.DocumentConfigParagraphId > 0)
+                .ToList();
+
+            List<DocumentConfigParagraph> removeDocumentConfigParagraphs = existingDocument.ConfigParagraphs
+                .Where(rp => !documentConfigParagraphs.Any(p => p.DocumentConfigParagraphId.Equals(rp.DocumentConfigParagraphId)))
+                .ToList();
+
+            foreach (DocumentConfigParagraph documentConfigParagraph in removeDocumentConfigParagraphs)
+            {
+                existingDocument.ConfigParagraphs.Remove(documentConfigParagraph);
+            }
+
+            if (documentConfigParagraphs.Count > 0)
+            {
+                List<int> documentConfigParagraphIds = documentConfigParagraphs.Select(s => s.DocumentConfigParagraphId).ToList();
+
+                IEnumerable<DocumentConfigParagraph> existingDocumentConfigParagraphs = await _applicationDbContext.DocumentConfigParagraphs
+                    .Where(p => documentConfigParagraphIds.Contains(p.DocumentConfigParagraphId))
+                    .ToListAsync();
+
+                foreach (DocumentConfigParagraph existingDocumentConfigParagraph in existingDocumentConfigParagraphs)
+                {
+                    DocumentConfigParagraph documentConfigParagraph = documentConfigParagraphs
+                        .First(p => p.DocumentConfigParagraphId == existingDocumentConfigParagraph.DocumentConfigParagraphId);
+
+                    _applicationDbContext
+                        .Entry(existingDocumentConfigParagraph)
+                        .CurrentValues.SetValues(documentConfigParagraph);
+
+                    _applicationDbContext.DocumentConfigParagraphs.Update(existingDocumentConfigParagraph);
+                }
+            }
+
+            List<DocumentConfigParagraph> newDocumentConfigParagraphs = updateDocument.ConfigParagraphs
+                .Where(p => p.DocumentConfigParagraphId == 0)
+                .ToList();
+
+            foreach (DocumentConfigParagraph documentConfigParagraph in newDocumentConfigParagraphs)
+            {
+                await _applicationDbContext.DocumentConfigParagraphs.AddAsync(documentConfigParagraph).ConfigureAwait(false);
+
+                existingDocument.ConfigParagraphs.Add(documentConfigParagraph);
             }
         }
     }
