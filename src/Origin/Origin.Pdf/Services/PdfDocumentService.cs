@@ -2,7 +2,7 @@
 using MigraDoc.Rendering;
 using Origin.Core.Models;
 using Origin.Pdf.Extensions;
-using Origin.Pdf.Helpers;
+using Origin.Pdf.Resources.Fonts;
 using Origin.Service.Base;
 using PdfSharp.Fonts;
 using PdfSharp.Pdf;
