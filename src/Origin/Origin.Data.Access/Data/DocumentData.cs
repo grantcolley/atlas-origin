@@ -170,8 +170,6 @@ namespace Origin.Data.Access.Data
 
         public async Task<int> DeleteDocumentConfigAsync(int id, CancellationToken cancellationToken)
         {
-            using IDbContextTransaction transaction = _applicationDbContext.Database.BeginTransaction();
-
             try
             {
                 DocumentConfig documentConfig = await _applicationDbContext.DocumentConfigs
@@ -179,7 +177,8 @@ namespace Origin.Data.Access.Data
                     .FirstAsync(d =>d.DocumentConfigId.Equals(id), cancellationToken)
                     .ConfigureAwait(false);
 
-                _applicationDbContext.DocumentSubstitutes.RemoveRange(documentConfig.Substitutes);
+                documentConfig.Substitutes.Clear();
+                documentConfig.ConfigParagraphs.Clear();
 
                 _applicationDbContext.DocumentConfigs.Remove(documentConfig);
 
@@ -187,14 +186,10 @@ namespace Origin.Data.Access.Data
                     .SaveChangesAsync(cancellationToken)
                     .ConfigureAwait(false);
 
-                await transaction.CommitAsync(cancellationToken).ConfigureAwait(false);
-
                 return result;
             }
             catch (Exception ex)
             {
-                await transaction.RollbackAsync(cancellationToken).ConfigureAwait(false);
-
                 throw new AtlasException(ex.Message, ex, $"DocumentConfigId={id}");
             }
         }
@@ -406,8 +401,17 @@ namespace Origin.Data.Access.Data
             try
             {
                 DocumentParagraph documentParagraph = await _applicationDbContext.DocumentParagraphs
+                    .Include(p => p.Columns)
+                    .Include(p => p.Rows)
+                    .Include(p => p.Cells)
+                    .Include(p => p.Contents)
                     .FirstAsync(p => p.DocumentParagraphId.Equals(id), cancellationToken)
                     .ConfigureAwait(false);
+
+                documentParagraph.Columns.Clear();
+                documentParagraph.Rows.Clear();
+                documentParagraph.Cells.Clear();
+                documentParagraph.Contents.Clear();
 
                 _applicationDbContext.DocumentParagraphs.Remove(documentParagraph);
 
