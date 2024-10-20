@@ -21,8 +21,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Origin\Origin.Core\Origin.Core.csproj" />
-    <ProjectReference Include="..\..\src\Origin\Origin.OpenXml\Origin.OpenXml.csproj" />
-    <ProjectReference Include="..\..\src\Origin\Origin.PdfSharp\Origin.PdfSharp.csproj" />
+    <ProjectReference Include="..\..\src\Origin\Origin.OpenXml.1\Origin.OpenXml.1.csproj" />
+    <ProjectReference Include="..\..\src\Origin\Origin.PdfSharp.1\Origin.PdfSharp.1.csproj" />
     <ProjectReference Include="..\..\src\Origin\Origin.Service\Origin.Service.csproj" />
     <ProjectReference Include="..\Origin.Test.Data\Origin.Test.Data.csproj" />
   </ItemGroup>

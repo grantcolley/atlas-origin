@@ -35,7 +35,7 @@ namespace Origin.PdfSharp.Services
 
         private static byte[] LoadFontData(string name)
         {
-            using Stream? stream = typeof(CustomFontResolver).Assembly.GetManifestResourceStream($"Origin.PdfSharp.Resources.Fonts.{name}.ttf") ?? throw new ArgumentException("No resource with name " + name);
+            using Stream? stream = typeof(CustomFontResolver).Assembly.GetManifestResourceStream($"Origin.PdfSharp.1.Resources.Fonts.{name}.ttf") ?? throw new ArgumentException("No resource with name " + name);
             int num = (int)stream.Length;
             byte[] array = new byte[num];
             stream.Read(array, 0, num);
