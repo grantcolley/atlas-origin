@@ -5,7 +5,7 @@ using Origin.Core.Converters;
 using Origin.Core.Interfaces;
 using Origin.Core.Models;
 
-namespace Origin.Pdf.Extensions
+namespace Origin.PdfSharp.Extensions
 {
     public static class TableExtensions
     {

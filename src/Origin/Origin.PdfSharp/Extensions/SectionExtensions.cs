@@ -3,7 +3,7 @@ using MigraDoc.DocumentObjectModel.Tables;
 using Origin.Core.Extensions;
 using Origin.Core.Models;
 
-namespace Origin.Pdf.Extensions
+namespace Origin.PdfSharp.Extensions
 {
     public static class SectionExtensions
     {
