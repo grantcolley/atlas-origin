@@ -120,6 +120,8 @@ namespace Origin.Data.Access.Data
             }
             catch (Exception ex)
             {
+                await transaction.RollbackAsync(cancellationToken).ConfigureAwait(false);
+
                 throw new AtlasException(ex.Message, ex);
             }
         }
@@ -160,12 +162,16 @@ namespace Origin.Data.Access.Data
             }
             catch (Exception ex)
             {
+                await transaction.RollbackAsync(cancellationToken).ConfigureAwait(false);
+
                 throw new AtlasException(ex.Message, ex, $"DocumentConfigId={documentConfig.DocumentConfigId}");
             }
         }
 
         public async Task<int> DeleteDocumentConfigAsync(int id, CancellationToken cancellationToken)
         {
+            using IDbContextTransaction transaction = _applicationDbContext.Database.BeginTransaction();
+
             try
             {
                 DocumentConfig documentConfig = await _applicationDbContext.DocumentConfigs
@@ -177,12 +183,18 @@ namespace Origin.Data.Access.Data
 
                 _applicationDbContext.DocumentConfigs.Remove(documentConfig);
 
-                return await _applicationDbContext
+                int result = await _applicationDbContext
                     .SaveChangesAsync(cancellationToken)
                     .ConfigureAwait(false);
+
+                await transaction.CommitAsync(cancellationToken).ConfigureAwait(false);
+
+                return result;
             }
             catch (Exception ex)
             {
+                await transaction.RollbackAsync(cancellationToken).ConfigureAwait(false);
+
                 throw new AtlasException(ex.Message, ex, $"DocumentConfigId={id}");
             }
         }
@@ -314,6 +326,8 @@ namespace Origin.Data.Access.Data
             }
             catch (Exception ex)
             {
+                await transaction.RollbackAsync(cancellationToken).ConfigureAwait(false);
+
                 throw new AtlasException(ex.Message, ex);
             }
         }
@@ -381,6 +395,8 @@ namespace Origin.Data.Access.Data
             }
             catch (Exception ex)
             {
+                await transaction.RollbackAsync(cancellationToken).ConfigureAwait(false);
+
                 throw new AtlasException(ex.Message, ex, $"DocumentParagraphId={updateDocumentParagraph.DocumentParagraphId}");
             }
         }

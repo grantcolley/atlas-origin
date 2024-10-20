@@ -102,6 +102,8 @@ namespace Atlas.Data.Access.Data
             }
             catch (Exception ex)
             {
+                await transaction.RollbackAsync(cancellationToken).ConfigureAwait(false);
+
                 throw new AtlasException(ex.Message, ex);
             }
         }
@@ -395,6 +397,8 @@ namespace Atlas.Data.Access.Data
             }
             catch (Exception ex)
             {
+                await transaction.RollbackAsync(cancellationToken).ConfigureAwait(false);
+
                 throw new AtlasException(ex.Message, ex);
             }
         }
