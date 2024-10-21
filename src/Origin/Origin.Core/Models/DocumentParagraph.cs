@@ -5,6 +5,8 @@ namespace Origin.Core.Models
 {
     public class DocumentParagraph : DocumentParagraphProperties
     {
+        private DocumentParagraphType _documentParagraphType;
+
         public DocumentParagraph() 
         {
             Rows = [];
@@ -14,7 +16,6 @@ namespace Origin.Core.Models
         }
 
         public int DocumentParagraphId { get; set; }
-        public DocumentParagraphType DocumentParagraphType { get; set; }
         public List<DocumentTableRow> Rows { get; set; }
         public List<DocumentTableColumn> Columns { get; set; }
         public List<DocumentTableCell> Cells { get; set; }
@@ -23,6 +24,29 @@ namespace Origin.Core.Models
         [Required]
         [StringLength(250)]
         public string? Name { get; set; }
+
+        public DocumentParagraphType DocumentParagraphType 
+        {
+            get { return _documentParagraphType; }
+            set
+            {
+                if(_documentParagraphType != value)
+                {
+                    _documentParagraphType = value;
+
+                    if (_documentParagraphType != DocumentParagraphType.Table)
+                    {
+                        Rows.Clear();
+                        Columns.Clear();
+                        Cells.Clear();
+                        foreach (DocumentContent content in Contents)
+                        {
+                            content.RenderCellCode = null;
+                        }
+                    }
+                }
+            }
+        }
 
         public override int? GetId()
         {

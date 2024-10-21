@@ -17,10 +17,15 @@
                 <FluentTextField Name="Name" @bind-Value="DocumentContent.Name" Label="Name" ReadOnly="@(DocumentContent.IsReadOnly)" />
                 <FluentValidationMessage For="@(() => DocumentContent.Name)" />
             </div>
-            <div>
-                <FluentTextField Name="RenderCellCode" @bind-Value="DocumentContent.RenderCellCode" Label="RenderCellCode" ReadOnly="@(DocumentContent.IsReadOnly)" />
-                <FluentValidationMessage For="@(() => DocumentContent.RenderCellCode)" />
-            </div>
+
+            @if (DocumentParagraph.DocumentParagraphType == DocumentParagraphType.Table)
+            {
+                <div>
+                    <FluentTextField Name="RenderCellCode" @bind-Value="DocumentContent.RenderCellCode" Label="RenderCellCode" ReadOnly="@(DocumentContent.IsReadOnly)" />
+                    <FluentValidationMessage For="@(() => DocumentContent.RenderCellCode)" />
+                </div>
+            }
+
             <div>
                 <FluentNumberField @bind-Value="DocumentContent.Order" Label="Order" ReadOnly="@(DocumentContent.IsReadOnly)" Min="0" />
             </div>
@@ -67,6 +72,9 @@
 </FluentAccordion>
 
 @code {
+    [Parameter, EditorRequired]
+    public DocumentParagraph DocumentParagraph { get; set; } = new();
+
     [Parameter, EditorRequired]
     public DocumentContent DocumentContent { get; set; } = new();
 

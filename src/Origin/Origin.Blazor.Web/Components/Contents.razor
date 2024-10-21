@@ -13,8 +13,8 @@
             @foreach (DocumentContent content in DocumentParagraph.Contents.OrderBy(c => c.Order))
             {
                 <FluentStack Orientation="Orientation.Horizontal" Style="margin: 10px">
+                    <FluentNumberField @bind-Value="content.Order" Label="Order" ReadOnly="@(DocumentParagraph.IsReadOnly)" Min="0" Style="width: 100px" />
                     <FluentTextField Name="Name" @bind-Value="content.Name" Label="Name" ReadOnly="@(DocumentParagraph.IsReadOnly)" />
-                    <FluentTextField Name="RenderCellCode" @bind-Value="content.RenderCellCode" Label="Render Cell Code" ReadOnly="@(DocumentParagraph.IsReadOnly)" />
                     <FluentButton aria-label="Edit" IconEnd="@(new Icons.Regular.Size16.MoreHorizontal())" OnClick="@(() => EditContent(content))" />
                     <FluentButton aria-label="Remove" IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => RemoveContent(content))" />
                 </FluentStack>
@@ -26,7 +26,7 @@
 
                 <FluentDivider Style="margin: 5px; width: 100%;" Orientation=Orientation.Horizontal Role="DividerRole.Separator"></FluentDivider>
 
-                <Content DocumentContent="@_activeContent" FontSource="@FontSource" ColourSource="@ColourSource" CloseActiveContent="@CloseActiveContent" />
+                <Content DocumentParagraph="@DocumentParagraph" DocumentContent="@_activeContent" FontSource="@FontSource" ColourSource="@ColourSource" CloseActiveContent="@CloseActiveContent" />
 
                 <p />
             }
@@ -49,7 +49,9 @@
 
     protected void AddContent()
     {
-        DocumentParagraph.Contents.Add(new DocumentContent());
+        DocumentContent content = new DocumentContent();
+        DocumentParagraph.Contents.Add(content);
+        _activeContent = content;
     }
 
     protected void RemoveContent(DocumentContent content)
