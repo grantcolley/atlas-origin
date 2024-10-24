@@ -24,7 +24,7 @@
     private IEnumerable<Origin.Core.Models.DocumentFont>? _fontsSource = [];
     private IEnumerable<Origin.Core.Models.DocumentColour>? _coloursSource = [];
     private IEnumerable<Origin.Core.Models.DocumentParagraph>? _paragraphsSource = [];
-    private List<string> _tabs = new List<string>() { "Document", "Paragraphs", "Substitutes" };
+    private List<string> _tabs = new List<string>() { "Document", "Paragraphs", "Substitutes", "Json" };
     private string? _activeTab;
 
     protected override async Task OnInitializedAsync()
@@ -91,6 +91,14 @@
                         </Header>
                         <Content>
                             <Substitutes DocumentConfig="@Model" />
+                        </Content>
+                    </FluentTab>
+                    <FluentTab Id="@_tabs[3]">
+                        <Header>
+                            <FluentLabel Typo="Typography.Subject">@_tabs[3]</FluentLabel>
+                        </Header>
+                        <Content>
+                            <JsonView T="Origin.Core.Models.DocumentConfig" Value="@Model" />
                         </Content>
                     </FluentTab>
                 </FluentTabs>
