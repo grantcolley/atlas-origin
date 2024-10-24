@@ -1,0 +1,76 @@
+﻿@if (ReadOnly)
+{
+    <FluentTextField Value="@Value" Label="@Label" ReadOnly="true" />
+}
+else
+{
+    <FluentSelect TOption="string"
+                  @onchange="OnChange"
+                  Disabled="@ReadOnly"
+                  Items="@_source"
+                  Label="@Label"
+                  OptionValue="@(c => c)"
+                  SelectedOption="@_selectedRenderCell"
+                  Height="300px">
+        <OptionTemplate>
+            @context
+        </OptionTemplate>
+    </FluentSelect>
+}
+
+@code {
+
+    [CascadingParameter]
+    private EditContext? CascadedEditContext { get; set; }
+
+    [Parameter, EditorRequired]
+    public DocumentParagraph DocumentParagraph { get; set; } = new();
+
+    [Parameter]
+    public string? Label { get; set; }
+
+    [Parameter]
+    public string? FieldName { get; set; }
+
+    [Parameter]
+    public string? Value { get; set; }
+
+    [Parameter]
+    public bool ReadOnly { get; set; }
+
+    [Parameter]
+    public EventCallback<string?> ValueChanged { get; set; }
+
+    private List<string?> _source = new();
+
+    private string? _selectedRenderCell = null;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        ArgumentNullException.ThrowIfNull(DocumentParagraph);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(FieldName);
+
+        List<string?> renderCellCodes = DocumentParagraph.Cells.Where(c => !string.IsNullOrWhiteSpace(c.CellCode)).Select(c => c.CellCode).ToList();
+        renderCellCodes.Insert(0, null);
+
+        _source = renderCellCodes;
+
+        _selectedRenderCell = _source?.FirstOrDefault(c => c == Value);
+
+        if (!string.IsNullOrWhiteSpace(Value)
+            && string.IsNullOrWhiteSpace(_selectedRenderCell))
+        {
+            await ValueChanged.InvokeAsync(null);
+            CascadedEditContext?.NotifyFieldChanged(CascadedEditContext.Field(FieldName));
+        }
+    }
+
+    private async Task OnChange(ChangeEventArgs args)
+    {
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(FieldName);
+
+        string? value = args?.Value?.ToString();
+        await ValueChanged.InvokeAsync(value);
+        CascadedEditContext?.NotifyFieldChanged(CascadedEditContext.Field(FieldName));
+    }
+}

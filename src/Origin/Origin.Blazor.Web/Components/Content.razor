@@ -21,7 +21,12 @@
             @if (DocumentParagraph.DocumentParagraphType == DocumentParagraphType.Table)
             {
                 <div>
-                    <FluentTextField Name="RenderCellCode" @bind-Value="DocumentContent.RenderCellCode" Label="RenderCellCode" ReadOnly="@(DocumentContent.IsReadOnly)" />
+                    <RenderCellSelect @key="DocumentContent.GetId()"
+                                      Label="RenderCellCode"
+                                      FieldName="RenderCellCode"
+                                      DocumentParagraph="@DocumentParagraph"
+                                      @bind-Value="DocumentContent.RenderCellCode"
+                                      ReadOnly="@(DocumentContent.IsReadOnly)" />
                     <FluentValidationMessage For="@(() => DocumentContent.RenderCellCode)" />
                 </div>
             }

@@ -14,7 +14,7 @@
             {
                 <FluentStack Orientation="Orientation.Horizontal" Style="margin: 10px">
                     <FluentNumberField @bind-Value="content.Order" Label="Order" ReadOnly="@(DocumentParagraph.IsReadOnly)" Min="0" Style="width: 100px" />
-                    <FluentTextField Name="Name" @bind-Value="content.Name" Label="Name" ReadOnly="@(DocumentParagraph.IsReadOnly)" />
+                    <FluentTextField Name="Name" @bind-Value="content.Name" Label="Name" ReadOnly="true" />
                     <FluentButton aria-label="Edit" IconEnd="@(new Icons.Regular.Size16.MoreHorizontal())" OnClick="@(() => EditContent(content))" />
                     <FluentButton aria-label="Remove" IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => RemoveContent(content))" />
                 </FluentStack>

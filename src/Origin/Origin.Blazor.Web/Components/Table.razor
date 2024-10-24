@@ -63,7 +63,7 @@
                 <FluentStack Orientation="Orientation.Horizontal" Style="margin: 10px">
                     <FluentNumberField @bind-Value="cell.RowNumber" Label="Row" ReadOnly="@(DocumentParagraph.IsReadOnly)" Min="0" Style="width: 70px" />
                     <FluentNumberField @bind-Value="cell.ColumnNumber" Label="Column" ReadOnly="@(DocumentParagraph.IsReadOnly)" Min="0" Style="width: 70px" />
-                    <FluentTextField Name="CellCode" @bind-Value="cell.CellCode" Label="Cell Code" ReadOnly="@(DocumentParagraph.IsReadOnly)" />
+                    <FluentTextField Name="CellCode" @bind-Value="cell.CellCode" Label="Cell Code" ReadOnly="true" />
                     <FluentButton aria-label="Edit" IconEnd="@(new Icons.Regular.Size16.MoreHorizontal())" OnClick="@(() => EditCell(cell))" />
                     <FluentButton aria-label="Remove" IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => RemoveCell(cell))" />
                 </FluentStack>
@@ -108,7 +108,9 @@
 
     protected void AddCell()
     {
-        DocumentParagraph.Cells.Add(new DocumentTableCell());
+        DocumentTableCell documentTableCell = new DocumentTableCell();
+        DocumentParagraph.Cells.Add(documentTableCell);
+        _activeCell = documentTableCell;
     }
 
     protected void RemoveColumn(Origin.Core.Models.DocumentTableColumn column)
