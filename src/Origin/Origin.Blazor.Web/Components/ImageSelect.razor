@@ -1,0 +1,59 @@
+﻿@if (ReadOnly)
+{
+    <FluentTextField Value="@(_selectedImage)" Label="@Label" ReadOnly="true" />
+}
+else
+{
+    <FluentSelect TOption="string"
+                  @onchange="OnChange"
+                  Disabled="@ReadOnly"
+                  Items="@_images"
+                  Label="@Label"
+                  OptionValue="@(i => i)"
+                  SelectedOption="@_selectedImage"
+                  Height="300px">
+        <OptionTemplate>
+            @context
+        </OptionTemplate>
+    </FluentSelect>
+}
+
+@code {
+
+    [CascadingParameter]
+    private EditContext? CascadedEditContext { get; set; }
+
+    [Parameter]
+    public string? Label { get; set; }
+
+    [Parameter]
+    public string? FieldName { get; set; }
+
+    [Parameter]
+    public string? Value { get; set; }
+
+    [Parameter]
+    public bool ReadOnly { get; set; }
+
+    [Parameter]
+    public EventCallback<string?> ValueChanged { get; set; }
+
+    private IList<string?>? _images = [];
+    private string? _selectedImage;
+
+    protected override void OnInitialized()
+    {
+        _images = ResourceManager.GetImageResources();
+        _images.Insert(0, null);
+        _selectedImage = _images?.FirstOrDefault(i => i == Value);
+    }
+
+    private async Task OnChange(ChangeEventArgs args)
+    {
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(FieldName);
+
+        string? value = args?.Value?.ToString();
+        await ValueChanged.InvokeAsync(value);
+        CascadedEditContext?.NotifyFieldChanged(CascadedEditContext.Field(FieldName));
+    }
+}

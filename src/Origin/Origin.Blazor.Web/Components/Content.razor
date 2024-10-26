@@ -62,8 +62,11 @@
             else if (DocumentContent.ContentType == DocumentContentType.Image)
             {
                 <div>
-                    <FluentTextField Name="Source" @bind-Value="DocumentContent.Source" Label="Source" ReadOnly="@(DocumentContent.IsReadOnly)" />
-                    <FluentValidationMessage For="@(() => DocumentContent.Source)" />
+                    <ImageSelect @key="DocumentContent.GetId()"
+                                 Label="Image"
+                                 FieldName="Image"
+                                 @bind-Value="DocumentContent.Image"
+                                 ReadOnly="@(DocumentContent.IsReadOnly)" />
                 </div>
                 <div>
                     <FluentNumberField Name="ImageHeight" @bind-Value="DocumentContent.ImageHeight" Label="Image Height" ReadOnly="@(DocumentContent.IsReadOnly)" Min="0" />

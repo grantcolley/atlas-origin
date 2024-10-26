@@ -4,9 +4,9 @@ namespace Origin.Resources
 {
     public static class ResourceManager
     {
-        public static IList<string> GetImageResources()
+        public static IList<string?> GetImageResources()
         {
-            IList<string> resources = [];
+            IList<string?> resources = [];
 
             string[] names = Assembly.GetExecutingAssembly().GetManifestResourceNames();
 
@@ -16,16 +16,16 @@ namespace Origin.Resources
                 {
                     int position = name.IndexOf(".Images.");
                     position += 8;
-                    resources.Add(name.Substring(position, name.Length - position - 4));
+                    resources.Add(name.Substring(position));
                 }
             }
 
-            return resources;
+            return [.. resources.Order()];
         }
 
-        public static IList<string> GetFontResources()
+        public static IList<string?> GetFontResources()
         {
-            IList<string> resources = [];
+            IList<string?> resources = [];
 
             string[] names = Assembly.GetExecutingAssembly().GetManifestResourceNames();
 
@@ -39,7 +39,7 @@ namespace Origin.Resources
                 }
             }
 
-            return resources;
+            return [.. resources.Order()];
         }
 
         public static Stream GetPngAsStream(string imageName)
@@ -48,7 +48,7 @@ namespace Origin.Resources
             var name = info.Name;
             return Assembly
                 .GetExecutingAssembly()
-                .GetManifestResourceStream($"{name}.Images.{imageName}.png") ?? throw new NullReferenceException($"Unable to locate resource {imageName}");
+                .GetManifestResourceStream($"{name}.Images.{imageName}") ?? throw new NullReferenceException($"Unable to locate resource {imageName}");
         }
 
         public static string GetPngAsBase64(string imageName)
@@ -57,7 +57,7 @@ namespace Origin.Resources
             var name = info.Name;
             using Stream stream = Assembly
                 .GetExecutingAssembly()
-                .GetManifestResourceStream($"{name}.Images.{imageName}.png") ?? throw new NullReferenceException($"Unable to locate resource {imageName}");
+                .GetManifestResourceStream($"{name}.Images.{imageName}") ?? throw new NullReferenceException($"Unable to locate resource {imageName}");
 
             MemoryStream memoryStream = new();
             stream.CopyTo(memoryStream);
