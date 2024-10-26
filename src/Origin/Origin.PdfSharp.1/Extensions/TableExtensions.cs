@@ -4,6 +4,7 @@ using MigraDoc.DocumentObjectModel.Tables;
 using Origin.Core.Converters;
 using Origin.Core.Interfaces;
 using Origin.Core.Models;
+using System.Resources;
 
 namespace Origin.PdfSharp.Extensions
 {
@@ -129,7 +130,8 @@ namespace Origin.PdfSharp.Extensions
             if (string.IsNullOrWhiteSpace(documentContent.Source)) return;
 
             Paragraph p = cell.AddParagraph();
-            Image image = p.AddImage(documentContent.Source);
+
+            Image image = p.AddImage(Resources.ResourceManager.GetImageAsBase64(documentContent.Source));
 
             if (documentContent.ImageHeight.HasValue)
             {

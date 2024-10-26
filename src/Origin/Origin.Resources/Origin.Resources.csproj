@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Images\logo.png" />
+    <None Remove="Images\signature.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Images\logo.png" />
+    <EmbeddedResource Include="Images\signature.png" />
+  </ItemGroup>
+
+</Project>

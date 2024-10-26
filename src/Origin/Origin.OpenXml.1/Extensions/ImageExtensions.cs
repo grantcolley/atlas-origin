@@ -3,6 +3,7 @@ using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Origin.Core.Converters;
 using Origin.Core.Models;
+using Origin.Resources;
 using A = DocumentFormat.OpenXml.Drawing;
 using DW = DocumentFormat.OpenXml.Drawing.Wordprocessing;
 using PIC = DocumentFormat.OpenXml.Drawing.Pictures;
@@ -19,7 +20,7 @@ namespace Origin.OpenXml.Extensions
 
             ImagePart imagePart = mainPart.AddImagePart(ImagePartType.Png);
 
-            using FileStream stream = new(image.Source, FileMode.Open);
+            using Stream stream = ResourceManager.GetImage(image.Source);
 
             imagePart.FeedData(stream);
 

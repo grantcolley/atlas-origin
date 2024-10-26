@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Origin.OpenXml.1", "src\Ori
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Origin.PdfSharp.1", "src\Origin\Origin.PdfSharp.1\Origin.PdfSharp.1.csproj", "{CCFCC206-DBAA-47EB-A297-F0DD626CA7A2}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Origin.Resources", "src\Origin\Origin.Resources\Origin.Resources.csproj", "{855A7A96-BCAE-457B-A992-B8AA6C7141CF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,10 @@ Global
 		{CCFCC206-DBAA-47EB-A297-F0DD626CA7A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CCFCC206-DBAA-47EB-A297-F0DD626CA7A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CCFCC206-DBAA-47EB-A297-F0DD626CA7A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{855A7A96-BCAE-457B-A992-B8AA6C7141CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{855A7A96-BCAE-457B-A992-B8AA6C7141CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{855A7A96-BCAE-457B-A992-B8AA6C7141CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{855A7A96-BCAE-457B-A992-B8AA6C7141CF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

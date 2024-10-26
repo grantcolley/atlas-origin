@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Origin.Core\Origin.Core.csproj" />
+    <ProjectReference Include="..\Origin.Resources\Origin.Resources.csproj" />
     <ProjectReference Include="..\Origin.Service\Origin.Service.csproj" />
   </ItemGroup>
 
