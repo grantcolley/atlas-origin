@@ -1,5 +1,4 @@
 ﻿using PdfSharp.Fonts;
-using System.Resources;
 
 namespace Origin.PdfSharp.Services
 {
