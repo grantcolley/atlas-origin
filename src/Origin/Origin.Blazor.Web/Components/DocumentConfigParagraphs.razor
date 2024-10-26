@@ -1,26 +1,31 @@
 ﻿<br />
 <FluentGrid Spacing="3">
-    <FluentGridItem xs="12" sm="6">
-        <FluentDataGrid TGridItem=DocumentParagraph Items="@FilteredItems"
-                        Style="height: 600px;" GridTemplateColumns="0.2fr 1fr 0.2fr 0.1fr"
-                        ResizableColumns=true GenerateHeader="GenerateHeaderOption.Sticky"
-                        Pagination="@_pagination">
-            <PropertyColumn Property="@(p => p.DocumentParagraphId)" Sortable="true" Align="Align.Center" Title="Document Paragraph Id" />
-            <PropertyColumn Property="@(p => p.Name)" Sortable="true" Filtered="!string.IsNullOrWhiteSpace(_filter)" Tooltip="true" Title="Name">
-                <ColumnOptions>
-                    <div class="search-box">
-                        <FluentSearch type="filter" Autofocus=true @bind-Value=_filter @oninput="HandleFilter" @bind-Value:after="HandleClear" Placeholder="Paragraph name..." />
-                    </div>
-                </ColumnOptions>
-            </PropertyColumn>
-            <PropertyColumn Property="@(p => p.DocumentParagraphType)" Sortable="true" Align="Align.Center" Title="Type" />
-            <TemplateColumn Align="@Align.Center">
-                <FluentButton aria-label="Open" IconEnd="@(new Icons.Regular.Size16.Add())" OnClick="@(() => Add(context))" Type="ButtonType.Button" />
-                <FluentButton aria-label="Edit" IconEnd="@(new Icons.Regular.Size16.MoreHorizontal())" OnClick="@(() => Edit(context))" Type="ButtonType.Button" />
-            </TemplateColumn>
-        </FluentDataGrid>
-        <FluentPaginator State="@_pagination" />
-    </FluentGridItem>
+
+    @if (!DocumentConfig.IsReadOnly)
+    {
+        <FluentGridItem xs="12" sm="6">
+            <FluentDataGrid TGridItem=DocumentParagraph Items="@FilteredItems"
+                            Style="height: 600px;" GridTemplateColumns="0.2fr 1fr 0.2fr 0.1fr"
+                            ResizableColumns=true GenerateHeader="GenerateHeaderOption.Sticky"
+                            Pagination="@_pagination">
+                    <PropertyColumn Property="@(p => p.DocumentParagraphId)" Sortable="true" Align="Align.Center" Title="Document Paragraph Id" />
+                    <PropertyColumn Property="@(p => p.Name)" Sortable="true" Filtered="!string.IsNullOrWhiteSpace(_filter)" Tooltip="true" Title="Name">
+                        <ColumnOptions>
+                            <div class="search-box">
+                                <FluentSearch type="filter" Autofocus=true @bind-Value=_filter @oninput="HandleFilter" @bind-Value:after="HandleClear" Placeholder="Paragraph name..." />
+                            </div>
+                        </ColumnOptions>
+                    </PropertyColumn>
+                    <PropertyColumn Property="@(p => p.DocumentParagraphType)" Sortable="true" Align="Align.Center" Title="Type" />
+                    <TemplateColumn Align="@Align.Center">
+                        <FluentButton aria-label="Open" IconEnd="@(new Icons.Regular.Size16.Add())" OnClick="@(() => Add(context))" Type="ButtonType.Button" />
+                        <FluentButton aria-label="Edit" IconEnd="@(new Icons.Regular.Size16.MoreHorizontal())" OnClick="@(() => Edit(context))" Type="ButtonType.Button" />
+                    </TemplateColumn>
+            </FluentDataGrid>
+            <FluentPaginator State="@_pagination" />
+        </FluentGridItem>
+    }
+
     <FluentGridItem xs="12" sm="6">
         <FluentLabel Typo="Typography.Subject">Selected Paragraphs</FluentLabel>
         <br/>
@@ -33,7 +38,12 @@
                             <FluentNumberField @bind-Value="configParagraph.Order" Label="Order" ReadOnly="@(configParagraph.IsReadOnly)" Min="0" Style="width: 100px" />
                             <FluentLabel>@configParagraph.DocumentParagraph.Name</FluentLabel>
                             <FluentSpacer />
-                            <FluentButton aria-label="Remove" IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => Remove(configParagraph))" />
+
+                            @if (!DocumentConfig.IsReadOnly)
+                            {
+                                <FluentButton aria-label="Remove" IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => Remove(configParagraph))" />
+                            }
+
                         </FluentStack>
                     </HeadingTemplate>
                     <ChildContent>

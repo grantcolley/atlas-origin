@@ -6,9 +6,12 @@
         </HeadingTemplate>
         <ChildContent>
 
-            <FluentButton IconStart="@(new Icons.Regular.Size16.SlideTextEdit())" OnClick="@AddContent" Style="margin: 10px">
-                Add Content
-            </FluentButton>
+            @if (!DocumentParagraph.IsReadOnly)
+            {
+                <FluentButton IconStart="@(new Icons.Regular.Size16.SlideTextEdit())" OnClick="@AddContent" Style="margin: 10px">
+                    Add Content
+                </FluentButton>
+            }
 
             @foreach (DocumentContent content in DocumentParagraph.Contents.OrderBy(c => c.Order))
             {
@@ -16,7 +19,12 @@
                     <FluentNumberField @bind-Value="content.Order" Label="Order" ReadOnly="@(DocumentParagraph.IsReadOnly)" Min="0" Style="width: 100px" />
                     <FluentTextField Name="Name" @bind-Value="content.Name" Label="Name" ReadOnly="true" />
                     <FluentButton aria-label="Edit" IconEnd="@(new Icons.Regular.Size16.MoreHorizontal())" OnClick="@(() => EditContent(content))" />
+
+                @if (!DocumentParagraph.IsReadOnly)
+                {
                     <FluentButton aria-label="Remove" IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => RemoveContent(content))" />
+                }
+
                 </FluentStack>
             }
 

@@ -8,9 +8,12 @@
         </HeadingTemplate>
         <ChildContent>
 
-            <FluentButton IconStart="@(new Icons.Regular.Size16.Bookmark())" OnClick="@AddSubstitute" Style="margin: 10px">
-                Add Substitute
-            </FluentButton>
+            @if(!DocumentConfig.IsReadOnly)
+            {
+                <FluentButton IconStart="@(new Icons.Regular.Size16.Bookmark())" OnClick="@AddSubstitute" Style="margin: 10px">
+                    Add Substitute
+                </FluentButton>
+            }
 
             @foreach (Origin.Core.Models.DocumentSubstitute substitute in DocumentConfig.Substitutes.OrderBy(s => s.Key))
             {
@@ -18,7 +21,12 @@
                     <FluentNumberField @bind-Value="substitute.DocumentSubstituteId" Label="Document Substitute Id" ReadOnly="true" Style="width: 100px" />
                     <FluentTextField Name="Code" @bind-Value="substitute.Key" Label="Key" ReadOnly="@(DocumentConfig.IsReadOnly)" Minlength="150"/>
                     <FluentTextField Name="Code" @bind-Value="substitute.Group" Label="Group" ReadOnly="@(DocumentConfig.IsReadOnly)" />
-                    <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => RemoveSubstitute(substitute))" />
+
+                    @if (!DocumentConfig.IsReadOnly)
+                    {
+                        <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => RemoveSubstitute(substitute))" />
+                    }
+
                     <FluentSpacer />
                 </FluentStack>
             }

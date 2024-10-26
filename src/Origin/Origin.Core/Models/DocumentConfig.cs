@@ -44,5 +44,21 @@ namespace Origin.Core.Models
 
         [NotMapped]
         public string? FilenameTemplate { get; set; }
+
+        protected override void PropagateReadOnly()
+        {
+            foreach(DocumentSubstitute substitute in Substitutes)
+            {
+                substitute.IsReadOnly = IsReadOnly;
+            }
+
+            foreach(DocumentConfigParagraph configParagraph in ConfigParagraphs)
+            {
+                if(configParagraph.DocumentParagraph != null)
+                {
+                    configParagraph.DocumentParagraph.IsReadOnly = IsReadOnly;
+                }
+            }
+        }
     }
 }

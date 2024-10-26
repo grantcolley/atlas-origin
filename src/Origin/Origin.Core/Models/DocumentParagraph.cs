@@ -73,5 +73,28 @@ namespace Origin.Core.Models
 
             return contents.ToString();
         }
+
+        protected override void PropagateReadOnly()
+        {
+            foreach (DocumentContent content in Contents)
+            {
+                content.IsReadOnly = IsReadOnly;
+            }
+
+            foreach (DocumentTableColumn column in Columns)
+            {
+                column.IsReadOnly = IsReadOnly;
+            }
+
+            foreach (DocumentTableRow row in Rows)
+            {
+                row.IsReadOnly = IsReadOnly;
+            }
+
+            foreach (DocumentTableCell cell in Cells)
+            {
+                cell.IsReadOnly = IsReadOnly;
+            }
+        }
     }
 }
