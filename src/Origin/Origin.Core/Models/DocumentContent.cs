@@ -24,8 +24,8 @@ namespace Origin.Core.Models
         [StringLength(100)]
         public string? RenderCellCode { get; set; }
 
-        [StringLength(500)]
-        public string? Source { get; set; }
+        [StringLength(100)]
+        public string? Image { get; set; }
 
         public DocumentContentType ContentType 
         {
@@ -38,7 +38,7 @@ namespace Origin.Core.Models
 
                     if(_contentType == DocumentContentType.Text)
                     {
-                        Source = null;
+                        Image = null;
                         ImageHeight = null;
                         ImageWidth = null;
                     }

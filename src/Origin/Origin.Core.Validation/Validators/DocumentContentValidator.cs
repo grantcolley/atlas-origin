@@ -14,8 +14,8 @@ namespace Origin.Core.Validation.Validators
             RuleFor(v => v.RenderCellCode)
                 .MaximumLength(100).WithMessage("Render Cell Code cannot exceed 100 characters");
 
-            RuleFor(v => v.Source)
-                .MaximumLength(500).WithMessage("Source cannot exceed 100 characters");
+            RuleFor(v => v.Image)
+                .MaximumLength(100).WithMessage("Image cannot exceed 100 characters");
 
             Include(new DocumentContentPropertiesValidator());
         }

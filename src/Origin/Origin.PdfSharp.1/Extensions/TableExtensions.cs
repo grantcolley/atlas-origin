@@ -127,11 +127,11 @@ namespace Origin.PdfSharp.Extensions
         {
             ArgumentNullException.ThrowIfNull(documentContent);
 
-            if (string.IsNullOrWhiteSpace(documentContent.Source)) return;
+            if (string.IsNullOrWhiteSpace(documentContent.Image)) return;
 
             Paragraph p = cell.AddParagraph();
 
-            Image image = p.AddImage(Resources.ResourceManager.GetPngAsBase64(documentContent.Source));
+            Image image = p.AddImage(Resources.ResourceManager.GetPngAsBase64(documentContent.Image));
 
             if (documentContent.ImageHeight.HasValue)
             {

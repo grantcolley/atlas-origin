@@ -12,19 +12,19 @@ namespace Origin.OpenXml.Extensions
 {
     public static class ImageExtensions
     {
-        public static void AddImage(this MainDocumentPart mainPart, DocumentContent? image)
+        public static void AddImage(this MainDocumentPart mainPart, DocumentContent? documentContent)
         {
-            ArgumentNullException.ThrowIfNull(image);
+            ArgumentNullException.ThrowIfNull(documentContent);
 
-            if (image.Source == null) throw new NullReferenceException(nameof(image.Source));
+            if (documentContent.Image == null) throw new NullReferenceException(nameof(documentContent.Image));
 
             ImagePart imagePart = mainPart.AddImagePart(ImagePartType.Png);
 
-            using Stream stream = ResourceManager.GetPngAsStream(image.Source);
+            using Stream stream = ResourceManager.GetPngAsStream(documentContent.Image);
 
             imagePart.FeedData(stream);
 
-            image.Tag = mainPart.GetIdOfPart(imagePart);
+            documentContent.Tag = mainPart.GetIdOfPart(imagePart);
         }
 
         public static void AddImageElement(this Run run, DocumentContent? image)

@@ -59,7 +59,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Origin.OpenXml.1", "src\Ori
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Origin.PdfSharp.1", "src\Origin\Origin.PdfSharp.1\Origin.PdfSharp.1.csproj", "{0C126BFD-3063-477A-81CB-B2F3BAABD081}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Origin.Resources", "src\Origin\Origin.Resources\Origin.Resources.csproj", "{D2E5B66A-04E7-4C83-88B0-D22EC923FD26}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Origin.Resources", "src\Origin\Origin.Resources\Origin.Resources.csproj", "{D2E5B66A-04E7-4C83-88B0-D22EC923FD26}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
