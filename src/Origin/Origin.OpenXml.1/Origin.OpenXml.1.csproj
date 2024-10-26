@@ -16,8 +16,4 @@
     <ProjectReference Include="..\Origin.Service\Origin.Service.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Resources\Fonts\" />
-  </ItemGroup>
-
 </Project>

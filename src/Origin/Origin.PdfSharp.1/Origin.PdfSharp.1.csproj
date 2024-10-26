@@ -7,22 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\Fonts\arial.ttf" />
-    <None Remove="Resources\Fonts\comic.ttf" />
-    <None Remove="Resources\Fonts\cour.ttf" />
-    <None Remove="Resources\Fonts\tahoma.ttf" />
-    <None Remove="Resources\Fonts\times.ttf" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\Fonts\arial.ttf" />
-    <EmbeddedResource Include="Resources\Fonts\comic.ttf" />
-    <EmbeddedResource Include="Resources\Fonts\cour.ttf" />
-    <EmbeddedResource Include="Resources\Fonts\tahoma.ttf" />
-    <EmbeddedResource Include="Resources\Fonts\times.ttf" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="PDFsharp-MigraDoc" Version="6.1.1" />
   </ItemGroup>
 

@@ -4,9 +4,9 @@ namespace Origin.Resources
 {
     public static class ResourceManager
     {
-        public static IList<string> GetImagesResources()
+        public static IList<string> GetImageResources()
         {
-            IList<string> imageResources = new List<string>();
+            IList<string> resources = [];
 
             string[] names = Assembly.GetExecutingAssembly().GetManifestResourceNames();
 
@@ -16,34 +16,71 @@ namespace Origin.Resources
                 {
                     int position = name.IndexOf(".Images.");
                     position += 8;
-                    imageResources.Add(name.Substring(position));
+                    resources.Add(name.Substring(position, name.Length - position - 4));
                 }
             }
 
-            return imageResources;
+            return resources;
         }
 
-        public static Stream GetImage(string imageName)
+        public static IList<string> GetFontResources()
+        {
+            IList<string> resources = [];
+
+            string[] names = Assembly.GetExecutingAssembly().GetManifestResourceNames();
+
+            foreach (string name in names)
+            {
+                if (name.Contains(".Fonts."))
+                {
+                    int position = name.IndexOf(".Fonts.");
+                    position += 7;
+                    resources.Add(name.Substring(position, name.Length - position - 4));
+                }
+            }
+
+            return resources;
+        }
+
+        public static Stream GetPngAsStream(string imageName)
         {
             var info = Assembly.GetExecutingAssembly().GetName();
             var name = info.Name;
             return Assembly
                 .GetExecutingAssembly()
-                .GetManifestResourceStream($"{name}.Images.{imageName}")!;
+                .GetManifestResourceStream($"{name}.Images.{imageName}.png") ?? throw new NullReferenceException($"Unable to locate resource {imageName}");
         }
 
-        public static string GetImageAsBase64(string imageName)
+        public static string GetPngAsBase64(string imageName)
         {
             var info = Assembly.GetExecutingAssembly().GetName();
             var name = info.Name;
             using Stream stream = Assembly
                 .GetExecutingAssembly()
-                .GetManifestResourceStream($"{name}.Images.{imageName}")!;
+                .GetManifestResourceStream($"{name}.Images.{imageName}.png") ?? throw new NullReferenceException($"Unable to locate resource {imageName}");
 
-            MemoryStream memoryStream = new MemoryStream();
+            MemoryStream memoryStream = new();
             stream.CopyTo(memoryStream);
+            byte[] bytes = memoryStream.ToArray();
+            memoryStream.Dispose();
+            
+            return $"base64:{Convert.ToBase64String(bytes)}";
+        }
 
-            return $"base64:{Convert.ToBase64String(memoryStream.ToArray())}";
+        public static byte[] GetFontAsByteArray(string fontName)
+        {
+            var info = Assembly.GetExecutingAssembly().GetName();
+            var name = info.Name;
+            Stream stream = Assembly
+                .GetExecutingAssembly()
+                .GetManifestResourceStream($"{name}.Fonts.{fontName}.ttf") ?? throw new NullReferenceException($"Unable to locate resource {fontName}");
+
+            MemoryStream memoryStream = new();
+            stream.CopyTo(memoryStream);
+            byte[] bytes = memoryStream.ToArray();
+            memoryStream.Dispose();
+
+            return bytes;
         }
     }
 }

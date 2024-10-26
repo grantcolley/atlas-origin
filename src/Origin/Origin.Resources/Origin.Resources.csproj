@@ -7,11 +7,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Fonts\arial.ttf" />
+    <None Remove="Fonts\comic.ttf" />
+    <None Remove="Fonts\cour.ttf" />
+    <None Remove="Fonts\tahoma.ttf" />
+    <None Remove="Fonts\times.ttf" />
     <None Remove="Images\logo.png" />
     <None Remove="Images\signature.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Fonts\arial.ttf" />
+    <EmbeddedResource Include="Fonts\comic.ttf" />
+    <EmbeddedResource Include="Fonts\cour.ttf" />
+    <EmbeddedResource Include="Fonts\tahoma.ttf" />
+    <EmbeddedResource Include="Fonts\times.ttf" />
     <EmbeddedResource Include="Images\logo.png" />
     <EmbeddedResource Include="Images\signature.png" />
   </ItemGroup>

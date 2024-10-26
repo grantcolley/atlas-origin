@@ -20,7 +20,7 @@ namespace Origin.OpenXml.Extensions
 
             ImagePart imagePart = mainPart.AddImagePart(ImagePartType.Png);
 
-            using Stream stream = ResourceManager.GetImage(image.Source);
+            using Stream stream = ResourceManager.GetPngAsStream(image.Source);
 
             imagePart.FeedData(stream);
 

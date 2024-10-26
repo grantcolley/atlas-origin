@@ -77,7 +77,7 @@ namespace Origin.Test.Data
                         ],
                         Contents =
                         [
-                            new DocumentContent { DocumentContentId = 1, Order = 1, Name = ContentNames.LOGO, RenderCellCode = TableCellCodes.COMPANY_LOGO, ContentType = DocumentContentType.Image, Source = "logo.png", ImageHeight = 15, ImageWidth = 35 },
+                            new DocumentContent { DocumentContentId = 1, Order = 1, Name = ContentNames.LOGO, RenderCellCode = TableCellCodes.COMPANY_LOGO, ContentType = DocumentContentType.Image, Source = "logo", ImageHeight = 15, ImageWidth = 35 },
                             new DocumentContent { DocumentContentId = 2, Order = 2, Name = ContentNames.COMPANY_NAME, RenderCellCode = TableCellCodes.COMPANY_DETAILS, Content = MockLetter.COMPANY_NAME_CONTENT, IgnoreParapgraphSpacing = true },
                             new DocumentContent { DocumentContentId = 3, Order = 3, Name = ContentNames.COMPANY_ADDRESS_1, RenderCellCode = TableCellCodes.COMPANY_DETAILS, Content = MockLetter.COMPANY_ADDRESS_1_CONTENT, IgnoreParapgraphSpacing = true },
                             new DocumentContent { DocumentContentId = 4, Order = 4, Name = ContentNames.COMPANY_ADDRESS_2, RenderCellCode = TableCellCodes.COMPANY_DETAILS, Content = MockLetter.COMPANY_ADDRESS_2_CONTENT, IgnoreParapgraphSpacing = true },
@@ -274,7 +274,7 @@ namespace Origin.Test.Data
                         ],
                         Contents =
                         [
-                            new DocumentContent { DocumentContentId = 17, Order = 17, Name = ContentNames.SIGNATURE, RenderCellCode = TableCellCodes.SIGNATURE_DETAILS, ContentType = DocumentContentType.Image, Source = "signature.png", ImageHeight = 15, ImageWidth = 35 },
+                            new DocumentContent { DocumentContentId = 17, Order = 17, Name = ContentNames.SIGNATURE, RenderCellCode = TableCellCodes.SIGNATURE_DETAILS, ContentType = DocumentContentType.Image, Source = "signature", ImageHeight = 15, ImageWidth = 35 },
                             new DocumentContent { DocumentContentId = 18, Order = 18, Name = ContentNames.SIGNEE, RenderCellCode = TableCellCodes.SIGNATURE_DETAILS, Content = MockLetter.SIGNEE_CONTENT, IgnoreParapgraphSpacing = true },
                             new DocumentContent { DocumentContentId = 19, Order = 19, Name = ContentNames.SIGNEE_TITLE, RenderCellCode = TableCellCodes.SIGNATURE_DETAILS, Content = MockLetter.SIGNEE_TITLE_CONTENT, IgnoreParapgraphSpacing = true }
                         ]

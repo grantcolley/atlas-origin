@@ -1,4 +1,5 @@
 ﻿using PdfSharp.Fonts;
+using System.Resources;
 
 namespace Origin.PdfSharp.Services
 {
@@ -21,7 +22,7 @@ namespace Origin.PdfSharp.Services
                 "comic sans ms" => "comic",
                 "courier" => "cour",
                 "times new roman" => "times",
-                "Tahoma" => "tahoma",
+                "tahoma" => "tahoma",
                 _ => throw new NotImplementedException(familyName),
             };
 
@@ -35,11 +36,7 @@ namespace Origin.PdfSharp.Services
 
         private static byte[] LoadFontData(string name)
         {
-            using Stream? stream = typeof(CustomFontResolver).Assembly.GetManifestResourceStream($"Origin.PdfSharp.1.Resources.Fonts.{name}.ttf") ?? throw new ArgumentException("No resource with name " + name);
-            int num = (int)stream.Length;
-            byte[] array = new byte[num];
-            stream.Read(array, 0, num);
-            return array;
+            return Resources.ResourceManager.GetFontAsByteArray(name);
         }
     }
 }
