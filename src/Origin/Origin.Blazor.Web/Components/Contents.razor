@@ -57,7 +57,7 @@
 
     protected void AddContent()
     {
-        DocumentContent content = new DocumentContent();
+        DocumentContent content = new DocumentContent { Order = DocumentParagraph.Contents.Max(c => c.Order + 1) };
         DocumentParagraph.Contents.Add(content);
         _activeContent = content;
     }
