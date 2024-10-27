@@ -122,12 +122,12 @@
 
     protected void AddColumn()
     {
-        DocumentParagraph.Columns.Add(new DocumentTableColumn());
+        DocumentParagraph.Columns.Add(new DocumentTableColumn { Number = DocumentParagraph.Columns.Max(c => c.Number) + 1 });
     }
 
     protected void AddRow()
     {
-        DocumentParagraph.Rows.Add(new DocumentTableRow());
+        DocumentParagraph.Rows.Add(new DocumentTableRow { Number = DocumentParagraph.Rows.Max(r => r.Number) + 1 });
     }
 
     protected void AddCell()
