@@ -1,0 +1,149 @@
+﻿@implements IDialogContentComponent<ParagraphsDialogContent>
+
+<FluentDialogHeader ShowDismiss="true">
+    <FluentStack VerticalAlignment="VerticalAlignment.Center">
+        <FluentIcon Value="@(new Icons.Regular.Size24.Globe())" />
+        <FluentLabel Typo="Typography.PaneHeader">
+            Paragraphs
+        </FluentLabel>
+    </FluentStack>
+</FluentDialogHeader>
+
+<FluentDialogBody>
+
+    @if (_alert == null)
+    {
+        <FluentDataGrid TGridItem=ParagraphSelect Items="@FilteredItems"
+                        Style="height: 600px;" GridTemplateColumns="0.08fr 0.3fr 0.7fr 1fr 0.2fr"
+                        ResizableColumns=true GenerateHeader="GenerateHeaderOption.Sticky"
+                        Pagination="@_pagination">
+            <SelectColumn TGridItem="ParagraphSelect"
+                          SelectMode="DataGridSelectMode.Multiple"
+                          Property="@(e => e.IsSelected)"
+                          OnSelect="@(e => e.Item.IsSelected = e.Selected)"
+                          SelectAll="@(FilteredItems?.All(p => p.IsSelected))"
+                          SelectAllChanged="@(all => FilteredItems?.ToList().ForEach(p => p.IsSelected = (all == true)))" />
+            <PropertyColumn Property="@(p => p.DocumentParagraphId)" Sortable="true" Align="Align.Center" Title="Document Paragraph Id" />
+            <PropertyColumn Property="@(p => p.Name)" Sortable="true" Filtered="!string.IsNullOrWhiteSpace(_filter)" Tooltip="true" Title="Name">
+                <ColumnOptions>
+                    <div class="search-box">
+                        <FluentSearch type="filter" Autofocus=true @bind-Value=_filter @oninput="HandleFilter" @bind-Value:after="HandleClear" Placeholder="Paragraph name..." />
+                    </div>
+                </ColumnOptions>
+            </PropertyColumn>
+            <PropertyColumn Property="@(p => p.Content)" Sortable="true" Align="Align.Start" Title="Content" Tooltip="true" />
+            <PropertyColumn Property="@(p => p.DocumentParagraphType)" Sortable="true" Align="Align.Center" Title="Type" />
+        </FluentDataGrid>
+        <FluentPaginator State="@_pagination" />
+    }
+    else
+    {
+        <Alert AlertType="@_alert.AlertType" Title="@_alert.Title" Message="@_alert.Message" />
+    }
+</FluentDialogBody>
+
+<FluentDialogFooter>
+
+    @if (_alert == null)
+    {
+        <FluentButton Appearance="Appearance.Accent" OnClick="@OkClickAsync">Ok</FluentButton>
+    }
+
+    <FluentButton Appearance="Appearance.Neutral" OnClick="@CancelClickAsync">Cancel</FluentButton>
+</FluentDialogFooter>
+
+@code {
+    [Inject]
+    public IGenericRequests? GenericRequests { get; set; }
+
+    [CascadingParameter]
+    public FluentDialog? Dialog { get; set; } = default!;
+
+    [Parameter]
+    public ParagraphsDialogContent Content { get; set; } = default!;
+
+    public IQueryable<ParagraphSelect>? FilteredItems
+    {
+        get
+        {
+            if (string.IsNullOrWhiteSpace(_filter)) return _paragrahSelects?.AsQueryable();
+
+            return _paragrahSelects?.AsQueryable().Where(p => !string.IsNullOrWhiteSpace(p.Name)
+                                && p.Name.Contains(_filter, StringComparison.CurrentCultureIgnoreCase));
+        }
+    }
+
+    private Atlas.Blazor.Web.Models.Alert? _alert = null;
+    private string _filter = string.Empty;
+    private PaginationState _pagination = new PaginationState { ItemsPerPage = 15 };
+    private IEnumerable<Origin.Core.Models.DocumentParagraph>? _paragraphs = [];
+    private IEnumerable<ParagraphSelect>? _paragrahSelects = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        ArgumentNullException.ThrowIfNull(GenericRequests);
+        ArgumentNullException.ThrowIfNull(Content);
+
+        IResponse<IEnumerable<Origin.Core.Models.DocumentParagraph>> response
+                    = await GenericRequests.GetListAsync<Origin.Core.Models.DocumentParagraph>(OriginAPIEndpoints.GET_DOCUMENT_PARAGRAPHS)
+                                            .ConfigureAwait(false);
+
+        if (response.IsSuccess)
+        {
+            _paragraphs = response.Result;
+
+            _paragrahSelects = _paragraphs?.Select(p => new ParagraphSelect
+                {
+                    DocumentParagraphId = p.DocumentParagraphId,
+                    Name = p.Name,
+                    DocumentParagraphType = p.DocumentParagraphType,
+                    Content = p.DisplayContent()
+                })
+                .ToList();
+        }
+        else
+        {
+            _alert = new Atlas.Blazor.Web.Models.Alert
+                {
+                    AlertType = Alerts.ERROR,
+                    Title = "Error",
+                    Message = response.Message
+                };
+        }
+    }
+
+    private void HandleFilter(ChangeEventArgs args)
+    {
+        if (args.Value is string value)
+        {
+            _filter = value;
+        }
+    }
+
+    private void HandleClear()
+    {
+        if (string.IsNullOrWhiteSpace(_filter))
+        {
+            _filter = string.Empty;
+        }
+    }
+
+    private async Task OkClickAsync()
+    {
+        if(_paragrahSelects != null)
+        {
+            Content.Paragraphs = (from p in _paragraphs
+                             join ps in _paragrahSelects on p.DocumentParagraphId equals ps.DocumentParagraphId
+                             where ps.IsSelected
+                             select p).ToList();             
+        }
+
+        await Dialog!.CloseAsync(Content);
+    }
+
+    private async Task CancelClickAsync()
+    {
+        Content.Paragraphs.Clear();
+        await Dialog!.CloseAsync(Content);
+    }
+}
