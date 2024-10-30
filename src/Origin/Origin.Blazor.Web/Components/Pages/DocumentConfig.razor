@@ -23,7 +23,6 @@
 
     private IEnumerable<Origin.Core.Models.DocumentFont>? _fontsSource = [];
     private IEnumerable<Origin.Core.Models.DocumentColour>? _coloursSource = [];
-    private IEnumerable<Origin.Core.Models.DocumentParagraph>? _paragraphsSource = [];
     private List<string> _tabs = new List<string>() { "Document", "Paragraphs", "Substitutes", "Json" };
     private string? _activeTab;
 
@@ -39,12 +38,6 @@
             _activeTab = _tabs[0];
 
             _isProcessing = true;
-
-            IResponse<IEnumerable<Origin.Core.Models.DocumentParagraph>> paragraphsResponse
-                        = await GenericRequests.GetListAsync<Origin.Core.Models.DocumentParagraph>(OriginAPIEndpoints.GET_DOCUMENT_PARAGRAPHS)
-                                                .ConfigureAwait(false);
-
-            _paragraphsSource = GetResponse<IEnumerable<Origin.Core.Models.DocumentParagraph>>(paragraphsResponse);
 
             IResponse<IEnumerable<Origin.Core.Models.DocumentFont>?> fontsResponse = await OriginOptionsRequests.GetGenericOptionsAsync<Origin.Core.Models.DocumentFont>(OriginOptions.FONT_OPTIONS).ConfigureAwait(false);
 
@@ -82,7 +75,7 @@
                             <FluentLabel Typo="Typography.Subject">@_tabs[1]</FluentLabel>
                         </Header>
                         <Content>
-                            <DocumentConfigParagraphs DocumentConfig="@Model" Paragraphs="@_paragraphsSource" />
+                            <DocumentConfigParagraphs DocumentConfig="@Model" />
                         </Content>
                     </FluentTab>
                     <FluentTab Id="@_tabs[2]">
