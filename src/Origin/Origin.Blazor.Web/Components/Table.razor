@@ -122,12 +122,34 @@
 
     protected void AddColumn()
     {
-        DocumentParagraph.Columns.Add(new DocumentTableColumn { Number = DocumentParagraph.Columns.Max(c => c.Number) + 1 });
+        DocumentTableColumn column = new();
+
+        if (DocumentParagraph.Columns.Count == 0)
+        {
+            column.Number = 1;
+        }
+        else
+        {
+            column.Number = DocumentParagraph.Columns.Max(c => c.Number + 1);
+        }
+
+        DocumentParagraph.Columns.Add(column);
     }
 
     protected void AddRow()
     {
-        DocumentParagraph.Rows.Add(new DocumentTableRow { Number = DocumentParagraph.Rows.Max(r => r.Number) + 1 });
+        DocumentTableRow row = new();
+
+        if (DocumentParagraph.Rows.Count == 0)
+        {
+            row.Number = 1;
+        }
+        else
+        {
+            row.Number = DocumentParagraph.Rows.Max(c => c.Number + 1);
+        }
+
+        DocumentParagraph.Rows.Add(row);
     }
 
     protected void AddCell()
@@ -150,6 +172,7 @@
     protected void RemoveCell(Origin.Core.Models.DocumentTableCell cell)
     {
         DocumentParagraph.Cells.Remove(cell);
+
         if (_activeCell == cell)
         {
             _activeCell = null;
