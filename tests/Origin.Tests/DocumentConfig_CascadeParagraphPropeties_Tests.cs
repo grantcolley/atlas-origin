@@ -22,7 +22,6 @@ namespace Origin.Tests
             [
                 new DocumentConfigParagraph()
                 {
-                    DocumentConfig = args,
                     DocumentParagraph = new DocumentParagraph
                     {
                         Colour = "Red",
@@ -34,7 +33,6 @@ namespace Origin.Tests
                 },
                 new DocumentConfigParagraph()
                 {
-                    DocumentConfig = args,
                     DocumentParagraph = new DocumentParagraph
                     {
                         SubstituteStart = "%",

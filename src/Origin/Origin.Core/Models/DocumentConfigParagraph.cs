@@ -9,10 +9,6 @@ namespace Origin.Core.Models
 
         public int Order { get; set; }
 
-        [Required]
-        public required DocumentConfig DocumentConfig { get; set; }
-
-        [Required]
-        public required DocumentParagraph DocumentParagraph { get; set; }
+        public DocumentParagraph? DocumentParagraph { get; set; }
     }
 }

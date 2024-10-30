@@ -34,7 +34,6 @@ namespace Origin.Test.Data
                 new DocumentConfigParagraph()
                 {
                     Order = 0,
-                    DocumentConfig = documentConfig,
                     DocumentParagraph = new DocumentParagraph
                     {
                         DocumentParagraphId = 1,
@@ -51,7 +50,6 @@ namespace Origin.Test.Data
                 new DocumentConfigParagraph()
                 {
                     Order = 1,
-                    DocumentConfig = documentConfig,
                     DocumentParagraph = new DocumentParagraph
                     {
                         DocumentParagraphId = 2,
@@ -98,7 +96,6 @@ namespace Origin.Test.Data
                 new DocumentConfigParagraph()
                 {
                     Order = 2,
-                    DocumentConfig = documentConfig,
                     DocumentParagraph = new DocumentParagraph
                     {
                         DocumentParagraphId = 3,
@@ -115,7 +112,6 @@ namespace Origin.Test.Data
                 new DocumentConfigParagraph()
                 {
                     Order = 3,
-                    DocumentConfig = documentConfig,
                     DocumentParagraph = new DocumentParagraph
                     {
                         DocumentParagraphId = 4,
@@ -131,7 +127,6 @@ namespace Origin.Test.Data
                 new DocumentConfigParagraph()
                 {
                     Order = 4,
-                    DocumentConfig = documentConfig,
                     DocumentParagraph = new DocumentParagraph
                     {
                         DocumentParagraphId = 5,
@@ -154,7 +149,6 @@ namespace Origin.Test.Data
                 new DocumentConfigParagraph()
                 {
                     Order = 5,
-                    DocumentConfig = documentConfig,
                     DocumentParagraph = new DocumentParagraph
                     {
                         DocumentParagraphId = 6,
@@ -198,7 +192,6 @@ namespace Origin.Test.Data
                 new DocumentConfigParagraph()
                 {
                     Order = 6,
-                    DocumentConfig = documentConfig,
                     DocumentParagraph = new DocumentParagraph
                     {
                         DocumentParagraphId = 7,
@@ -212,7 +205,6 @@ namespace Origin.Test.Data
                 new DocumentConfigParagraph()
                 {
                     Order = 7,
-                    DocumentConfig = documentConfig,
                     DocumentParagraph = new DocumentParagraph
                     {
                         DocumentParagraphId = 8,
@@ -226,7 +218,6 @@ namespace Origin.Test.Data
                 new DocumentConfigParagraph()
                 {
                     Order = 8,
-                    DocumentConfig = documentConfig,
                     DocumentParagraph = new DocumentParagraph
                     {
                         DocumentParagraphId = 9,
@@ -240,7 +231,6 @@ namespace Origin.Test.Data
                 new DocumentConfigParagraph()
                 {
                     Order = 9,
-                    DocumentConfig = documentConfig,
                     DocumentParagraph = new DocumentParagraph
                     {
                         DocumentParagraphId = 10,
@@ -254,7 +244,6 @@ namespace Origin.Test.Data
                 new DocumentConfigParagraph()
                 {
                     Order = 10,
-                    DocumentConfig = documentConfig,
                     DocumentParagraph = new DocumentParagraph
                     {
                         DocumentParagraphId = 11,

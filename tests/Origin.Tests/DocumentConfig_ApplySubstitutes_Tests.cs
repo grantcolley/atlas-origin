@@ -23,7 +23,6 @@ namespace Origin.Tests
             [
                 new DocumentConfigParagraph()
                 {
-                    DocumentConfig = documentConfig,
                     DocumentParagraph = new DocumentParagraph
                     {
                         Contents = { new DocumentContent { Content = "Jane Masters, this is to inform you of an upcoming event." } }
@@ -35,7 +34,7 @@ namespace Origin.Tests
             documentConfig.ApplySubstitutesToDocumentContent();
 
             // Assert
-            Assert.AreEqual(CONTENT, documentConfig.ConfigParagraphs.Select(cp => cp.DocumentParagraph).First().Contents.First().Content);
+            Assert.AreEqual(CONTENT, documentConfig?.ConfigParagraphs?.Select(cp => cp.DocumentParagraph)?.First()?.Contents.First().Content);
         }
 
         [TestMethod]
@@ -53,7 +52,6 @@ namespace Origin.Tests
             [
                 new DocumentConfigParagraph()
                 {
-                    DocumentConfig = documentConfig,
                     DocumentParagraph = new DocumentParagraph
                     {
                         Name = "ParagraphCode",
@@ -68,7 +66,7 @@ namespace Origin.Tests
             documentConfig.ApplySubstitutesToDocumentContent();
 
             // Assert
-            Assert.AreEqual(documentConfig.Substitutes.First().Value, documentConfig.ConfigParagraphs.Select(cp => cp.DocumentParagraph).First().Contents.First().Content);
+            Assert.AreEqual(documentConfig.Substitutes.First().Value, documentConfig?.ConfigParagraphs?.Select(cp => cp.DocumentParagraph)?.First()?.Contents.First().Content);
         }
 
         [TestMethod]
@@ -86,7 +84,6 @@ namespace Origin.Tests
             [
                 new DocumentConfigParagraph()
                 {
-                    DocumentConfig = documentConfig,
                     DocumentParagraph = new DocumentParagraph
                     {
                         Name = "ParagraphCode",
@@ -101,7 +98,7 @@ namespace Origin.Tests
             documentConfig.ApplySubstitutesToDocumentContent();
 
             // Assert
-            Assert.AreEqual(CONTENT, documentConfig.ConfigParagraphs.Select(cp => cp.DocumentParagraph).First().Contents.First().Content);
+            Assert.AreEqual(CONTENT, documentConfig?.ConfigParagraphs?.Select(cp => cp.DocumentParagraph)?.First()?.Contents.First().Content);
         }
 
         [TestMethod]
@@ -119,7 +116,6 @@ namespace Origin.Tests
             [
                 new DocumentConfigParagraph()
                 {
-                    DocumentConfig = documentConfig,
                     DocumentParagraph = new DocumentParagraph
                     {
                         Name = "ParagraphCode",
@@ -134,7 +130,7 @@ namespace Origin.Tests
             documentConfig.ApplySubstitutesToDocumentContent();
 
             // Assert
-            Assert.AreEqual(CONTENT, documentConfig.ConfigParagraphs.Select(cp => cp.DocumentParagraph).First().Contents.First().Content);
+            Assert.AreEqual(CONTENT, documentConfig?.ConfigParagraphs?.Select(cp => cp.DocumentParagraph)?.First()?.Contents.First().Content);
         }
 
         [TestMethod]
@@ -157,7 +153,6 @@ namespace Origin.Tests
             [
                 new DocumentConfigParagraph()
                 {
-                    DocumentConfig = documentConfig,
                     DocumentParagraph = new DocumentParagraph
                     {
                         Name = "ParagraphCode",
@@ -172,7 +167,7 @@ namespace Origin.Tests
             documentConfig.ApplySubstitutesToDocumentContent();
 
             // Assert
-            Assert.AreEqual(CONTENT, documentConfig.ConfigParagraphs.Select(cp => cp.DocumentParagraph).First().Contents.First().Content);
+            Assert.AreEqual(CONTENT, documentConfig?.ConfigParagraphs?.Select(cp => cp.DocumentParagraph)?.First()?.Contents.First().Content);
         }
 
         [TestMethod]
@@ -195,7 +190,6 @@ namespace Origin.Tests
             [
                 new DocumentConfigParagraph()
                 {
-                    DocumentConfig = documentConfig,
                     DocumentParagraph = new DocumentParagraph
                     {
                         Contents = { new DocumentContent()}
@@ -207,7 +201,7 @@ namespace Origin.Tests
             documentConfig.ApplySubstitutesToDocumentContent();
 
             // Assert
-            Assert.IsNull(documentConfig.ConfigParagraphs.Select(cp => cp.DocumentParagraph).First().Contents.First().Content);
+            Assert.IsNull(documentConfig?.ConfigParagraphs?.Select(cp => cp.DocumentParagraph)?.First()?.Contents.First().Content);
         }
 
         [TestMethod]
@@ -225,7 +219,6 @@ namespace Origin.Tests
             [
                 new DocumentConfigParagraph()
                 {
-                    DocumentConfig = documentConfig,
                     DocumentParagraph = new DocumentParagraph
                     {
                         Contents = { new DocumentContent { Content = "[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY]." } }
@@ -237,7 +230,7 @@ namespace Origin.Tests
             documentConfig.ApplySubstitutesToDocumentContent();
 
             // Assert
-            Assert.AreEqual("[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY].", documentConfig.ConfigParagraphs.Select(cp => cp.DocumentParagraph).First().Contents.First().Content);
+            Assert.AreEqual("[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY].", documentConfig?.ConfigParagraphs?.Select(cp => cp.DocumentParagraph)?.First()?.Contents.First().Content);
         }
 
         [TestMethod]
@@ -254,7 +247,6 @@ namespace Origin.Tests
             [
                 new DocumentConfigParagraph()
                 {
-                    DocumentConfig = documentConfig,
                     DocumentParagraph = new DocumentParagraph
                     {
                         Contents = { new DocumentContent { Content = "[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY]." } }
@@ -266,7 +258,7 @@ namespace Origin.Tests
             documentConfig.ApplySubstitutesToDocumentContent();
 
             // Assert
-            Assert.AreEqual("[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY].", documentConfig.ConfigParagraphs.Select(cp => cp.DocumentParagraph).First().Contents.First().Content);
+            Assert.AreEqual("[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY].", documentConfig?.ConfigParagraphs?.Select(cp => cp.DocumentParagraph)?.First()?.Contents.First().Content);
         }
 
         [TestMethod]
@@ -287,7 +279,6 @@ namespace Origin.Tests
             [
                 new DocumentConfigParagraph()
                 {
-                    DocumentConfig = documentConfig,
                     DocumentParagraph = new DocumentParagraph
                     {
                         Contents = { new DocumentContent { Content = "[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY]." } }
@@ -299,7 +290,7 @@ namespace Origin.Tests
             documentConfig.ApplySubstitutesToDocumentContent();
 
             // Assert
-            Assert.AreEqual("[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY].", documentConfig.ConfigParagraphs.Select(cp => cp.DocumentParagraph).First().Contents.First().Content);
+            Assert.AreEqual("[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY].", documentConfig?.ConfigParagraphs?.Select(cp => cp.DocumentParagraph)?.First()?.Contents.First().Content);
         }
 
         [TestMethod]
@@ -316,7 +307,6 @@ namespace Origin.Tests
             [
                 new DocumentConfigParagraph()
                 {
-                    DocumentConfig = documentConfig,
                     DocumentParagraph = new DocumentParagraph
                     {
                         Name = "ParagraphCode",
@@ -345,7 +335,6 @@ namespace Origin.Tests
             [
                 new DocumentConfigParagraph()
                 {
-                    DocumentConfig = documentConfig,
                     DocumentParagraph = new DocumentParagraph
                     {
                         Name = "ParagraphCode",
@@ -381,7 +370,6 @@ namespace Origin.Tests
             [
                 new DocumentConfigParagraph()
                 {
-                    DocumentConfig = documentConfig,
                     DocumentParagraph = new DocumentParagraph
                     {
                         Name = "ParagraphCode",
@@ -417,7 +405,6 @@ namespace Origin.Tests
             [
                 new DocumentConfigParagraph()
                 {
-                    DocumentConfig = documentConfig,
                     DocumentParagraph = new DocumentParagraph
                     {
                         Name = "ParagraphCode",
@@ -453,7 +440,6 @@ namespace Origin.Tests
             [
                 new DocumentConfigParagraph()
                 {
-                    DocumentConfig = documentConfig,
                     DocumentParagraph = new DocumentParagraph
                     {
                         Name = "ParagraphCode",
