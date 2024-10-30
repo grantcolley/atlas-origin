@@ -21,6 +21,7 @@
     <ProjectReference Include="..\..\src\Atlas.Core\Atlas.Core.csproj" />
     <ProjectReference Include="..\..\src\Atlas.Data.Context\Atlas.Data.Context.csproj" />
     <ProjectReference Include="..\..\src\Origin\Origin.Blazor.Web\Origin.Blazor.Web.csproj" />
+    <ProjectReference Include="..\..\tests\Origin.Test.Data\Origin.Test.Data.csproj" />
   </ItemGroup>
 
 </Project>

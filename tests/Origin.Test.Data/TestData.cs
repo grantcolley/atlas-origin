@@ -18,15 +18,15 @@ namespace Origin.Test.Data
             return args;
         }
 
-        public static DocumentConfig GetDocumentArgs(string outputLocation)
+        public static DocumentConfig GetDocumentArgs(string? outputLocation, bool skipSubValues = false)
         {
             DocumentConfig documentConfig = new()
             {
                 SubstituteStart = "[",
                 SubstituteEnd = "]",
-                OutputLocation = outputLocation,
-                FilenameTemplate = $"TestDocx_[{Substitutes.CUSTOMER_ID}]",
-                Substitutes = GetDocumentSubstitutes()
+                OutputLocation = skipSubValues ? null : outputLocation,
+                FilenameTemplate = skipSubValues ? null : $"TestDocx_[{Substitutes.CUSTOMER_ID}]",
+                Substitutes = GetDocumentSubstitutes(skipSubValues)
             };
 
             documentConfig.ConfigParagraphs =
@@ -215,32 +215,32 @@ namespace Origin.Test.Data
                         ]
                     }
                 },
-                new DocumentConfigParagraph()
-                {
-                    Order = 8,
-                    DocumentParagraph = new DocumentParagraph
-                    {
-                        DocumentParagraphId = 9,
-                        Name = MockLetter.PARAGRAPH_5,
-                        Contents =
-                        [
-                            new DocumentContent { DocumentContentId = 30, Order = 30, Name = MockLetter.PARAGRAPH_5_TEXT, RenderCellCode = MockLetter.PARAGRAPH_5, Content = MockLetter.LOREM_IPSUM_SECTION_1_10_33 }
-                        ]
-                    }
-                },
-                new DocumentConfigParagraph()
-                {
-                    Order = 9,
-                    DocumentParagraph = new DocumentParagraph
-                    {
-                        DocumentParagraphId = 10,
-                        Name = MockLetter.PARAGRAPH_6,
-                        Contents =
-                        [
-                            new DocumentContent { DocumentContentId = 31, Order = 31, Name = MockLetter.PARAGRAPH_6_TEXT, RenderCellCode = MockLetter.PARAGRAPH_6, Content = MockLetter.LOREM_IPSUM_SECTION_1_10_33_HACKMAN_1914 }
-                        ]
-                    }
-                },
+                //new DocumentConfigParagraph()
+                //{
+                //    Order = 8,
+                //    DocumentParagraph = new DocumentParagraph
+                //    {
+                //        DocumentParagraphId = 9,
+                //        Name = MockLetter.PARAGRAPH_5,
+                //        Contents =
+                //        [
+                //            new DocumentContent { DocumentContentId = 30, Order = 30, Name = MockLetter.PARAGRAPH_5_TEXT, RenderCellCode = MockLetter.PARAGRAPH_5, Content = MockLetter.LOREM_IPSUM_SECTION_1_10_33 }
+                //        ]
+                //    }
+                //},
+                //new DocumentConfigParagraph()
+                //{
+                //    Order = 9,
+                //    DocumentParagraph = new DocumentParagraph
+                //    {
+                //        DocumentParagraphId = 10,
+                //        Name = MockLetter.PARAGRAPH_6,
+                //        Contents =
+                //        [
+                //            new DocumentContent { DocumentContentId = 31, Order = 31, Name = MockLetter.PARAGRAPH_6_TEXT, RenderCellCode = MockLetter.PARAGRAPH_6, Content = MockLetter.LOREM_IPSUM_SECTION_1_10_33_HACKMAN_1914 }
+                //        ]
+                //    }
+                //},
                 new DocumentConfigParagraph()
                 {
                     Order = 10,
@@ -274,38 +274,42 @@ namespace Origin.Test.Data
             return documentConfig;
         }
 
-        private static List<DocumentSubstitute> GetDocumentSubstitutes()
+        public static List<DocumentSubstitute> GetDocumentSubstitutes(bool skipSubValues, bool templateOnly = false)
         {
             List<DocumentSubstitute> documentSubstitutes = [];
 
-            documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.CUSTOMER_ID, Value = "123" });
-            documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.COMPANY_NAME, Value = "Global Banking Corp." });
-            documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.COMPANY_ADDRESS_1, Value = "9 Cherry Tree Lane" });
-            documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.COMPANY_ADDRESS_2, Value = "Canary Wharf" });
-            documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.COMPANY_ADDRESS_3, Value = "E14 5HQ" });
-            documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.COMPANY_PHONE_NUMBER, Value = "+44 071 946-0241" });
-            documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.COMPANY_EMAIL, Value = "gbc@email.com" });
-            documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.CUSTOMER_NAME, Value = "Mrs Jane Masters" });
-            documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.CUSTOMER_ADDRESS_1, Value = "142 Middle Street", Group = Substitutes.CUSTOMER_ADDRESS_GROUP });
-            documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.CUSTOMER_ADDRESS_2, Value = "", Group = Substitutes.CUSTOMER_ADDRESS_GROUP });
-            documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.CUSTOMER_ADDRESS_3, Value = "", Group = Substitutes.CUSTOMER_ADDRESS_GROUP });
-            documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.CUSTOMER_ADDRESS_4, Value = "Brockham", Group = Substitutes.CUSTOMER_ADDRESS_GROUP });
-            documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.CUSTOMER_ADDRESS_5, Value = "", Group = Substitutes.CUSTOMER_ADDRESS_GROUP });
-            documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.CUSTOMER_ADDRESS_6, Value = "Surrey", Group = Substitutes.CUSTOMER_ADDRESS_GROUP });
-            documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.CUSTOMER_ADDRESS_7, Value = "KT20 3AD", Group = Substitutes.CUSTOMER_ADDRESS_GROUP });
-            documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.CUSTOMER_REFERENCE, Value = "MASTERS/ABC-123" });
-            documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.SIGNEE, Value = "Mrs Peggy Olson" });
-            documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.SIGNEE_TITLE, Value = "Managing Director" });
-            documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.LOREM_IPSUM_IS_NONSENSE_MICROSOFT_2, Value = "\"Lorem ipsum dolor sit amet consectetuer\"" });
-            documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.LOREM_IPSUM_IS_NONSENSE_MICROSOFT_4, Value = "Actually, it is nonsense" });
-            documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.LOREM_IPSUM_IS_NONSENSE_MICROSOFT_6, Value = "The phrase has been used for several centuries by typographers" });
-            documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.TABLE_SUMMARY, Value = "Present Test Data in Table" });
-            documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.TABLE_LINE_1, Value = "Line item no. 1" });
-            documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.TABLE_LINE_1_AMOUNT, Value = "£70" });
-            documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.TABLE_LINE_2, Value = "Line item no. 2" });
-            documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.TABLE_LINE_2_AMOUNT, Value = "£30" });
-            documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.TABLE_TOTAL, Value = "Total" });
-            documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.TABLE_TOTAL_AMOUNT, Value = "£100" });
+            documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.CUSTOMER_ID, Value = skipSubValues ? null : "123" });
+            documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.COMPANY_NAME, Value = skipSubValues ? null : "Global Banking Corp." });
+            documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.COMPANY_ADDRESS_1, Value = skipSubValues ? null : "9 Cherry Tree Lane" });
+            documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.COMPANY_ADDRESS_2, Value = skipSubValues ? null : "Canary Wharf" });
+            documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.COMPANY_ADDRESS_3, Value = skipSubValues ? null : "E14 5HQ" });
+            documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.COMPANY_PHONE_NUMBER, Value = skipSubValues ? null : "+44 071 946-0241" });
+            documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.COMPANY_EMAIL, Value = skipSubValues ? null : "gbc@email.com" });
+            documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.CUSTOMER_NAME, Value = skipSubValues ? null : "Mrs Jane Masters" });
+            documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.CUSTOMER_ADDRESS_1, Value = skipSubValues ? null : "142 Middle Street", Group = Substitutes.CUSTOMER_ADDRESS_GROUP });
+            documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.CUSTOMER_ADDRESS_2, Value = skipSubValues ? null : "", Group = Substitutes.CUSTOMER_ADDRESS_GROUP });
+            documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.CUSTOMER_ADDRESS_3, Value = skipSubValues ? null : "", Group = Substitutes.CUSTOMER_ADDRESS_GROUP });
+            documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.CUSTOMER_ADDRESS_4, Value = skipSubValues ? null : "Brockham", Group = Substitutes.CUSTOMER_ADDRESS_GROUP });
+            documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.CUSTOMER_ADDRESS_5, Value = skipSubValues ? null : "", Group = Substitutes.CUSTOMER_ADDRESS_GROUP });
+            documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.CUSTOMER_ADDRESS_6, Value = skipSubValues ? null : "Surrey", Group = Substitutes.CUSTOMER_ADDRESS_GROUP });
+            documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.CUSTOMER_ADDRESS_7, Value = skipSubValues ? null : "KT20 3AD", Group = Substitutes.CUSTOMER_ADDRESS_GROUP });
+            documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.CUSTOMER_REFERENCE, Value = skipSubValues ? null : "MASTERS/ABC-123" });
+            documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.SIGNEE, Value = skipSubValues ? null : "Mrs Peggy Olson" });
+            documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.SIGNEE_TITLE, Value = skipSubValues ? null : "Managing Director" });
+
+            if (!templateOnly)
+            {
+                documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.LOREM_IPSUM_IS_NONSENSE_MICROSOFT_2, Value = skipSubValues ? null : "\"Lorem ipsum dolor sit amet consectetuer\"" });
+                documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.LOREM_IPSUM_IS_NONSENSE_MICROSOFT_4, Value = skipSubValues ? null : "Actually, it is nonsense" });
+                documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.LOREM_IPSUM_IS_NONSENSE_MICROSOFT_6, Value = skipSubValues ? null : "The phrase has been used for several centuries by typographers" });
+                documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.TABLE_SUMMARY, Value = skipSubValues ? null : "Present Test Data in Table" });
+                documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.TABLE_LINE_1, Value = skipSubValues ? null : "Line item no. 1" });
+                documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.TABLE_LINE_1_AMOUNT, Value = skipSubValues ? null : "£70" });
+                documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.TABLE_LINE_2, Value = skipSubValues ? null : "Line item no. 2" });
+                documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.TABLE_LINE_2_AMOUNT, Value = skipSubValues ? null : "£30" });
+                documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.TABLE_TOTAL, Value = skipSubValues ? null : "Total" });
+                documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.TABLE_TOTAL_AMOUNT, Value = skipSubValues ? null : "£100" });
+            }
 
             return documentSubstitutes;
         }

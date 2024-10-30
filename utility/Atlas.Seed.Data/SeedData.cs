@@ -5,6 +5,7 @@ using Atlas.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Origin.Blazor.Web.Constants;
 using Origin.Core.Models;
+using Origin.Test.Data;
 
 namespace Atlas.Seed.Data
 {
@@ -26,6 +27,8 @@ namespace Atlas.Seed.Data
             CreateUsers();
             AssignUsersRoles();
             AddApplications();
+
+            AddOriginDocuments();
         }
 
         private static void TruncateTables()
@@ -48,22 +51,26 @@ namespace Atlas.Seed.Data
             ((DbContext)dbContext).Database.ExecuteSqlRaw("DELETE FROM Modules");
             ((DbContext)dbContext).Database.ExecuteSqlRaw("DBCC CHECKIDENT (Modules, RESEED, 1)");
 
-            //((DbContext)dbContext).Database.ExecuteSqlRaw("DELETE FROM DocumentTableColumns");
-            //((DbContext)dbContext).Database.ExecuteSqlRaw("DBCC CHECKIDENT (DocumentTableColumns, RESEED, 1)");
-            //((DbContext)dbContext).Database.ExecuteSqlRaw("DELETE FROM DocumentTableRows");
-            //((DbContext)dbContext).Database.ExecuteSqlRaw("DBCC CHECKIDENT (DocumentTableRows, RESEED, 1)");
-            //((DbContext)dbContext).Database.ExecuteSqlRaw("DELETE FROM DocumentTableCells");
-            //((DbContext)dbContext).Database.ExecuteSqlRaw("DBCC CHECKIDENT (DocumentTableCells, RESEED, 1)");
-            //((DbContext)dbContext).Database.ExecuteSqlRaw("DELETE FROM DocumentContents");
-            //((DbContext)dbContext).Database.ExecuteSqlRaw("DBCC CHECKIDENT (DocumentContents, RESEED, 1)");
-            //((DbContext)dbContext).Database.ExecuteSqlRaw("DELETE FROM DocumentParagraphs");
-            //((DbContext)dbContext).Database.ExecuteSqlRaw("DBCC CHECKIDENT (DocumentParagraphs, RESEED, 1)");
-            //((DbContext)dbContext).Database.ExecuteSqlRaw("DELETE FROM DocumentSubstitutes");
-            //((DbContext)dbContext).Database.ExecuteSqlRaw("DELETE FROM DocumentConfigs");
-            //((DbContext)dbContext).Database.ExecuteSqlRaw("DBCC CHECKIDENT (DocumentConfigs, RESEED, 1)");
+            ((DbContext)dbContext).Database.ExecuteSqlRaw("DELETE FROM DocumentTableColumns");
+            ((DbContext)dbContext).Database.ExecuteSqlRaw("DBCC CHECKIDENT (DocumentTableColumns, RESEED, 1)");
+            ((DbContext)dbContext).Database.ExecuteSqlRaw("DELETE FROM DocumentTableRows");
+            ((DbContext)dbContext).Database.ExecuteSqlRaw("DBCC CHECKIDENT (DocumentTableRows, RESEED, 1)");
+            ((DbContext)dbContext).Database.ExecuteSqlRaw("DELETE FROM DocumentTableCells");
+            ((DbContext)dbContext).Database.ExecuteSqlRaw("DBCC CHECKIDENT (DocumentTableCells, RESEED, 1)");
+            ((DbContext)dbContext).Database.ExecuteSqlRaw("DELETE FROM DocumentContents");
+            ((DbContext)dbContext).Database.ExecuteSqlRaw("DBCC CHECKIDENT (DocumentContents, RESEED, 1)");
+            ((DbContext)dbContext).Database.ExecuteSqlRaw("DELETE FROM DocumentConfigParagraphs");
+            ((DbContext)dbContext).Database.ExecuteSqlRaw("DBCC CHECKIDENT (DocumentConfigParagraphs, RESEED, 1)");
+            ((DbContext)dbContext).Database.ExecuteSqlRaw("DELETE FROM DocumentParagraphs");
+            ((DbContext)dbContext).Database.ExecuteSqlRaw("DBCC CHECKIDENT (DocumentParagraphs, RESEED, 1)");
+            ((DbContext)dbContext).Database.ExecuteSqlRaw("DELETE FROM DocumentSubstitutes");
+            ((DbContext)dbContext).Database.ExecuteSqlRaw("DELETE FROM DocumentConfigs");
+            ((DbContext)dbContext).Database.ExecuteSqlRaw("DBCC CHECKIDENT (DocumentConfigs, RESEED, 1)");
             ((DbContext)dbContext).Database.ExecuteSqlRaw("DBCC CHECKIDENT (DocumentSubstitutes, RESEED, 1)");
             ((DbContext)dbContext).Database.ExecuteSqlRaw("TRUNCATE TABLE DocumentFonts");
+            ((DbContext)dbContext).Database.ExecuteSqlRaw("DBCC CHECKIDENT (DocumentFonts, RESEED, 1)");
             ((DbContext)dbContext).Database.ExecuteSqlRaw("TRUNCATE TABLE DocumentColours");
+            ((DbContext)dbContext).Database.ExecuteSqlRaw("DBCC CHECKIDENT (DocumentColours, RESEED, 1)");
         }
 
         private static void CreatePermissions()
@@ -329,6 +336,77 @@ namespace Atlas.Seed.Data
             }
 
             dbContext.SaveChanges();
+        }
+
+        private static void AddOriginDocuments()
+        {
+            if (dbContext == null) throw new NullReferenceException(nameof(dbContext));
+
+            DocumentConfig documentConfig = TestData.GetDocumentArgs(null, true);
+
+            documentConfig.Name = "Example Document";
+            documentConfig.DocumentConfigId = 0;
+
+            foreach (DocumentConfigParagraph configParagraph in documentConfig.ConfigParagraphs)
+            {
+                configParagraph.DocumentConfigParagraphId = 0;
+
+                DocumentParagraph documentParagraph = configParagraph.DocumentParagraph ?? throw new NullReferenceException(nameof(configParagraph));
+
+                ResetParagraphIdentities(documentParagraph);
+
+                dbContext.DocumentParagraphs.Add(documentParagraph);
+
+                dbContext.SaveChanges();
+            }
+
+            dbContext.DocumentConfigs.Add(documentConfig);
+
+            dbContext.SaveChanges();
+
+
+            List<DocumentParagraph?> documentParagraphs = documentConfig.ConfigParagraphs.Select(c => c.DocumentParagraph).ToList();
+
+            DocumentConfig documentConfigTemplate = new();
+            documentConfigTemplate.Name = "Letter Template";
+            documentConfigTemplate.SubstituteStart = "[";
+            documentConfigTemplate.SubstituteEnd = "]";
+
+            documentConfigTemplate.Substitutes.AddRange(TestData.GetDocumentSubstitutes(true, true));
+
+            documentConfigTemplate.ConfigParagraphs.Add(new DocumentConfigParagraph { Order = 1, DocumentParagraph = documentParagraphs.First(p => p.Name == ParagraphNames.FOOTER_PARAGRAPH) });
+            documentConfigTemplate.ConfigParagraphs.Add(new DocumentConfigParagraph { Order = 2, DocumentParagraph = documentParagraphs.First(p => p.Name == ParagraphNames.LETTER_HEAD_TABLE) });
+            documentConfigTemplate.ConfigParagraphs.Add(new DocumentConfigParagraph { Order = 2, DocumentParagraph = documentParagraphs.First(p => p.Name == ParagraphNames.LETTER_TITLE_PARAGRAPH) });
+            documentConfigTemplate.ConfigParagraphs.Add(new DocumentConfigParagraph { Order = 2, DocumentParagraph = documentParagraphs.First(p => p.Name == ParagraphNames.SIGNATURE_TABLE) });
+
+            dbContext.DocumentConfigs.Add(documentConfigTemplate);
+
+            dbContext.SaveChanges();
+        }
+
+        private static void ResetParagraphIdentities(DocumentParagraph documentParagraph)
+        {
+            documentParagraph.DocumentParagraphId = 0;
+
+            foreach(DocumentContent documentContent in documentParagraph.Contents)
+            {
+                documentContent.DocumentContentId = 0;
+            }
+
+            foreach (DocumentTableColumn documentTableColumn in documentParagraph.Columns)
+            {
+                documentTableColumn.DocumentTableColumnId = 0;
+            }
+
+            foreach (DocumentTableRow documentTableRow in documentParagraph.Rows)
+            {
+                documentTableRow.DocumentTableRowId = 0;
+            }
+
+            foreach (DocumentTableCell documentTableCell in documentParagraph.Cells)
+            {
+                documentTableCell.DocumentTableCellId = 0;
+            }
         }
     }
 }
