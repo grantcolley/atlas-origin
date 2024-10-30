@@ -1,117 +1,96 @@
 ﻿<br />
 <FluentGrid Spacing="3">
-
-    @if (!DocumentConfig.IsReadOnly)
-    {
-        <FluentGridItem xs="12" sm="6">
-            <FluentDataGrid TGridItem=DocumentParagraph Items="@FilteredItems"
-                            Style="height: 600px;" GridTemplateColumns="0.2fr 1fr 0.2fr 0.1fr"
-                            ResizableColumns=true GenerateHeader="GenerateHeaderOption.Sticky"
-                            Pagination="@_pagination">
-                    <PropertyColumn Property="@(p => p.DocumentParagraphId)" Sortable="true" Align="Align.Center" Title="Document Paragraph Id" />
-                    <PropertyColumn Property="@(p => p.Name)" Sortable="true" Filtered="!string.IsNullOrWhiteSpace(_filter)" Tooltip="true" Title="Name">
-                        <ColumnOptions>
-                            <div class="search-box">
-                                <FluentSearch type="filter" Autofocus=true @bind-Value=_filter @oninput="HandleFilter" @bind-Value:after="HandleClear" Placeholder="Paragraph name..." />
-                            </div>
-                        </ColumnOptions>
-                    </PropertyColumn>
-                    <PropertyColumn Property="@(p => p.DocumentParagraphType)" Sortable="true" Align="Align.Center" Title="Type" />
-                    <TemplateColumn Align="@Align.Center">
-                        <FluentButton aria-label="Open" IconEnd="@(new Icons.Regular.Size16.Add())" OnClick="@(() => Add(context))" Type="ButtonType.Button" />
-                        <FluentButton aria-label="Edit" IconEnd="@(new Icons.Regular.Size16.MoreHorizontal())" OnClick="@(() => Edit(context))" Type="ButtonType.Button" />
-                    </TemplateColumn>
-            </FluentDataGrid>
-            <FluentPaginator State="@_pagination" />
-        </FluentGridItem>
-    }
-
     <FluentGridItem xs="12" sm="6">
-        <FluentLabel Typo="Typography.Subject">Selected Paragraphs</FluentLabel>
-        <br/>
+        
+        @if (!DocumentConfig.IsReadOnly)
+        {
+            <FluentButton IconStart="@(new Icons.Regular.Size16.LineHorizontal4Search())" OnClick="@SearchParagraph" Style="margin: 10px">
+                Paragraph Search
+            </FluentButton>
+        }
+
         @foreach (DocumentConfigParagraph configParagraph in DocumentConfig.ConfigParagraphs.OrderBy(c => c.Order))
         {
-            <FluentAccordion>
-                <FluentAccordionItem Expanded=true Style="margin: 10px">
-                    <HeadingTemplate>
-                        <FluentStack Orientation="Orientation.Horizontal">
-                            <FluentNumberField @bind-Value="configParagraph.Order" Label="Order" ReadOnly="@(configParagraph.IsReadOnly)" Min="0" Style="width: 100px" />
-                            <FluentLabel>@configParagraph.DocumentParagraph.Name</FluentLabel>
-                            <FluentSpacer />
+            <FluentCard Style="margin: 10px">
+                <FluentStack Orientation="Orientation.Horizontal">
+                    <FluentNumberField @bind-Value="configParagraph.Order" Label="Order" ReadOnly="@(configParagraph.IsReadOnly)" Min="0" Style="width: 100px" />
+                    <FluentLabel>@configParagraph.DocumentParagraph.Name</FluentLabel>
+                    <FluentSpacer />
 
-                            @if (!DocumentConfig.IsReadOnly)
-                            {
-                                <FluentButton aria-label="Remove" IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => Remove(configParagraph))" />
-                            }
+                    @if (!DocumentConfig.IsReadOnly)
+                    {
+                        <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => Remove(configParagraph))" />
+                    }
 
-                        </FluentStack>
-                    </HeadingTemplate>
-                    <ChildContent>
-                        <div style="margin-top: 10px;margin-bottom: 10px">
-                            @configParagraph.DocumentParagraph.DisplayContent()
-                        </div>
-                    </ChildContent>
-                </FluentAccordionItem>
-            </FluentAccordion>
+                </FluentStack>
+                <div style="margin-top: 10px;margin-bottom: 10px">
+                    @configParagraph.DocumentParagraph.DisplayContent()
+                </div>
+            </FluentCard>
         }
     </FluentGridItem>
 </FluentGrid>
 
 @code {
+    [Inject]
+    public IDialogService? DialogService { get; set; }
+
     [Parameter, EditorRequired]
     public DocumentConfig DocumentConfig { get; set; } = new();
-
-    [Parameter]
-    public IEnumerable<DocumentParagraph>? Paragraphs { get; set; }
-
-    public IQueryable<DocumentParagraph>? FilteredItems
-    {
-        get
-        {
-            if (string.IsNullOrWhiteSpace(_filter)) return Paragraphs?.AsQueryable();
-
-            return Paragraphs?.AsQueryable().Where(p => !string.IsNullOrWhiteSpace(p.Name)
-            && p.Name.Contains(_filter, StringComparison.CurrentCultureIgnoreCase));
-        }
-    }
-
-    private string _filter = string.Empty;
-    private PaginationState _pagination = new PaginationState { ItemsPerPage = 15 };
 
     private void Remove(DocumentConfigParagraph configParagraph)
     {
         DocumentConfig.ConfigParagraphs.Remove(configParagraph);
     }
 
-    private void Add(DocumentParagraph paragraph)
+    private async Task SearchParagraph(MouseEventArgs args)
     {
-        DocumentConfigParagraph configParagraph = new() 
+        ArgumentNullException.ThrowIfNull(DialogService);
+
+        DialogParameters parameters = new()
+            {
+                Title = "Select Paragraphs",
+                Width = "1500px",
+                Height = "800px",
+                Modal = true,
+                PreventScroll = false
+            };
+
+        ParagraphsDialogContent? paragraphsDialogContent= new();
+
+        IDialogReference dialog = await DialogService.ShowDialogAsync<ParagraphsDialog>(paragraphsDialogContent, parameters);
+
+        DialogResult? result = await dialog.Result;
+
+        if (result.Data is not null)
         {
-            DocumentConfig = DocumentConfig,
-            DocumentParagraph = paragraph
-        };
+            paragraphsDialogContent = result.Data as ParagraphsDialogContent;
 
-        DocumentConfig.ConfigParagraphs.Add(configParagraph);
-    }
+            if(paragraphsDialogContent?.Paragraphs.Count > 0)
+            {
+                foreach (DocumentParagraph newParagraph in paragraphsDialogContent.Paragraphs)
+                {
+                    DocumentConfigParagraph? exists = DocumentConfig.ConfigParagraphs.FirstOrDefault(p => p.DocumentParagraph.DocumentParagraphId == newParagraph.DocumentParagraphId);
 
-    private void Edit(DocumentParagraph paragraph)
-    {
+                    if (exists != null)
+                    {
+                        continue;
+                    }
 
-    }
+                    DocumentConfigParagraph configParagraph = new() { DocumentParagraph = newParagraph };
 
-    private void HandleFilter(ChangeEventArgs args)
-    {
-        if (args.Value is string value)
-        {
-            _filter = value;
-        }
-    }
+                    if (DocumentConfig.ConfigParagraphs.Count == 0)
+                    {
+                        configParagraph.Order = 1;
+                    }
+                    else
+                    {
+                        configParagraph.Order = DocumentConfig.ConfigParagraphs.Max(c => c.Order) + 1;
+                    }
 
-    private void HandleClear()
-    {
-        if (string.IsNullOrWhiteSpace(_filter))
-        {
-            _filter = string.Empty;
+                    DocumentConfig.ConfigParagraphs.Add(configParagraph);
+                }
+            }
         }
     }
 }
