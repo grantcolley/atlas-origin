@@ -7,6 +7,28 @@ namespace Origin.Core.Extensions
     public static class DocumentConfigExtensions
     {
         /// <summary>
+        /// Takes a <see cref="DocumentConfig"/> and sets it's name to null and it's <see cref="DocumentConfig.DocumentConfigId"/> to zero.
+        /// It also resets the id's for all <see cref="DocumentSubstitute"/>'s and <see cref="DocumentConfigParagraph"/>'s.
+        /// Note: It does not reset id's for <see cref="DocumentParagraph"/>'s.
+        /// </summary>
+        /// <param name="documentConfig">The <see cref="DocumentConfig"/> to reset.</param>
+        public static void ResetIds(this DocumentConfig documentConfig)
+        {
+            documentConfig.DocumentConfigId = 0;
+            documentConfig.Name = null;
+
+            foreach(DocumentSubstitute substitute in documentConfig.Substitutes)
+            {
+                substitute.DocumentSubstituteId = 0;
+            }
+
+            foreach (DocumentConfigParagraph configParagraph in documentConfig.ConfigParagraphs)
+            {
+                configParagraph.DocumentConfigParagraphId = 0;
+            }
+        }
+
+        /// <summary>
         /// Apply substitutes to the FilenameTemplate.
         /// </summary>
         /// <param name="documentConfig"></param>
