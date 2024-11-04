@@ -1,0 +1,47 @@
+﻿@implements IDialogContentComponent<DocumentViewerContent>
+
+<FluentDialogHeader ShowDismiss="true">
+    <FluentStack VerticalAlignment="VerticalAlignment.Center">
+        <FluentIcon Value="@(new Icons.Regular.Size24.Globe())" />
+        <FluentLabel Typo="Typography.PaneHeader">
+            @Dialog?.Instance.Parameters.Title
+        </FluentLabel>
+    </FluentStack>
+</FluentDialogHeader>
+
+<FluentDialogBody>
+    <div id="pdfFrame"></div>
+</FluentDialogBody>
+
+<FluentDialogFooter>
+    <FluentButton Appearance="Appearance.Accent" OnClick="@CloseAsync">Close</FluentButton>
+</FluentDialogFooter>
+
+@code {
+    [Inject]
+    public IJSRuntime? JSRuntime { get; set; }
+
+    [CascadingParameter]
+    public FluentDialog? Dialog { get; set; } = default!;
+
+    [Parameter]
+    public DocumentViewerContent Content { get; set; } = default!;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (Content == null) throw new NullReferenceException(nameof(Content));
+        if (Content.Document == null) throw new NullReferenceException(nameof(Content.Document));
+        if (JSRuntime == null) throw new NullReferenceException(nameof(JSRuntime));
+
+        if (firstRender)
+        {
+            await JSRuntime.InvokeVoidAsync("jsOpenToIframe", "pdfFrame", Convert.ToBase64String(Content.Document));
+        }
+    }
+
+    private async Task CloseAsync()
+    {
+        Content.Document = null;
+        await Dialog!.CloseAsync(Content);
+    }
+}

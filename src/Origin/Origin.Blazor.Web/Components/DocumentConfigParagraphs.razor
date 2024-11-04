@@ -14,7 +14,7 @@
             <FluentCard Style="margin: 10px">
                 <FluentStack Orientation="Orientation.Horizontal">
                     <FluentNumberField @bind-Value="configParagraph.Order" Label="Order" ReadOnly="@(configParagraph.IsReadOnly)" Min="0" Style="width: 100px" />
-                    <FluentLabel>@configParagraph.DocumentParagraph.Name</FluentLabel>
+                    <FluentLabel>@configParagraph.DocumentParagraph?.Name</FluentLabel>
                     <FluentSpacer />
 
                     @if (!DocumentConfig.IsReadOnly)
@@ -23,9 +23,7 @@
                     }
 
                 </FluentStack>
-                <div style="margin-top: 10px;margin-bottom: 10px">
-                    @configParagraph.DocumentParagraph.DisplayContent()
-                </div>
+                <FluentTextArea Rows="10" ReadOnly="true" Value="@configParagraph.DocumentParagraph?.DisplayContent()"/>
             </FluentCard>
         }
     </FluentGridItem>

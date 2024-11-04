@@ -14,6 +14,9 @@
     [Inject]
     internal IOriginOptionsRequests? OriginOptionsRequests { get; set; }
 
+    [Inject]
+    public IDialogService? DialogService { get; set; }
+
     [Parameter]
     public bool Clone { get; set; }
 
@@ -80,14 +83,39 @@
         NavigationManager?.NavigateTo($"DocumentConfig/{Model?.DocumentConfigId}/Clone/true");
     }
 
+    public async Task OnView()
+    {
+        if (DialogService == null) throw new NullReferenceException(nameof(DialogService));
+
+        DialogParameters parameters = new()
+            {
+                Title = $"{Model?.DocumentConfigId} {Model?.Name}",
+                Width = "1000px",
+                Height = "700px",
+                Modal = true,
+                PreventScroll = false
+            };
+
+        DocumentViewerContent? documentViewerContent = new() { Document = File.ReadAllBytes(@"C:\GitHub\atlas-origin\utility\output\TestDocx_123.pdf") };
+
+        IDialogReference dialog = await DialogService.ShowDialogAsync<DocumentViewerDialog>(documentViewerContent, parameters);
+
+        DialogResult? result = await dialog.Result;
+    }
+
     public override RenderFragment RenderAdditionalToolbarButtons() => __builder =>
     {
         @if (_id > 0)
         {
-            <FluentButton Id="clone-paragraph" aria-label="clone-paragraph" Type="ButtonType.Button" OnClick="OnClone" Disabled="@_isProcessing">
+            <FluentButton Id="clone-document" aria-label="clone-document" Type="ButtonType.Button" OnClick="OnClone" Disabled="@_isProcessing">
                 <FluentIcon Value="@(new Icons.Regular.Size20.DocumentCopy())" Title="Clone" />
             </FluentButton>
-            <FluentTooltip Anchor="clone-paragraph" Position=TooltipPosition.Right>Clone paragraph</FluentTooltip>
+            <FluentTooltip Anchor="clone-document" Position=TooltipPosition.Right>Clone document</FluentTooltip>
+
+            <FluentButton Id="view-document" aria-label="view-document" Type="ButtonType.Button" OnClick="OnView" Disabled="@_isProcessing">
+                <FluentIcon Value="@(new Icons.Regular.Size20.DocumentSync())" Title="View" />
+            </FluentButton>
+            <FluentTooltip Anchor="view-document" Position=TooltipPosition.Right>View document</FluentTooltip>
         }
     };
 
