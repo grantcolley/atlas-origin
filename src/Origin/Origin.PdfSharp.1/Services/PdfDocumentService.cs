@@ -13,11 +13,9 @@ namespace Origin.PdfSharp.Services
         public override DocumentFileExtension DocumentExtension => DocumentFileExtension.pdf;
         public override DocumentServiceType DocumentServiceType => DocumentServiceType.PdfSharp;
 
-        public override bool TryCreateDocument(DocumentConfig documentConfig, string fileName)
+        public override byte[] CreateFile(DocumentConfig documentConfig)
         {
             ArgumentNullException.ThrowIfNull(documentConfig);
-
-            if (string.IsNullOrWhiteSpace(fileName)) throw new NullReferenceException(nameof(fileName));
 
             GlobalFontSettings.FontResolver = new CustomFontResolver();
 
@@ -27,24 +25,29 @@ namespace Origin.PdfSharp.Services
 
             section.AddFooter(documentConfig);
 
-            foreach (DocumentParagraph documentParagraph in documentConfig.ConfigParagraphs.Select(cp => cp.DocumentParagraph).Where(p => p.DocumentParagraphType != DocumentParagraphType.Footer))
+            foreach (DocumentParagraph? documentParagraph in documentConfig.ConfigParagraphs.Select(cp => cp.DocumentParagraph).Where(p => p.DocumentParagraphType != DocumentParagraphType.Footer))
             {
-                section.AddParagraph(documentParagraph);
+                if (documentParagraph != null)
+                {
+                    section.AddParagraph(documentParagraph);
+                }
             }
 
+            using MemoryStream memoryStream = new();
             using PdfDocument pdfDocument = new();
-
-            var pdfRenderer = new PdfDocumentRenderer
             {
-                Document = document,
-                PdfDocument = pdfDocument
-            };
+                var pdfRenderer = new PdfDocumentRenderer
+                {
+                    Document = document,
+                    PdfDocument = pdfDocument
+                };
 
-            pdfRenderer.RenderDocument();
+                pdfRenderer.RenderDocument();
 
-            pdfRenderer.PdfDocument.Save(fileName);
+                pdfRenderer.PdfDocument.Save(memoryStream);
+            }
 
-            return true;
+            return memoryStream.ToArray();
         }
     }
 }

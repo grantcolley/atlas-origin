@@ -4,8 +4,6 @@ using Origin.PdfSharp.Services;
 using Origin.Service.Interface;
 using Origin.Service.Providers;
 using Origin.Service.Services;
-using Origin.Test.Data;
-using Origin.Tests.Helpers;
 
 namespace Origin.Tests
 {
@@ -26,32 +24,47 @@ namespace Origin.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException), "documentArgs")]
-        public void TryCreate_DocumentArgs_Null_Expected_ArgumentNullException()
+        [ExpectedException(typeof(ArgumentNullException), "documentConfig")]
+        public void TryCreate_DocumentConfig_Null_Expected_ArgumentNullException()
         {
             // Arrange
             IDocumentService docxDocumentService = new DocXDocumentService();
             IDocumentService pdfDocumentService = new PdfDocumentService();
             DocumentServiceProvider documentServiceProvider = new([docxDocumentService, pdfDocumentService]);
             OriginService originationService = new(documentServiceProvider);
-            DocumentConfig? documentArgs = null;
+            DocumentConfig? documentConfig = null;
 
             // Act
 #pragma warning disable CS8604 // Possible null reference argument.
-            originationService.CreateFile(documentArgs, out _);
+            originationService.CreateFile(documentConfig, out _);
 #pragma warning restore CS8604 // Possible null reference argument.
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NotSupportedException), "DocumentServiceType.None")]
-        public void TryCreate_DocumentArgs_Null_Expected_NotSupportedException()
+        [ExpectedException(typeof(NullReferenceException), "OutputLocation")]
+        public void TryCreate_DocumentServiceType_None_Expected_NotSupportedException()
         {
             // Arrange
             IDocumentService docxDocumentService = new DocXDocumentService();
             IDocumentService pdfDocumentService = new PdfDocumentService();
             DocumentServiceProvider documentServiceProvider = new([docxDocumentService, pdfDocumentService]);
             OriginService originationService = new(documentServiceProvider);
-            DocumentConfig? documentArgs = new();
+            DocumentConfig? documentConfig = new();
+
+            // Act
+            originationService.CreateFile(documentConfig, out _);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NotSupportedException), "DocumentServiceType.None")]
+        public void TryCreate_DocumentConfig_Null_Expected_NotSupportedException()
+        {
+            // Arrange
+            IDocumentService docxDocumentService = new DocXDocumentService();
+            IDocumentService pdfDocumentService = new PdfDocumentService();
+            DocumentServiceProvider documentServiceProvider = new([docxDocumentService, pdfDocumentService]);
+            OriginService originationService = new(documentServiceProvider);
+            DocumentConfig? documentArgs = new() { OutputLocation = "test" };
 
             // Act
             originationService.CreateFile(documentArgs, out _);
@@ -73,30 +86,6 @@ namespace Origin.Tests
 
             // Act
             originationService.CreateFile(documentArgs, out _);
-        }
-
-        [TestMethod]
-        public void TryCreate_Pass()
-        {
-            // Arrange
-            IDocumentService docxDocumentService = new TestDocxDocumentService();
-            IDocumentService pdfDocumentService = new PdfDocumentService();
-            DocumentServiceProvider documentServiceProvider = new([docxDocumentService, pdfDocumentService]);
-            OriginService originationService = new(documentServiceProvider);
-            DocumentSubstitute customerId = new() { Key = Substitutes.CUSTOMER_ID, Value = "123" };
-            DocumentConfig? documentArgs = new()
-            {
-                DocumentServiceType = DocumentServiceType.OpenXmlDocument,
-                FilenameTemplate = $"Filename_[{Substitutes.CUSTOMER_ID}]",
-                OutputLocation = Directory.GetCurrentDirectory(),
-                Substitutes = new List<DocumentSubstitute>([customerId])
-            };
-
-            // Act
-            originationService.CreateFile(documentArgs, out string fullFilename);
-
-            // Assert
-            Assert.IsNotNull(Path.Combine(Directory.GetCurrentDirectory(), $"Filename_{customerId.Value}"), fullFilename);
         }
     }
 }

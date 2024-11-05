@@ -6,8 +6,7 @@ namespace Origin.Service.Interface
     {
         DocumentFileExtension DocumentExtension { get; }
         DocumentServiceType DocumentServiceType { get; }
-        bool TryCreateDocument(DocumentConfig documentConfig, string fileName);
-        void ValidateOutputLocation(string? outputLocation);
-        void FileDeleteIfExists(string? file);
+        byte[] CreateFile(DocumentConfig documentConfig);
+        byte[] BuildFile(DocumentConfig documentConfig);
     }
 }

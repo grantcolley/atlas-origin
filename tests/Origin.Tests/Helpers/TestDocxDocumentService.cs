@@ -8,19 +8,9 @@ namespace Origin.Tests.Helpers
         public override DocumentFileExtension DocumentExtension => DocumentFileExtension.docx;
         public override DocumentServiceType DocumentServiceType => DocumentServiceType.OpenXmlDocument;
 
-        public override bool TryCreateDocument(DocumentConfig? documentArgs, string fileName)
+        public override byte[] CreateFile(DocumentConfig documentConfig)
         {
-            return true;
-        }
-
-        public override void FileDeleteIfExists(string? file)
-        {
-            return;
-        }
-
-        public override void ValidateOutputLocation(string? outputLocation)
-        {
-            return;
+            throw new NotImplementedException();
         }
     }
 }

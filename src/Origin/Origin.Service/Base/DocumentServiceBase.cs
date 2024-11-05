@@ -1,4 +1,5 @@
-﻿using Origin.Core.Models;
+﻿using Origin.Core.Extensions;
+using Origin.Core.Models;
 using Origin.Service.Interface;
 
 namespace Origin.Service.Base
@@ -7,27 +8,16 @@ namespace Origin.Service.Base
     {
         public abstract DocumentFileExtension DocumentExtension { get; }
         public abstract DocumentServiceType DocumentServiceType { get; }
+        public abstract byte[] CreateFile(DocumentConfig documentConfig);
 
-        public abstract bool TryCreateDocument(DocumentConfig documentConfig, string fileName);
-
-        public virtual void ValidateOutputLocation(string? outputLocation)
+        public byte[] BuildFile(DocumentConfig documentConfig)
         {
-            ArgumentNullException.ThrowIfNullOrWhiteSpace(outputLocation);
+            ArgumentNullException.ThrowIfNull(documentConfig);
 
-            if (!Directory.Exists(outputLocation))
-            {
-                _ = Directory.CreateDirectory(outputLocation);
-            }
-        }
+            documentConfig.ConstructDocumentConfig();
+            documentConfig.ApplySubstitutesToDocumentContent();
 
-        public virtual void FileDeleteIfExists(string? file)
-        {
-            ArgumentNullException.ThrowIfNullOrWhiteSpace(file);
-
-            if (File.Exists(file))
-            {
-                File.Delete(file);
-            }
+            return CreateFile(documentConfig);
         }
     }
 }

@@ -12,19 +12,25 @@ namespace Origin.Service.Services
         {
             ArgumentNullException.ThrowIfNull(documentConfig);
 
+            if (string.IsNullOrWhiteSpace(documentConfig.OutputLocation)) throw new NullReferenceException(nameof(documentConfig.OutputLocation));
+
             IDocumentService documentService = _documentServiceProvider.GetDocumentService(documentConfig.DocumentServiceType);
 
             fullFilename = $"{documentConfig.FullFilename()}.{documentService.DocumentExtension}";
 
-            documentService.ValidateOutputLocation(documentConfig.OutputLocation);
+            if (!Directory.Exists(documentConfig.OutputLocation))
+            {
+                _ = Directory.CreateDirectory(documentConfig.OutputLocation);
+            }
 
-            documentService.FileDeleteIfExists(fullFilename);
+            if (File.Exists(fullFilename))
+            {
+                File.Delete(fullFilename);
+            }
 
-            documentConfig.ConstructDocumentConfig();
+            byte[] bytes = documentService.BuildFile(documentConfig);
 
-            documentConfig.ApplySubstitutesToDocumentContent();
-
-            documentService.TryCreateDocument(documentConfig, fullFilename);
+            File.WriteAllBytes(fullFilename, bytes);
         }
     }
 }

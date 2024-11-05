@@ -12,28 +12,33 @@ namespace Origin.OpenXml.Sevices
         public override DocumentFileExtension DocumentExtension => DocumentFileExtension.docx;
         public override DocumentServiceType DocumentServiceType => DocumentServiceType.OpenXmlDocument;
 
-        public override bool TryCreateDocument(DocumentConfig documentConfig, string fileName)
+        public override byte[] CreateFile(DocumentConfig documentConfig)
         {
             ArgumentNullException.ThrowIfNull(documentConfig);
-            
-            if (string.IsNullOrWhiteSpace(fileName)) throw new NullReferenceException(nameof(fileName));
 
-            using WordprocessingDocument wordDocument = WordprocessingDocument.Create(fileName, WordprocessingDocumentType.Document);
-
-            MainDocumentPart mainPart = wordDocument.AddMainDocumentPart();
-
-            Body body = mainPart.AddBody(documentConfig);
-
-            mainPart.AddResources(documentConfig);
-
-            mainPart.AddFooter(documentConfig);
-
-            foreach(DocumentParagraph documentParagraph in documentConfig.ConfigParagraphs.Select(cp => cp.DocumentParagraph).Where(p => p.DocumentParagraphType != DocumentParagraphType.Footer))
+            using MemoryStream memoryStream = new();
+            using (WordprocessingDocument wordDocument = WordprocessingDocument.Create(memoryStream, WordprocessingDocumentType.Document, true))
             {
-                body.AddParagraph(documentParagraph);
+                MainDocumentPart mainPart = wordDocument.AddMainDocumentPart();
+
+                Body body = mainPart.AddBody(documentConfig);
+
+                mainPart.AddResources(documentConfig);
+
+                mainPart.AddFooter(documentConfig);
+
+                foreach (DocumentParagraph? documentParagraph in documentConfig.ConfigParagraphs.Select(cp => cp.DocumentParagraph).Where(p => p.DocumentParagraphType != DocumentParagraphType.Footer))
+                {
+                    if (documentParagraph != null)
+                    {
+                        body.AddParagraph(documentParagraph);
+                    }
+                }
+
+                wordDocument.Save();
             }
 
-            return true;
+            return memoryStream.ToArray();
         }
     }
 }
