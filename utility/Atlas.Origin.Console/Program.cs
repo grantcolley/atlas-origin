@@ -25,31 +25,21 @@ DocumentConfig documentPdfSharp = TestData.GetDocumentArgsConfigSharp(outputLoca
 
 try
 {
-    if (originationService.TryCreate(documentOpenXml, out string fullFilenameDocx))
-    {
-        string json = JsonSerializer.Serialize(documentOpenXml, jsonSerializerOptions);
+    originationService.CreateFile(documentOpenXml, out string fullFilenameDocx);
 
-        Console.WriteLine(json);
+    string json = JsonSerializer.Serialize(documentOpenXml, jsonSerializerOptions);
 
-        Process.Start(new ProcessStartInfo(fullFilenameDocx) { UseShellExecute = true });
-    }
-    else
-    {
-        Console.WriteLine("Failed to create docx!");
-    }
+    Console.WriteLine(json);
 
-    if (originationService.TryCreate(documentPdfSharp, out string fullFilenamePdfSharp))
-    {
-        string json = JsonSerializer.Serialize(documentPdfSharp, jsonSerializerOptions);
+    Process.Start(new ProcessStartInfo(fullFilenameDocx) { UseShellExecute = true });
 
-        Console.WriteLine(json);
+    originationService.CreateFile(documentPdfSharp, out string fullFilenamePdfSharp);
 
-        Process.Start(new ProcessStartInfo(fullFilenamePdfSharp) { UseShellExecute = true });
-    }
-    else
-    {
-        Console.WriteLine("Failed to create pdf!");
-    }
+    json = JsonSerializer.Serialize(documentPdfSharp, jsonSerializerOptions);
+
+    Console.WriteLine(json);
+
+    Process.Start(new ProcessStartInfo(fullFilenamePdfSharp) { UseShellExecute = true });
 }
 catch (Exception ex)
 {

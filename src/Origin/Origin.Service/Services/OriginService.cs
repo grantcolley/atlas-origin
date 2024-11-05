@@ -8,7 +8,7 @@ namespace Origin.Service.Services
     {
         private readonly IDocumentServiceProvider _documentServiceProvider = documentServiceProvider ?? throw new ArgumentNullException(nameof(documentServiceProvider));
 
-        public bool TryCreate(DocumentConfig documentConfig, out string fullFilename)
+        public void CreateFile(DocumentConfig documentConfig, out string fullFilename)
         {
             ArgumentNullException.ThrowIfNull(documentConfig);
 
@@ -24,7 +24,7 @@ namespace Origin.Service.Services
 
             documentConfig.ApplySubstitutesToDocumentContent();
 
-            return documentService.TryCreateDocument(documentConfig, fullFilename);
+            documentService.TryCreateDocument(documentConfig, fullFilename);
         }
     }
 }

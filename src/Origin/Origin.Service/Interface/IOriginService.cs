@@ -4,6 +4,6 @@ namespace Origin.Service.Interface
 {
     public interface IOriginService
     {
-        bool TryCreate(DocumentConfig documentConfig, out string fullFilename);
+        void CreateFile(DocumentConfig documentConfig, out string fullFilename);
     }
 }

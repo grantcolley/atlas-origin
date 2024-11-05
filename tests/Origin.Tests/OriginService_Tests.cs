@@ -38,7 +38,7 @@ namespace Origin.Tests
 
             // Act
 #pragma warning disable CS8604 // Possible null reference argument.
-            _ = originationService.TryCreate(documentArgs, out _);
+            originationService.CreateFile(documentArgs, out _);
 #pragma warning restore CS8604 // Possible null reference argument.
         }
 
@@ -54,7 +54,7 @@ namespace Origin.Tests
             DocumentConfig? documentArgs = new();
 
             // Act
-            _ = originationService.TryCreate(documentArgs, out _);
+            originationService.CreateFile(documentArgs, out _);
         }
 
         [TestMethod]
@@ -72,7 +72,7 @@ namespace Origin.Tests
             };
 
             // Act
-            _ = originationService.TryCreate(documentArgs, out _);
+            originationService.CreateFile(documentArgs, out _);
         }
 
         [TestMethod]
@@ -93,10 +93,9 @@ namespace Origin.Tests
             };
 
             // Act
-            bool result = originationService.TryCreate(documentArgs, out string fullFilename);
+            originationService.CreateFile(documentArgs, out string fullFilename);
 
             // Assert
-            Assert.IsTrue(result);
             Assert.IsNotNull(Path.Combine(Directory.GetCurrentDirectory(), $"Filename_{customerId.Value}"), fullFilename);
         }
     }
