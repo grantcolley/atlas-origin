@@ -20,8 +20,8 @@ function jsOpenToIframe(iFrameId, byteBase64) {
 
     var ifrm = document.createElement('iframe');
     ifrm.setAttribute("src", "data:application/pdf;base64," + byteBase64);
-    ifrm.style.height = "980px";
-    ifrm.style.width = "640px";
+    ifrm.style.height = "540px";
+    ifrm.style.width = "900px";
     document.getElementById(iFrameId).appendChild(ifrm);
 }
 
