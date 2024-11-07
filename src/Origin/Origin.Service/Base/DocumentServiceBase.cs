@@ -15,7 +15,11 @@ namespace Origin.Service.Base
             ArgumentNullException.ThrowIfNull(documentConfig);
 
             documentConfig.ConstructDocumentConfig();
-            documentConfig.ApplySubstitutesToDocumentContent();
+
+            if (documentConfig.ApplySubstitutes)
+            {
+                documentConfig.ApplySubstitutesToDocumentContent();
+            }
 
             return CreateFile(documentConfig);
         }

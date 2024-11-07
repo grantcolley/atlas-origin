@@ -11,20 +11,19 @@
 
         @foreach (DocumentConfigParagraph configParagraph in DocumentConfig.ConfigParagraphs.OrderBy(c => c.Order))
         {
-            <FluentCard Style="margin: 10px">
-                <FluentStack Orientation="Orientation.Horizontal">
-                    <FluentNumberField @bind-Value="configParagraph.Order" Label="Order" ReadOnly="@(configParagraph.IsReadOnly)" Min="0" Style="width: 100px" />
-                    <FluentLabel>@configParagraph.DocumentParagraph?.Name</FluentLabel>
-                    <FluentSpacer />
+            <FluentStack Orientation="Orientation.Horizontal" Style="margin: 10px">
+                <FluentNumberField @bind-Value="configParagraph.Order" Label="Order" ReadOnly="@(configParagraph.IsReadOnly)" Min="0" Style="width: 70px" />
+                <FluentTextField ReadOnly="true" Value="@configParagraph.DocumentParagraph?.Name"/>
+                <FluentTextField Id="@($"paragraph-content-{configParagraph.Order}")" ReadOnly="true" Value="@configParagraph.DocumentParagraph?.DisplayContent()" style="width: 300px"/>
+                <FluentTooltip Anchor="@($"paragraph-content-{configParagraph.Order}")" Position=TooltipPosition.Right>@configParagraph.DocumentParagraph?.DisplayContent()</FluentTooltip>
+                <FluentButton aria-label="Edit" IconEnd="@(new Icons.Regular.Size16.DocumentSync())" OnClick="@(() => View(configParagraph))" />
 
-                    @if (!DocumentConfig.IsReadOnly)
-                    {
-                        <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => Remove(configParagraph))" />
-                    }
+                @if (!DocumentConfig.IsReadOnly)
+                {
+                    <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => Remove(configParagraph))" />
+                }
 
-                </FluentStack>
-                <FluentTextArea Rows="10" ReadOnly="true" Value="@configParagraph.DocumentParagraph?.DisplayContent()"/>
-            </FluentCard>
+            </FluentStack>
         }
     </FluentGridItem>
 </FluentGrid>
@@ -33,12 +32,43 @@
     [Inject]
     public IDialogService? DialogService { get; set; }
 
+    [Inject]
+    public IOriginDocumentRequests? OriginDocumentRequests { get; set; }
+
     [Parameter, EditorRequired]
     public DocumentConfig DocumentConfig { get; set; } = new();
 
     private void Remove(DocumentConfigParagraph configParagraph)
     {
         DocumentConfig.ConfigParagraphs.Remove(configParagraph);
+    }
+
+    private async Task View(DocumentConfigParagraph configParagraph)
+    {
+        if (configParagraph == null) throw new NullReferenceException(nameof(configParagraph));
+        if (configParagraph.DocumentParagraph == null) throw new NullReferenceException(nameof(configParagraph.DocumentParagraph));
+        if (DialogService == null) throw new NullReferenceException(nameof(DialogService));
+        if (OriginDocumentRequests == null) throw new NullReferenceException(nameof(OriginDocumentRequests));
+
+        DialogParameters parameters = new()
+            {
+                Title = $"{configParagraph.DocumentParagraph.DocumentParagraphId} {configParagraph.DocumentParagraph.Name}",
+                Width = "1000px",
+                Height = "700px",
+                Modal = true,
+                PreventScroll = false
+            };
+
+        DocumentConfig documentConfig = new() { Name = configParagraph.DocumentParagraph.Name };
+        documentConfig.ConfigParagraphs.Add(configParagraph);
+
+        byte[] bytes = await OriginDocumentRequests.GeneratePdfAsync(documentConfig).ConfigureAwait(false);
+
+        DocumentViewerContent? documentViewerContent = new() { Document = bytes };
+
+        IDialogReference dialog = await DialogService.ShowDialogAsync<DocumentViewerDialog>(documentViewerContent, parameters);
+
+        DialogResult? result = await dialog.Result;
     }
 
     private async Task SearchParagraph(MouseEventArgs args)

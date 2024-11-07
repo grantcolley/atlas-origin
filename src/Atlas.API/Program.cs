@@ -18,6 +18,8 @@ using Microsoft.OpenApi.Models;
 using Origin.Core.Validation.Extensions;
 using Origin.Data.Access.Data;
 using Origin.Data.Access.Interfaces;
+using Origin.PdfSharp.Services;
+using Origin.Service.Interface;
 using Serilog;
 using System.Text.Json.Serialization;
 
@@ -76,10 +78,11 @@ builder.Services.AddScoped<ISupportData, SupportData>();
 builder.Services.AddScoped<IOptionsData, OptionsData>();
 builder.Services.AddScoped<IApplicationData, ApplicationData>();
 builder.Services.AddScoped<IAdministrationData, AdministrationData>();
+builder.Services.AddScoped<IUserAuthorisationData, UserAuthorisationData>();
 builder.Services.AddScoped<IDocumentData, DocumentData>();
 builder.Services.AddScoped<IDocumentPropertiesData, DocumentPropertiesData>();
-
 builder.Services.AddScoped<IOriginOptionsData, OriginOptionsData>();
+builder.Services.AddScoped<IDocumentService, PdfDocumentService>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>

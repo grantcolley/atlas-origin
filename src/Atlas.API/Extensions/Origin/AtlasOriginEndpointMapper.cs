@@ -186,6 +186,14 @@ namespace Atlas.API.Extensions.Origin
                 .Produces(StatusCodes.Status500InternalServerError)
                 .RequireAuthorization(Auth.ATLAS_USER_CLAIM);
 
+            app.MapPost($"/{OriginAPIEndpoints.GENERATE_PDF}", DocumentServiceEndpoints.GeneratePdf)
+                .WithOpenApi()
+                .WithName(OriginAPIEndpoints.GENERATE_PDF)
+                .WithDescription("Generates a pdf and returns it.")
+                .Produces<string>(StatusCodes.Status200OK)
+                .Produces(StatusCodes.Status500InternalServerError)
+                .RequireAuthorization(Auth.ATLAS_USER_CLAIM);
+
             return app;
         }
     }

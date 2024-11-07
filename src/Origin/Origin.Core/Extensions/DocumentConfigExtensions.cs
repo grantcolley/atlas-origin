@@ -255,7 +255,7 @@ namespace Origin.Core.Extensions
 
         public static DocumentParagraph? GetFooterParagraph(this DocumentConfig documentConfig)
         {
-            return documentConfig.ConfigParagraphs.Select(cp => cp.DocumentParagraph).Single(p => p.DocumentParagraphType == DocumentParagraphType.Footer);
+            return documentConfig.ConfigParagraphs.Select(cp => cp.DocumentParagraph).SingleOrDefault(p => p.DocumentParagraphType == DocumentParagraphType.Footer);
         }
     }
 }

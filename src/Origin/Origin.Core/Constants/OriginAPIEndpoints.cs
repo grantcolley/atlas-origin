@@ -24,6 +24,7 @@
         public const string DELETE_DOCUMENT_COLOUR = "deletedocumentcolour";
         public const string GET_ORIGIN_OPTIONS = "getoriginoptions";
         public const string GET_GENERIC_ORIGIN_OPTIONS = "getgenericoriginoptions";
+        public const string GENERATE_PDF = "generatepdf";
     }
 }
 

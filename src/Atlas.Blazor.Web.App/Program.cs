@@ -94,6 +94,13 @@ builder.Services.AddTransient<IOriginOptionsRequests, OriginOptionsRequests>(sp 
     return new OriginOptionsRequests(httpClient);
 });
 
+builder.Services.AddTransient<IOriginDocumentRequests, OriginDocumentRequests>(sp =>
+{
+    IHttpClientFactory httpClientFactory = sp.GetRequiredService<IHttpClientFactory>();
+    HttpClient httpClient = httpClientFactory.CreateClient(AtlasWebConstants.ATLAS_API);
+    return new OriginDocumentRequests(httpClient);
+});
+
 WebApplication app = builder.Build();
 
 // Configure the HTTP request pipeline.

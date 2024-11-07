@@ -38,7 +38,8 @@
     <ProjectReference Include="..\Atlas.Data.Context\Atlas.Data.Context.csproj" />  
     <ProjectReference Include="..\Origin\Origin.Core.Validation\Origin.Core.Validation.csproj" />  
     <ProjectReference Include="..\Origin\Origin.Core\Origin.Core.csproj" />  
-    <ProjectReference Include="..\Origin\Origin.Data.Access\Origin.Data.Access.csproj" />
+    <ProjectReference Include="..\Origin\Origin.Data.Access\Origin.Data.Access.csproj" />  
+    <ProjectReference Include="..\Origin\Origin.PdfSharp.1\Origin.PdfSharp.1.csproj" />
   </ItemGroup>
 
 </Project>

@@ -15,7 +15,8 @@
     <ProjectReference Include="..\Atlas.Requests\Atlas.Requests.csproj" />	  
     <ProjectReference Include="..\Origin\Origin.Blazor.Web\Origin.Blazor.Web.csproj" />	  
     <ProjectReference Include="..\Origin\Origin.Core.Validation\Origin.Core.Validation.csproj" />	  
-    <ProjectReference Include="..\Origin\Origin.Requests\Origin.Requests.csproj" />
+    <ProjectReference Include="..\Origin\Origin.Requests\Origin.Requests.csproj" />	  
+    <ProjectReference Include="..\Origin\Origin.Service\Origin.Service.csproj" />
     <PackageReference Include="Auth0.AspNetCore.Authentication" Version="1.4.1" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.10" />
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" Version="4.10.2" />

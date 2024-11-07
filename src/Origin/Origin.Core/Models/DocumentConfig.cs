@@ -45,6 +45,9 @@ namespace Origin.Core.Models
         [NotMapped]
         public string? FilenameTemplate { get; set; }
 
+        [NotMapped]
+        public bool ApplySubstitutes { get; set; }
+
         protected override void PropagateReadOnly()
         {
             foreach(DocumentSubstitute substitute in Substitutes)

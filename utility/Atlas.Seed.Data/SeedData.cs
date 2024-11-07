@@ -376,8 +376,8 @@ namespace Atlas.Seed.Data
 
             documentConfigTemplate.ConfigParagraphs.Add(new DocumentConfigParagraph { Order = 1, DocumentParagraph = documentParagraphs.First(p => p.Name == ParagraphNames.FOOTER_PARAGRAPH) });
             documentConfigTemplate.ConfigParagraphs.Add(new DocumentConfigParagraph { Order = 2, DocumentParagraph = documentParagraphs.First(p => p.Name == ParagraphNames.LETTER_HEAD_TABLE) });
-            documentConfigTemplate.ConfigParagraphs.Add(new DocumentConfigParagraph { Order = 2, DocumentParagraph = documentParagraphs.First(p => p.Name == ParagraphNames.LETTER_TITLE_PARAGRAPH) });
-            documentConfigTemplate.ConfigParagraphs.Add(new DocumentConfigParagraph { Order = 2, DocumentParagraph = documentParagraphs.First(p => p.Name == ParagraphNames.SIGNATURE_TABLE) });
+            documentConfigTemplate.ConfigParagraphs.Add(new DocumentConfigParagraph { Order = 3, DocumentParagraph = documentParagraphs.First(p => p.Name == ParagraphNames.LETTER_TITLE_PARAGRAPH) });
+            documentConfigTemplate.ConfigParagraphs.Add(new DocumentConfigParagraph { Order = 4, DocumentParagraph = documentParagraphs.First(p => p.Name == ParagraphNames.SIGNATURE_TABLE) });
 
             dbContext.DocumentConfigs.Add(documentConfigTemplate);
 

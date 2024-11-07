@@ -17,6 +17,9 @@
     [Inject]
     public IDialogService? DialogService { get; set; }
 
+    [Inject]
+    public IOriginDocumentRequests? OriginDocumentRequests { get; set; }
+
     [Parameter]
     public bool Clone { get; set; }
 
@@ -86,17 +89,21 @@
     public async Task OnView()
     {
         if (DialogService == null) throw new NullReferenceException(nameof(DialogService));
+        if (OriginDocumentRequests == null) throw new NullReferenceException(nameof(OriginDocumentRequests));
+        if (Model == null) throw new NullReferenceException(nameof(Model));
 
         DialogParameters parameters = new()
             {
-                Title = $"{Model?.DocumentConfigId} {Model?.Name}",
+                Title = $"{Model.DocumentConfigId} {Model.Name}",
                 Width = "1000px",
                 Height = "700px",
                 Modal = true,
                 PreventScroll = false
             };
 
-        DocumentViewerContent? documentViewerContent = new() { Document = File.ReadAllBytes(@"C:\GitHub\atlas-origin\utility\output\TestDocx_123.pdf") };
+        byte[] bytes = await OriginDocumentRequests.GeneratePdfAsync(Model).ConfigureAwait(false);
+
+        DocumentViewerContent? documentViewerContent = new() { Document = bytes };
 
         IDialogReference dialog = await DialogService.ShowDialogAsync<DocumentViewerDialog>(documentViewerContent, parameters);
 
@@ -107,15 +114,15 @@
     {
         @if (_id > 0)
         {
-            <FluentButton Id="clone-document" aria-label="clone-document" Type="ButtonType.Button" OnClick="OnClone" Disabled="@_isProcessing">
-                <FluentIcon Value="@(new Icons.Regular.Size20.DocumentCopy())" Title="Clone" />
-            </FluentButton>
-            <FluentTooltip Anchor="clone-document" Position=TooltipPosition.Right>Clone document</FluentTooltip>
-
             <FluentButton Id="view-document" aria-label="view-document" Type="ButtonType.Button" OnClick="OnView" Disabled="@_isProcessing">
                 <FluentIcon Value="@(new Icons.Regular.Size20.DocumentSync())" Title="View" />
             </FluentButton>
             <FluentTooltip Anchor="view-document" Position=TooltipPosition.Right>View document</FluentTooltip>
+
+            <FluentButton Id="clone-document" aria-label="clone-document" Type="ButtonType.Button" OnClick="OnClone" Disabled="@_isProcessing">
+                <FluentIcon Value="@(new Icons.Regular.Size20.DocumentCopy())" Title="Clone" />
+            </FluentButton>
+            <FluentTooltip Anchor="clone-document" Position=TooltipPosition.Right>Clone document</FluentTooltip>
         }
     };
 
