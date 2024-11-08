@@ -56,6 +56,15 @@
 </FluentDialogFooter>
 
 @code {
+    [CascadingParameter]
+    public Task<AuthenticationState>? AuthenticationState { get; set; }
+
+    [Inject]
+    public NavigationManager? NavigationManager { get; set; }
+
+    [Inject]
+    public ILogService? LoggingService { get; set; }
+
     [Inject]
     public IGenericRequests? GenericRequests { get; set; }
 
@@ -70,6 +79,8 @@
 
     [Parameter]
     public ParagraphsDialogContent Content { get; set; } = default!;
+
+    private string? _user;
 
     public IQueryable<ParagraphSelect>? FilteredItems
     {
@@ -90,67 +101,87 @@
 
     protected override async Task OnInitializedAsync()
     {
-        ArgumentNullException.ThrowIfNull(GenericRequests);
-        ArgumentNullException.ThrowIfNull(Content);
-
-        IResponse<IEnumerable<Origin.Core.Models.DocumentParagraph>> response
-                    = await GenericRequests.GetListAsync<Origin.Core.Models.DocumentParagraph>(OriginAPIEndpoints.GET_DOCUMENT_PARAGRAPHS)
-                                            .ConfigureAwait(false);
-
-        if (response.IsSuccess)
+        try
         {
-            _paragraphs = response.Result;
+            ArgumentNullException.ThrowIfNull(GenericRequests);
+            ArgumentNullException.ThrowIfNull(Content);
 
-            _paragrahSelects = _paragraphs?.Select(p => new ParagraphSelect
-                {
-                    DocumentParagraphId = p.DocumentParagraphId,
-                    Name = p.Name,
-                    DocumentParagraphType = p.DocumentParagraphType,
-                    Content = p.DisplayContent()
-                })
-                .ToList();
+            if (AuthenticationState != null)
+            {
+                AuthenticationState authenticationState = await AuthenticationState;
+                _user = authenticationState.User?.Identity?.Name;
+            }
+
+            IResponse<IEnumerable<Origin.Core.Models.DocumentParagraph>> response
+                        = await GenericRequests.GetListAsync<Origin.Core.Models.DocumentParagraph>(OriginAPIEndpoints.GET_DOCUMENT_PARAGRAPHS)
+                                                .ConfigureAwait(false);
+
+            if (response.IsSuccess)
+            {
+                _paragraphs = response.Result;
+
+                _paragrahSelects = _paragraphs?.Select(p => new ParagraphSelect
+                    {
+                        DocumentParagraphId = p.DocumentParagraphId,
+                        Name = p.Name,
+                        DocumentParagraphType = p.DocumentParagraphType,
+                        Content = p.DisplayContent()
+                    })
+                    .ToList();
+            }
+            else
+            {
+                _alert = new Atlas.Blazor.Web.Models.Alert
+                    {
+                        AlertType = Alerts.ERROR,
+                        Title = "Error",
+                        Message = response.Message
+                    };
+            }
         }
-        else
+        catch (Exception ex)
         {
-            _alert = new Atlas.Blazor.Web.Models.Alert
-                {
-                    AlertType = Alerts.ERROR,
-                    Title = "Error",
-                    Message = response.Message
-                };
+            RouteErrorAlert(ex.Message, new AtlasException(ex.Message, ex));
         }
     }
 
     private async Task View(ParagraphSelect paragraphSelect)
     {
-        if (_paragraphs == null) return;
+        try
+        {
+            if (_paragraphs == null) return;
 
-        if (paragraphSelect == null) throw new NullReferenceException(nameof(paragraphSelect));
-        if (DialogService == null) throw new NullReferenceException(nameof(DialogService));
-        if (OriginDocumentRequests == null) throw new NullReferenceException(nameof(OriginDocumentRequests));
+            if (paragraphSelect == null) throw new NullReferenceException(nameof(paragraphSelect));
+            if (DialogService == null) throw new NullReferenceException(nameof(DialogService));
+            if (OriginDocumentRequests == null) throw new NullReferenceException(nameof(OriginDocumentRequests));
 
-        DocumentParagraph documentParagraph = _paragraphs.First(p => p.DocumentParagraphId == paragraphSelect.DocumentParagraphId);
+            DocumentParagraph documentParagraph = _paragraphs.First(p => p.DocumentParagraphId == paragraphSelect.DocumentParagraphId);
 
-        DialogParameters parameters = new()
-            {
-                Title = $"{documentParagraph.DocumentParagraphId} {documentParagraph.Name}",
-                Width = "1000px",
-                Height = "700px",
-                Modal = true,
-                PreventScroll = false
-            };
+            DialogParameters parameters = new()
+                {
+                    Title = $"{documentParagraph.DocumentParagraphId} {documentParagraph.Name}",
+                    Width = "1000px",
+                    Height = "700px",
+                    Modal = true,
+                    PreventScroll = false
+                };
 
-        DocumentConfigParagraph documentConfigParagraph = new() { DocumentParagraph = documentParagraph };
-        DocumentConfig documentConfig = new() { Name = documentParagraph.Name };
-        documentConfig.ConfigParagraphs.Add(documentConfigParagraph);
+            DocumentConfigParagraph documentConfigParagraph = new() { DocumentParagraph = documentParagraph };
+            DocumentConfig documentConfig = new() { Name = documentParagraph.Name };
+            documentConfig.ConfigParagraphs.Add(documentConfigParagraph);
 
-        byte[] bytes = await OriginDocumentRequests.GeneratePdfAsync(documentConfig).ConfigureAwait(false);
+            byte[] bytes = await OriginDocumentRequests.GeneratePdfAsync(documentConfig).ConfigureAwait(false);
 
-        DocumentViewerContent? documentViewerContent = new() { Document = bytes };
+            DocumentViewerContent? documentViewerContent = new() { Document = bytes };
 
-        IDialogReference dialog = await DialogService.ShowDialogAsync<DocumentViewerDialog>(documentViewerContent, parameters);
+            IDialogReference dialog = await DialogService.ShowDialogAsync<DocumentViewerDialog>(documentViewerContent, parameters);
 
-        DialogResult? result = await dialog.Result;
+            DialogResult? result = await dialog.Result;
+        }
+        catch (Exception ex)
+        {
+            RouteErrorAlert(ex.Message, new AtlasException(ex.Message, ex));
+        }
     }
 
     private void HandleFilter(ChangeEventArgs args)
@@ -171,20 +202,49 @@
 
     private async Task OkClickAsync()
     {
-        if(_paragrahSelects != null)
+        try
         {
-            Content.Paragraphs = (from p in _paragraphs
-                             join ps in _paragrahSelects on p.DocumentParagraphId equals ps.DocumentParagraphId
-                             where ps.IsSelected
-                             select p).ToList();             
-        }
+            if (_paragrahSelects != null)
+            {
+                Content.Paragraphs = (from p in _paragraphs
+                                      join ps in _paragrahSelects on p.DocumentParagraphId equals ps.DocumentParagraphId
+                                      where ps.IsSelected
+                                      select p).ToList();
+            }
 
-        await Dialog!.CloseAsync(Content);
+            await Dialog!.CloseAsync(Content);
+        }
+        catch (Exception ex)
+        {
+            RouteErrorAlert(ex.Message, new AtlasException(ex.Message, ex));
+        }
     }
 
     private async Task CancelClickAsync()
     {
-        Content.Paragraphs.Clear();
-        await Dialog!.CloseAsync(Content);
+        try
+        {
+            Content.Paragraphs.Clear();
+
+            await Dialog!.CloseAsync(Content);
+        }
+        catch (Exception ex)
+        {
+            RouteErrorAlert(ex.Message, new AtlasException(ex.Message, ex));
+        }
+    }
+
+    private void RouteErrorAlert(string? message, AtlasException? ex = null)
+    {
+        Atlas.Blazor.Web.Models.Alert alert = new Atlas.Blazor.Web.Models.Alert
+            {
+                AlertType = "Error",
+                Title = "Paragraphs Dialog",
+                Message = ex?.Message
+            };
+
+        LoggingService?.Log(LogLevel.Error, ex.Message, ex, _user);
+
+        NavigationManager?.NavigateTo(alert.Route);
     }
 }
