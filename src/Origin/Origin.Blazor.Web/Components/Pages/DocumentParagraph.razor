@@ -87,30 +87,37 @@
 
     public async Task OnView()
     {
-        if (DialogService == null) throw new NullReferenceException(nameof(DialogService));
-        if (OriginDocumentRequests == null) throw new NullReferenceException(nameof(OriginDocumentRequests));
-        if (Model == null) throw new NullReferenceException(nameof(Model));
+        try
+        {
+            if (DialogService == null) throw new NullReferenceException(nameof(DialogService));
+            if (OriginDocumentRequests == null) throw new NullReferenceException(nameof(OriginDocumentRequests));
+            if (Model == null) throw new NullReferenceException(nameof(Model));
 
-        DialogParameters parameters = new()
-            {
-                Title = $"{Model.DocumentParagraphId} {Model.Name}",
-                Width = "1000px",
-                Height = "700px",
-                Modal = true,
-                PreventScroll = false
-            };
+            DialogParameters parameters = new()
+                {
+                    Title = $"{Model.DocumentParagraphId} {Model.Name}",
+                    Width = "1000px",
+                    Height = "700px",
+                    Modal = true,
+                    PreventScroll = false
+                };
 
-        DocumentConfigParagraph documentConfigParagraph = new() { DocumentParagraph = Model };
-        Origin.Core.Models.DocumentConfig documentConfig = new() { Name = Model.Name };
-        documentConfig.ConfigParagraphs.Add(documentConfigParagraph);
+            DocumentConfigParagraph documentConfigParagraph = new() { DocumentParagraph = Model };
+            Origin.Core.Models.DocumentConfig documentConfig = new() { Name = Model.Name };
+            documentConfig.ConfigParagraphs.Add(documentConfigParagraph);
 
-        byte[] bytes = await OriginDocumentRequests.GeneratePdfAsync(documentConfig).ConfigureAwait(false);
+            byte[] bytes = await OriginDocumentRequests.GeneratePdfAsync(documentConfig).ConfigureAwait(false);
 
-        DocumentViewerContent? documentViewerContent = new() { Document = bytes };
+            DocumentViewerContent? documentViewerContent = new() { Document = bytes };
 
-        IDialogReference dialog = await DialogService.ShowDialogAsync<DocumentViewerDialog>(documentViewerContent, parameters);
+            IDialogReference dialog = await DialogService.ShowDialogAsync<DocumentViewerDialog>(documentViewerContent, parameters);
 
-        DialogResult? result = await dialog.Result;
+            DialogResult? result = await dialog.Result;
+        }
+        catch (Exception ex)
+        {
+            RouteAlert(Alerts.ERROR, $"{Title} Error", ex.Message, new AtlasException(ex.Message, ex));
+        }
     }
 
     public override RenderFragment RenderAdditionalToolbarButtons() => __builder =>
