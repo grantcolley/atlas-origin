@@ -210,7 +210,10 @@ namespace Origin.Data.Access.Data
             try
             {
                 return await _applicationDbContext.DocumentParagraphs
-                    .Include(p => p.Contents)
+                   .Include(p => p.Contents)
+                    .Include(p => p.Columns)
+                    .Include(p => p.Rows)
+                    .Include(p => p.Cells)
                     .AsNoTracking()
                     .ToListAsync(cancellationToken)
                     .ConfigureAwait(false);
