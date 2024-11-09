@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
 using Origin.Core.Models;
 using Origin.Data.Access.Interfaces;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Origin.Data.Access.Data
 {
@@ -142,6 +143,8 @@ namespace Origin.Data.Access.Data
             try
             {
                 DocumentConfig existingDocumentConfig = await _applicationDbContext.DocumentConfigs
+                    .Include(d => d.Substitutes)
+                    .Include(d => d.ConfigParagraphs)
                     .FirstOrDefaultAsync(d => d.DocumentConfigId.Equals(updateDocumentConfig.DocumentConfigId), cancellationToken)
                     .ConfigureAwait(false)
                     ?? throw new NullReferenceException(
@@ -151,9 +154,9 @@ namespace Origin.Data.Access.Data
                     .Entry(existingDocumentConfig)
                     .CurrentValues.SetValues(updateDocumentConfig);
 
-                await UpdateDocumentSubstitutesAsync(existingDocumentConfig, updateDocumentConfig).ConfigureAwait(false);
+                UpdateDocumentSubstitutes(existingDocumentConfig, updateDocumentConfig);
 
-                await UpdateDocumentConfigParagraphsAsync(existingDocumentConfig, updateDocumentConfig).ConfigureAwait(false);
+                UpdateDocumentConfigParagraphs(existingDocumentConfig, updateDocumentConfig);
 
                 _applicationDbContext.DocumentConfigs.Update(existingDocumentConfig);
 
@@ -631,12 +634,13 @@ namespace Origin.Data.Access.Data
             }
         }
 
-        private async Task UpdateDocumentSubstitutesAsync(DocumentConfig existingDocument, DocumentConfig updateDocument)
+        private void UpdateDocumentSubstitutes(DocumentConfig existingDocument, DocumentConfig updateDocument)
         {
             List<DocumentSubstitute> documentSubstitutes = updateDocument.Substitutes
                 .Where(s => s.DocumentSubstituteId > 0)
                 .ToList();
 
+            // remove existing substitutes that are no longer linked to the existing document.
             List<DocumentSubstitute> removeSubstitutes = existingDocument.Substitutes
                 .Where(rs => !documentSubstitutes.Any(s => s.DocumentSubstituteId.Equals(rs.DocumentSubstituteId)))
                 .ToList();
@@ -648,43 +652,41 @@ namespace Origin.Data.Access.Data
 
             if (documentSubstitutes.Count > 0)
             {
-                List<int> documentSubstituteIds = documentSubstitutes.Select(s => s.DocumentSubstituteId).ToList();
-
-                IEnumerable<DocumentSubstitute> existingSubstitutes = await _applicationDbContext.DocumentSubstitutes
-                    .Where(s => documentSubstituteIds.Contains(s.DocumentSubstituteId))
-                    .ToListAsync();
-
-                foreach (DocumentSubstitute existingSubstitute in existingSubstitutes)
+                (DocumentSubstitute existing, DocumentSubstitute update) GetMatch(DocumentSubstitute existing, DocumentSubstitute update)
                 {
-                    DocumentSubstitute documentSubstitute = documentSubstitutes
-                        .First(s => s.DocumentSubstituteId == existingSubstitute.DocumentSubstituteId);
+                    return (existing, update);
+                };
 
+                // update existing substitutes that are linked to the existing document.
+                var matches = from existing in existingDocument.Substitutes
+                              join update in documentSubstitutes on existing.DocumentSubstituteId equals update.DocumentSubstituteId
+                              select GetMatch(existing, update);
+
+                foreach (var (existing, update) in matches)
+                {
                     _applicationDbContext
-                        .Entry(existingSubstitute)
-                        .CurrentValues.SetValues(documentSubstitute);
+                        .Entry(existing)
+                        .CurrentValues.SetValues(update);
 
-                    _applicationDbContext.DocumentSubstitutes.Update(existingSubstitute);
+                    _applicationDbContext.DocumentSubstitutes.Update(existing);
                 }
             }
 
+            // new substitutes to be added to the existing document.
             List<DocumentSubstitute> newSubstitutes = updateDocument.Substitutes
                 .Where(s => s.DocumentSubstituteId == 0)
                 .ToList();
 
-            foreach (DocumentSubstitute substitute in newSubstitutes)
-            {
-                await _applicationDbContext.DocumentSubstitutes.AddAsync(substitute).ConfigureAwait(false);
-
-                existingDocument.Substitutes.Add(substitute);
-            }
+            existingDocument.Substitutes.AddRange(newSubstitutes);
         }
 
-        private async Task UpdateDocumentConfigParagraphsAsync(DocumentConfig existingDocument, DocumentConfig updateDocument)
+        private void UpdateDocumentConfigParagraphs(DocumentConfig existingDocument, DocumentConfig updateDocument)
         {
             List<DocumentConfigParagraph> documentConfigParagraphs = updateDocument.ConfigParagraphs
                 .Where(p => p.DocumentConfigParagraphId > 0)
                 .ToList();
 
+            // remove existing configParagraphs that are no longer linked to the existing document.
             List<DocumentConfigParagraph> removeDocumentConfigParagraphs = existingDocument.ConfigParagraphs
                 .Where(rp => !documentConfigParagraphs.Any(p => p.DocumentConfigParagraphId.Equals(rp.DocumentConfigParagraphId)))
                 .ToList();
@@ -696,35 +698,32 @@ namespace Origin.Data.Access.Data
 
             if (documentConfigParagraphs.Count > 0)
             {
-                List<int> documentConfigParagraphIds = documentConfigParagraphs.Select(s => s.DocumentConfigParagraphId).ToList();
-
-                IEnumerable<DocumentConfigParagraph> existingDocumentConfigParagraphs = await _applicationDbContext.DocumentConfigParagraphs
-                    .Where(p => documentConfigParagraphIds.Contains(p.DocumentConfigParagraphId))
-                    .ToListAsync();
-
-                foreach (DocumentConfigParagraph existingDocumentConfigParagraph in existingDocumentConfigParagraphs)
+                (DocumentConfigParagraph existing, DocumentConfigParagraph update) GetMatch(DocumentConfigParagraph existing, DocumentConfigParagraph update)
                 {
-                    DocumentConfigParagraph documentConfigParagraph = documentConfigParagraphs
-                        .First(p => p.DocumentConfigParagraphId == existingDocumentConfigParagraph.DocumentConfigParagraphId);
+                    return (existing, update);
+                };
 
+                // update existing configParagraphs that are linked to the existing document.
+                var matches = from existing in existingDocument.ConfigParagraphs
+                              join update in documentConfigParagraphs on existing.DocumentConfigParagraphId equals update.DocumentConfigParagraphId
+                              select GetMatch(existing, update);
+
+                foreach (var (existing, update) in matches)
+                {
                     _applicationDbContext
-                        .Entry(existingDocumentConfigParagraph)
-                        .CurrentValues.SetValues(documentConfigParagraph);
+                        .Entry(existing)
+                        .CurrentValues.SetValues(update);
 
-                    _applicationDbContext.DocumentConfigParagraphs.Update(existingDocumentConfigParagraph);
+                    _applicationDbContext.DocumentConfigParagraphs.Update(existing);
                 }
             }
 
+            // new configParagraphs to be added to the existing document.
             List<DocumentConfigParagraph> newDocumentConfigParagraphs = updateDocument.ConfigParagraphs
                 .Where(p => p.DocumentConfigParagraphId == 0)
                 .ToList();
 
-            foreach (DocumentConfigParagraph documentConfigParagraph in newDocumentConfigParagraphs)
-            {
-                await _applicationDbContext.DocumentConfigParagraphs.AddAsync(documentConfigParagraph).ConfigureAwait(false);
-
-                existingDocument.ConfigParagraphs.Add(documentConfigParagraph);
-            }
+            existingDocument.ConfigParagraphs.AddRange(newDocumentConfigParagraphs);
         }
     }
 }
