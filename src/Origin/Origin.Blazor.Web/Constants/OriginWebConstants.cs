@@ -7,7 +7,6 @@
         public const string PAGE_DOCUMENT_PARAGRAPH = "DocumentParagraph";
         public const string PAGE_DOCUMENT_PARAGRAPHS = "DocumentParagraphs";
 
-
         public const string PAGE_DOCUMENT_FONT = "DocumentFont";
         public const string PAGE_DOCUMENT_FONTS = "DocumentFonts";
         public const string PAGE_DOCUMENT_COLOUR = "DocumentColour";
