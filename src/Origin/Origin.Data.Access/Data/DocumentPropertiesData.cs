@@ -36,7 +36,7 @@ namespace Origin.Data.Access.Data
                     .ConfigureAwait(false);
 
                 if (Authorisation == null
-                    || !Authorisation.HasPermission(Auth.DEVELOPER))
+                    || !Authorisation.HasPermission(Auth.DOCUMENT_WRITE))
                 {
                     documentFont.IsReadOnly = true;
                 }
@@ -161,7 +161,7 @@ namespace Origin.Data.Access.Data
                     .ConfigureAwait(false);
 
                 if (Authorisation == null
-                    || !Authorisation.HasPermission(Auth.DEVELOPER))
+                    || !Authorisation.HasPermission(Auth.DOCUMENT_WRITE))
                 {
                     documentColour.IsReadOnly = true;
                 }
