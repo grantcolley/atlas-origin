@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
 using Origin.Core.Models;
 using Origin.Data.Access.Interfaces;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Origin.Data.Access.Data
 {
@@ -51,7 +50,7 @@ namespace Origin.Data.Access.Data
                     .ConfigureAwait(false);
 
                 if (Authorisation == null
-                    || !Authorisation.HasPermission(Auth.DEVELOPER))
+                    || !Authorisation.HasPermission(Auth.DOCUMENT_WRITE))
                 {
                     documentConfig.IsReadOnly = true;
                 }
@@ -241,7 +240,7 @@ namespace Origin.Data.Access.Data
                     .ConfigureAwait(false);
 
                 if (Authorisation == null
-                    || !Authorisation.HasPermission(Auth.DEVELOPER))
+                    || !Authorisation.HasPermission(Auth.DOCUMENT_WRITE))
                 {
                     documentParagraph.IsReadOnly = true;
                 }
