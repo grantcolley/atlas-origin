@@ -1,0 +1,119 @@
+﻿@page "/Customer"
+@page "/Customer/{Id:int?}"
+@rendermode @(new InteractiveServerRenderMode(prerender: false))
+@inherits ModelContainerBase<Commercial.Core.Models.Customer>
+
+@{
+    // Display the markup for the underlying base
+    // ModelContainerBase<T> we are inheriting.
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+    public override string? Title { get; set; } = "Customer";
+    public override string? APIGetEndpoint { get; set; } = CommercialAPIEndpoints.GET_CUSTOMER;
+    public override string? APICreateEndpoint { get; set; } = string.Empty;
+    public override string? APIUpdateEndpoint { get; set; } = string.Empty;
+    public override string? APIDeleteEndpoint { get; set; } = string.Empty;
+    public override string? ModelNameField { get; set; } = "Surname";
+    public override string? IdentityFieldName { get; set; } = "CustomerId";
+
+    public override RenderFragment RenderModelContent() => __builder =>
+    {
+        if (Model == null) throw new NullReferenceException(nameof(Model));
+
+        <FluentAccordion>
+
+            <FluentAccordionItem Expanded=true>
+                <HeadingTemplate>
+                    @if (Model.CustomerId.Equals(0))
+                    {
+                        <FluentLabel Typo="Typography.Body">New Customer</FluentLabel>
+                    }
+                    else
+                    {
+                        <FluentLabel Typo="Typography.Body">@($"Customer Id {Model.CustomerId}")</FluentLabel>
+                    }
+                </HeadingTemplate>
+                <ChildContent>
+                    <div>
+                        <FluentTextField Name="Title" @bind-Value="Model.Title" Label="Title" ReadOnly="@(Model.IsReadOnly)" />
+                        <FluentValidationMessage For="@(() => Model.Title)" />
+                    </div>
+                    <div>
+                        <FluentTextField Name="FirstName" @bind-Value="Model.FirstName" Label="First Name" ReadOnly="@(Model.IsReadOnly)" />
+                        <FluentValidationMessage For="@(() => Model.FirstName)" />
+                    </div>
+                    <div>
+                        <FluentTextField Name="Surname" @bind-Value="Model.Surname" Label="Surname" ReadOnly="@(Model.IsReadOnly)" />
+                        <FluentValidationMessage For="@(() => Model.Surname)" />
+                    </div>
+                    <div>
+                        <FluentTextField Name="Telephone" @bind-Value="Model.Telephone" Label="Telephone" ReadOnly="@(Model.IsReadOnly)" />
+                        <FluentValidationMessage For="@(() => Model.Telephone)" />
+                    </div>
+                    <div>
+                        <FluentTextField Name="Email" @bind-Value="Model.Email" Label="Email" ReadOnly="@(Model.IsReadOnly)" />
+                        <FluentValidationMessage For="@(() => Model.Email)" />
+                    </div>
+                    <div>
+                        <FluentTextField Name="SortCode" @bind-Value="Model.SortCode" Label="SortCode" ReadOnly="@(Model.IsReadOnly)" />
+                        <FluentValidationMessage For="@(() => Model.SortCode)" />
+                    </div>
+                    <div>
+                        <FluentTextField Name="AccountNumber" @bind-Value="Model.AccountNumber" Label="Account Number" ReadOnly="@(Model.IsReadOnly)" />
+                        <FluentValidationMessage For="@(() => Model.AccountNumber)" />
+                    </div>
+                    <div>
+                        <FluentTextField Name="Address1" @bind-Value="Model.Address1" Label="Address 1" ReadOnly="@(Model.IsReadOnly)" />
+                        <FluentValidationMessage For="@(() => Model.Address1)" />
+                    </div>
+                    <div>
+                        <FluentTextField Name="Address2" @bind-Value="Model.Address2" Label="Address 2" ReadOnly="@(Model.IsReadOnly)" />
+                        <FluentValidationMessage For="@(() => Model.Address2)" />
+                    </div>
+                    <div>
+                        <FluentTextField Name="Address3" @bind-Value="Model.Address3" Label="Address 3" ReadOnly="@(Model.IsReadOnly)" />
+                        <FluentValidationMessage For="@(() => Model.Address3)" />
+                    </div>
+                    <div>
+                        <FluentTextField Name="Address4" @bind-Value="Model.Address4" Label="Address 4" ReadOnly="@(Model.IsReadOnly)" />
+                        <FluentValidationMessage For="@(() => Model.Address4)" />
+                    </div>
+                    <div>
+                        <FluentTextField Name="Address5" @bind-Value="Model.Address5" Label="Address 5" ReadOnly="@(Model.IsReadOnly)" />
+                        <FluentValidationMessage For="@(() => Model.Address5)" />
+                    </div>
+                    <div>
+                        <FluentTextField Name="PostCode" @bind-Value="Model.PostCode" Label="Post Code" ReadOnly="@(Model.IsReadOnly)" />
+                        <FluentValidationMessage For="@(() => Model.PostCode)" />
+                    </div>
+                    <div>
+                        <FluentTextField Name="Country" @bind-Value="Model.Country" Label="Country" ReadOnly="@(Model.IsReadOnly)" />
+                        <FluentValidationMessage For="@(() => Model.Country)" />
+                    </div>
+                </ChildContent>
+            </FluentAccordionItem>
+
+            @if (Model.CustomerId > 0)
+            {
+                <FluentAccordionItem Expanded=true>
+                    <HeadingTemplate>
+                        Products
+                    </HeadingTemplate>
+                    <ChildContent>
+                        <GenericSortableGrid T="Commercial.Core.Models.Product"
+                                             Source="@Model.Products.OrderBy(r => r.Name)"
+                                             Fields="@(new List<string>{ "ProductId", "Name", "ProductType", "RateType", "RepaymentType", "StartDate", "Duration", "Rate", "Value" })"
+                                             Header="Products"
+                                             FilterFieldName="Name"
+                                             FilterPlaceholder="Product..."
+                                             EmptyText="This customer has no products."
+                                             GridTemplateColumns="0.2fr 1fr 0.2fr 0.2fr 0.2fr 0.2fr 0.2fr 0.2fr 0.2fr" />
+                    </ChildContent>
+                </FluentAccordionItem>
+            }
+
+        </FluentAccordion>
+    };
+}

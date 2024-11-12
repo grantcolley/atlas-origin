@@ -9,5 +9,7 @@
         public const string SUPPORT = "Support";
         public const string DOCUMENT_READ = "Document-Read";
         public const string DOCUMENT_WRITE = "Document-Write";
+        public const string COMMERCIAL_READ = "Commercial-Read";
+        public const string COMMERCIAL_WRITE = "Commercial-Write";
     }
 }

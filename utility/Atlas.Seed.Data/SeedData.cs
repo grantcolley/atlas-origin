@@ -2,6 +2,9 @@
 using Atlas.Core.Constants;
 using Atlas.Core.Models;
 using Atlas.Data.Context;
+using Commercial.Blazor.Web.Constants;
+using Commercial.Core.Models;
+using Commercial.Test.Data;
 using Microsoft.EntityFrameworkCore;
 using Origin.Blazor.Web.Constants;
 using Origin.Core.Models;
@@ -29,6 +32,7 @@ namespace Atlas.Seed.Data
             AddApplications();
 
             AddOriginDocuments();
+            AddCommercialData();
         }
 
         private static void TruncateTables()
@@ -71,6 +75,11 @@ namespace Atlas.Seed.Data
             ((DbContext)dbContext).Database.ExecuteSqlRaw("DBCC CHECKIDENT (DocumentFonts, RESEED, 1)");
             ((DbContext)dbContext).Database.ExecuteSqlRaw("TRUNCATE TABLE DocumentColours");
             ((DbContext)dbContext).Database.ExecuteSqlRaw("DBCC CHECKIDENT (DocumentColours, RESEED, 1)");
+
+            ((DbContext)dbContext).Database.ExecuteSqlRaw("DELETE FROM Customers");
+            ((DbContext)dbContext).Database.ExecuteSqlRaw("DBCC CHECKIDENT (Customers, RESEED, 1)");
+            ((DbContext)dbContext).Database.ExecuteSqlRaw("TRUNCATE TABLE Products");
+            ((DbContext)dbContext).Database.ExecuteSqlRaw("DBCC CHECKIDENT (Products, RESEED, 1)");
         }
 
         private static void CreatePermissions()
@@ -83,6 +92,8 @@ namespace Atlas.Seed.Data
             permissions.Add(Auth.DEVELOPER, new Permission { Code = Auth.DEVELOPER, Name = Auth.DEVELOPER, Description = "Atlas Developer Permission" });
             permissions.Add(Auth.DOCUMENT_READ, new Permission { Code = Auth.DOCUMENT_READ, Name = Auth.DOCUMENT_READ, Description = "Origin Document Read Permission" });
             permissions.Add(Auth.DOCUMENT_WRITE, new Permission { Code = Auth.DOCUMENT_WRITE, Name = Auth.DOCUMENT_WRITE, Description = "Origin Document Write Permission" });
+            permissions.Add(Auth.COMMERCIAL_READ, new Permission { Code = Auth.COMMERCIAL_READ, Name = Auth.COMMERCIAL_READ, Description = "Commercial Read Permission" });
+            permissions.Add(Auth.COMMERCIAL_WRITE, new Permission { Code = Auth.COMMERCIAL_WRITE, Name = Auth.COMMERCIAL_WRITE, Description = "Commercial Write Permission" });
 
             foreach (Permission permission in permissions.Values)
             {
@@ -121,6 +132,8 @@ namespace Atlas.Seed.Data
             roles[Auth.DEVELOPER].Permissions.Add(permissions[Auth.DEVELOPER]);
             roles[Auth.DEVELOPER].Permissions.Add(permissions[Auth.DOCUMENT_READ]);
             roles[Auth.DEVELOPER].Permissions.Add(permissions[Auth.DOCUMENT_WRITE]);
+            roles[Auth.DEVELOPER].Permissions.Add(permissions[Auth.COMMERCIAL_READ]);
+            //roles[Auth.DEVELOPER].Permissions.Add(permissions[Auth.COMMERCIAL_WRITE]);
 
             dbContext.SaveChanges();
         }
@@ -159,6 +172,7 @@ namespace Atlas.Seed.Data
             AddAdministration();
             AddSupport();
             AddOrigin();
+            AddCommercial();
         }
 
         private static void AddAdministration()
@@ -407,6 +421,47 @@ namespace Atlas.Seed.Data
             {
                 documentTableCell.DocumentTableCellId = 0;
             }
+        }
+
+        private static void AddCommercial()
+        {
+            if (dbContext == null) throw new NullReferenceException(nameof(dbContext));
+
+            Module commercialModule = new() { Name = "Commercial", Icon = "BuildingBank", Order = 4, Permission = Auth.COMMERCIAL_READ };
+
+            dbContext.Modules.Add(commercialModule);
+
+            dbContext.SaveChanges();
+
+            Category salesCategory = new() { Name = "Sales", Icon = "Money", Order = 1, Permission = Auth.DOCUMENT_READ, Module = commercialModule };
+
+            commercialModule.Categories.Add(salesCategory);
+
+            dbContext.Categories.Add(salesCategory);
+
+            dbContext.SaveChanges();
+
+            Page customersPage = new() { Name = "Customers", Icon = "PeopleMoney", Route = CommercialWebConstants.PAGE_CUSTOMERS, Order = 1, Permission = Auth.COMMERCIAL_READ, Category = salesCategory };
+
+            salesCategory.Pages.Add(customersPage);
+
+            dbContext.Pages.Add(customersPage);
+
+            dbContext.SaveChanges();
+        }
+
+        private static void AddCommercialData()
+        {
+            if (dbContext == null) throw new NullReferenceException(nameof(dbContext));
+
+            List<Customer> customers = CommercialData.GetCustomers();
+
+            foreach (var customer in customers)
+            {
+                dbContext.Customers.Add(customer);
+            }
+
+            dbContext.SaveChanges();
         }
     }
 }

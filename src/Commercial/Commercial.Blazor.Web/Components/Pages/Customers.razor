@@ -1,0 +1,40 @@
+﻿@page "/Customers"
+@rendermode @(new InteractiveServerRenderMode(prerender: false))
+@inherits GridContainerBase<Commercial.Core.Models.Customer>
+
+@{
+    // Display the markup for the underlying base 
+    // GenericGridContainer<T> we are inheriting.
+    base.BuildRenderTree(__builder);
+}
+
+@code{
+    public override string? Title { get; set; } = "Document Configurations";
+    public override string? NavigateTo { get; set; } = CommercialWebConstants.PAGE_CUSTOMER;
+    public override string? APIEndpoint { get; set; } = CommercialAPIEndpoints.GET_CUSTOMERS;
+    public override int ItemsPerPage { get; set; } = 14;
+    public override string? FilterFieldName { get; set; } = "Surname";
+    public override string? IdentityFieldName { get; set; } = "CustomerId";
+    public override string? CreatePermission { get; set; }
+
+    public override RenderFragment RenderGridContent() => __builder =>
+    {
+        <FluentDataGrid TGridItem=Commercial.Core.Models.Customer Items="@FilteredItems"
+                                Style="height: 700px;overflow:auto;" GridTemplateColumns="0.2fr 0.5fr 1fr"
+                        ResizableColumns=true GenerateHeader="GenerateHeaderOption.Sticky"
+                        Pagination="@Pagination">
+            <PropertyColumn Property="@(d => d.CustomerId)" Sortable="true" Align="Align.Center" Title="Customer Id"/>
+                    <PropertyColumn Property="@(d => d.FirstName)" Sortable="true" Tooltip="true" Title="First Name"/>
+            <PropertyColumn Property="@(d => d.Surname)" Sortable="true" Filtered="!string.IsNullOrWhiteSpace(Filter)" Tooltip="true" Title="Surname">
+                <ColumnOptions>
+                    <div class="search-box">
+                        <FluentSearch type="filter" Autofocus=true @bind-Value=Filter @oninput="HandleFilter" @bind-Value:after="HandleClear" Placeholder="Surname..." />
+                    </div>
+                </ColumnOptions>
+            </PropertyColumn>
+            <TemplateColumn Align="@Align.Center">
+                <FluentButton aria-label="Open" IconEnd="@(new Icons.Regular.Size16.MoreHorizontal())" OnClick="@(() => Edit(context))" />
+            </TemplateColumn>
+        </FluentDataGrid>
+    };
+}

@@ -151,7 +151,8 @@ app.MapRazorComponents<App>()
     .AddAdditionalAssemblies(
         typeof(Atlas.Blazor.Web.App.Client._Imports).Assembly,
         typeof(Atlas.Blazor.Web._Imports).Assembly,
-        typeof(Origin.Blazor.Web._Imports).Assembly);
+        typeof(Origin.Blazor.Web._Imports).Assembly,
+        typeof(Commercial.Blazor.Web._Imports).Assembly);
 
 app.Services.AddAtlasRoutablePages()
             .AddAdditionalRoutableAssemblies(typeof(Atlas.Blazor.Web.App.Client._Imports).Assembly);

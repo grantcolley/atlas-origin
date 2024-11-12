@@ -10,6 +10,8 @@ using Atlas.Data.Access.Data;
 using Atlas.Data.Access.Interfaces;
 using Atlas.Data.Context;
 using Atlas.Seed.Data;
+using Commercial.Data.Access.Data;
+using Commercial.Data.Access.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http.Json;
 using Microsoft.EntityFrameworkCore;
@@ -83,6 +85,7 @@ builder.Services.AddScoped<IDocumentData, DocumentData>();
 builder.Services.AddScoped<IDocumentPropertiesData, DocumentPropertiesData>();
 builder.Services.AddScoped<IOriginOptionsData, OriginOptionsData>();
 builder.Services.AddScoped<IDocumentService, PdfDocumentService>();
+builder.Services.AddScoped<ICommercialData, CommercialData>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>

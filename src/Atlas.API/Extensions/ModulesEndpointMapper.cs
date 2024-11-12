@@ -1,4 +1,5 @@
-﻿using Atlas.API.Extensions.Origin;
+﻿using Atlas.API.Extensions.Commercial;
+using Atlas.API.Extensions.Origin;
 
 namespace Atlas.API.Extensions
 {
@@ -7,6 +8,7 @@ namespace Atlas.API.Extensions
         internal static WebApplication? MapAtlasModulesEndpoints(this WebApplication app)
         {
             app.MapAtlasOriginEndpoints();
+            app.MapAtlasCommercialEndpoints();
 
             return app;
         }

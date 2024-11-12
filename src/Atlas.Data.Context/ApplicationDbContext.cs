@@ -1,4 +1,5 @@
 ﻿using Atlas.Core.Models;
+using Commercial.Core.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Origin.Core.Models;
@@ -29,6 +30,9 @@ namespace Atlas.Data.Context
         public DbSet<DocumentSubstitute> DocumentSubstitutes { get; set; }
         public DbSet<DocumentFont> DocumentFonts { get; set; }
         public DbSet<DocumentColour> DocumentColours { get; set; }
+
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Product> Products { get; set; }
 
         public void SetUser(string user)
         {

@@ -13,6 +13,7 @@
     <ProjectReference Include="..\Atlas.Core\Atlas.Core.csproj" />
     <ProjectReference Include="..\Atlas.Core.Logging\Atlas.Core.Logging.csproj" />	  
     <ProjectReference Include="..\Atlas.Requests\Atlas.Requests.csproj" />	  
+    <ProjectReference Include="..\Commercial\Commercial.Blazor.Web\Commercial.Blazor.Web.csproj" />	  
     <ProjectReference Include="..\Origin\Origin.Blazor.Web\Origin.Blazor.Web.csproj" />	  
     <ProjectReference Include="..\Origin\Origin.Core.Validation\Origin.Core.Validation.csproj" />	  
     <ProjectReference Include="..\Origin\Origin.Requests\Origin.Requests.csproj" />	  
