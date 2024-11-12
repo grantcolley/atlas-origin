@@ -21,11 +21,13 @@
 
             <FluentValidationValidator />
 
-            @if (!@Model.IsReadOnly)
+            @if (!@Model.IsReadOnly 
+                && !string.IsNullOrWhiteSpace(_apiCreateEndpoint) 
+                && !string.IsNullOrWhiteSpace(_apiUpdateEndpoint))
             {
                 <FluentToolbar>
                     <FluentButton Id="submit" aria-label="Save" Type="ButtonType.Submit" IconEnd="@(new Icons.Regular.Size20.Save())" Disabled="@_isProcessing" />
-                    @if (_id > 0)
+                    @if (_id > 0 && !string.IsNullOrWhiteSpace(_apiDeleteEndpoint))
                     {
                         <FluentSpacer />
                         <FluentButton Id="delete" aria-label="Delete" Type="ButtonType.Button" OnClick="OnDeleteAsync" Disabled="@_isProcessing">
@@ -151,9 +153,6 @@
         ArgumentNullException.ThrowIfNull(GenericRequests);
         ArgumentNullException.ThrowIfNullOrWhiteSpace(_title);
         ArgumentNullException.ThrowIfNullOrWhiteSpace(_apiGetEndpoint);
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(_apiCreateEndpoint);
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(_apiUpdateEndpoint);
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(_apiDeleteEndpoint);
         ArgumentNullException.ThrowIfNullOrWhiteSpace(_identityFieldName);
         ArgumentNullException.ThrowIfNullOrWhiteSpace(_modelNameField);
 
