@@ -3,7 +3,6 @@ using Atlas.Requests.Base;
 using Atlas.Requests.Interfaces;
 using Atlas.Requests.Model;
 using System.Net.Http.Json;
-using System.Text.Json;
 
 namespace Atlas.Requests.API
 {
