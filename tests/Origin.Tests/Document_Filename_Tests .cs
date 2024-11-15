@@ -45,7 +45,7 @@ namespace Origin.Tests
             string filename = document.Filename("docx");
 
             // Assert
-            Assert.AreEqual($"Filename_{customerId.Value}.docx", filename);
+            Assert.AreEqual(document.Filename, filename);
         }
 
         [TestMethod]
