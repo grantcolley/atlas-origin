@@ -29,7 +29,9 @@ namespace Origin.Core.Extensions
             string fileName = document.FilenameTemplate.ApplySubstitutesToContent(substitutes, document.Config.SubstituteStart, document.Config.SubstituteEnd)
                 ?? throw new NullReferenceException(nameof(document.FilenameTemplate));
 
-            return $"{fileName}.{fileExtension}";
+            document.Filename = $"{fileName}.{fileExtension}";
+
+            return document.Filename;
         }
     }
 }
