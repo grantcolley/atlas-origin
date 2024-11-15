@@ -7,7 +7,6 @@ using Atlas.Data.Access.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Origin.Core.Models;
 using Origin.Service.Interface;
-using Origin.Test.Data;
 
 namespace Atlas.API.Endpoints.Origin
 {
