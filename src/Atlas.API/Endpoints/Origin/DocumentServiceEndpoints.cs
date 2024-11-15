@@ -13,7 +13,7 @@ namespace Atlas.API.Endpoints.Origin
 {
     public static class DocumentServiceEndpoints
     {
-        internal static async Task<IResult> GeneratePdf([FromBody] DocumentConfig documentConfig, IUserAuthorisationData userAuthorisationData, IDocumentService documentService, IClaimService claimService, ILogService logService, CancellationToken cancellationToken)
+        internal static async Task<IResult> GeneratePdf([FromBody] DocumentConfig documentConfig, IUserAuthorisationData userAuthorisationData, IDocumentGeneratorProvider documentGeneratorProvider, IClaimService claimService, ILogService logService, CancellationToken cancellationToken)
         {
             Authorisation? authorisation = null;
 
@@ -28,7 +28,9 @@ namespace Atlas.API.Endpoints.Origin
                     return Results.Unauthorized();
                 }
 
-                byte[] contents = documentService.BuildFile(documentConfig);
+                IDocumentGenerator documentGenerator = documentGeneratorProvider.GetDocumentGenerator(DocumentGeneratorType.PdfSharp);
+
+                byte[] contents = documentGenerator.Generate(documentConfig);
 
                 return Results.File(contents, "application/pdf");
             }

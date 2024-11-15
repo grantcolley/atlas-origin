@@ -1,4 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
+using Origin.Core.Extensions;
 using Origin.Core.Models;
 using Origin.OpenXml.Sevices;
 using Origin.PdfSharp.Services;
@@ -14,32 +15,37 @@ Console.WriteLine("Origin.Console!");
 
 string outputLocation = @"..\..\..\..\output";
 
+CancellationToken cancellationToken = new ();
 JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true, ReferenceHandler = ReferenceHandler.Preserve };
 
-IDocumentService[] documentServices = [new DocXDocumentService(), new PdfDocumentService()];
-IDocumentServiceProvider documentServiceProvider = new DocumentServiceProvider(documentServices);
-OriginService originationService = new(documentServiceProvider);
+// Eager load into the application domain
+_ = typeof(DocXDocumentGenerator).Assembly;
+_ = typeof(PdfDocumentGenerator).Assembly;
 
-DocumentConfig documentOpenXml = TestData.GetDocumentConfigOpenXml(outputLocation);
-DocumentConfig documentPdfSharp = TestData.GetDocumentArgsConfigSharp(outputLocation);
+IDocumentGeneratorProvider documentServiceProvider = new DocumentGeneratorProvider();
+DocumentWriterService originationWriterService = new(documentServiceProvider);
+
+Document documentOpenXml = TestData.GetDocumentOpenXml(outputLocation);
+Document documentPdfSharp = TestData.GetDocumentPdfSharp(outputLocation);
+
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+documentOpenXml.Config.ApplySubstitutes = true;
+documentPdfSharp.Config.ApplySubstitutes = true;
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
 
 try
 {
-    originationService.CreateFile(documentOpenXml, out string fullFilenameDocx);
+    string fullFilename = await originationWriterService.ExecuteAsync(documentOpenXml, cancellationToken).ConfigureAwait(false);
 
-    string json = JsonSerializer.Serialize(documentOpenXml, jsonSerializerOptions);
+    Console.WriteLine(JsonSerializer.Serialize(documentOpenXml, jsonSerializerOptions));
 
-    Console.WriteLine(json);
+    Process.Start(new ProcessStartInfo(fullFilename) { UseShellExecute = true });
 
-    Process.Start(new ProcessStartInfo(fullFilenameDocx) { UseShellExecute = true });
+    fullFilename = await originationWriterService.ExecuteAsync(documentPdfSharp, cancellationToken).ConfigureAwait(false);
 
-    originationService.CreateFile(documentPdfSharp, out string fullFilenamePdfSharp);
+    Console.WriteLine(JsonSerializer.Serialize(documentPdfSharp, jsonSerializerOptions));
 
-    json = JsonSerializer.Serialize(documentPdfSharp, jsonSerializerOptions);
-
-    Console.WriteLine(json);
-
-    Process.Start(new ProcessStartInfo(fullFilenamePdfSharp) { UseShellExecute = true });
+    Process.Start(new ProcessStartInfo(fullFilename) { UseShellExecute = true });
 }
 catch (Exception ex)
 {

@@ -1,6 +1,6 @@
 ﻿namespace Origin.Core.Models
 {
-    public enum DocumentServiceType
+    public enum DocumentGeneratorType
     {
         None,
         OpenXmlDocument,

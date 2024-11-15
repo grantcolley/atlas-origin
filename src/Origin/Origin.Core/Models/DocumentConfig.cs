@@ -37,15 +37,6 @@ namespace Origin.Core.Models
         public int PageMarginBottom { get; set; } = 55;
 
         [NotMapped]
-        public DocumentServiceType DocumentServiceType { get; set; }
-
-        [NotMapped]
-        public string? OutputLocation { get; set; }
-
-        [NotMapped]
-        public string? FilenameTemplate { get; set; }
-
-        [NotMapped]
         public bool ApplySubstitutes { get; set; }
 
         protected override void PropagateReadOnly()

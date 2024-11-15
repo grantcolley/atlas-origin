@@ -4,28 +4,34 @@ namespace Origin.Test.Data
 {
     public static class TestData
     {
-        public static DocumentConfig GetDocumentConfigOpenXml(string outputLocation)
+        public static Document GetDocumentOpenXml(string target, bool skipSubValues = false)
         {
-            DocumentConfig args = GetDocumentArgs(outputLocation);
-            args.DocumentServiceType = DocumentServiceType.OpenXmlDocument;
-            return args;
+            return new Document
+            {
+                DocumentGeneratorType = DocumentGeneratorType.OpenXmlDocument,
+                Target = target,
+                FilenameTemplate = $"TestDocx_[{Substitutes.CUSTOMER_ID}]",
+                Config = GetDocumentArgs(skipSubValues)
+            };
         }
 
-        public static DocumentConfig GetDocumentArgsConfigSharp(string outputLocation)
+        public static Document GetDocumentPdfSharp(string target, bool skipSubValues = false)
         {
-            DocumentConfig args = GetDocumentArgs(outputLocation);
-            args.DocumentServiceType = DocumentServiceType.PdfSharp;
-            return args;
+            return new Document
+            {
+                DocumentGeneratorType = DocumentGeneratorType.PdfSharp,
+                Target = target,
+                FilenameTemplate = $"TestPdf_[{Substitutes.CUSTOMER_ID}]",
+                Config = GetDocumentArgs(skipSubValues)
+            };
         }
 
-        public static DocumentConfig GetDocumentArgs(string? outputLocation, bool skipSubValues = false)
+        public static DocumentConfig GetDocumentArgs(bool skipSubValues = false)
         {
             DocumentConfig documentConfig = new()
             {
                 SubstituteStart = "[",
                 SubstituteEnd = "]",
-                OutputLocation = skipSubValues ? null : outputLocation,
-                FilenameTemplate = skipSubValues ? null : $"TestDocx_[{Substitutes.CUSTOMER_ID}]",
                 Substitutes = GetDocumentSubstitutes(skipSubValues)
             };
 

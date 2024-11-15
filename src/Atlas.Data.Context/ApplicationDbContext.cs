@@ -20,6 +20,7 @@ namespace Atlas.Data.Context
         public DbSet<Page> Pages { get; set; }
         public DbSet<Log> Logs { get; set; }
 
+        public DbSet<Document> Documents { get; set; }
         public DbSet<DocumentConfig> DocumentConfigs { get; set; }
         public DbSet<DocumentParagraph> DocumentParagraphs { get; set; }
         public DbSet<DocumentConfigParagraph> DocumentConfigParagraphs { get; set; }

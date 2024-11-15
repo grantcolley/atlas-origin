@@ -8,18 +8,18 @@ using PdfSharp.Pdf;
 
 namespace Origin.PdfSharp.Services
 {
-    public class PdfDocumentService : DocumentServiceBase
+    public class PdfDocumentGenerator : DocumentGeneratorBase
     {
-        public override DocumentFileExtension DocumentExtension => DocumentFileExtension.pdf;
-        public override DocumentServiceType DocumentServiceType => DocumentServiceType.PdfSharp;
+        public override DocumentFileExtension DocumentFileExtension => DocumentFileExtension.pdf;
+        public override DocumentGeneratorType DocumentGeneratorType => DocumentGeneratorType.PdfSharp;
 
-        public override byte[] CreateFile(DocumentConfig documentConfig)
+        protected override byte[] GenerateBytes(DocumentConfig documentConfig)
         {
             ArgumentNullException.ThrowIfNull(documentConfig);
 
             GlobalFontSettings.FontResolver = new CustomFontResolver();
 
-            Document document = new();
+            MigraDoc.DocumentObjectModel.Document document = new();
 
             Section section = document.CreateSectionProperties(documentConfig);
 

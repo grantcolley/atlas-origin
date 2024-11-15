@@ -1,5 +1,4 @@
 ﻿using Origin.Core.Models;
-using System.Linq;
 using System.Text;
 
 namespace Origin.Core.Extensions
@@ -26,31 +25,6 @@ namespace Origin.Core.Extensions
             {
                 configParagraph.DocumentConfigParagraphId = 0;
             }
-        }
-
-        /// <summary>
-        /// Apply substitutes to the FilenameTemplate.
-        /// </summary>
-        /// <param name="documentConfig"></param>
-        /// <returns>The full file name consisting of the <see cref="OutputLocation"/> and substituted file name.</returns>
-        /// <exception cref="NullReferenceException"></exception>
-        /// <exception cref="NotSupportedException"></exception>
-        public static string FullFilename(this DocumentConfig documentConfig)
-        {
-            if (string.IsNullOrWhiteSpace(documentConfig.FilenameTemplate)) throw new NullReferenceException(nameof(documentConfig.FilenameTemplate));
-            if (string.IsNullOrWhiteSpace(documentConfig.OutputLocation)) throw new NullReferenceException(nameof(documentConfig.OutputLocation));
-
-            Dictionary<string, DocumentSubstitute> substitutes = [];
-
-            foreach (DocumentSubstitute documentSubstitute in documentConfig.Substitutes)
-            {
-                substitutes.Add(documentSubstitute.Key ?? throw new NullReferenceException(nameof(documentSubstitute.Key)), documentSubstitute);
-            }
-
-            string fileName = documentConfig.FilenameTemplate.ApplySubstitutesToContent(substitutes, documentConfig.SubstituteStart, documentConfig.SubstituteEnd)
-                ?? throw new NullReferenceException(nameof(documentConfig.FilenameTemplate));
-
-            return Path.Combine(documentConfig.OutputLocation, fileName);
         }
 
         /// <summary>

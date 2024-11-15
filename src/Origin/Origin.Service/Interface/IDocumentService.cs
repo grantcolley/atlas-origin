@@ -2,11 +2,9 @@
 
 namespace Origin.Service.Interface
 {
-    public interface IDocumentService
+    public interface IDocumentService<T>
     {
-        DocumentFileExtension DocumentExtension { get; }
-        DocumentServiceType DocumentServiceType { get; }
-        byte[] CreateFile(DocumentConfig documentConfig);
-        byte[] BuildFile(DocumentConfig documentConfig);
+        Task<T> ExecuteAsync(Document document, CancellationToken cancellationToken);
+        Task ExecuteAsync(IEnumerable<Document> documents, ParallelOptions parallelOptions, CancellationToken cancellationToken);
     }
 }

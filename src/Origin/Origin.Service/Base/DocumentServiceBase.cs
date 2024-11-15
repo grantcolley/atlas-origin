@@ -1,27 +1,20 @@
-﻿using Origin.Core.Extensions;
-using Origin.Core.Models;
+﻿using Origin.Core.Models;
 using Origin.Service.Interface;
 
 namespace Origin.Service.Base
 {
-    public abstract class DocumentServiceBase : IDocumentService
+    public abstract class DocumentServiceBase<T>(IDocumentGeneratorProvider documentGeneratorProvider) : IDocumentService<T>
     {
-        public abstract DocumentFileExtension DocumentExtension { get; }
-        public abstract DocumentServiceType DocumentServiceType { get; }
-        public abstract byte[] CreateFile(DocumentConfig documentConfig);
+        protected readonly IDocumentGeneratorProvider _documentGeneratorProvider = documentGeneratorProvider ?? throw new ArgumentNullException(nameof(documentGeneratorProvider));
 
-        public byte[] BuildFile(DocumentConfig documentConfig)
+        public abstract Task<T> ExecuteAsync(Document document, CancellationToken cancellationToken);
+
+        public virtual async Task ExecuteAsync(IEnumerable<Document> documents, ParallelOptions parallelOptions, CancellationToken cancellationToken)
         {
-            ArgumentNullException.ThrowIfNull(documentConfig);
-
-            documentConfig.ConstructDocumentConfig();
-
-            if (documentConfig.ApplySubstitutes)
+            await Parallel.ForEachAsync(documents, parallelOptions, async (document, token) =>
             {
-                documentConfig.ApplySubstitutesToDocumentContent();
-            }
-
-            return CreateFile(documentConfig);
+                _ = await ExecuteAsync(document, token).ConfigureAwait(false);
+            });
         }
     }
 }

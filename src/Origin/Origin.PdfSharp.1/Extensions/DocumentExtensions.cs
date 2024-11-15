@@ -5,7 +5,7 @@ namespace Origin.PdfSharp.Extensions
 {
     public static class DocumentExtensions
     {
-        public static Section CreateSectionProperties(this Document document, DocumentConfig documentConfig)
+        public static Section CreateSectionProperties(this MigraDoc.DocumentObjectModel.Document document, DocumentConfig documentConfig)
         {
             ArgumentNullException.ThrowIfNull(documentConfig);
 

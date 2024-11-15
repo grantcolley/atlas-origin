@@ -356,7 +356,7 @@ namespace Atlas.Seed.Data
         {
             if (dbContext == null) throw new NullReferenceException(nameof(dbContext));
 
-            DocumentConfig documentConfig = TestData.GetDocumentArgs(null, true);
+            DocumentConfig documentConfig = TestData.GetDocumentArgs(true);
 
             documentConfig.Name = "Example Document";
             documentConfig.DocumentConfigId = 0;

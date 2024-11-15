@@ -21,7 +21,10 @@ using Origin.Core.Validation.Extensions;
 using Origin.Data.Access.Data;
 using Origin.Data.Access.Interfaces;
 using Origin.PdfSharp.Services;
+using Origin.Service.Extensions;
 using Origin.Service.Interface;
+using Origin.Service.Providers;
+using Origin.Service.Services;
 using Serilog;
 using System.Text.Json.Serialization;
 
@@ -36,6 +39,7 @@ builder.Host.UseSerilog((hostingContext, loggerConfiguration) =>
 
 builder.Services.AddAtlasValidators();
 builder.Services.AddOriginValidators();
+builder.Services.AddOriginAdditionalAssemblies(new[] { typeof(PdfDocumentGenerator).Assembly });
 
 builder.Services.AddEndpointsApiExplorer();
 
@@ -84,7 +88,8 @@ builder.Services.AddScoped<IUserAuthorisationData, UserAuthorisationData>();
 builder.Services.AddScoped<IDocumentData, DocumentData>();
 builder.Services.AddScoped<IDocumentPropertiesData, DocumentPropertiesData>();
 builder.Services.AddScoped<IOriginOptionsData, OriginOptionsData>();
-builder.Services.AddScoped<IDocumentService, PdfDocumentService>();
+builder.Services.AddScoped<IDocumentGeneratorProvider, DocumentGeneratorProvider>();
+builder.Services.AddScoped<IDocumentService<byte[]>, DocumentMemoryService>();
 builder.Services.AddScoped<ICommercialData, CommercialData>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

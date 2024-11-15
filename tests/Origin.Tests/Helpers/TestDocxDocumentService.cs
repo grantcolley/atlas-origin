@@ -3,12 +3,12 @@ using Origin.Service.Base;
 
 namespace Origin.Tests.Helpers
 {
-    public class TestDocxDocumentService : DocumentServiceBase
+    public class TestDocxDocumentService : DocumentGeneratorBase
     {
-        public override DocumentFileExtension DocumentExtension => DocumentFileExtension.docx;
-        public override DocumentServiceType DocumentServiceType => DocumentServiceType.OpenXmlDocument;
+        public override DocumentFileExtension DocumentFileExtension => DocumentFileExtension.docx;
+        public override DocumentGeneratorType DocumentGeneratorType => DocumentGeneratorType.OpenXmlDocument;
 
-        public override byte[] CreateFile(DocumentConfig documentConfig)
+        protected override byte[] GenerateBytes(DocumentConfig documentConfig)
         {
             throw new NotImplementedException();
         }

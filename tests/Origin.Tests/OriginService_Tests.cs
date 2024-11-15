@@ -1,6 +1,4 @@
 ﻿using Origin.Core.Models;
-using Origin.OpenXml.Sevices;
-using Origin.PdfSharp.Services;
 using Origin.Service.Interface;
 using Origin.Service.Providers;
 using Origin.Service.Services;
@@ -10,82 +8,110 @@ namespace Origin.Tests
     [TestClass]
     public class OriginService_Tests
     {
+        private static readonly CancellationToken cancellationToken = new();
+
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException), "documentServiceProvider")]
-        public void Constructor_DocumentServiceProvider_Null_Expected_ArgumentNullException()
+        [ExpectedException(typeof(ArgumentNullException), "documentGeneratorProvider")]
+        public void Constructor_DocumentGeneratorProvider_Null_Expected_ArgumentNullException()
         {
             // Arrange
-            IDocumentServiceProvider? documentServiceProvider = null;
+            IDocumentGeneratorProvider? documentGeneratorProvider = null;
 
             // Act
 #pragma warning disable CS8604 // Possible null reference argument.
-            _ = new OriginService(documentServiceProvider);
+            _ = new DocumentWriterService(documentGeneratorProvider);
+#pragma warning restore CS8604 // Possible null reference argument.
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException), "document")]
+        public async Task ExecuteAsync_Document_Null_Expected_ArgumentNullException()
+        {
+            // Arrange
+            DocumentGeneratorProvider documentServiceProvider = new();
+            DocumentWriterService service = new(documentServiceProvider);
+            Document? document = null;
+
+            // Act
+#pragma warning disable CS8604 // Possible null reference argument.
+            await service.ExecuteAsync(document, cancellationToken);
 #pragma warning restore CS8604 // Possible null reference argument.
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException), "documentConfig")]
-        public void TryCreate_DocumentConfig_Null_Expected_ArgumentNullException()
+        public async Task ExecuteAsync_DocumentConfig_Null_Expected_ArgumentNullException()
         {
             // Arrange
-            IDocumentService docxDocumentService = new DocXDocumentService();
-            IDocumentService pdfDocumentService = new PdfDocumentService();
-            DocumentServiceProvider documentServiceProvider = new([docxDocumentService, pdfDocumentService]);
-            OriginService originationService = new(documentServiceProvider);
-            DocumentConfig? documentConfig = null;
+            DocumentGeneratorProvider documentGeneratorProvider = new();
+            DocumentWriterService service = new(documentGeneratorProvider);
+            Document? document = new();
 
             // Act
 #pragma warning disable CS8604 // Possible null reference argument.
-            originationService.CreateFile(documentConfig, out _);
+            await service.ExecuteAsync(document, cancellationToken);
 #pragma warning restore CS8604 // Possible null reference argument.
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NullReferenceException), "OutputLocation")]
-        public void TryCreate_DocumentServiceType_None_Expected_NotSupportedException()
+        [ExpectedException(typeof(ArgumentNullException), "Config")]
+        public async Task ExecuteAsync_DocumentConfig_None_Expected_NotSupportedException()
         {
             // Arrange
-            IDocumentService docxDocumentService = new DocXDocumentService();
-            IDocumentService pdfDocumentService = new PdfDocumentService();
-            DocumentServiceProvider documentServiceProvider = new([docxDocumentService, pdfDocumentService]);
-            OriginService originationService = new(documentServiceProvider);
-            DocumentConfig? documentConfig = new();
+            DocumentGeneratorProvider documentGeneratorProvider = new();
+            DocumentWriterService service = new(documentGeneratorProvider);
+            Document? document = new();
 
             // Act
-            originationService.CreateFile(documentConfig, out _);
+            await service.ExecuteAsync(document, cancellationToken);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NullReferenceException), "Target")]
+        public async Task ExecuteAsync_DocumentGeneratorType_None_Expected_NotSupportedException()
+        {
+            // Arrange
+            DocumentGeneratorProvider documentGeneratorProvider = new();
+            DocumentWriterService service = new(documentGeneratorProvider);
+            Document? document = new() { Config = new DocumentConfig() };
+
+            // Act
+            await service.ExecuteAsync(document, cancellationToken);
         }
 
         [TestMethod]
         [ExpectedException(typeof(NotSupportedException), "DocumentServiceType.None")]
-        public void TryCreate_DocumentConfig_Null_Expected_NotSupportedException()
+        public async Task ExecuteAsync_DocumentConfig_Null_Expected_NotSupportedException()
         {
             // Arrange
-            IDocumentService docxDocumentService = new DocXDocumentService();
-            IDocumentService pdfDocumentService = new PdfDocumentService();
-            DocumentServiceProvider documentServiceProvider = new([docxDocumentService, pdfDocumentService]);
-            OriginService originationService = new(documentServiceProvider);
-            DocumentConfig? documentArgs = new() { OutputLocation = "test" };
-
-            // Act
-            originationService.CreateFile(documentArgs, out _);
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(NullReferenceException), "OriginDocument.Filename")]
-        public void TryCreate_OriginDocument_Filename_Null_Expected_NullReferenceException()
-        {
-            // Arrange
-            IDocumentService docxDocumentService = new DocXDocumentService();
-            IDocumentService pdfDocumentService = new PdfDocumentService();
-            DocumentServiceProvider documentServiceProvider = new([docxDocumentService, pdfDocumentService]);
-            OriginService originationService = new(documentServiceProvider);
-            DocumentConfig? documentArgs = new()
+            DocumentGeneratorProvider documentGeneratorProvider = new();
+            DocumentWriterService service = new(documentGeneratorProvider);
+            Document? document = new()
             {
-                DocumentServiceType = DocumentServiceType.OpenXmlDocument
+                Config = new DocumentConfig(),
+                Target = "test"
             };
 
             // Act
-            originationService.CreateFile(documentArgs, out _);
+            await service.ExecuteAsync(document, cancellationToken);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NullReferenceException), "OriginDocument.FilenameTemplate")]
+        public async Task ExecuteAsync_OriginDocument_FilenameTemplate_Null_Expected_NullReferenceException()
+        {
+            // Arrange
+            DocumentGeneratorProvider documentGeneratorProvider = new();
+            DocumentWriterService service = new(documentGeneratorProvider);
+            Document? document = new()
+            {
+                Config = new DocumentConfig(),
+                Target = "test",
+                DocumentGeneratorType = DocumentGeneratorType.OpenXmlDocument
+            };
+
+            // Act
+            await service.ExecuteAsync(document, cancellationToken);
         }
     }
 }
