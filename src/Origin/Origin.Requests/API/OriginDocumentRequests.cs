@@ -1,16 +1,27 @@
-﻿using Origin.Core.Constants;
+﻿using Atlas.Requests.Base;
+using Atlas.Requests.Interfaces;
+using Origin.Core.Constants;
 using Origin.Core.Models;
 using Origin.Requests.Interfaces;
 using System.Net.Http.Json;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace Origin.Requests.API
 {
-    public class OriginDocumentRequests(HttpClient httpClient) : IOriginDocumentRequests
+    public class OriginDocumentRequests(HttpClient httpClient) : RequestBase(httpClient), IOriginDocumentRequests
     {
-        protected static readonly JsonSerializerOptions _jsonSerializerOptions = new(JsonSerializerDefaults.Web) { ReferenceHandler = ReferenceHandler.IgnoreCycles };
-        protected readonly HttpClient _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+        public async Task<IResponse<Document>> GetCustomerDocumentAsync(int customerId)
+        {
+            if(customerId <= 0)
+            {
+                throw new ArgumentException($"Invalid {nameof(customerId)} {customerId}");
+            }
+
+            using HttpResponseMessage httpResponseMessage = await _httpClient.PostAsJsonAsync(OriginAPIEndpoints.GET_CUSTOMER_DOCUMENT, customerId, _jsonSerializerOptions)
+            .ConfigureAwait(false);
+
+            return await GetResponseAsync<Document>(httpResponseMessage)
+                .ConfigureAwait(false);
+        }
 
         public async Task<byte[]> GeneratePdfAsync(DocumentConfig documentConfig)
         {

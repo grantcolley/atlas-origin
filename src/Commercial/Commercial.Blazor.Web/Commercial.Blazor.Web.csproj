@@ -19,6 +19,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Atlas.Blazor.Web\Atlas.Blazor.Web.csproj" />
+    <ProjectReference Include="..\..\Origin\Origin.Blazor.Web\Origin.Blazor.Web.csproj" />
+    <ProjectReference Include="..\..\Origin\Origin.Core\Origin.Core.csproj" />
+    <ProjectReference Include="..\..\Origin\Origin.Requests\Origin.Requests.csproj" />
     <ProjectReference Include="..\Commercial.Core\Commercial.Core.csproj" />
   </ItemGroup>
 

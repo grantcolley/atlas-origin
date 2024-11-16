@@ -1,4 +1,4 @@
-﻿namespace Origin.Core.Models
+﻿namespace Origin.Blazor.Web.Models
 {
     public class DocumentViewerContent
     {

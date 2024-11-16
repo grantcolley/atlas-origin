@@ -93,6 +93,14 @@
             if (OriginDocumentRequests == null) throw new NullReferenceException(nameof(OriginDocumentRequests));
             if (Model == null) throw new NullReferenceException(nameof(Model));
 
+            DocumentConfigParagraph documentConfigParagraph = new() { DocumentParagraph = Model };
+            Origin.Core.Models.DocumentConfig documentConfig = new() { Name = Model.Name };
+            documentConfig.ConfigParagraphs.Add(documentConfigParagraph);
+
+            byte[] bytes = await OriginDocumentRequests.GeneratePdfAsync(documentConfig).ConfigureAwait(false);
+
+            DocumentViewerContent? documentViewerContent = new() { Document = bytes };
+
             DialogParameters parameters = new()
                 {
                     Title = $"{Model.DocumentParagraphId} {Model.Name}",
@@ -101,14 +109,6 @@
                     Modal = true,
                     PreventScroll = false
                 };
-
-            DocumentConfigParagraph documentConfigParagraph = new() { DocumentParagraph = Model };
-            Origin.Core.Models.DocumentConfig documentConfig = new() { Name = Model.Name };
-            documentConfig.ConfigParagraphs.Add(documentConfigParagraph);
-
-            byte[] bytes = await OriginDocumentRequests.GeneratePdfAsync(documentConfig).ConfigureAwait(false);
-
-            DocumentViewerContent? documentViewerContent = new() { Document = bytes };
 
             IDialogReference dialog = await DialogService.ShowDialogAsync<DocumentViewerDialog>(documentViewerContent, parameters);
 
@@ -124,10 +124,10 @@
     {
         @if (_id > 0)
         {
-            <FluentButton Id="view-document" aria-label="view-document" Type="ButtonType.Button" OnClick="OnView" Disabled="@_isProcessing">
+            <FluentButton Id="view-paragraph" aria-label="view-paragraph" Type="ButtonType.Button" OnClick="OnView" Disabled="@_isProcessing">
                 <FluentIcon Value="@(new Icons.Regular.Size20.DocumentSync())" Title="View" />
             </FluentButton>
-            <FluentTooltip Anchor="view-document" Position=TooltipPosition.Right>View document</FluentTooltip>
+            <FluentTooltip Anchor="view-paragraph" Position=TooltipPosition.Right>View paragraph</FluentTooltip>
 
             <FluentButton Id="clone-paragraph" aria-label="clone-paragraph" Type="ButtonType.Button" OnClick="OnClone" Disabled="@_isProcessing">
                 <FluentIcon Value="@(new Icons.Regular.Size20.DocumentCopy())" Title="Clone" />

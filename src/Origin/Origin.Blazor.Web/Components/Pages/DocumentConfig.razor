@@ -94,6 +94,10 @@
             if (OriginDocumentRequests == null) throw new NullReferenceException(nameof(OriginDocumentRequests));
             if (Model == null) throw new NullReferenceException(nameof(Model));
 
+            byte[] bytes = await OriginDocumentRequests.GeneratePdfAsync(Model).ConfigureAwait(false);
+
+            DocumentViewerContent? documentViewerContent = new() { Document = bytes };
+
             DialogParameters parameters = new()
                 {
                     Title = $"{Model.DocumentConfigId} {Model.Name}",
@@ -102,10 +106,6 @@
                     Modal = true,
                     PreventScroll = false
                 };
-
-            byte[] bytes = await OriginDocumentRequests.GeneratePdfAsync(Model).ConfigureAwait(false);
-
-            DocumentViewerContent? documentViewerContent = new() { Document = bytes };
 
             IDialogReference dialog = await DialogService.ShowDialogAsync<DocumentViewerDialog>(documentViewerContent, parameters);
 
