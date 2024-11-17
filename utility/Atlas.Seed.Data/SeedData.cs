@@ -396,6 +396,12 @@ namespace Atlas.Seed.Data
             dbContext.DocumentConfigs.Add(documentConfigTemplate);
 
             dbContext.SaveChanges();
+
+            DocumentConfig customerLetterDocumentConfig = CostomerLetter.GetCustomerDocumentArgs();
+
+            dbContext.DocumentConfigs.Add(customerLetterDocumentConfig);
+
+            dbContext.SaveChanges();
         }
 
         private static void ResetParagraphIdentities(DocumentParagraph documentParagraph)

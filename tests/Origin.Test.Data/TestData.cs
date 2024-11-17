@@ -45,7 +45,7 @@ namespace Origin.Test.Data
                         DocumentParagraphId = 1,
                         DocumentParagraphType = DocumentParagraphType.Footer,
                         Name = ParagraphNames.FOOTER_PARAGRAPH,
-                        FontSize = 10,
+                        FontSize = 8,
                         IgnoreParapgraphSpacing = true,
                         Contents =
                         [
