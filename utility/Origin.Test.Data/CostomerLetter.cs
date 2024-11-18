@@ -101,7 +101,7 @@ namespace Origin.Test.Data
                         FontSize = 11,
                         Contents =
                         [
-                            new DocumentContent { Order = 20, Name = MockLetter.PARAGRAPH_1_TEXT, RenderCellCode = MockLetter.PARAGRAPH_1, Content = MockLetter.LOREM_IPSUM_STANDARD_1500 }
+                            new DocumentContent { Order = 20, Name = MockLetter.PARAGRAPH_1_TEXT, RenderCellCode = MockLetter.PARAGRAPH_1, Content = CustomerLetterContent.LOREM_IPSUM_IS_NONSENSE_MICROSOFT }
                         ]
                     }
                 },

@@ -6,7 +6,7 @@ using Origin.Core.Extensions;
 using Origin.Core.Interfaces;
 using Origin.Core.Models;
 
-namespace Origin.OpenXml.Extensions
+namespace Origin.Generator.OpenXml.Extensions
 {
     public static class MainPartExtensions
     {

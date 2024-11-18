@@ -23,8 +23,8 @@
     <ProjectReference Include="..\..\src\Commercial\Commercial.Blazor.Web\Commercial.Blazor.Web.csproj" />
     <ProjectReference Include="..\..\src\Commercial\Commercial.Core\Commercial.Core.csproj" />
     <ProjectReference Include="..\..\src\Origin\Origin.Blazor.Web\Origin.Blazor.Web.csproj" />
-    <ProjectReference Include="..\..\tests\Origin.Test.Data\Origin.Test.Data.csproj" />
     <ProjectReference Include="..\Commercial.Test.Data\Commercial.Test.Data.csproj" />
+    <ProjectReference Include="..\Origin.Test.Data\Origin.Test.Data.csproj" />
   </ItemGroup>
 
 </Project>

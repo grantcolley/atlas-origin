@@ -1,12 +1,12 @@
 ﻿using MigraDoc.DocumentObjectModel;
 using MigraDoc.Rendering;
 using Origin.Core.Models;
-using Origin.PdfSharp.Extensions;
+using Origin.Generator.PdfSharp.Extensions;
 using Origin.Service.Base;
 using PdfSharp.Fonts;
 using PdfSharp.Pdf;
 
-namespace Origin.PdfSharp.Services
+namespace Origin.Generator.PdfSharp.Services
 {
     public class PdfDocumentGenerator : DocumentGeneratorBase
     {

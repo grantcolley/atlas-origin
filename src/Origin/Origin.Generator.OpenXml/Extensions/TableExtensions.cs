@@ -4,7 +4,7 @@ using Origin.Core.Converters;
 using Origin.Core.Interfaces;
 using Origin.Core.Models;
 
-namespace Origin.OpenXml.Extensions
+namespace Origin.Generator.OpenXml.Extensions
 {
     public static class TableExtensions
     {

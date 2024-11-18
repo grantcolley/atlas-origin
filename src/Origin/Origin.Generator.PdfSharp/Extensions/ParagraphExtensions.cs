@@ -2,7 +2,7 @@
 using Origin.Core.Converters;
 using Origin.Core.Models;
 
-namespace Origin.PdfSharp.Extensions
+namespace Origin.Generator.PdfSharp.Extensions
 {
     public static class ParagraphExtensions
     {

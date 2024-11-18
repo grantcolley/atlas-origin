@@ -20,7 +20,7 @@ using Microsoft.OpenApi.Models;
 using Origin.Core.Validation.Extensions;
 using Origin.Data.Access.Data;
 using Origin.Data.Access.Interfaces;
-using Origin.PdfSharp.Services;
+using Origin.Generator.PdfSharp.Services;
 using Origin.Service.Extensions;
 using Origin.Service.Interface;
 using Origin.Service.Providers;

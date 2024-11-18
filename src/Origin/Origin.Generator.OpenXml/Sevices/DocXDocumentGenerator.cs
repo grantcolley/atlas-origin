@@ -2,10 +2,10 @@
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Origin.Core.Models;
-using Origin.OpenXml.Extensions;
+using Origin.Generator.OpenXml.Extensions;
 using Origin.Service.Base;
 
-namespace Origin.OpenXml.Sevices
+namespace Origin.Generator.OpenXml.Sevices
 {
     public class DocXDocumentGenerator : DocumentGeneratorBase
     {

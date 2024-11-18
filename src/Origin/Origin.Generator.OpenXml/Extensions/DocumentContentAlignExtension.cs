@@ -1,7 +1,7 @@
 ﻿using DocumentFormat.OpenXml.Wordprocessing;
 using Origin.Core.Models;
 
-namespace Origin.OpenXml.Extensions
+namespace Origin.Generator.OpenXml.Extensions
 {
     public static class DocumentContentAlignExtension
     {

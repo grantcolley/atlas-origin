@@ -8,7 +8,7 @@ using A = DocumentFormat.OpenXml.Drawing;
 using DW = DocumentFormat.OpenXml.Drawing.Wordprocessing;
 using PIC = DocumentFormat.OpenXml.Drawing.Pictures;
 
-namespace Origin.OpenXml.Extensions
+namespace Origin.Generator.OpenXml.Extensions
 {
     public static class ImageExtensions
     {

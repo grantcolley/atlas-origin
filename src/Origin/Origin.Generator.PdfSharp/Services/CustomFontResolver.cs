@@ -1,6 +1,6 @@
 ﻿using PdfSharp.Fonts;
 
-namespace Origin.PdfSharp.Services
+namespace Origin.Generator.PdfSharp.Services
 {
     public class CustomFontResolver : IFontResolver, IFontResolverMarker
     {

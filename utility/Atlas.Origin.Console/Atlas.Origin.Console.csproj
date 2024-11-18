@@ -9,10 +9,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Origin\Origin.Core\Origin.Core.csproj" />
-    <ProjectReference Include="..\..\src\Origin\Origin.OpenXml.1\Origin.OpenXml.1.csproj" />
-    <ProjectReference Include="..\..\src\Origin\Origin.PdfSharp.1\Origin.PdfSharp.1.csproj" />
+    <ProjectReference Include="..\..\src\Origin\Origin.Generator.OpenXml\Origin.Generator.OpenXml.csproj" />
+    <ProjectReference Include="..\..\src\Origin\Origin.Generator.PdfSharp\Origin.Generator.PdfSharp.csproj" />
     <ProjectReference Include="..\..\src\Origin\Origin.Service\Origin.Service.csproj" />
-    <ProjectReference Include="..\..\tests\Origin.Test.Data\Origin.Test.Data.csproj" />
+    <ProjectReference Include="..\Origin.Test.Data\Origin.Test.Data.csproj" />
   </ItemGroup>
 
 </Project>

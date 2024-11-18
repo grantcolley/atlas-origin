@@ -6,7 +6,7 @@ using Origin.Core.Interfaces;
 using Origin.Core.Models;
 using System.Resources;
 
-namespace Origin.PdfSharp.Extensions
+namespace Origin.Generator.PdfSharp.Extensions
 {
     public static class TableExtensions
     {
