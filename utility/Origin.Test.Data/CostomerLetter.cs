@@ -105,49 +105,58 @@ namespace Origin.Test.Data
                         ]
                     }
                 },
-                //new DocumentConfigParagraph()
-                //{
-                //    Order = 5,
-                //    DocumentParagraph = new DocumentParagraph
-                //    {
-                //        DocumentParagraphId = 6,
-                //        DocumentParagraphType = DocumentParagraphType.Table,
-                //        Name = MockLetter.LETTER_SUMMARY_TABLE,
-                //        Rows =
-                //        [
-                //            new DocumentTableRow { DocumentTableRowId = 1, Number = 1 },
-                //            new DocumentTableRow { DocumentTableRowId = 2, Number = 2 },
-                //            new DocumentTableRow { DocumentTableRowId = 3, Number = 3 },
-                //            new DocumentTableRow { DocumentTableRowId = 4, Number = 4 }
-                //        ],
-                //        Columns =
-                //        [
-                //            new DocumentTableColumn { DocumentTableColumnId = 1, Number = 1, Width = 160 },
-                //            new DocumentTableColumn { DocumentTableColumnId = 2, Number = 2, Width = 30 }
-                //        ],
-                //        Cells =
-                //        [
-                //            new DocumentTableCell{ DocumentTableCellId = 1, RowNumber = 1, ColumnNumber = 1, CellCode = MockLetter.TABLE_SUMMARY_1, CellColour = "150,200,250", BorderLeft = 1, BorderLeftColour = "150,200,250", BorderTop = 1, BorderTopColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250", BorderBottom = 1, BorderBottomColour = "150,200,250" },
-                //            new DocumentTableCell{ DocumentTableCellId = 2, RowNumber = 1, ColumnNumber = 2, CellCode = MockLetter.TABLE_SUMMARY_2, CellColour = "150,200,250", BorderLeft = 1, BorderLeftColour = "150,200,250", BorderTop = 1, BorderTopColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250", BorderBottom = 1, BorderBottomColour = "150,200,250" },
-                //            new DocumentTableCell{ DocumentTableCellId = 3, RowNumber = 2, ColumnNumber = 1, CellCode = MockLetter.TABLE_LINE_1, BorderLeft = 1, BorderLeftColour = "150,200,250", BorderTop = 1, BorderTopColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250" },
-                //            new DocumentTableCell{ DocumentTableCellId = 4, RowNumber = 2, ColumnNumber = 2, CellCode = MockLetter.TABLE_LINE_1_AMOUNT, BorderLeft = 1, BorderLeftColour = "150,200,250", BorderTop = 1, BorderTopColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250" },
-                //            new DocumentTableCell{ DocumentTableCellId = 5, RowNumber = 3, ColumnNumber = 1, CellCode = MockLetter.TABLE_LINE_2, BorderLeft = 1, BorderLeftColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250" },
-                //            new DocumentTableCell{ DocumentTableCellId = 6, RowNumber = 3, ColumnNumber = 2, CellCode = MockLetter.TABLE_LINE_2_AMOUNT, BorderLeft = 1, BorderLeftColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250" },
-                //            new DocumentTableCell{ DocumentTableCellId = 7, RowNumber = 4, ColumnNumber = 1, CellCode = MockLetter.TABLE_TOTAL, BorderLeft = 1, BorderLeftColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250", BorderBottom = 1, BorderBottomColour = "150,200,250" },
-                //            new DocumentTableCell{ DocumentTableCellId = 8, RowNumber = 4, ColumnNumber = 2, CellCode = MockLetter.TABLE_TOTAL_AMOUNT, BorderLeft = 1, BorderLeftColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250", BorderBottom = 1, BorderBottomColour = "150,200,250" }
-                //        ],
-                //        Contents =
-                //        [
-                //            new DocumentContent { DocumentContentId = 33, Order = 33, Name = MockLetter.TABLE_SUMMARY_TEXT, RenderCellCode = MockLetter.TABLE_SUMMARY_1, Content = MockLetter.TABLE_SUMMARY_CONTENT, IgnoreParapgraphSpacing = true },
-                //            new DocumentContent { DocumentContentId = 34, Order = 34, Name = MockLetter.TABLE_LINE_1_TEXT, RenderCellCode = MockLetter.TABLE_LINE_1, Content = MockLetter.TABLE_LINE_1_CONTENT, IgnoreParapgraphSpacing = true },
-                //            new DocumentContent { DocumentContentId = 35, Order = 35, Name = MockLetter.TABLE_LINE_1_AMOUNT_TEXT, RenderCellCode = MockLetter.TABLE_LINE_1_AMOUNT, Content = MockLetter.TABLE_LINE_1_AMOUNT_CONTENT, AlignContent = DocumentContentAlign.End, IgnoreParapgraphSpacing = true },
-                //            new DocumentContent { DocumentContentId = 36, Order = 36, Name = MockLetter.TABLE_LINE_2_TEXT, RenderCellCode = MockLetter.TABLE_LINE_2, Content = MockLetter.TABLE_LINE_2_CONTENT, IgnoreParapgraphSpacing = true },
-                //            new DocumentContent { DocumentContentId = 37, Order = 37, Name = MockLetter.TABLE_LINE_2_AMOUNT_TEXT, RenderCellCode = MockLetter.TABLE_LINE_2_AMOUNT, Content = MockLetter.TABLE_LINE_2_AMOUNT_CONTENT, AlignContent = DocumentContentAlign.End, IgnoreParapgraphSpacing = true },
-                //            new DocumentContent { DocumentContentId = 38, Order = 38, Name = MockLetter.TABLE_TOTAL_TEXT, RenderCellCode = MockLetter.TABLE_TOTAL, Content = MockLetter.TABLE_TOTAL_CONTENT, IgnoreParapgraphSpacing = true },
-                //            new DocumentContent { DocumentContentId = 39, Order = 39, Name = MockLetter.TABLE_TOTAL_AMOUNT_TEXT, RenderCellCode = MockLetter.TABLE_TOTAL_AMOUNT, Content = MockLetter.TABLE_TOTAL_AMOUNT_CONTENT, AlignContent = DocumentContentAlign.End, IgnoreParapgraphSpacing = true }
-                //        ]
-                //    }
-                //},
+                new DocumentConfigParagraph()
+                {
+                    Order = 5,
+                    DocumentParagraph = new DocumentParagraph
+                    {
+                        DocumentParagraphType = DocumentParagraphType.Table,
+                        Name = "CUSTOMER LETTER PRODUCT TABLE",
+                        Rows =
+                        [
+                            new DocumentTableRow { Number = 1 },
+                            new DocumentTableRow { Number = 2 },
+                            new DocumentTableRow { Number = 3 },
+                            new DocumentTableRow { Number = 4 },
+                            new DocumentTableRow { Number = 5 },
+                            new DocumentTableRow { Number = 6 }
+                        ],
+                        Columns =
+                        [
+                            new DocumentTableColumn { Number = 1, Width = 160 },
+                            new DocumentTableColumn { Number = 2, Width = 30 }
+                        ],
+                        Cells =
+                        [
+                            new DocumentTableCell{ RowNumber = 1, ColumnNumber = 1, CellCode = CustomerLetterTableCellConstants.TABLE_ROW_1_COL_1_CODE, CellColour = "150,200,250", BorderLeft = 1, BorderLeftColour = "150,200,250", BorderTop = 1, BorderTopColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250", BorderBottom = 1, BorderBottomColour = "150,200,250" },
+                            new DocumentTableCell{ RowNumber = 1, ColumnNumber = 2, CellCode = CustomerLetterTableCellConstants.TABLE_ROW_1_COL_2_CODE, CellColour = "150,200,250", BorderLeft = 1, BorderLeftColour = "150,200,250", BorderTop = 1, BorderTopColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250", BorderBottom = 1, BorderBottomColour = "150,200,250" },
+                            new DocumentTableCell{ RowNumber = 2, ColumnNumber = 1, CellCode = CustomerLetterTableCellConstants.TABLE_ROW_2_COL_1_CODE, BorderLeft = 1, BorderLeftColour = "150,200,250", BorderTop = 1, BorderTopColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250" },
+                            new DocumentTableCell{ RowNumber = 2, ColumnNumber = 2, CellCode = CustomerLetterTableCellConstants.TABLE_ROW_2_COL_2_CODE, BorderLeft = 1, BorderLeftColour = "150,200,250", BorderTop = 1, BorderTopColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250" },
+                            new DocumentTableCell{ RowNumber = 3, ColumnNumber = 1, CellCode = CustomerLetterTableCellConstants.TABLE_ROW_3_COL_1_CODE, BorderLeft = 1, BorderLeftColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250" },
+                            new DocumentTableCell{ RowNumber = 3, ColumnNumber = 2, CellCode = CustomerLetterTableCellConstants.TABLE_ROW_3_COL_2_CODE, BorderLeft = 1, BorderLeftColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250" },
+                            new DocumentTableCell{ RowNumber = 4, ColumnNumber = 1, CellCode = CustomerLetterTableCellConstants.TABLE_ROW_4_COL_1_CODE, BorderLeft = 1, BorderLeftColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250" },
+                            new DocumentTableCell{ RowNumber = 4, ColumnNumber = 2, CellCode = CustomerLetterTableCellConstants.TABLE_ROW_4_COL_2_CODE, BorderLeft = 1, BorderLeftColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250" },
+                            new DocumentTableCell{ RowNumber = 5, ColumnNumber = 1, CellCode = CustomerLetterTableCellConstants.TABLE_ROW_5_COL_1_CODE, BorderLeft = 1, BorderLeftColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250" },
+                            new DocumentTableCell{ RowNumber = 5, ColumnNumber = 2, CellCode = CustomerLetterTableCellConstants.TABLE_ROW_5_COL_2_CODE, BorderLeft = 1, BorderLeftColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250" },
+                            new DocumentTableCell{ RowNumber = 6, ColumnNumber = 1, CellCode = CustomerLetterTableCellConstants.TABLE_ROW_6_COL_1_CODE, BorderLeft = 1, BorderLeftColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250", BorderBottom = 1, BorderBottomColour = "150,200,250" },
+                            new DocumentTableCell{ RowNumber = 6, ColumnNumber = 2, CellCode = CustomerLetterTableCellConstants.TABLE_ROW_6_COL_2_CODE, BorderLeft = 1, BorderLeftColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250", BorderBottom = 1, BorderBottomColour = "150,200,250" }
+                        ],
+                        Contents =
+                        [
+                            new DocumentContent { Order = 1, Name = CustomerLetterContent.TABLE_ROW_1_COL_1_CONTENT, RenderCellCode = CustomerLetterTableCellConstants.TABLE_ROW_1_COL_1_CODE, Content = CustomerLetterContent.TABLE_SUMMARY_CONTENT, IgnoreParapgraphSpacing = true },
+                            new DocumentContent { Order = 2, Name = CustomerLetterContent.TABLE_ROW_2_COL_1_CONTENT, RenderCellCode = CustomerLetterTableCellConstants.TABLE_ROW_2_COL_1_CODE, Content = CustomerLetterContent.TABLE_ROW_2_COL_1_TEXT, IgnoreParapgraphSpacing = true },
+                            new DocumentContent { Order = 3, Name = CustomerLetterContent.TABLE_ROW_2_COL_2_CONTENT, RenderCellCode = CustomerLetterTableCellConstants.TABLE_ROW_2_COL_2_CODE, Content = CustomerLetterContent.TABLE_ROW_2_COL_2_TEXT, AlignContent = DocumentContentAlign.End, IgnoreParapgraphSpacing = true },
+                            new DocumentContent { Order = 4, Name = CustomerLetterContent.TABLE_ROW_3_COL_1_CONTENT, RenderCellCode = CustomerLetterTableCellConstants.TABLE_ROW_3_COL_1_CODE, Content = CustomerLetterContent.TABLE_ROW_3_COL_1_TEXT, IgnoreParapgraphSpacing = true },
+                            new DocumentContent { Order = 5, Name = CustomerLetterContent.TABLE_ROW_3_COL_2_CONTENT, RenderCellCode = CustomerLetterTableCellConstants.TABLE_ROW_3_COL_2_CODE, Content = CustomerLetterContent.TABLE_ROW_3_COL_2_TEXT, AlignContent = DocumentContentAlign.End, IgnoreParapgraphSpacing = true },
+                            new DocumentContent { Order = 6, Name = CustomerLetterContent.TABLE_ROW_4_COL_1_CONTENT, RenderCellCode = CustomerLetterTableCellConstants.TABLE_ROW_4_COL_1_CODE, Content = CustomerLetterContent.TABLE_ROW_4_COL_1_TEXT, IgnoreParapgraphSpacing = true },
+                            new DocumentContent { Order = 7, Name = CustomerLetterContent.TABLE_ROW_4_COL_2_CONTENT, RenderCellCode = CustomerLetterTableCellConstants.TABLE_ROW_4_COL_2_CODE, Content = CustomerLetterContent.TABLE_ROW_4_COL_2_TEXT, AlignContent = DocumentContentAlign.End, IgnoreParapgraphSpacing = true },
+                            new DocumentContent { Order = 8, Name = CustomerLetterContent.TABLE_ROW_5_COL_1_CONTENT, RenderCellCode = CustomerLetterTableCellConstants.TABLE_ROW_5_COL_1_CODE, Content = CustomerLetterContent.TABLE_ROW_5_COL_1_TEXT, IgnoreParapgraphSpacing = true },
+                            new DocumentContent { Order = 9, Name = CustomerLetterContent.TABLE_ROW_5_COL_2_CONTENT, RenderCellCode = CustomerLetterTableCellConstants.TABLE_ROW_5_COL_2_CODE, Content = CustomerLetterContent.TABLE_ROW_5_COL_2_TEXT, AlignContent = DocumentContentAlign.End, IgnoreParapgraphSpacing = true },
+                            new DocumentContent { Order = 10, Name = CustomerLetterContent.TABLE_ROW_6_COL_1_CONTENT, RenderCellCode = CustomerLetterTableCellConstants.TABLE_ROW_6_COL_1_CODE, Content = CustomerLetterContent.TABLE_ROW_6_COL_1_TEXT, IgnoreParapgraphSpacing = true },
+                            new DocumentContent { Order = 11, Name = CustomerLetterContent.TABLE_ROW_6_COL_2_CONTENT, RenderCellCode = CustomerLetterTableCellConstants.TABLE_ROW_6_COL_2_CODE, Content = CustomerLetterContent.TABLE_ROW_6_COL_2_TEXT, AlignContent = DocumentContentAlign.End, IgnoreParapgraphSpacing = true }
+                        ]
+                    }
+                },
                 new DocumentConfigParagraph()
                 {
                     Order = 6,
@@ -169,9 +178,9 @@ namespace Origin.Test.Data
                         ],
                         Contents =
                         [
-                            new DocumentContent { Order = 17, Name = ContentNames.SIGNATURE, RenderCellCode = TableCellCodes.SIGNATURE_DETAILS, ContentType = DocumentContentType.Image, Image = "signature.png", ImageHeight = 15, ImageWidth = 35 },
-                            new DocumentContent { Order = 18, Name = ContentNames.SIGNEE, RenderCellCode = TableCellCodes.SIGNATURE_DETAILS, Content = MockLetter.SIGNEE_CONTENT, IgnoreParapgraphSpacing = true },
-                            new DocumentContent { Order = 19, Name = ContentNames.SIGNEE_TITLE, RenderCellCode = TableCellCodes.SIGNATURE_DETAILS, Content = MockLetter.SIGNEE_TITLE_CONTENT, IgnoreParapgraphSpacing = true }
+                            new DocumentContent { Order = 1, Name = ContentNames.SIGNATURE, RenderCellCode = TableCellCodes.SIGNATURE_DETAILS, ContentType = DocumentContentType.Image, Image = "signature.png", ImageHeight = 15, ImageWidth = 35 },
+                            new DocumentContent { Order = 2, Name = ContentNames.SIGNEE, RenderCellCode = TableCellCodes.SIGNATURE_DETAILS, Content = MockLetter.SIGNEE_CONTENT, IgnoreParapgraphSpacing = true },
+                            new DocumentContent { Order = 3, Name = ContentNames.SIGNEE_TITLE, RenderCellCode = TableCellCodes.SIGNATURE_DETAILS, Content = MockLetter.SIGNEE_TITLE_CONTENT, IgnoreParapgraphSpacing = true }
                         ]
                     }
                 }

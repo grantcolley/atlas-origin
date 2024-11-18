@@ -26,12 +26,10 @@
         public const string CUSTOMER_SORT_CODE = "SortCode";
         public const string CUSTOMER_ACCOUNT_NUMBER = "AccountNumber";
 
-        public const string TABLE_SUMMARY = "TABLE_SUMMARY";
-        public const string TABLE_LINE_1 = "TABLE_LINE_1";
-        public const string TABLE_LINE_1_AMOUNT = "TABLE_LINE_1_AMOUNT";
-        public const string TABLE_LINE_2 = "TABLE_LINE_2";
-        public const string TABLE_LINE_2_AMOUNT = "TABLE_LINE_2_AMOUNT";
-        public const string TABLE_TOTAL = "TABLE_TOTAL";
-        public const string TABLE_TOTAL_AMOUNT = "TABLE_TOTAL_AMOUNT";
+        public const string TABLE_PRODUCT_NAME = "Name";
+        public const string TABLE_PRODUCT_STARTDATE = "StartDate";
+        public const string TABLE_PRODUCT_DURATION = "Duration";
+        public const string TABLE_PRODUCT_RATE = "Rate";
+        public const string TABLE_PRODUCT_VALUE = "Value";
     }
 }
