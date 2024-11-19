@@ -194,10 +194,10 @@ namespace Atlas.API.Extensions.Origin
                 .Produces(StatusCodes.Status500InternalServerError)
                 .RequireAuthorization(Auth.ATLAS_USER_CLAIM);
 
-            app.MapPost($"/{OriginAPIEndpoints.GET_CUSTOMER_DOCUMENT}", DocumentServiceEndpoints.GetCustomerDocument)
+            app.MapPost($"/{OriginAPIEndpoints.GET_CUSTOMER_PRODUCT_DOCUMENT}/{{id:int}}", DocumentServiceEndpoints.GetCustomerProductDocument)
                 .WithOpenApi()
-                .WithName(OriginAPIEndpoints.GET_CUSTOMER_DOCUMENT)
-                .WithDescription("Gets a customer document and returns it.")
+                .WithName(OriginAPIEndpoints.GET_CUSTOMER_PRODUCT_DOCUMENT)
+                .WithDescription("Gets a customer product document and returns it.")
                 .Produces<string>(StatusCodes.Status200OK)
                 .Produces(StatusCodes.Status500InternalServerError)
                 .RequireAuthorization(Auth.ATLAS_USER_CLAIM);

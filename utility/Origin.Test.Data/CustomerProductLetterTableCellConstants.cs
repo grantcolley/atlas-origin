@@ -1,6 +1,6 @@
 ﻿namespace Origin.Test.Data
 {
-    public static class CustomerLetterTableCellConstants
+    public static class CustomerProductLetterTableCellConstants
     {
         public const string TABLE_ROW_1_COL_1_CODE = "TABLE_ROW_1_COL_1_CODE";
         public const string TABLE_ROW_1_COL_2_CODE = "TABLE_ROW_1_COL_2_CODE";

@@ -9,14 +9,14 @@ namespace Origin.Requests.API
 {
     public class OriginDocumentRequests(HttpClient httpClient) : RequestBase(httpClient), IOriginDocumentRequests
     {
-        public async Task<IResponse<Document>> GetCustomerDocumentAsync(int customerId)
+        public async Task<IResponse<Document>> GetCustomerProductDocumentAsync(int productId)
         {
-            if(customerId <= 0)
+            if(productId <= 0)
             {
-                throw new ArgumentException($"Invalid {nameof(customerId)} {customerId}");
+                throw new ArgumentException($"Invalid {nameof(productId)} {productId}");
             }
 
-            using HttpResponseMessage httpResponseMessage = await _httpClient.PostAsJsonAsync(OriginAPIEndpoints.GET_CUSTOMER_DOCUMENT, customerId, _jsonSerializerOptions)
+            using HttpResponseMessage httpResponseMessage = await _httpClient.PostAsJsonAsync(OriginAPIEndpoints.GET_CUSTOMER_PRODUCT_DOCUMENT, productId, _jsonSerializerOptions)
             .ConfigureAwait(false);
 
             return await GetResponseAsync<Document>(httpResponseMessage)

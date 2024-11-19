@@ -397,7 +397,7 @@ namespace Atlas.Seed.Data
 
             dbContext.SaveChanges();
 
-            DocumentConfig customerLetterDocumentConfig = CostomerLetter.GetCustomerDocumentArgs();
+            DocumentConfig customerLetterDocumentConfig = CustomerProductLetter.GetCustomerDocumentArgs();
 
             dbContext.DocumentConfigs.Add(customerLetterDocumentConfig);
 

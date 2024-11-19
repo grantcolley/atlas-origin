@@ -5,7 +5,7 @@ namespace Origin.Requests.Interfaces
 {
     public interface IOriginDocumentRequests
     {
-        Task<IResponse<Document>> GetCustomerDocumentAsync(int customerId);
+        Task<IResponse<Document>> GetCustomerProductDocumentAsync(int customerId);
         Task<byte[]> GeneratePdfAsync(DocumentConfig documentConfig);
     }
 }

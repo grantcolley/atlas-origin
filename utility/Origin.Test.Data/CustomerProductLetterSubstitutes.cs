@@ -1,6 +1,6 @@
 ﻿namespace Origin.Test.Data
 {
-    public static class CustomerLetterSubstitutes
+    public static class CustomerProductLetterSubstitutes
     {
         public const string COMPANY_NAME = "CompanyName";
         public const string COMPANY_ADDRESS_1 = "CompanyAddress1";

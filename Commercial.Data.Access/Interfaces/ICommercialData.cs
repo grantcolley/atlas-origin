@@ -7,5 +7,6 @@ namespace Commercial.Data.Access.Interfaces
     {
         Task<IEnumerable<Customer>> GetCustomersAsync(CancellationToken cancellationToken);
         Task<Customer?> GetCustomerAsync(int id, CancellationToken cancellationToken);
+        Task<Customer?> GetCustomerByProductAsync(int productId, CancellationToken cancellationToken);
     }
 }

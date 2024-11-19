@@ -24,15 +24,31 @@
     public override string? ModelNameField { get; set; } = "Surname";
     public override string? IdentityFieldName { get; set; } = "CustomerId";
 
-    public async Task OnView()
+    private string _filter = string.Empty;
+    private PaginationState _pagination = new PaginationState { ItemsPerPage = 5 };
+
+    public IQueryable<Product>? FilteredItems
+    {
+        get
+        {
+            if (Model == null) return new List<Product>().AsQueryable();
+
+            if (string.IsNullOrWhiteSpace(_filter)) return Model.Products?.AsQueryable();
+
+            return Model.Products?.AsQueryable().Where(p => !string.IsNullOrWhiteSpace(p.Name)
+            && p.Name.Contains(_filter, StringComparison.CurrentCultureIgnoreCase));
+        }
+    }
+
+    public async Task View(Product product)
     {
         try
         {
-            if (Model == null) throw new NullReferenceException(nameof(Model));
+            if (product == null) throw new NullReferenceException(nameof(product));
             if (DialogService == null) throw new NullReferenceException(nameof(DialogService));
             if (OriginDocumentRequests == null) throw new NullReferenceException(nameof(OriginDocumentRequests));
 
-            IResponse<Origin.Core.Models.Document> response = await OriginDocumentRequests.GetCustomerDocumentAsync(Model.CustomerId).ConfigureAwait(false);
+            IResponse<Origin.Core.Models.Document> response = await OriginDocumentRequests.GetCustomerProductDocumentAsync(product.ProductId).ConfigureAwait(false);
 
             Origin.Core.Models.Document? document = GetResponse<Origin.Core.Models.Document>(response);
 
@@ -60,6 +76,22 @@
         catch (Exception ex)
         {
             RouteAlert(Alerts.ERROR, $"{Title} Error", ex.Message, new AtlasException(ex.Message, ex));
+        }
+    }
+
+    private void HandleFilter(ChangeEventArgs args)
+    {
+        if (args.Value is string value)
+        {
+            _filter = value;
+        }
+    }
+
+    private void HandleClear()
+    {
+        if (string.IsNullOrWhiteSpace(_filter))
+        {
+            _filter = string.Empty;
         }
     }
 
@@ -143,11 +175,6 @@
                                 <FluentTextField Name="AccountNumber" @bind-Value="Model.AccountNumber" Label="Account Number" ReadOnly="@(Model.IsReadOnly)" />
                                 <FluentValidationMessage For="@(() => Model.AccountNumber)" />
                             </div>
-                            <div>
-                                <FluentButton IconStart="@(new Icons.Regular.Size16.DocumentOnePageMultiple())" OnClick="OnView" Style="margin-top: 20px">
-                                    View Letter
-                                </FluentButton>
-                            </div>
                         </FluentGridItem>
                         <FluentGridItem xs="12" sm="3"></FluentGridItem>
                     </FluentGrid>
@@ -161,14 +188,29 @@
                         Products
                     </HeadingTemplate>
                     <ChildContent>
-                        <GenericSortableGrid T="Commercial.Core.Models.Product"
-                                             Source="@Model.Products.OrderBy(r => r.Name)"
-                                             Fields="@(new List<string>{ "ProductId", "Name", "ProductType", "RateType", "RepaymentType", "StartDate", "Duration", "Rate", "Value" })"
-                                             Header="Products"
-                                             FilterFieldName="Name"
-                                             FilterPlaceholder="Product..."
-                                             EmptyText="This customer has no products."
-                                             GridTemplateColumns="0.2fr 1fr 0.2fr 0.2fr 0.2fr 0.2fr 0.2fr 0.2fr 0.2fr" />
+                        <FluentDataGrid TGridItem=Commercial.Core.Models.Product Items="@FilteredItems"                                        
+                                        ResizableColumns=true GenerateHeader="GenerateHeaderOption.Sticky"
+                                        GridTemplateColumns="0.2fr 1fr 0.2fr 0.2fr 0.2fr 0.2fr 0.2fr 0.2fr 0.2fr"
+                                        Pagination="@_pagination">
+                            <PropertyColumn Property="@(p => p.ProductId)" Sortable="true" Align="Align.Center" Title="Product Id" />
+                            <PropertyColumn Property="@(p => p.Name)" Filtered="!string.IsNullOrWhiteSpace(_filter)" Sortable="true" Tooltip="true" Title="Name" >
+                                <ColumnOptions>
+                                    <div class="search-box">
+                                        <FluentSearch type="filter" Autofocus=true @bind-Value=_filter @oninput="HandleFilter" @bind-Value:after="HandleClear" Placeholder="Product name..." />
+                                    </div>
+                                </ColumnOptions>
+                            </PropertyColumn>
+                            <PropertyColumn Property="@(p => p.ProductType)" Sortable="true" Tooltip="true" Title="Product Type"/>
+                            <PropertyColumn Property="@(p => p.RateType)" Sortable="true" Tooltip="true" Title="Rate Type" />
+                            <PropertyColumn Property="@(p => p.RepaymentType)" Sortable="true" Tooltip="true" Title="Repayment Type" />
+                            <PropertyColumn Property="@(p => p.StartDate)" Sortable="true" Tooltip="true" Title="Start Date" />
+                            <PropertyColumn Property="@(p => p.Duration)" Sortable="true" Tooltip="true" Title="Duration" />
+                            <PropertyColumn Property="@(p => p.Rate)" Sortable="true" Tooltip="true" Title="Rate" />
+                            <PropertyColumn Property="@(p => p.Value)" Sortable="true" Tooltip="true" Title="Value" />
+                            <TemplateColumn Align="@Align.Center">
+                                <FluentButton aria-label="Open" IconEnd="@(new Icons.Regular.Size16.DocumentOnePageMultiple())" OnClick="@(() => View(context))" />
+                            </TemplateColumn>
+                        </FluentDataGrid>
                     </ChildContent>
                 </FluentAccordionItem>
             }

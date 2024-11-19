@@ -48,5 +48,24 @@ namespace Commercial.Data.Access.Data
                 throw new AtlasException(ex.Message, ex, $"CustomerId={id}");
             }
         }
+
+        public async Task<Customer?> GetCustomerByProductAsync(int productId, CancellationToken cancellationToken)
+        {
+            try
+            {
+                Customer? customer = await _applicationDbContext.Customers
+                    .Include(c => c.Products.Where(p => p.ProductId == productId))
+                    .FirstOrDefaultAsync(cancellationToken)
+                    .ConfigureAwait(false);
+
+                if (customer == null) throw new AtlasException($"Cannot find customer by ProductId {productId}");
+
+                return customer;
+            }
+            catch (Exception ex)
+            {
+                throw new AtlasException(ex.Message, ex, $"ProductId={productId}");
+            }
+        }
     }
 }

@@ -45,7 +45,7 @@ namespace Atlas.API.Endpoints.Origin
             }
         }
 
-        internal static async Task<IResult> GetCustomerDocument(int customerId, IDocumentData documentData, ICommercialData commercialData, IClaimService claimService, ILogService logService, CancellationToken cancellationToken)
+        internal static async Task<IResult> GetCustomerProductDocument(int id, IDocumentData documentData, ICommercialData commercialData, IClaimService claimService, ILogService logService, CancellationToken cancellationToken)
         {
             Authorisation? authorisation = null;
 
@@ -61,7 +61,7 @@ namespace Atlas.API.Endpoints.Origin
                     return Results.Unauthorized();
                 }
 
-                Customer? customer = await commercialData.GetCustomerAsync(customerId, cancellationToken)
+                Customer? customer = await commercialData.GetCustomerByProductAsync(productId, cancellationToken)
                     .ConfigureAwait(false);
 
                 if (customer == null) throw new NullReferenceException(nameof(customer));
@@ -69,7 +69,7 @@ namespace Atlas.API.Endpoints.Origin
                 IEnumerable<DocumentConfig> documentConfigs = await documentData.GetDocumentConfigsAsync(cancellationToken)
                     .ConfigureAwait(false);
 
-                DocumentConfig customerLetter = documentConfigs.First(dc => dc.Name != null && dc.Name.Equals("Customer Letter"));
+                DocumentConfig customerLetter = documentConfigs.First(dc => dc.Name != null && dc.Name.Equals("Customer Product Letter"));
 
                 DocumentConfig? documentConfig = await documentData.GetDocumentConfigAsync(customerLetter.DocumentConfigId, cancellationToken)
                                     .ConfigureAwait(false);
