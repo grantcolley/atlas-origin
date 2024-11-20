@@ -61,7 +61,7 @@ namespace Atlas.API.Endpoints.Origin
                     return Results.Unauthorized();
                 }
 
-                Customer? customer = await commercialData.GetCustomerByProductAsync(productId, cancellationToken)
+                Customer? customer = await commercialData.GetCustomerByProductAsync(id, cancellationToken)
                     .ConfigureAwait(false);
 
                 if (customer == null) throw new NullReferenceException(nameof(customer));
@@ -90,7 +90,14 @@ namespace Atlas.API.Endpoints.Origin
                     }
                 }
 
-                return Results.Ok(customer);
+                Document document = new()
+                {
+                    DocumentGeneratorType = DocumentGeneratorType.PdfSharp,
+                    Config = documentConfig,
+                    FilenameTemplate = $"Customer_Product_[Surname]"
+                };
+
+                return Results.Ok(document);
             }
             catch (AtlasException ex)
             {

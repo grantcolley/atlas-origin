@@ -3,6 +3,7 @@ using Atlas.Requests.Interfaces;
 using Origin.Core.Constants;
 using Origin.Core.Models;
 using Origin.Requests.Interfaces;
+using System.Net;
 using System.Net.Http.Json;
 
 namespace Origin.Requests.API
@@ -16,8 +17,9 @@ namespace Origin.Requests.API
                 throw new ArgumentException($"Invalid {nameof(productId)} {productId}");
             }
 
-            using HttpResponseMessage httpResponseMessage = await _httpClient.PostAsJsonAsync(OriginAPIEndpoints.GET_CUSTOMER_PRODUCT_DOCUMENT, productId, _jsonSerializerOptions)
-            .ConfigureAwait(false);
+            using HttpResponseMessage httpResponseMessage 
+                = await _httpClient.GetAsync($"{OriginAPIEndpoints.GET_CUSTOMER_PRODUCT_DOCUMENT}/{productId}")
+                .ConfigureAwait(false);
 
             return await GetResponseAsync<Document>(httpResponseMessage)
                 .ConfigureAwait(false);
