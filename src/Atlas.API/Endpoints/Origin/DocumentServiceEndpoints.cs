@@ -66,6 +66,10 @@ namespace Atlas.API.Endpoints.Origin
 
                 if (customer == null) throw new NullReferenceException(nameof(customer));
 
+                Product? product = customer.Products.FirstOrDefault(p => p.ProductId.Equals(id));
+
+                if (product == null) throw new NullReferenceException(nameof(product));
+
                 IEnumerable<DocumentConfig> documentConfigs = await documentData.GetDocumentConfigsAsync(cancellationToken)
                     .ConfigureAwait(false);
 
@@ -81,20 +85,32 @@ namespace Atlas.API.Endpoints.Origin
 
                 foreach (DocumentSubstitute substitute in documentConfig.Substitutes)
                 {
-                    if (customerType.SupportedProperties.Any(pi => pi.Name == substitute.Key))
+                    if (!string.IsNullOrEmpty(substitute.Key))
                     {
-                        if (!string.IsNullOrEmpty(substitute.Key))
+                        if (customerType.SupportedProperties.Any(pi => pi.Name == substitute.Key))
                         {
+
                             substitute.Value = customerType.GetValue(customer, substitute.Key)?.ToString();
+
+                            continue;
+                        }
+
+                        if(productType.SupportedProperties.Any(pi => pi.Name == substitute.Key))
+                        {
+                            substitute.Value = productType.GetValue(product, substitute.Key)?.ToString();
+
+                            continue;
                         }
                     }
                 }
+
+                documentConfig.ApplySubstitutes = true;
 
                 Document document = new()
                 {
                     DocumentGeneratorType = DocumentGeneratorType.PdfSharp,
                     Config = documentConfig,
-                    FilenameTemplate = $"Customer_Product_[Surname]"
+                    FilenameTemplate = $"Customer_Product_[Surname]",                    
                 };
 
                 return Results.Ok(document);
