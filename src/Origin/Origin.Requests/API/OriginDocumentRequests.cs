@@ -29,8 +29,9 @@ namespace Origin.Requests.API
         {
             ArgumentNullException.ThrowIfNull(documentConfig, nameof(documentConfig));
 
-            using HttpResponseMessage response = await _httpClient.PostAsJsonAsync(OriginAPIEndpoints.GENERATE_PDF, documentConfig, _jsonSerializerOptions)
-            .ConfigureAwait(false);
+            using HttpResponseMessage response 
+                = await _httpClient.PostAsJsonAsync(OriginAPIEndpoints.GENERATE_PDF, documentConfig, _jsonSerializerOptions)
+                .ConfigureAwait(false);
 
             response.EnsureSuccessStatusCode();
 
