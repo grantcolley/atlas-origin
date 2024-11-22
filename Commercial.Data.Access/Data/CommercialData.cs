@@ -32,6 +32,7 @@ namespace Commercial.Data.Access.Data
             {
                 Customer customer = await _applicationDbContext.Customers
                     .Include(c => c.Products)
+                    .AsNoTracking()
                     .FirstAsync(c => c.CustomerId.Equals(id), cancellationToken)
                     .ConfigureAwait(false);
 
@@ -53,18 +54,64 @@ namespace Commercial.Data.Access.Data
         {
             try
             {
-                Customer? customer = await _applicationDbContext.Customers
-                    .Include(c => c.Products.Where(p => p.ProductId == productId))
-                    .FirstOrDefaultAsync(cancellationToken)
+                Product product = await _applicationDbContext.Products
+                    .Include(p => p.Customer)
+                    .AsNoTracking()
+                    .FirstAsync(p => p.ProductId == productId, cancellationToken)
+                    .ConfigureAwait(false);
+
+                Customer customer = await _applicationDbContext.Customers
+                    .AsNoTracking()
+                    .FirstAsync(c => c.CustomerId == product.CustomerId, cancellationToken)
                     .ConfigureAwait(false);
 
                 if (customer == null) throw new AtlasException($"Cannot find customer by ProductId {productId}");
+
+                customer.Products.Add(product);
 
                 return customer;
             }
             catch (Exception ex)
             {
                 throw new AtlasException(ex.Message, ex, $"ProductId={productId}");
+            }
+        }
+
+        public async Task<IEnumerable<Company>> GetCompaniesAsync(CancellationToken cancellationToken)
+        {
+            try
+            {
+                return await _applicationDbContext.Companies
+                    .AsNoTracking()
+                    .ToListAsync(cancellationToken)
+                    .ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                throw new AtlasException(ex.Message, ex);
+            }
+        }
+
+        public async Task<Company?> GetCompanyAsync(int id, CancellationToken cancellationToken)
+        {
+            try
+            {
+                Company company = await _applicationDbContext.Companies
+                    .AsNoTracking()
+                    .FirstAsync(c => c.CompanyId.Equals(id), cancellationToken)
+                    .ConfigureAwait(false);
+
+                if (Authorisation == null
+                    || !Authorisation.HasPermission(Auth.COMMERCIAL_WRITE))
+                {
+                    company.IsReadOnly = true;
+                }
+
+                return company;
+            }
+            catch (Exception ex)
+            {
+                throw new AtlasException(ex.Message, ex, $"CompanyId={id}");
             }
         }
     }

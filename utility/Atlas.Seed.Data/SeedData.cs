@@ -80,6 +80,8 @@ namespace Atlas.Seed.Data
             ((DbContext)dbContext).Database.ExecuteSqlRaw("DBCC CHECKIDENT (Customers, RESEED, 1)");
             ((DbContext)dbContext).Database.ExecuteSqlRaw("TRUNCATE TABLE Products");
             ((DbContext)dbContext).Database.ExecuteSqlRaw("DBCC CHECKIDENT (Products, RESEED, 1)");
+            ((DbContext)dbContext).Database.ExecuteSqlRaw("TRUNCATE TABLE Companies");
+            ((DbContext)dbContext).Database.ExecuteSqlRaw("DBCC CHECKIDENT (Companies, RESEED, 1)");
         }
 
         private static void CreatePermissions()
@@ -448,8 +450,10 @@ namespace Atlas.Seed.Data
             dbContext.SaveChanges();
 
             Page customersPage = new() { Name = "Customers", Icon = "PeopleMoney", Route = CommercialWebConstants.PAGE_CUSTOMERS, Order = 1, Permission = Auth.COMMERCIAL_READ, Category = salesCategory };
+            Page companiesPage = new() { Name = "Companies", Icon = "BuildingRetailMoney", Route = CommercialWebConstants.PAGE_COMPANIES, Order = 2, Permission = Auth.COMMERCIAL_READ, Category = salesCategory };
 
             salesCategory.Pages.Add(customersPage);
+            salesCategory.Pages.Add(companiesPage);
 
             dbContext.Pages.Add(customersPage);
 
@@ -466,6 +470,22 @@ namespace Atlas.Seed.Data
             {
                 dbContext.Customers.Add(customer);
             }
+
+            dbContext.SaveChanges();
+
+            Company company = new()
+            {
+                CompanyName = "Global Banking Corp.",
+                CompanyAddress1 = "9 Cherry Tree Lane",
+                CompanyAddress2 = "Canary Wharf",
+                CompanyAddress3 = "E14 5HQ",
+                CompanyEmail = "+44 071 946-0241",
+                CompanyPhoneNumber = "gbc@email.com",
+                Signee = "Mrs Peggy Olson",
+                SigneeTitle = "Managing Director"
+            };
+
+            dbContext.Companies.Add(company);
 
             dbContext.SaveChanges();
         }

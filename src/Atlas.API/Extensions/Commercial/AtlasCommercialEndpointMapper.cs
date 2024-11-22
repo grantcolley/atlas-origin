@@ -25,6 +25,22 @@ namespace Atlas.API.Extensions.Commercial
                 .Produces(StatusCodes.Status500InternalServerError)
                 .RequireAuthorization(Auth.ATLAS_USER_CLAIM);
 
+            app.MapGet($"/{CommercialAPIEndpoints.GET_COMPANIES}", CommercialEndpoints.GetCompanies)
+                .WithOpenApi()
+                .WithName(CommercialAPIEndpoints.GET_COMPANIES)
+                .WithDescription("Gets a list of companies.")
+                .Produces<IEnumerable<Company>?>(StatusCodes.Status200OK)
+                .Produces(StatusCodes.Status500InternalServerError)
+                .RequireAuthorization(Auth.ATLAS_USER_CLAIM);
+
+            app.MapGet($"/{CommercialAPIEndpoints.GET_COMPANY}/{{id:int}}", CommercialEndpoints.GetCompany)
+                .WithOpenApi()
+                .WithName(CommercialAPIEndpoints.GET_COMPANY)
+                .WithDescription("Gets a company for the given id.")
+                .Produces<Company>(StatusCodes.Status200OK)
+                .Produces(StatusCodes.Status500InternalServerError)
+                .RequireAuthorization(Auth.ATLAS_USER_CLAIM);
+
             return app;
         }
     }

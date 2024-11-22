@@ -1,0 +1,91 @@
+﻿@page "/Company"
+@page "/Company/{Id:int?}"
+@rendermode @(new InteractiveServerRenderMode(prerender: false))
+@inherits ModelContainerBase<Commercial.Core.Models.Company>
+
+@{
+    // Display the markup for the underlying base
+    // ModelContainerBase<T> we are inheriting.
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+    [Inject]
+    public IDialogService? DialogService { get; set; }
+
+    [Inject]
+    public IOriginDocumentRequests? OriginDocumentRequests { get; set; }
+
+    public override string? Title { get; set; } = "Company";
+    public override string? APIGetEndpoint { get; set; } = CommercialAPIEndpoints.GET_COMPANY;
+    public override string? APICreateEndpoint { get; set; } = string.Empty;
+    public override string? APIUpdateEndpoint { get; set; } = string.Empty;
+    public override string? APIDeleteEndpoint { get; set; } = string.Empty;
+    public override string? ModelNameField { get; set; } = "CompanyName";
+    public override string? IdentityFieldName { get; set; } = "CompanyId";
+
+    public override RenderFragment RenderModelContent() => __builder =>
+    {
+        if (Model == null) throw new NullReferenceException(nameof(Model));
+
+        <FluentAccordion>
+
+            <FluentAccordionItem Expanded=true>
+                <HeadingTemplate>
+                    @if (Model.CompanyId.Equals(0))
+                    {
+                        <FluentLabel Typo="Typography.Body">New Company</FluentLabel>
+                    }
+                    else
+                    {
+                        <FluentLabel Typo="Typography.Body">@($"Company Id {Model.CompanyId}")</FluentLabel>
+                    }
+                </HeadingTemplate>
+                <ChildContent>
+                    <FluentGrid Style="padding: 4px;">
+                        <FluentGridItem xs="12" sm="3">
+                            <div>
+                                <FluentTextField Name="Title" @bind-Value="Model.CompanyName" Label="Company Name" ReadOnly="@(Model.IsReadOnly)" />
+                                <FluentValidationMessage For="@(() => Model.CompanyName)" />
+                            </div>
+                            <div>
+                                <FluentTextField Name="Telephone" @bind-Value="Model.CompanyPhoneNumber" Label="Telephone" ReadOnly="@(Model.IsReadOnly)" />
+                                <FluentValidationMessage For="@(() => Model.CompanyPhoneNumber)" />
+                            </div>
+                            <div>
+                                <FluentTextField Name="CompanyEmail" @bind-Value="Model.CompanyEmail" Label="Email" ReadOnly="@(Model.IsReadOnly)" />
+                                <FluentValidationMessage For="@(() => Model.CompanyEmail)" />
+                            </div>
+                        </FluentGridItem>
+                        <FluentGridItem xs="12" sm="3">
+                            <div>
+                                <FluentTextField Name="CompanyAddress1" @bind-Value="Model.CompanyAddress1" Label="Address 1" ReadOnly="@(Model.IsReadOnly)" />
+                                <FluentValidationMessage For="@(() => Model.CompanyAddress1)" />
+                            </div>
+                            <div>
+                                <FluentTextField Name="CompanyAddress2" @bind-Value="Model.CompanyAddress2" Label="Address 2" ReadOnly="@(Model.IsReadOnly)" />
+                                <FluentValidationMessage For="@(() => Model.CompanyAddress2)" />
+                            </div>
+                            <div>
+                                <FluentTextField Name="CompanyAddress3" @bind-Value="Model.CompanyAddress3" Label="Address 3" ReadOnly="@(Model.IsReadOnly)" />
+                                <FluentValidationMessage For="@(() => Model.CompanyAddress3)" />
+                            </div>
+                        </FluentGridItem>
+                        <FluentGridItem xs="12" sm="3">
+                            <div>
+                                <FluentTextField Name="Signee" @bind-Value="Model.Signee" Label="Signee" ReadOnly="@(Model.IsReadOnly)" />
+                                <FluentValidationMessage For="@(() => Model.Signee)" />
+                            </div>
+                            <div>
+                                <FluentTextField Name="SigneeTitle" @bind-Value="Model.SigneeTitle" Label="Signee Title Number" ReadOnly="@(Model.IsReadOnly)" />
+                                <FluentValidationMessage For="@(() => Model.SigneeTitle)" />
+                            </div>
+                        </FluentGridItem>
+                        <FluentGridItem xs="12" sm="3"></FluentGridItem>
+                    </FluentGrid>
+                </ChildContent>
+            </FluentAccordionItem>
+
+        </FluentAccordion>
+    };
+}

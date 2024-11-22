@@ -65,5 +65,61 @@ namespace Atlas.API.Endpoints.Commercial
                 return Results.StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
+
+        internal static async Task<IResult> GetCompanies(ICommercialData commercialData, IClaimService claimService, ILogService logService, CancellationToken cancellationToken)
+        {
+            Authorisation? authorisation = null;
+
+            try
+            {
+                authorisation = await commercialData.GetAuthorisationAsync(claimService.GetClaim(), cancellationToken)
+                    .ConfigureAwait(false);
+
+                if (authorisation == null
+                    || !authorisation.HasPermission(Auth.COMMERCIAL_READ))
+                {
+                    return Results.Unauthorized();
+                }
+
+                IEnumerable<Company>? companies = await commercialData.GetCompaniesAsync(cancellationToken)
+                    .ConfigureAwait(false);
+
+                return Results.Ok(new AuthResult<IEnumerable<Company>?> { Authorisation = authorisation, Result = companies });
+            }
+            catch (AtlasException ex)
+            {
+                logService.Log(Core.Logging.Enums.LogLevel.Error, ex.Message, ex, authorisation?.User);
+
+                return Results.StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        internal static async Task<IResult> GetCompany(int id, ICommercialData commercialData, IClaimService claimService, ILogService logService, CancellationToken cancellationToken)
+        {
+            Authorisation? authorisation = null;
+
+            try
+            {
+                authorisation = await commercialData.GetAuthorisationAsync(claimService.GetClaim(), cancellationToken)
+                    .ConfigureAwait(false);
+
+                if (authorisation == null
+                    || !authorisation.HasPermission(Auth.COMMERCIAL_READ))
+                {
+                    return Results.Unauthorized();
+                }
+
+                Company? company = await commercialData.GetCompanyAsync(id, cancellationToken)
+                    .ConfigureAwait(false);
+
+                return Results.Ok(company);
+            }
+            catch (AtlasException ex)
+            {
+                logService.Log(Core.Logging.Enums.LogLevel.Error, ex.Message, ex, authorisation?.User);
+
+                return Results.StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
     }
 }

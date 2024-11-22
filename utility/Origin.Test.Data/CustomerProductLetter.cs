@@ -179,8 +179,8 @@ namespace Origin.Test.Data
                         Contents =
                         [
                             new DocumentContent { Order = 1, Name = ContentNames.SIGNATURE, RenderCellCode = TableCellCodes.SIGNATURE_DETAILS, ContentType = DocumentContentType.Image, Image = "signature.png", ImageHeight = 15, ImageWidth = 35 },
-                            new DocumentContent { Order = 2, Name = ContentNames.SIGNEE, RenderCellCode = TableCellCodes.SIGNATURE_DETAILS, Content = MockLetter.SIGNEE_CONTENT, IgnoreParapgraphSpacing = true },
-                            new DocumentContent { Order = 3, Name = ContentNames.SIGNEE_TITLE, RenderCellCode = TableCellCodes.SIGNATURE_DETAILS, Content = MockLetter.SIGNEE_TITLE_CONTENT, IgnoreParapgraphSpacing = true }
+                            new DocumentContent { Order = 2, Name = ContentNames.SIGNEE, RenderCellCode = TableCellCodes.SIGNATURE_DETAILS, Content = CustomerProductLetterContent.SIGNEE_CONTENT, IgnoreParapgraphSpacing = true },
+                            new DocumentContent { Order = 3, Name = ContentNames.SIGNEE_TITLE, RenderCellCode = TableCellCodes.SIGNATURE_DETAILS, Content = CustomerProductLetterContent.SIGNEE_TITLE_CONTENT, IgnoreParapgraphSpacing = true }
                         ]
                     }
                 }
@@ -207,6 +207,12 @@ namespace Origin.Test.Data
             documentSubstitutes.Add(new DocumentSubstitute { Key = CustomerProductLetterSubstitutes.CUSTOMER_SORT_CODE });
             documentSubstitutes.Add(new DocumentSubstitute { Key = CustomerProductLetterSubstitutes.CUSTOMER_ACCOUNT_NUMBER });
 
+            documentSubstitutes.Add(new DocumentSubstitute { Key = CustomerProductLetterSubstitutes.TABLE_PRODUCT_NAME });
+            documentSubstitutes.Add(new DocumentSubstitute { Key = CustomerProductLetterSubstitutes.TABLE_PRODUCT_STARTDATE });
+            documentSubstitutes.Add(new DocumentSubstitute { Key = CustomerProductLetterSubstitutes.TABLE_PRODUCT_DURATION });
+            documentSubstitutes.Add(new DocumentSubstitute { Key = CustomerProductLetterSubstitutes.TABLE_PRODUCT_RATE });
+            documentSubstitutes.Add(new DocumentSubstitute { Key = CustomerProductLetterSubstitutes.TABLE_PRODUCT_VALUE });
+
             documentSubstitutes.Add(new DocumentSubstitute { Key = CustomerProductLetterSubstitutes.COMPANY_NAME });
             documentSubstitutes.Add(new DocumentSubstitute { Key = CustomerProductLetterSubstitutes.COMPANY_ADDRESS_1 });
             documentSubstitutes.Add(new DocumentSubstitute { Key = CustomerProductLetterSubstitutes.COMPANY_ADDRESS_2 });
@@ -215,20 +221,6 @@ namespace Origin.Test.Data
             documentSubstitutes.Add(new DocumentSubstitute { Key = CustomerProductLetterSubstitutes.COMPANY_EMAIL });
             documentSubstitutes.Add(new DocumentSubstitute { Key = CustomerProductLetterSubstitutes.SIGNEE });
             documentSubstitutes.Add(new DocumentSubstitute { Key = CustomerProductLetterSubstitutes.SIGNEE_TITLE });
-
-            //if (!templateOnly)
-            //{
-            //    documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.LOREM_IPSUM_IS_NONSENSE_MICROSOFT_2, Value = skipSubValues ? null : "\"Lorem ipsum dolor sit amet consectetuer\"" });
-            //    documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.LOREM_IPSUM_IS_NONSENSE_MICROSOFT_4, Value = skipSubValues ? null : "Actually, it is nonsense" });
-            //    documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.LOREM_IPSUM_IS_NONSENSE_MICROSOFT_6, Value = skipSubValues ? null : "The phrase has been used for several centuries by typographers" });
-            //    documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.TABLE_SUMMARY, Value = skipSubValues ? null : "Present Test Data in Table" });
-            //    documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.TABLE_LINE_1, Value = skipSubValues ? null : "Line item no. 1" });
-            //    documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.TABLE_LINE_1_AMOUNT, Value = skipSubValues ? null : "£70" });
-            //    documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.TABLE_LINE_2, Value = skipSubValues ? null : "Line item no. 2" });
-            //    documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.TABLE_LINE_2_AMOUNT, Value = skipSubValues ? null : "£30" });
-            //    documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.TABLE_TOTAL, Value = skipSubValues ? null : "Total" });
-            //    documentSubstitutes.Add(new DocumentSubstitute { Key = Substitutes.TABLE_TOTAL_AMOUNT, Value = skipSubValues ? null : "£100" });
-            //}
 
             return documentSubstitutes;
         }

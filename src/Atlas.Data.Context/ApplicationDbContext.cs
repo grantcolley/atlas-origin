@@ -34,6 +34,7 @@ namespace Atlas.Data.Context
 
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<Company> Companies { get; set; }
 
         public void SetUser(string user)
         {

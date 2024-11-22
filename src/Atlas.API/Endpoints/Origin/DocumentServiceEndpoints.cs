@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Origin.Core.Models;
 using Origin.Data.Access.Interfaces;
 using Origin.Service.Interface;
+using System.Drawing;
 
 namespace Atlas.API.Endpoints.Origin
 {
@@ -61,6 +62,11 @@ namespace Atlas.API.Endpoints.Origin
                     return Results.Unauthorized();
                 }
 
+                Company? company = await commercialData.GetCompanyAsync(1, cancellationToken)
+                    .ConfigureAwait(false);
+
+                if (company == null) throw new NullReferenceException(nameof(company));
+
                 Customer? customer = await commercialData.GetCustomerByProductAsync(id, cancellationToken)
                     .ConfigureAwait(false);
 
@@ -82,6 +88,7 @@ namespace Atlas.API.Endpoints.Origin
 
                 DynamicType<Customer> customerType = DynamicTypeHelper.Get<Customer>();
                 DynamicType<Product> productType = DynamicTypeHelper.Get<Product>();
+                DynamicType<Company> companyType = DynamicTypeHelper.Get<Company>();
 
                 foreach (DocumentSubstitute substitute in documentConfig.Substitutes)
                 {
@@ -97,9 +104,21 @@ namespace Atlas.API.Endpoints.Origin
 
                         if(productType.SupportedProperties.Any(pi => pi.Name == substitute.Key))
                         {
-                            substitute.Value = productType.GetValue(product, substitute.Key)?.ToString();
+                            if(substitute.Key.Contains("Date"))
+                            {
+                                substitute.Value = Convert.ToDateTime(productType.GetValue(product, substitute.Key)).GetDateTimeFormats('d')[0];
+                            }
+                            else
+                            {
+                                substitute.Value = productType.GetValue(product, substitute.Key)?.ToString();
+                            }
 
                             continue;
+                        }
+
+                        if(companyType.SupportedProperties.Any(pi => pi.Name == substitute.Key))
+                        {
+                            substitute.Value = companyType.GetValue(company, substitute.Key)?.ToString();
                         }
                     }
                 }

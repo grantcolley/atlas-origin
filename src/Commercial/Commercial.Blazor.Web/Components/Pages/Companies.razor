@@ -1,0 +1,39 @@
+﻿@page "/Companies"
+@rendermode @(new InteractiveServerRenderMode(prerender: false))
+@inherits GridContainerBase<Commercial.Core.Models.Company>
+
+@{
+    // Display the markup for the underlying base 
+    // GenericGridContainer<T> we are inheriting.
+    base.BuildRenderTree(__builder);
+}
+
+@code{
+    public override string? Title { get; set; } = "Companies";
+    public override string? NavigateTo { get; set; } = CommercialWebConstants.PAGE_COMPANY;
+    public override string? APIEndpoint { get; set; } = CommercialAPIEndpoints.GET_COMPANIES;
+    public override int ItemsPerPage { get; set; } = 14;
+    public override string? FilterFieldName { get; set; } = "CompanyName";
+    public override string? IdentityFieldName { get; set; } = "CompanyId";
+    public override string? CreatePermission { get; set; }
+
+    public override RenderFragment RenderGridContent() => __builder =>
+    {
+        <FluentDataGrid TGridItem=Commercial.Core.Models.Company Items="@FilteredItems"
+                                Style="height: 700px;overflow:auto;" GridTemplateColumns="0.2fr 1fr"
+                        ResizableColumns=true GenerateHeader="GenerateHeaderOption.Sticky"
+                        Pagination="@Pagination">
+            <PropertyColumn Property="@(c => c.CompanyId)" Sortable="true" Align="Align.Center" Title="CompanyId Id"/>
+            <PropertyColumn Property="@(d => d.CompanyName)" Sortable="true" Filtered="!string.IsNullOrWhiteSpace(Filter)" Tooltip="true" Title="Company Name">
+                <ColumnOptions>
+                    <div class="search-box">
+                        <FluentSearch type="filter" Autofocus=true @bind-Value=Filter @oninput="HandleFilter" @bind-Value:after="HandleClear" Placeholder="Company name..." />
+                    </div>
+                </ColumnOptions>
+            </PropertyColumn>
+            <TemplateColumn Align="@Align.Center">
+                <FluentButton aria-label="Open" IconEnd="@(new Icons.Regular.Size16.MoreHorizontal())" OnClick="@(() => Edit(context))" />
+            </TemplateColumn>
+        </FluentDataGrid>
+    };
+}

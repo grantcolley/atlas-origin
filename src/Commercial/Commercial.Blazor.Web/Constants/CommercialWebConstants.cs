@@ -4,5 +4,7 @@
     {
         public const string PAGE_CUSTOMER = "customer";
         public const string PAGE_CUSTOMERS = "customers";
+        public const string PAGE_COMPANY = "company";
+        public const string PAGE_COMPANIES = "companies";
     }
 }

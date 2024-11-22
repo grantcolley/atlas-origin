@@ -75,8 +75,8 @@ namespace Origin.Data.Access.Data
         private async Task<string> GetDocumentFontsAsync(IEnumerable<OptionsArg> optionsArgs, CancellationToken cancellationToken)
         {
             List<DocumentFont> documentFonts = await _applicationDbContext.DocumentFonts
-                .AsNoTracking()
                 .OrderBy(f => f.Font)
+                .AsNoTracking()
                 .ToListAsync(cancellationToken)
                 .ConfigureAwait(false);
 
@@ -91,8 +91,8 @@ namespace Origin.Data.Access.Data
         private async Task<string> GetDocumentColoursAsync(IEnumerable<OptionsArg> optionsArgs, CancellationToken cancellationToken)
         {
             List<DocumentColour> documentColours = await _applicationDbContext.DocumentColours
-                .AsNoTracking()
                 .OrderBy(c => c.Colour)
+                .AsNoTracking()
                 .ToListAsync(cancellationToken)
                 .ConfigureAwait(false);
 

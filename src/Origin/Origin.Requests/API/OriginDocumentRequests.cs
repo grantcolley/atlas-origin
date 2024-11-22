@@ -3,7 +3,6 @@ using Atlas.Requests.Interfaces;
 using Origin.Core.Constants;
 using Origin.Core.Models;
 using Origin.Requests.Interfaces;
-using System.Net;
 using System.Net.Http.Json;
 
 namespace Origin.Requests.API
