@@ -370,6 +370,12 @@ namespace Atlas.Seed.Data
             dbContext.DocumentConfigs.Add(customerProductLetter);
 
             dbContext.SaveChanges();
+
+            DocumentConfig typographyExample = TypographyExample.Build(letterTemplate);
+
+            dbContext.DocumentConfigs.Add(typographyExample);
+
+            dbContext.SaveChanges();
         }
 
         private static void AddCommercial()

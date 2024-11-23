@@ -6,7 +6,7 @@ using Origin.Generator.PdfSharp.Services;
 using Origin.Service.Interface;
 using Origin.Service.Providers;
 using Origin.Service.Services;
-using Origin.Test.Data;
+using Origin.Tests.Data;
 using System.Diagnostics;
 using System.Text.Json;
 using System.Text.Json.Serialization;

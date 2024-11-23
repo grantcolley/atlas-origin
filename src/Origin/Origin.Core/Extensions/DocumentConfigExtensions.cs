@@ -15,6 +15,11 @@ namespace Origin.Core.Extensions
 
             clonedDocumentConfig.DocumentConfigId = 0;
             clonedDocumentConfig.Name = null;
+            clonedDocumentConfig.Name = null;
+            clonedDocumentConfig.CreatedBy = null;
+            clonedDocumentConfig.CreatedDate = null;
+            clonedDocumentConfig.ModifiedBy = null;
+            clonedDocumentConfig.ModifiedDate = null;
 
             clonedDocumentConfig.Substitutes.Clear();
             clonedDocumentConfig.ConfigParagraphs.Clear();

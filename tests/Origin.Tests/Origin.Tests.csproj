@@ -24,7 +24,6 @@
     <ProjectReference Include="..\..\src\Origin\Origin.Generator.OpenXml\Origin.Generator.OpenXml.csproj" />
     <ProjectReference Include="..\..\src\Origin\Origin.Generator.PdfSharp\Origin.Generator.PdfSharp.csproj" />
     <ProjectReference Include="..\..\src\Origin\Origin.Service\Origin.Service.csproj" />
-    <ProjectReference Include="..\..\utility\Origin.Test.Data\Origin.Test.Data.csproj" />
   </ItemGroup>
 
   <ItemGroup>

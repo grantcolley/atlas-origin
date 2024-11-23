@@ -22,7 +22,7 @@ namespace Origin.Test.Data
                     DocumentParagraph = new DocumentParagraph
                     {
                         DocumentParagraphType = DocumentParagraphType.Footer,
-                        Name = "Base Letter Footer",
+                        Name = "Base Letter Template Footer",
                         FontSize = 8,
                         IgnoreParapgraphSpacing = true,
                         Contents =
@@ -37,7 +37,7 @@ namespace Origin.Test.Data
                     DocumentParagraph = new DocumentParagraph
                     {
                         DocumentParagraphType = DocumentParagraphType.Table,
-                        Name = "Base Letter Heading",
+                        Name = "Base Letter Template Heading",
                         Rows =
                         [
                             new DocumentTableRow { Number = 1 },
