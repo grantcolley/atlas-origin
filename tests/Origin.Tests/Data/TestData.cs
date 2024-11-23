@@ -1,6 +1,6 @@
 ﻿using Origin.Core.Models;
 
-namespace Origin.Test.Data
+namespace Origin.Tests.Data
 {
     public static class TestData
     {
@@ -49,7 +49,7 @@ namespace Origin.Test.Data
                         IgnoreParapgraphSpacing = true,
                         Contents =
                         [
-                            new DocumentContent { DocumentContentId = 32, Order = 32, Name = BaseLetterTemplateContentNames.FOOTER_TEXT, Content = MockLetter.FOOTER_CONTENT }
+                            new DocumentContent { DocumentContentId = 32, Order = 32, Name = MockLetter.FOOTER_TEXT, Content = MockLetter.FOOTER_CONTENT }
                         ]
                     }
                 },
@@ -75,27 +75,27 @@ namespace Origin.Test.Data
                         ],
                         Cells =
                         [
-                            new DocumentTableCell{ DocumentTableCellId = 1, RowNumber = 1, ColumnNumber = 1, CellCode = BaseLetterTemplateTableCellCodes.COMPANY_LOGO },
-                            new DocumentTableCell{ DocumentTableCellId = 2, RowNumber = 2, ColumnNumber = 3, CellCode = BaseLetterTemplateTableCellCodes.COMPANY_DETAILS },
-                            new DocumentTableCell{ DocumentTableCellId = 3, RowNumber = 3, ColumnNumber = 1, CellCode = BaseLetterTemplateTableCellCodes.CUSTOMER_DETAILS }
+                            new DocumentTableCell{ DocumentTableCellId = 1, RowNumber = 1, ColumnNumber = 1, CellCode = MockLetter.COMPANY_LOGO },
+                            new DocumentTableCell{ DocumentTableCellId = 2, RowNumber = 2, ColumnNumber = 3, CellCode = MockLetter.COMPANY_DETAILS },
+                            new DocumentTableCell{ DocumentTableCellId = 3, RowNumber = 3, ColumnNumber = 1, CellCode = MockLetter.CUSTOMER_DETAILS }
                         ],
                         Contents =
                         [
-                            new DocumentContent { DocumentContentId = 1, Order = 1, Name = BaseLetterTemplateContentNames.LOGO, RenderCellCode = BaseLetterTemplateTableCellCodes.COMPANY_LOGO, ContentType = DocumentContentType.Image, Image = "logo.png", ImageHeight = 15, ImageWidth = 35 },
-                            new DocumentContent { DocumentContentId = 2, Order = 2, Name = BaseLetterTemplateContentNames.COMPANY_NAME, RenderCellCode = BaseLetterTemplateTableCellCodes.COMPANY_DETAILS, Content = MockLetter.COMPANY_NAME_CONTENT, IgnoreParapgraphSpacing = true },
-                            new DocumentContent { DocumentContentId = 3, Order = 3, Name = BaseLetterTemplateContentNames.COMPANY_ADDRESS_1, RenderCellCode = BaseLetterTemplateTableCellCodes.COMPANY_DETAILS, Content = MockLetter.COMPANY_ADDRESS_1_CONTENT, IgnoreParapgraphSpacing = true },
-                            new DocumentContent { DocumentContentId = 4, Order = 4, Name = BaseLetterTemplateContentNames.COMPANY_ADDRESS_2, RenderCellCode = BaseLetterTemplateTableCellCodes.COMPANY_DETAILS, Content = MockLetter.COMPANY_ADDRESS_2_CONTENT, IgnoreParapgraphSpacing = true },
-                            new DocumentContent { DocumentContentId = 5, Order = 5, Name = BaseLetterTemplateContentNames.COMPANY_ADDRESS_3, RenderCellCode = BaseLetterTemplateTableCellCodes.COMPANY_DETAILS, Content = MockLetter.COMPANY_ADDRESS_3_CONTENT, IgnoreParapgraphSpacing = true },
-                            new DocumentContent { DocumentContentId = 6, Order = 6, Name = BaseLetterTemplateContentNames.COMPANY_PHONE_NUMBER, RenderCellCode = BaseLetterTemplateTableCellCodes.COMPANY_DETAILS, Content = MockLetter.COMPANY_PHONE_NUMBER_CONTENT, IgnoreParapgraphSpacing = true },
-                            new DocumentContent { DocumentContentId = 7, Order = 7, Name = BaseLetterTemplateContentNames.COMPANY_EMAIL, RenderCellCode = BaseLetterTemplateTableCellCodes.COMPANY_DETAILS, Content = MockLetter.COMPANY_EMAIL_CONTENT, IgnoreParapgraphSpacing = true },
-                            new DocumentContent { DocumentContentId = 8, Order = 8, Name = BaseLetterTemplateContentNames.CUSTOMER_NAME, RenderCellCode = BaseLetterTemplateTableCellCodes.CUSTOMER_DETAILS, Content = MockLetter.CUSTOMER_NAME_CONTENT, IgnoreParapgraphSpacing = true },
-                            new DocumentContent { DocumentContentId = 9, Order = 9, Name = BaseLetterTemplateContentNames.CUSTOMER_ADDRESS_1, RenderCellCode = BaseLetterTemplateTableCellCodes.CUSTOMER_DETAILS, Content = MockLetter.CUSTOMER_ADDRESS_1_CONTENT, IgnoreParapgraphSpacing = true },
-                            new DocumentContent { DocumentContentId = 10, Order = 10, Name = BaseLetterTemplateContentNames.CUSTOMER_ADDRESS_2, RenderCellCode = BaseLetterTemplateTableCellCodes.CUSTOMER_DETAILS, Content = MockLetter.CUSTOMER_ADDRESS_2_CONTENT, IgnoreParapgraphSpacing = true },
-                            new DocumentContent { DocumentContentId = 11, Order = 11, Name = BaseLetterTemplateContentNames.CUSTOMER_ADDRESS_3, RenderCellCode = BaseLetterTemplateTableCellCodes.CUSTOMER_DETAILS, Content = MockLetter.CUSTOMER_ADDRESS_3_CONTENT, IgnoreParapgraphSpacing = true },
-                            new DocumentContent { DocumentContentId = 12, Order = 12, Name = BaseLetterTemplateContentNames.CUSTOMER_ADDRESS_4, RenderCellCode = BaseLetterTemplateTableCellCodes.CUSTOMER_DETAILS, Content = MockLetter.CUSTOMER_ADDRESS_4_CONTENT, IgnoreParapgraphSpacing = true },
-                            new DocumentContent { DocumentContentId = 13, Order = 13, Name = BaseLetterTemplateContentNames.CUSTOMER_ADDRESS_5, RenderCellCode = BaseLetterTemplateTableCellCodes.CUSTOMER_DETAILS, Content = MockLetter.CUSTOMER_ADDRESS_5_CONTENT, IgnoreParapgraphSpacing = true },
-                            new DocumentContent { DocumentContentId = 14, Order = 14, Name = BaseLetterTemplateContentNames.CUSTOMER_ADDRESS_6, RenderCellCode = BaseLetterTemplateTableCellCodes.CUSTOMER_DETAILS, Content = MockLetter.CUSTOMER_ADDRESS_6_CONTENT, IgnoreParapgraphSpacing = true },
-                            new DocumentContent { DocumentContentId = 15, Order = 15, Name = BaseLetterTemplateContentNames.CUSTOMER_ADDRESS_7, RenderCellCode = BaseLetterTemplateTableCellCodes.CUSTOMER_DETAILS, Content = MockLetter.CUSTOMER_ADDRESS_7_CONTENT, IgnoreParapgraphSpacing = true }
+                            new DocumentContent { DocumentContentId = 1, Order = 1, Name = MockLetter.LOGO, RenderCellCode = MockLetter.COMPANY_LOGO, ContentType = DocumentContentType.Image, Image = "logo.png", ImageHeight = 15, ImageWidth = 35 },
+                            new DocumentContent { DocumentContentId = 2, Order = 2, Name = MockLetter.COMPANY_NAME, RenderCellCode = MockLetter.COMPANY_DETAILS, Content = MockLetter.COMPANY_NAME_CONTENT, IgnoreParapgraphSpacing = true },
+                            new DocumentContent { DocumentContentId = 3, Order = 3, Name = MockLetter.COMPANY_ADDRESS_1, RenderCellCode = MockLetter.COMPANY_DETAILS, Content = MockLetter.COMPANY_ADDRESS_1_CONTENT, IgnoreParapgraphSpacing = true },
+                            new DocumentContent { DocumentContentId = 4, Order = 4, Name = MockLetter.COMPANY_ADDRESS_2, RenderCellCode = MockLetter.COMPANY_DETAILS, Content = MockLetter.COMPANY_ADDRESS_2_CONTENT, IgnoreParapgraphSpacing = true },
+                            new DocumentContent { DocumentContentId = 5, Order = 5, Name = MockLetter.COMPANY_ADDRESS_3, RenderCellCode = MockLetter.COMPANY_DETAILS, Content = MockLetter.COMPANY_ADDRESS_3_CONTENT, IgnoreParapgraphSpacing = true },
+                            new DocumentContent { DocumentContentId = 6, Order = 6, Name = MockLetter.COMPANY_PHONE_NUMBER, RenderCellCode = MockLetter.COMPANY_DETAILS, Content = MockLetter.COMPANY_PHONE_NUMBER_CONTENT, IgnoreParapgraphSpacing = true },
+                            new DocumentContent { DocumentContentId = 7, Order = 7, Name = MockLetter.COMPANY_EMAIL, RenderCellCode = MockLetter.COMPANY_DETAILS, Content = MockLetter.COMPANY_EMAIL_CONTENT, IgnoreParapgraphSpacing = true },
+                            new DocumentContent { DocumentContentId = 8, Order = 8, Name = MockLetter.CUSTOMER_NAME, RenderCellCode = MockLetter.CUSTOMER_DETAILS, Content = MockLetter.CUSTOMER_NAME_CONTENT, IgnoreParapgraphSpacing = true },
+                            new DocumentContent { DocumentContentId = 9, Order = 9, Name = MockLetter.CUSTOMER_ADDRESS_1, RenderCellCode = MockLetter.CUSTOMER_DETAILS, Content = MockLetter.CUSTOMER_ADDRESS_1_CONTENT, IgnoreParapgraphSpacing = true },
+                            new DocumentContent { DocumentContentId = 10, Order = 10, Name = MockLetter.CUSTOMER_ADDRESS_2, RenderCellCode = MockLetter.CUSTOMER_DETAILS, Content = MockLetter.CUSTOMER_ADDRESS_2_CONTENT, IgnoreParapgraphSpacing = true },
+                            new DocumentContent { DocumentContentId = 11, Order = 11, Name = MockLetter.CUSTOMER_ADDRESS_3, RenderCellCode = MockLetter.CUSTOMER_DETAILS, Content = MockLetter.CUSTOMER_ADDRESS_3_CONTENT, IgnoreParapgraphSpacing = true },
+                            new DocumentContent { DocumentContentId = 12, Order = 12, Name = MockLetter.CUSTOMER_ADDRESS_4, RenderCellCode = MockLetter.CUSTOMER_DETAILS, Content = MockLetter.CUSTOMER_ADDRESS_4_CONTENT, IgnoreParapgraphSpacing = true },
+                            new DocumentContent { DocumentContentId = 13, Order = 13, Name = MockLetter.CUSTOMER_ADDRESS_5, RenderCellCode = MockLetter.CUSTOMER_DETAILS, Content = MockLetter.CUSTOMER_ADDRESS_5_CONTENT, IgnoreParapgraphSpacing = true },
+                            new DocumentContent { DocumentContentId = 14, Order = 14, Name = MockLetter.CUSTOMER_ADDRESS_6, RenderCellCode = MockLetter.CUSTOMER_DETAILS, Content = MockLetter.CUSTOMER_ADDRESS_6_CONTENT, IgnoreParapgraphSpacing = true },
+                            new DocumentContent { DocumentContentId = 15, Order = 15, Name = MockLetter.CUSTOMER_ADDRESS_7, RenderCellCode = MockLetter.CUSTOMER_DETAILS, Content = MockLetter.CUSTOMER_ADDRESS_7_CONTENT, IgnoreParapgraphSpacing = true }
                         ]
                     }
                 },
@@ -111,7 +111,7 @@ namespace Origin.Test.Data
                         Colour = "0,176,240",
                         Contents =
                         [
-                            new DocumentContent { DocumentContentId = 16, Order = 16, Name = BaseLetterTemplateContentNames.LETTER_TITLE, Content = MockLetter.LETTER_TITLE_CONTENT }
+                            new DocumentContent { DocumentContentId = 16, Order = 16, Name = MockLetter.LETTER_TITLE, Content = MockLetter.LETTER_TITLE_CONTENT }
                         ]
                     }
                 },
@@ -265,13 +265,13 @@ namespace Origin.Test.Data
                         ],
                         Cells =
                         [
-                            new DocumentTableCell { DocumentTableCellId = 1, RowNumber = 1, ColumnNumber = 1, CellCode = BaseLetterTemplateTableCellCodes.SIGNATURE_DETAILS }
+                            new DocumentTableCell { DocumentTableCellId = 1, RowNumber = 1, ColumnNumber = 1, CellCode = MockLetter.SIGNATURE_DETAILS }
                         ],
                         Contents =
                         [
-                            new DocumentContent { DocumentContentId = 17, Order = 17, Name = BaseLetterTemplateContentNames.SIGNATURE, RenderCellCode = BaseLetterTemplateTableCellCodes.SIGNATURE_DETAILS, ContentType = DocumentContentType.Image, Image = "signature.png", ImageHeight = 15, ImageWidth = 35 },
-                            new DocumentContent { DocumentContentId = 18, Order = 18, Name = BaseLetterTemplateContentNames.SIGNEE, RenderCellCode = BaseLetterTemplateTableCellCodes.SIGNATURE_DETAILS, Content = MockLetter.SIGNEE_CONTENT, IgnoreParapgraphSpacing = true },
-                            new DocumentContent { DocumentContentId = 19, Order = 19, Name = BaseLetterTemplateContentNames.SIGNEE_TITLE, RenderCellCode = BaseLetterTemplateTableCellCodes.SIGNATURE_DETAILS, Content = MockLetter.SIGNEE_TITLE_CONTENT, IgnoreParapgraphSpacing = true }
+                            new DocumentContent { DocumentContentId = 17, Order = 17, Name = MockLetter.SIGNATURE, RenderCellCode = MockLetter.SIGNATURE_DETAILS, ContentType = DocumentContentType.Image, Image = "signature.png", ImageHeight = 15, ImageWidth = 35 },
+                            new DocumentContent { DocumentContentId = 18, Order = 18, Name = MockLetter.SIGNEE, RenderCellCode = MockLetter.SIGNATURE_DETAILS, Content = MockLetter.SIGNEE_CONTENT, IgnoreParapgraphSpacing = true },
+                            new DocumentContent { DocumentContentId = 19, Order = 19, Name = MockLetter.SIGNEE_TITLE, RenderCellCode = MockLetter.SIGNATURE_DETAILS, Content = MockLetter.SIGNEE_TITLE_CONTENT, IgnoreParapgraphSpacing = true }
                         ]
                     }
                 }

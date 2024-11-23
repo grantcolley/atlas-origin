@@ -1,6 +1,6 @@
 using Origin.Core.Extensions;
 using Origin.Core.Models;
-using Origin.Test.Data;
+using Origin.Tests.Data;
 
 namespace Origin.Tests
 {

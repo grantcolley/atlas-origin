@@ -5,7 +5,7 @@ namespace Origin.Test.Data
 {
     public static class CustomerProductLetter
     {
-        public static DocumentConfig BuildCustomerProduct(DocumentConfig cloneConfig)
+        public static DocumentConfig Build(DocumentConfig cloneConfig)
         {
 
             DocumentConfig documentConfig = cloneConfig.Clone();
@@ -22,7 +22,7 @@ namespace Origin.Test.Data
                     FontSize = 11,
                     Contents =
                         [
-                            new DocumentContent { Order = 20, Name = MockLetter.PARAGRAPH_1_TEXT, RenderCellCode = MockLetter.PARAGRAPH_1, Content = CustomerProductLetterContent.LOREM_IPSUM_IS_NONSENSE_MICROSOFT }
+                            new DocumentContent { Order = 1, Name = LoremIpsumContent.PARAGRAPH_1_TEXT, Content = LoremIpsumContent.LOREM_IPSUM_IS_NONSENSE_MICROSOFT_CONTENT }
                         ]
                 }
             });

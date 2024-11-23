@@ -365,7 +365,7 @@ namespace Atlas.Seed.Data
 
             dbContext.SaveChanges();
 
-            DocumentConfig customerProductLetter = CustomerProductLetter.BuildCustomerProduct(letterTemplate);
+            DocumentConfig customerProductLetter = CustomerProductLetter.Build(letterTemplate);
 
             dbContext.DocumentConfigs.Add(customerProductLetter);
 

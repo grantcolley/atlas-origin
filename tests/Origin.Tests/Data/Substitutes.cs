@@ -1,4 +1,4 @@
-﻿namespace Origin.Test.Data
+﻿namespace Origin.Tests.Data
 {
     public static class Substitutes
     {
