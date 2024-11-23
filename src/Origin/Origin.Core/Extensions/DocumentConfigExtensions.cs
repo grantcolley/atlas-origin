@@ -1,30 +1,43 @@
 ﻿using Origin.Core.Models;
 using System.Text;
+using System.Text.Json;
 
 namespace Origin.Core.Extensions
 {
     public static class DocumentConfigExtensions
     {
-        /// <summary>
-        /// Takes a <see cref="DocumentConfig"/> and sets it's name to null and it's <see cref="DocumentConfig.DocumentConfigId"/> to zero.
-        /// It also resets the id's for all <see cref="DocumentSubstitute"/>'s and <see cref="DocumentConfigParagraph"/>'s.
-        /// Note: It does not reset id's for <see cref="DocumentParagraph"/>'s.
-        /// </summary>
-        /// <param name="documentConfig">The <see cref="DocumentConfig"/> to reset.</param>
-        public static void ResetIds(this DocumentConfig documentConfig)
+        public static DocumentConfig Clone(this DocumentConfig documentConfig)
         {
-            documentConfig.DocumentConfigId = 0;
-            documentConfig.Name = null;
+            string json = JsonSerializer.Serialize(documentConfig);
+            DocumentConfig? clonedDocumentConfig = JsonSerializer.Deserialize<DocumentConfig>(json);
 
-            foreach(DocumentSubstitute substitute in documentConfig.Substitutes)
+            if (clonedDocumentConfig == null) throw new NullReferenceException(nameof(clonedDocumentConfig));
+
+            clonedDocumentConfig.DocumentConfigId = 0;
+            clonedDocumentConfig.Name = null;
+
+            clonedDocumentConfig.Substitutes.Clear();
+            clonedDocumentConfig.ConfigParagraphs.Clear();
+
+            foreach (DocumentSubstitute documentSubstitute in documentConfig.Substitutes)
             {
-                substitute.DocumentSubstituteId = 0;
+                clonedDocumentConfig.Substitutes.Add(new DocumentSubstitute
+                {
+                    Key = documentSubstitute.Key,
+                    Group = documentSubstitute.Group
+                });
             }
 
             foreach (DocumentConfigParagraph configParagraph in documentConfig.ConfigParagraphs)
             {
-                configParagraph.DocumentConfigParagraphId = 0;
+                clonedDocumentConfig.ConfigParagraphs.Add(new DocumentConfigParagraph 
+                {
+                    Order = configParagraph.Order, 
+                    DocumentParagraph = configParagraph.DocumentParagraph 
+                });
             }
+
+            return clonedDocumentConfig;
         }
 
         /// <summary>

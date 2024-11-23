@@ -7,6 +7,7 @@ using Commercial.Core.Models;
 using Commercial.Test.Data;
 using Microsoft.EntityFrameworkCore;
 using Origin.Blazor.Web.Constants;
+using Origin.Core.Extensions;
 using Origin.Core.Models;
 using Origin.Test.Data;
 
@@ -358,77 +359,17 @@ namespace Atlas.Seed.Data
         {
             if (dbContext == null) throw new NullReferenceException(nameof(dbContext));
 
-            DocumentConfig documentConfig = TestData.GetDocumentArgs(true);
+            DocumentConfig letterTemplate = BaseLetterTemplate.GetBaseLetterTemplateDocumentConfig();
 
-            documentConfig.Name = "Example Document";
-            documentConfig.DocumentConfigId = 0;
-
-            foreach (DocumentConfigParagraph configParagraph in documentConfig.ConfigParagraphs)
-            {
-                configParagraph.DocumentConfigParagraphId = 0;
-
-                DocumentParagraph documentParagraph = configParagraph.DocumentParagraph ?? throw new NullReferenceException(nameof(configParagraph));
-
-                ResetParagraphIdentities(documentParagraph);
-
-                dbContext.DocumentParagraphs.Add(documentParagraph);
-
-                dbContext.SaveChanges();
-            }
-
-            dbContext.DocumentConfigs.Add(documentConfig);
+            dbContext.DocumentConfigs.Add(letterTemplate);
 
             dbContext.SaveChanges();
 
+            DocumentConfig customerProductLetter = CustomerProductLetter.BuildCustomerProduct(letterTemplate);
 
-            List<DocumentParagraph?> documentParagraphs = documentConfig.ConfigParagraphs.Select(c => c.DocumentParagraph).ToList();
-
-            DocumentConfig documentConfigTemplate = new();
-            documentConfigTemplate.Name = "Letter Template";
-            documentConfigTemplate.SubstituteStart = "[";
-            documentConfigTemplate.SubstituteEnd = "]";
-
-            documentConfigTemplate.Substitutes.AddRange(TestData.GetDocumentSubstitutes(true, true));
-
-            documentConfigTemplate.ConfigParagraphs.Add(new DocumentConfigParagraph { Order = 1, DocumentParagraph = documentParagraphs.First(p => p.Name == ParagraphNames.FOOTER_PARAGRAPH) });
-            documentConfigTemplate.ConfigParagraphs.Add(new DocumentConfigParagraph { Order = 2, DocumentParagraph = documentParagraphs.First(p => p.Name == ParagraphNames.LETTER_HEAD_TABLE) });
-            documentConfigTemplate.ConfigParagraphs.Add(new DocumentConfigParagraph { Order = 3, DocumentParagraph = documentParagraphs.First(p => p.Name == ParagraphNames.LETTER_TITLE_PARAGRAPH) });
-            documentConfigTemplate.ConfigParagraphs.Add(new DocumentConfigParagraph { Order = 4, DocumentParagraph = documentParagraphs.First(p => p.Name == ParagraphNames.SIGNATURE_TABLE) });
-
-            dbContext.DocumentConfigs.Add(documentConfigTemplate);
+            dbContext.DocumentConfigs.Add(customerProductLetter);
 
             dbContext.SaveChanges();
-
-            DocumentConfig customerLetterDocumentConfig = CustomerProductLetter.GetCustomerDocumentArgs();
-
-            dbContext.DocumentConfigs.Add(customerLetterDocumentConfig);
-
-            dbContext.SaveChanges();
-        }
-
-        private static void ResetParagraphIdentities(DocumentParagraph documentParagraph)
-        {
-            documentParagraph.DocumentParagraphId = 0;
-
-            foreach(DocumentContent documentContent in documentParagraph.Contents)
-            {
-                documentContent.DocumentContentId = 0;
-            }
-
-            foreach (DocumentTableColumn documentTableColumn in documentParagraph.Columns)
-            {
-                documentTableColumn.DocumentTableColumnId = 0;
-            }
-
-            foreach (DocumentTableRow documentTableRow in documentParagraph.Rows)
-            {
-                documentTableRow.DocumentTableRowId = 0;
-            }
-
-            foreach (DocumentTableCell documentTableCell in documentParagraph.Cells)
-            {
-                documentTableCell.DocumentTableCellId = 0;
-            }
         }
 
         private static void AddCommercial()

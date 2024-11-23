@@ -1,6 +1,6 @@
 ﻿namespace Origin.Test.Data
 {
-    public static class ContentNames
+    public static class BaseLetterTemplateContentNames
     {
         public const string LOGO = "LOGO";
         public const string COMPANY_NAME = "COMPANY_NAME";

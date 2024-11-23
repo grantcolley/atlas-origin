@@ -47,8 +47,7 @@
 
             if (Clone)
             {
-                Model?.ResetIds();
-                _id = 0;
+                Model = Model?.Clone();
             }
 
             _activeTab = _tabs[0];

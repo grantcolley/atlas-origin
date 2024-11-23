@@ -1,6 +1,6 @@
 ﻿namespace Origin.Test.Data
 {
-    public static class TableCellCodes
+    public static class BaseLetterTemplateTableCellCodes
     {
         public const string COMPANY_LOGO = "COMPANY_LOGO";
         public const string COMPANY_DETAILS = "COMPANY_DETAILS";

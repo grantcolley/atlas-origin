@@ -1,5 +1,4 @@
 ﻿using Atlas.Core.Models;
-using System.ComponentModel.DataAnnotations;
 
 namespace Origin.Core.Models
 {

@@ -1,118 +1,40 @@
-﻿using Origin.Core.Models;
+﻿using Origin.Core.Extensions;
+using Origin.Core.Models;
 
 namespace Origin.Test.Data
 {
     public static class CustomerProductLetter
     {
-        public static DocumentConfig GetCustomerDocumentArgs()
+        public static DocumentConfig BuildCustomerProduct(DocumentConfig cloneConfig)
         {
-            DocumentConfig documentConfig = new()
-            {
-                Name = "Customer Product Letter",
-                SubstituteStart = "[",
-                SubstituteEnd = "]",
-                Substitutes = GetDocumentSubstitutes()
-            };
 
-            documentConfig.ConfigParagraphs =
-            [
-                new DocumentConfigParagraph()
+            DocumentConfig documentConfig = cloneConfig.Clone();
+            documentConfig.Name = "Customer Product Letter";
+            documentConfig.Substitutes.AddRange(GetDocumentSubstitutes());
+
+            documentConfig.ConfigParagraphs.Add(new DocumentConfigParagraph()
+            {
+                Order = 3,
+                DocumentParagraph = new DocumentParagraph
                 {
-                    Order = 1,
-                    DocumentParagraph = new DocumentParagraph
-                    {
-                        DocumentParagraphType = DocumentParagraphType.Footer,
-                        Name = "CUSTOMER PRODUCT LETTER FOOTER",
-                        FontSize = 8,
-                        IgnoreParapgraphSpacing = true,
-                        Contents =
-                        [
-                            new DocumentContent { Order = 1, Name = ContentNames.FOOTER_TEXT, Content = MockLetter.FOOTER_CONTENT }
-                        ]
-                    }
-                },
-                new DocumentConfigParagraph()
-                {
-                    Order = 2,
-                    DocumentParagraph = new DocumentParagraph
-                    {
-                        DocumentParagraphType = DocumentParagraphType.Table,
-                        Name = "CUSTOMER PRODUCT LETTER HEADING",
-                        Rows =
-                        [
-                            new DocumentTableRow { Number = 1 },
-                            new DocumentTableRow { Number = 2 },
-                            new DocumentTableRow { Number = 3 }
-                        ],
-                        Columns =
-                        [
-                            new DocumentTableColumn { Number = 1, Width = 62 },
-                            new DocumentTableColumn { Number = 2, Width = 63 },
-                            new DocumentTableColumn { Number = 3, Width = 55 }
-                        ],
-                        Cells =
-                        [
-                            new DocumentTableCell{ RowNumber = 1, ColumnNumber = 1, CellCode = TableCellCodes.COMPANY_LOGO },
-                            new DocumentTableCell{ RowNumber = 2, ColumnNumber = 3, CellCode = TableCellCodes.COMPANY_DETAILS },
-                            new DocumentTableCell{ RowNumber = 3, ColumnNumber = 1, CellCode = TableCellCodes.CUSTOMER_DETAILS }
-                        ],
-                        Contents =
-                        [
-                            new DocumentContent { Order = 1, Name = ContentNames.LOGO, RenderCellCode = TableCellCodes.COMPANY_LOGO, ContentType = DocumentContentType.Image, Image = "logo.png", ImageHeight = 15, ImageWidth = 35 },
-                            new DocumentContent { Order = 2, Name = ContentNames.COMPANY_NAME, RenderCellCode = TableCellCodes.COMPANY_DETAILS, Content = CustomerProductLetterContent.COMPANY_NAME_CONTENT, IgnoreParapgraphSpacing = true },
-                            new DocumentContent { Order = 3, Name = ContentNames.COMPANY_ADDRESS_1, RenderCellCode = TableCellCodes.COMPANY_DETAILS, Content = CustomerProductLetterContent.COMPANY_ADDRESS_1_CONTENT, IgnoreParapgraphSpacing = true },
-                            new DocumentContent { Order = 4, Name = ContentNames.COMPANY_ADDRESS_2, RenderCellCode = TableCellCodes.COMPANY_DETAILS, Content = CustomerProductLetterContent.COMPANY_ADDRESS_2_CONTENT, IgnoreParapgraphSpacing = true },
-                            new DocumentContent { Order = 5, Name = ContentNames.COMPANY_ADDRESS_3, RenderCellCode = TableCellCodes.COMPANY_DETAILS, Content = CustomerProductLetterContent.COMPANY_ADDRESS_3_CONTENT, IgnoreParapgraphSpacing = true },
-                            new DocumentContent { Order = 6, Name = ContentNames.COMPANY_PHONE_NUMBER, RenderCellCode = TableCellCodes.COMPANY_DETAILS, Content = CustomerProductLetterContent.COMPANY_PHONE_NUMBER_CONTENT, IgnoreParapgraphSpacing = true },
-                            new DocumentContent { Order = 7, Name = ContentNames.COMPANY_EMAIL, RenderCellCode = TableCellCodes.COMPANY_DETAILS, Content = CustomerProductLetterContent.COMPANY_EMAIL_CONTENT, IgnoreParapgraphSpacing = true },
-                            new DocumentContent { Order = 8, Name = ContentNames.CUSTOMER_NAME, RenderCellCode = TableCellCodes.CUSTOMER_DETAILS, Content = CustomerProductLetterContent.CUSTOMER_NAME_CONTENT, IgnoreParapgraphSpacing = true },
-                            new DocumentContent { Order = 9, Name = ContentNames.CUSTOMER_ADDRESS_1, RenderCellCode = TableCellCodes.CUSTOMER_DETAILS, Content = CustomerProductLetterContent.CUSTOMER_ADDRESS_1_CONTENT, IgnoreParapgraphSpacing = true },
-                            new DocumentContent { Order = 10, Name = ContentNames.CUSTOMER_ADDRESS_2, RenderCellCode = TableCellCodes.CUSTOMER_DETAILS, Content = CustomerProductLetterContent.CUSTOMER_ADDRESS_2_CONTENT, IgnoreParapgraphSpacing = true },
-                            new DocumentContent { Order = 11, Name = ContentNames.CUSTOMER_ADDRESS_3, RenderCellCode = TableCellCodes.CUSTOMER_DETAILS, Content = CustomerProductLetterContent.CUSTOMER_ADDRESS_3_CONTENT, IgnoreParapgraphSpacing = true },
-                            new DocumentContent { Order = 12, Name = ContentNames.CUSTOMER_ADDRESS_4, RenderCellCode = TableCellCodes.CUSTOMER_DETAILS, Content = CustomerProductLetterContent.CUSTOMER_ADDRESS_4_CONTENT, IgnoreParapgraphSpacing = true },
-                            new DocumentContent { Order = 13, Name = ContentNames.CUSTOMER_ADDRESS_5, RenderCellCode = TableCellCodes.CUSTOMER_DETAILS, Content = CustomerProductLetterContent.CUSTOMER_ADDRESS_5_CONTENT, IgnoreParapgraphSpacing = true },
-                            new DocumentContent { Order = 14, Name = ContentNames.CUSTOMER_ADDRESS_6, RenderCellCode = TableCellCodes.CUSTOMER_DETAILS, Content = CustomerProductLetterContent.CUSTOMER_ADDRESS_6_CONTENT, IgnoreParapgraphSpacing = true },
-                            new DocumentContent { Order = 15, Name = ContentNames.CUSTOMER_ADDRESS_7, RenderCellCode = TableCellCodes.CUSTOMER_DETAILS, Content = CustomerProductLetterContent.CUSTOMER_ADDRESS_7_CONTENT, IgnoreParapgraphSpacing = true }
-                        ]
-                    }
-                },
-                new DocumentConfigParagraph()
-                {
-                    Order = 3,
-                    DocumentParagraph = new DocumentParagraph
-                    {
-                        Name = "CUSTOMER PRODUCT LETTER TITLE",
-                        Font = "Courier",
-                        FontSize = 16,
-                        Colour = "0,176,240",
-                        Contents =
-                        [
-                            new DocumentContent { Order = 1, Name = ContentNames.LETTER_TITLE, Content = CustomerProductLetterContent.LETTER_TITLE_CONTENT }
-                        ]
-                    }
-                },
-                new DocumentConfigParagraph()
-                {
-                    Order = 4,
-                    DocumentParagraph = new DocumentParagraph
-                    {
-                        Name = "CUSTOMER PRODUCT LETTER PARAGRAPH 1",
-                        Font = "Courier",
-                        FontSize = 11,
-                        Contents =
+                    Name = "Customer Product Letter Paragraph",
+                    Font = "Courier",
+                    FontSize = 11,
+                    Contents =
                         [
                             new DocumentContent { Order = 20, Name = MockLetter.PARAGRAPH_1_TEXT, RenderCellCode = MockLetter.PARAGRAPH_1, Content = CustomerProductLetterContent.LOREM_IPSUM_IS_NONSENSE_MICROSOFT }
                         ]
-                    }
-                },
-                new DocumentConfigParagraph()
+                }
+            });
+
+            documentConfig.ConfigParagraphs.Add(new DocumentConfigParagraph()
+            {
+                Order = 4,
+                DocumentParagraph = new DocumentParagraph
                 {
-                    Order = 5,
-                    DocumentParagraph = new DocumentParagraph
-                    {
-                        DocumentParagraphType = DocumentParagraphType.Table,
-                        Name = "CUSTOMER PRODUCT LETTER PRODUCT TABLE",
-                        Rows =
+                    DocumentParagraphType = DocumentParagraphType.Table,
+                    Name = "Customer Product Letter Product Table",
+                    Rows =
                         [
                             new DocumentTableRow { Number = 1 },
                             new DocumentTableRow { Number = 2 },
@@ -121,12 +43,12 @@ namespace Origin.Test.Data
                             new DocumentTableRow { Number = 5 },
                             new DocumentTableRow { Number = 6 }
                         ],
-                        Columns =
+                    Columns =
                         [
                             new DocumentTableColumn { Number = 1, Width = 160 },
                             new DocumentTableColumn { Number = 2, Width = 30 }
                         ],
-                        Cells =
+                    Cells =
                         [
                             new DocumentTableCell{ RowNumber = 1, ColumnNumber = 1, CellCode = CustomerProductLetterTableCellConstants.TABLE_ROW_1_COL_1_CODE, CellColour = "150,200,250", BorderLeft = 1, BorderLeftColour = "150,200,250", BorderTop = 1, BorderTopColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250", BorderBottom = 1, BorderBottomColour = "150,200,250" },
                             new DocumentTableCell{ RowNumber = 1, ColumnNumber = 2, CellCode = CustomerProductLetterTableCellConstants.TABLE_ROW_1_COL_2_CODE, CellColour = "150,200,250", BorderLeft = 1, BorderLeftColour = "150,200,250", BorderTop = 1, BorderTopColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250", BorderBottom = 1, BorderBottomColour = "150,200,250" },
@@ -141,7 +63,7 @@ namespace Origin.Test.Data
                             new DocumentTableCell{ RowNumber = 6, ColumnNumber = 1, CellCode = CustomerProductLetterTableCellConstants.TABLE_ROW_6_COL_1_CODE, BorderLeft = 1, BorderLeftColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250", BorderBottom = 1, BorderBottomColour = "150,200,250" },
                             new DocumentTableCell{ RowNumber = 6, ColumnNumber = 2, CellCode = CustomerProductLetterTableCellConstants.TABLE_ROW_6_COL_2_CODE, BorderLeft = 1, BorderLeftColour = "150,200,250", BorderRight = 1, BorderRightColour = "150,200,250", BorderBottom = 1, BorderBottomColour = "150,200,250" }
                         ],
-                        Contents =
+                    Contents =
                         [
                             new DocumentContent { Order = 1, Name = CustomerProductLetterContent.TABLE_ROW_1_COL_1_CONTENT, RenderCellCode = CustomerProductLetterTableCellConstants.TABLE_ROW_1_COL_1_CODE, Content = CustomerProductLetterContent.TABLE_SUMMARY_CONTENT, IgnoreParapgraphSpacing = true },
                             new DocumentContent { Order = 2, Name = CustomerProductLetterContent.TABLE_ROW_2_COL_1_CONTENT, RenderCellCode = CustomerProductLetterTableCellConstants.TABLE_ROW_2_COL_1_CODE, Content = CustomerProductLetterContent.TABLE_ROW_2_COL_1_TEXT, IgnoreParapgraphSpacing = true },
@@ -155,73 +77,20 @@ namespace Origin.Test.Data
                             new DocumentContent { Order = 10, Name = CustomerProductLetterContent.TABLE_ROW_6_COL_1_CONTENT, RenderCellCode = CustomerProductLetterTableCellConstants.TABLE_ROW_6_COL_1_CODE, Content = CustomerProductLetterContent.TABLE_ROW_6_COL_1_TEXT, IgnoreParapgraphSpacing = true },
                             new DocumentContent { Order = 11, Name = CustomerProductLetterContent.TABLE_ROW_6_COL_2_CONTENT, RenderCellCode = CustomerProductLetterTableCellConstants.TABLE_ROW_6_COL_2_CODE, Content = CustomerProductLetterContent.TABLE_ROW_6_COL_2_TEXT, AlignContent = DocumentContentAlign.End, IgnoreParapgraphSpacing = true }
                         ]
-                    }
-                },
-                new DocumentConfigParagraph()
-                {
-                    Order = 6,
-                    DocumentParagraph = new DocumentParagraph
-                    {
-                        DocumentParagraphType = DocumentParagraphType.Table,
-                        Name = "CUSTOMER PRODUCT LETTER CLOSE",
-                        Rows =
-                        [
-                            new DocumentTableRow { Number = 1 }
-                        ],
-                        Columns =
-                        [
-                            new DocumentTableColumn { Number = 1, Width = 35 }
-                        ],
-                        Cells =
-                        [
-                            new DocumentTableCell { RowNumber = 1, ColumnNumber = 1, CellCode = TableCellCodes.SIGNATURE_DETAILS }
-                        ],
-                        Contents =
-                        [
-                            new DocumentContent { Order = 1, Name = ContentNames.SIGNATURE, RenderCellCode = TableCellCodes.SIGNATURE_DETAILS, ContentType = DocumentContentType.Image, Image = "signature.png", ImageHeight = 15, ImageWidth = 35 },
-                            new DocumentContent { Order = 2, Name = ContentNames.SIGNEE, RenderCellCode = TableCellCodes.SIGNATURE_DETAILS, Content = CustomerProductLetterContent.SIGNEE_CONTENT, IgnoreParapgraphSpacing = true },
-                            new DocumentContent { Order = 3, Name = ContentNames.SIGNEE_TITLE, RenderCellCode = TableCellCodes.SIGNATURE_DETAILS, Content = CustomerProductLetterContent.SIGNEE_TITLE_CONTENT, IgnoreParapgraphSpacing = true }
-                        ]
-                    }
                 }
-            ];
+            });
 
             return documentConfig;
         }
 
-        public static List<DocumentSubstitute> GetDocumentSubstitutes()
+        private static List<DocumentSubstitute> GetDocumentSubstitutes()
         {
             List<DocumentSubstitute> documentSubstitutes = [];
-
-            documentSubstitutes.Add(new DocumentSubstitute { Key = CustomerProductLetterSubstitutes.CUSTOMER_ID });
-            documentSubstitutes.Add(new DocumentSubstitute { Key = CustomerProductLetterSubstitutes.CUSTOMER_TITLE });
-            documentSubstitutes.Add(new DocumentSubstitute { Key = CustomerProductLetterSubstitutes.CUSTOMER_FIRST_NAME });
-            documentSubstitutes.Add(new DocumentSubstitute { Key = CustomerProductLetterSubstitutes.CUSTOMER_SURNAME });
-            documentSubstitutes.Add(new DocumentSubstitute { Key = CustomerProductLetterSubstitutes.CUSTOMER_ADDRESS_1, Group = CustomerProductLetterSubstitutes.CUSTOMER_ADDRESS_GROUP });
-            documentSubstitutes.Add(new DocumentSubstitute { Key = CustomerProductLetterSubstitutes.CUSTOMER_ADDRESS_2, Group = CustomerProductLetterSubstitutes.CUSTOMER_ADDRESS_GROUP });
-            documentSubstitutes.Add(new DocumentSubstitute { Key = CustomerProductLetterSubstitutes.CUSTOMER_ADDRESS_3, Group = CustomerProductLetterSubstitutes.CUSTOMER_ADDRESS_GROUP });
-            documentSubstitutes.Add(new DocumentSubstitute { Key = CustomerProductLetterSubstitutes.CUSTOMER_ADDRESS_4, Group = CustomerProductLetterSubstitutes.CUSTOMER_ADDRESS_GROUP });
-            documentSubstitutes.Add(new DocumentSubstitute { Key = CustomerProductLetterSubstitutes.CUSTOMER_ADDRESS_5, Group = CustomerProductLetterSubstitutes.CUSTOMER_ADDRESS_GROUP });
-            documentSubstitutes.Add(new DocumentSubstitute { Key = CustomerProductLetterSubstitutes.CUSTOMER_ADDRESS_6, Group = CustomerProductLetterSubstitutes.CUSTOMER_ADDRESS_GROUP });
-            documentSubstitutes.Add(new DocumentSubstitute { Key = CustomerProductLetterSubstitutes.CUSTOMER_ADDRESS_7, Group = CustomerProductLetterSubstitutes.CUSTOMER_ADDRESS_GROUP });
-            documentSubstitutes.Add(new DocumentSubstitute { Key = CustomerProductLetterSubstitutes.CUSTOMER_SORT_CODE });
-            documentSubstitutes.Add(new DocumentSubstitute { Key = CustomerProductLetterSubstitutes.CUSTOMER_ACCOUNT_NUMBER });
-
             documentSubstitutes.Add(new DocumentSubstitute { Key = CustomerProductLetterSubstitutes.TABLE_PRODUCT_NAME });
             documentSubstitutes.Add(new DocumentSubstitute { Key = CustomerProductLetterSubstitutes.TABLE_PRODUCT_STARTDATE });
             documentSubstitutes.Add(new DocumentSubstitute { Key = CustomerProductLetterSubstitutes.TABLE_PRODUCT_DURATION });
             documentSubstitutes.Add(new DocumentSubstitute { Key = CustomerProductLetterSubstitutes.TABLE_PRODUCT_RATE });
             documentSubstitutes.Add(new DocumentSubstitute { Key = CustomerProductLetterSubstitutes.TABLE_PRODUCT_VALUE });
-
-            documentSubstitutes.Add(new DocumentSubstitute { Key = CustomerProductLetterSubstitutes.COMPANY_NAME });
-            documentSubstitutes.Add(new DocumentSubstitute { Key = CustomerProductLetterSubstitutes.COMPANY_ADDRESS_1 });
-            documentSubstitutes.Add(new DocumentSubstitute { Key = CustomerProductLetterSubstitutes.COMPANY_ADDRESS_2 });
-            documentSubstitutes.Add(new DocumentSubstitute { Key = CustomerProductLetterSubstitutes.COMPANY_ADDRESS_3 });
-            documentSubstitutes.Add(new DocumentSubstitute { Key = CustomerProductLetterSubstitutes.COMPANY_PHONE_NUMBER });
-            documentSubstitutes.Add(new DocumentSubstitute { Key = CustomerProductLetterSubstitutes.COMPANY_EMAIL });
-            documentSubstitutes.Add(new DocumentSubstitute { Key = CustomerProductLetterSubstitutes.SIGNEE });
-            documentSubstitutes.Add(new DocumentSubstitute { Key = CustomerProductLetterSubstitutes.SIGNEE_TITLE });
-
             return documentSubstitutes;
         }
     }
