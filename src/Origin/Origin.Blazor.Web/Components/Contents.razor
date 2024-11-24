@@ -18,7 +18,9 @@
                 <FluentStack Orientation="Orientation.Horizontal" Style="margin: 10px">
                     <FluentNumberField @bind-Value="content.Order" Label="Order" ReadOnly="@(DocumentParagraph.IsReadOnly)" Min="0" Style="width: 100px" />
                     <FluentTextField Name="Name" @bind-Value="content.Name" Label="Name" ReadOnly="true" />
-                    <FluentButton aria-label="Edit" IconEnd="@(new Icons.Regular.Size16.MoreHorizontal())" OnClick="@(() => EditContent(content))" />
+
+                    <FluentButton Id="@($"{content.Order}-contentButton")" aria-label="Edit" IconEnd="@(new Icons.Regular.Size16.MoreHorizontal())" OnClick="@(() => EditContent(content))" />
+                    <FluentTooltip Anchor="@($"{content.Order}-contentButton")">View content details</FluentTooltip>
 
                 @if (!DocumentParagraph.IsReadOnly)
                 {
