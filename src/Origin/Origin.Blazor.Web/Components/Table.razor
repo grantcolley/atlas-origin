@@ -10,9 +10,8 @@
 
             @if (!DocumentParagraph.IsReadOnly)
             {
-                <FluentButton IconStart="@(new Icons.Regular.Size16.TableInsertColumn())" OnClick="@AddColumn" Style="margin: 10px">
-                    Add Column
-                </FluentButton>
+                <FluentButton Id="add-column" IconStart="@(new Icons.Regular.Size16.TableInsertColumn())" OnClick="@AddColumn" Style="margin: 10px" />
+                <FluentTooltip Anchor="add-column">Add new column</FluentTooltip>
             }
 
             @foreach (Origin.Core.Models.DocumentTableColumn column in DocumentParagraph.Columns.OrderBy(c => c.Number))
@@ -23,7 +22,9 @@
 
                     @if (!DocumentParagraph.IsReadOnly)
                     {
-                        <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => RemoveColumn(column))" />
+                        <FluentButton aria-label="Delete" Type="ButtonType.Button" OnClick="@(() => RemoveColumn(column))">
+                            <FluentIcon Value="@(new Icons.Regular.Size16.Delete())" Color="Color.Error" />
+                        </FluentButton>
                     }
 
                     <FluentSpacer />
@@ -42,9 +43,8 @@
 
             @if (!DocumentParagraph.IsReadOnly)
             {
-                <FluentButton IconStart="@(new Icons.Regular.Size16.TableInsertRow())" OnClick="@AddRow" Style="margin: 10px">
-                    Add Row
-                </FluentButton>
+                <FluentButton Id="add-row" IconStart="@(new Icons.Regular.Size16.TableInsertRow())" OnClick="@AddRow" Style="margin: 10px" />
+                <FluentTooltip Anchor="add-row">Add new row</FluentTooltip>
             }
 
             @foreach (Origin.Core.Models.DocumentTableRow row in DocumentParagraph.Rows.OrderBy(r => r.Number))
@@ -55,7 +55,9 @@
 
                     @if (!DocumentParagraph.IsReadOnly)
                     {
-                        <FluentButton aria-label="Remove" IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => RemoveRow(row))" />
+                        <FluentButton aria-label="Delete" Type="ButtonType.Button" OnClick="@(() => RemoveRow(row))">
+                            <FluentIcon Value="@(new Icons.Regular.Size16.Delete())" Color="Color.Error" />
+                        </FluentButton>
                     }
 
                     <FluentSpacer />
@@ -72,9 +74,8 @@
 
             @if (!DocumentParagraph.IsReadOnly)
             {
-                <FluentButton IconStart="@(new Icons.Regular.Size16.TableCellEdit())" OnClick="@AddCell" Style="margin: 10px">
-                    Add Cell
-                </FluentButton>
+                <FluentButton Id="add-cell" IconStart="@(new Icons.Regular.Size16.TableCellEdit())" OnClick="@AddCell" Style="margin: 10px"/>
+                <FluentTooltip Anchor="add-cell">Add new cell</FluentTooltip>
             }
 
             @foreach (Origin.Core.Models.DocumentTableCell cell in DocumentParagraph.Cells.OrderBy(c => c.RowNumber).ThenBy(c => c.ColumnNumber))
@@ -89,7 +90,9 @@
 
                     @if (!DocumentParagraph.IsReadOnly)
                     {
-                        <FluentButton aria-label="Remove" IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => RemoveCell(cell))" />
+                        <FluentButton aria-label="Delete" Type="ButtonType.Button" OnClick="@(() => RemoveCell(cell))">
+                            <FluentIcon Value="@(new Icons.Regular.Size16.Delete())" Color="Color.Error" />
+                        </FluentButton>
                     }
 
                 </FluentStack>
