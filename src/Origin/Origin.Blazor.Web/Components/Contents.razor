@@ -22,12 +22,12 @@
                     <FluentButton Id="@($"{content.Order}-contentButton")" aria-label="Edit" IconEnd="@(new Icons.Regular.Size16.MoreHorizontal())" OnClick="@(() => EditContent(content))" />
                     <FluentTooltip Anchor="@($"{content.Order}-contentButton")">View content details</FluentTooltip>
 
-                @if (!DocumentParagraph.IsReadOnly)
-                {
-                    <FluentButton aria-label="Delete" Type="ButtonType.Button" OnClick="@(() => RemoveContent(content))">
-                        <FluentIcon Value="@(new Icons.Regular.Size16.Delete())" Color="Color.Error" />
-                    </FluentButton>
-                }
+                    @if (!DocumentParagraph.IsReadOnly)
+                    {
+                        <FluentButton aria-label="Delete" Type="ButtonType.Button" OnClick="@(() => RemoveContent(content))">
+                            <FluentIcon Value="@(new Icons.Regular.Size16.Delete())" Color="Color.Error" />
+                        </FluentButton>
+                    }
 
                 </FluentStack>
             }
