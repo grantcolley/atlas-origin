@@ -17,8 +17,7 @@
         {
             <FluentStack Orientation="Orientation.Horizontal" Style="margin: 10px">
                 <FluentNumberField @bind-Value="configParagraph.Order" Label="Order" ReadOnly="@(configParagraph.IsReadOnly)" Min="0" Style="width: 70px" />
-                <FluentTextField ReadOnly="true" Value="@configParagraph.DocumentParagraph?.Name"/>
-                <FluentTextField Id="@($"paragraph-content-{configParagraph.Order}")" ReadOnly="true" Value="@configParagraph.DocumentParagraph?.DisplayContent()" style="width: 300px"/>
+                <FluentTextField Id="@($"paragraph-content-{configParagraph.Order}")" ReadOnly="true" Value="@configParagraph.DocumentParagraph?.Name" />
                 <FluentTooltip Anchor="@($"paragraph-content-{configParagraph.Order}")" Position=TooltipPosition.Right>@configParagraph.DocumentParagraph?.DisplayContent()</FluentTooltip>
 
                 <FluentButton Id="@($"{configParagraph.Order}-viewButton")" aria-label="viewButton" IconEnd="@(new Icons.Regular.Size16.DocumentSync())" OnClick="@(() => View(configParagraph))" />
