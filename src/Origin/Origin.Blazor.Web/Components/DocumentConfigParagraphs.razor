@@ -4,9 +4,13 @@
         
         @if (!DocumentConfig.IsReadOnly)
         {
-            <FluentButton IconStart="@(new Icons.Regular.Size16.LineHorizontal4Search())" OnClick="@SearchParagraph" Style="margin: 10px">
-                Paragraph Search
-            </FluentButton>
+            <FluentToolbar>
+                <FluentButton Id="paragraph-search" IconStart="@(new Icons.Regular.Size16.LineHorizontal4Search())" OnClick="@SearchParagraph" Style="margin: 10px"/>
+                <FluentTooltip Anchor="paragraph-search" Position=TooltipPosition.Right>Search for an existing paragraph</FluentTooltip>
+
+                <FluentButton Id="create-new" aria-label="Create" IconEnd="@(new Icons.Regular.Size20.DocumentAdd())" OnClick="@(() => CreateParagraph())" />
+                <FluentTooltip Anchor="create-new" Position=TooltipPosition.Right>Create a new paragraph</FluentTooltip>
+            </FluentToolbar>
         }
 
         @foreach (DocumentConfigParagraph configParagraph in DocumentConfig.ConfigParagraphs.OrderBy(c => c.Order))
@@ -18,11 +22,16 @@
                 <FluentTooltip Anchor="@($"paragraph-content-{configParagraph.Order}")" Position=TooltipPosition.Right>@configParagraph.DocumentParagraph?.DisplayContent()</FluentTooltip>
 
                 <FluentButton Id="@($"{configParagraph.Order}-viewButton")" aria-label="viewButton" IconEnd="@(new Icons.Regular.Size16.DocumentSync())" OnClick="@(() => View(configParagraph))" />
-                <FluentTooltip Anchor="@($"{configParagraph.Order}-viewButton")">View the document</FluentTooltip>
+                <FluentTooltip Anchor="@($"{configParagraph.Order}-viewButton")">View the paragraph</FluentTooltip>
+
+                <FluentButton Id="@($"{configParagraph.Order}-paragraphButton")" aria-label="paragraphButton" IconEnd="@(new Icons.Regular.Size16.TextParagraph())" OnClick="@(() => Open(configParagraph))" />
+                <FluentTooltip Anchor="@($"{configParagraph.Order}-paragraphButton")">Navigate to the paragraph</FluentTooltip>
 
                 @if (!DocumentConfig.IsReadOnly)
                 {
-                    <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => Remove(configParagraph))" />
+                    <FluentButton aria-label="Delete" Type="ButtonType.Button" OnClick="@(() => Remove(configParagraph))">
+                        <FluentIcon Value="@(new Icons.Regular.Size16.Delete())" Color="Color.Error" />
+                    </FluentButton>
                 }
 
             </FluentStack>
@@ -32,6 +41,9 @@
 
 @code {
     [Inject]
+    public NavigationManager? NavigationManager { get; set; }
+
+    [Inject]
     public IDialogService? DialogService { get; set; }
 
     [Inject]
@@ -39,6 +51,15 @@
 
     [Parameter, EditorRequired]
     public DocumentConfig DocumentConfig { get; set; } = new();
+
+    private void CreateParagraph()
+    {
+        if (NavigationManager == null) throw new NullReferenceException(nameof(NavigationManager));
+        int documentConfigId = DocumentConfig.DocumentConfigId;
+        string? name = DocumentConfig.Name;
+
+        NavigationManager.NavigateTo($"{OriginWebConstants.PAGE_DOCUMENT_PARAGRAPH}/0/{name?.Replace(" ", "|")}/{documentConfigId}");
+    }
 
     private void Remove(DocumentConfigParagraph configParagraph)
     {
@@ -71,6 +92,19 @@
         IDialogReference dialog = await DialogService.ShowDialogAsync<DocumentViewerDialog>(documentViewerContent, parameters);
 
         DialogResult? result = await dialog.Result;
+    }
+
+    private void Open(DocumentConfigParagraph configParagraph)
+    {
+        if (NavigationManager == null) throw new NullReferenceException(nameof(NavigationManager));
+        if (configParagraph == null) throw new NullReferenceException(nameof(configParagraph));
+        if (configParagraph.DocumentParagraph == null) throw new NullReferenceException(nameof(configParagraph.DocumentParagraph));
+
+        int documentParagraphId = configParagraph.DocumentParagraph.DocumentParagraphId;
+        int documentConfigId = DocumentConfig.DocumentConfigId;
+        string? name = DocumentConfig.Name;
+
+        NavigationManager.NavigateTo($"{OriginWebConstants.PAGE_DOCUMENT_PARAGRAPH}/{documentParagraphId}/{name?.Replace(" ", "|")}/{documentConfigId}");
     }
 
     private async Task SearchParagraph(MouseEventArgs args)
