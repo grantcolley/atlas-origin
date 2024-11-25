@@ -10,9 +10,8 @@
 
             @if(!DocumentConfig.IsReadOnly)
             {
-                <FluentButton IconStart="@(new Icons.Regular.Size16.Bookmark())" OnClick="@AddSubstitute" Style="margin: 10px">
-                    Add Substitute
-                </FluentButton>
+                <FluentButton Id="add-substitute" IconStart="@(new Icons.Regular.Size16.Bookmark())" OnClick="@AddSubstitute" Style="margin: 10px"/>
+                <FluentTooltip Anchor="add-substitute" Position=TooltipPosition.Right>Add new substitute</FluentTooltip>
             }
 
             @foreach (Origin.Core.Models.DocumentSubstitute substitute in DocumentConfig.Substitutes.OrderBy(s => s.Key))
@@ -24,7 +23,9 @@
 
                     @if (!DocumentConfig.IsReadOnly)
                     {
-                        <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => RemoveSubstitute(substitute))" />
+                        <FluentButton aria-label="Delete" Type="ButtonType.Button" OnClick="@(() => RemoveSubstitute(substitute))">
+                            <FluentIcon Value="@(new Icons.Regular.Size16.Delete())" Color="Color.Error" />
+                        </FluentButton>
                     }
 
                     <FluentSpacer />
