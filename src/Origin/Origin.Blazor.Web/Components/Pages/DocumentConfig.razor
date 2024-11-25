@@ -76,13 +76,13 @@
 
         if(Clone)
         {
-            NavigationManager?.NavigateTo($"DocumentConfig/{Model?.DocumentConfigId}");
+            NavigationManager?.NavigateTo($"{OriginWebConstants.PAGE_DOCUMENT_CONFIG}/{Model?.DocumentConfigId}");
         }
     }
 
     public void OnClone()
     {
-        NavigationManager?.NavigateTo($"DocumentConfig/{Model?.DocumentConfigId}/Clone/true");
+        NavigationManager?.NavigateTo($"{OriginWebConstants.PAGE_DOCUMENT_CONFIG}/{Model?.DocumentConfigId}/Clone/true");
     }
 
     public async Task OnView()
