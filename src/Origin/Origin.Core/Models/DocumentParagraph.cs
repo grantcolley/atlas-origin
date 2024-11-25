@@ -67,7 +67,7 @@ namespace Origin.Core.Models
                 }
                 else
                 {
-                    contents.Append(content.Name);
+                    contents.Append(content.Image);
                 }
             }
 
