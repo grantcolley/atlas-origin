@@ -28,7 +28,8 @@ namespace Origin.Test.Data
                             new DocumentContent { Order = 4, Name = LoremIpsumContent.PARAGRAPH_1_TEXT_4, Content = LoremIpsumContent.LOREM_IPSUM_IS_NONSENSE_MICROSOFT_CONTENT_4, Font = "Comic Sans MS", FontSize = 14, Colour = "255,0,0" },
                             new DocumentContent { Order = 5, Name = LoremIpsumContent.PARAGRAPH_1_TEXT_5, Content = LoremIpsumContent.LOREM_IPSUM_IS_NONSENSE_MICROSOFT_CONTENT_5 },
                             new DocumentContent { Order = 6, Name = LoremIpsumContent.PARAGRAPH_1_TEXT_6, Content = LoremIpsumContent.LOREM_IPSUM_IS_NONSENSE_MICROSOFT_CONTENT_6, FontSize = 14, Colour = "192,0,0", Italic = true, Underscore = true },
-                            new DocumentContent { Order = 7, Name = LoremIpsumContent.PARAGRAPH_1_TEXT_7, Content = LoremIpsumContent.LOREM_IPSUM_IS_NONSENSE_MICROSOFT_CONTENT_7 }
+                            new DocumentContent { Order = 7, Name = LoremIpsumContent.PARAGRAPH_1_TEXT_7, Content = LoremIpsumContent.LOREM_IPSUM_IS_NONSENSE_MICROSOFT_CONTENT_7 },
+                            new DocumentContent { Order = 8, Name = LoremIpsumContent.PARAGRAPH_1_TEXT_8, Content = LoremIpsumContent.LOREM_IPSUM_IS_NONSENSE_MICROSOFT_CONTENT_8, Font = "Tahoma", Colour = "0,0,0" }
                         ]
                 }
             });
