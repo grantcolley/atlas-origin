@@ -24,7 +24,9 @@
 
                 @if (!DocumentParagraph.IsReadOnly)
                 {
-                    <FluentButton aria-label="Remove" IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => RemoveContent(content))" />
+                    <FluentButton aria-label="Delete" Type="ButtonType.Button" OnClick="@(() => RemoveContent(content))">
+                        <FluentIcon Value="@(new Icons.Regular.Size16.Delete())" Color="Color.Error" />
+                    </FluentButton>
                 }
 
                 </FluentStack>
