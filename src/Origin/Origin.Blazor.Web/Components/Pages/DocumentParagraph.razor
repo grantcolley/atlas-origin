@@ -1,6 +1,7 @@
 ﻿@page "/DocumentParagraph"
 @page "/DocumentParagraph/{Id:int?}"
 @page "/DocumentParagraph/{Id:int?}/Clone/{Clone:bool?}"
+@page "/DocumentParagraph/{Id:int?}/{DocumentConfigName}/{DocumentConfigId:int?}"
 @rendermode @(new InteractiveServerRenderMode(prerender: false))
 @inherits ModelContainerBase<Origin.Core.Models.DocumentParagraph>
 
@@ -19,6 +20,12 @@
 
     [Inject]
     public IOriginDocumentRequests? OriginDocumentRequests { get; set; }
+
+    [Parameter]
+    public int? DocumentConfigId { get; set; }
+
+    [Parameter]
+    public string? DocumentConfigName { get; set; }
 
     [Parameter]
     public bool Clone { get; set; }
@@ -76,13 +83,13 @@
 
         if(Clone)
         {
-            NavigationManager?.NavigateTo($"DocumentParagraph/{Model?.DocumentParagraphId}");
+            NavigationManager?.NavigateTo($"{OriginWebConstants.PAGE_DOCUMENT_PARAGRAPH}/{Model?.DocumentParagraphId}");
         }
     }
 
     public void OnClone()
     {
-        NavigationManager?.NavigateTo($"DocumentParagraph/{Model?.DocumentParagraphId}/Clone/true");
+        NavigationManager?.NavigateTo($"{OriginWebConstants.PAGE_DOCUMENT_PARAGRAPH}/{Model?.DocumentParagraphId}/Clone/true");
     }
 
     public async Task OnView()
@@ -133,6 +140,18 @@
                 <FluentIcon Value="@(new Icons.Regular.Size20.DocumentCopy())" Title="Clone" />
             </FluentButton>
             <FluentTooltip Anchor="clone-paragraph" Position=TooltipPosition.Right>Clone paragraph</FluentTooltip>
+        }
+
+        if (!string.IsNullOrWhiteSpace(DocumentConfigName)
+            && DocumentConfigId != null
+            && DocumentConfigId > 0)
+        {
+            <FluentBreadcrumb>
+                <FluentBreadcrumbItem Href="@($"{OriginWebConstants.PAGE_DOCUMENT_CONFIG}/{DocumentConfigId}")">
+                    Return to document @DocumentConfigName.Replace("|", " ")
+                    <FluentIcon Value="@(new Icons.Regular.Size20.ArrowCircleLeft())" Color="@Color.Neutral" Slot="start" />
+                </FluentBreadcrumbItem>
+            </FluentBreadcrumb>
         }
     };
 
