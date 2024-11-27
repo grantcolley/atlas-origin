@@ -295,7 +295,9 @@ The following article explains how to register and [add Auth0 Authentication to 
 
 > [!WARNING]  
 > .NET 9.0 simplifies this approach by providing services to serialize the authentication state on the server and deserialize the authentication state in the WebAssembly client.
+>
 > See this article for details explaining [Authentication State Serialization for Blazor Web Apps](https://auth0.com/blog/authentication-authorization-enhancements-in-dotnet-9/#Authentication-State-Serialization-for-Blazor-Web-Apps).
+> 
 > See Microsoft's documentation to [Manage authentication state in Blazor Web Apps](https://learn.microsoft.com/en-us/aspnet/core/blazor/security/?view=aspnetcore-9.0&tabs=visual-studio#manage-authentication-state-in-blazor-web-apps).
 
 Here are the relevant parts in the **Atlas.Blazor.Web.App** [Program.cs](https://github.com/grantcolley/atlas-origin/blob/main/src/Atlas.Blazor.Web.App/Program.cs).
