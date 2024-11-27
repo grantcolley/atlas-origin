@@ -30,7 +30,8 @@ builder.Host.UseSerilog((hostingContext, loggerConfiguration) =>
 
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
-    .AddInteractiveWebAssemblyComponents();
+    .AddInteractiveWebAssemblyComponents()
+    .AddAuthenticationStateSerialization();
 
 builder.Services.AddFluentUIComponents(new LibraryConfiguration { UseTooltipServiceProvider = true });
 
@@ -52,7 +53,6 @@ builder.Services
 builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<TokenHandler>();
-builder.Services.AddScoped<AuthenticationStateProvider, PersistingRevalidatingAuthenticationStateProvider>();
 
 builder.Services.AddSingleton<IAtlasRoutesService, AtlasRoutesService>();
 builder.Services.AddScoped<ILogService, LogService>();
