@@ -291,11 +291,23 @@ app.MapGet($"/{AtlasAPIEndpoints.GET_CLAIM_MODULES}", ClaimEndpoint.GetClaimModu
 ```
 
 ### Securing Atlas.Blazor.Web.App
-The following article explains how to register and [add Auth0 Authentication to Blazor Web Apps](https://auth0.com/blog/auth0-authentication-blazor-web-apps/).
+The following article explains how to register and [add Auth0 Authentication to Blazor Web Apps](https://auth0.com/blog/auth0-authentication-blazor-web-apps/) in .NET 8.0.
+
+> [!WARNING]  
+> .NET 9.0 simplifies this approach by providing services to serialize the authentication state on the server and deserialize the authentication state in the WebAssembly client.
+> See this article for details explaining [Authentication State Serialization for Blazor Web Apps](https://auth0.com/blog/authentication-authorization-enhancements-in-dotnet-9/#Authentication-State-Serialization-for-Blazor-Web-Apps).
+> See Microsoft's documentation to [Manage authentication state in Blazor Web Apps](https://learn.microsoft.com/en-us/aspnet/core/blazor/security/?view=aspnetcore-9.0&tabs=visual-studio#manage-authentication-state-in-blazor-web-apps).
 
 Here are the relevant parts in the **Atlas.Blazor.Web.App** [Program.cs](https://github.com/grantcolley/atlas-origin/blob/main/src/Atlas.Blazor.Web.App/Program.cs).
 
 ```C#
+
+//....existing code removed for brevity
+
+builder.Services.AddRazorComponents()
+    .AddInteractiveServerComponents()
+    .AddInteractiveWebAssemblyComponents()
+    .AddAuthenticationStateSerialization();  // 👈 adds the services to serialize the authentication state on the server
 
 //....existing code removed for brevity
 
@@ -314,7 +326,6 @@ builder.Services
 builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<TokenHandler>();
-builder.Services.AddScoped<AuthenticationStateProvider, PersistingRevalidatingAuthenticationStateProvider>();
 
 //....existing code removed for brevity
 
@@ -341,7 +352,19 @@ app.MapGet("logout", async (HttpContext httpContext, string redirectUri = @"/") 
 
 ```
 
-The following section in the article describes how the [client authentication state is synced with the server authentication state](https://auth0.com/blog/auth0-authentication-blazor-web-apps/#Syncing-the-Authentication-State) using [`PersistingRevalidatingAuthenticationStateProvider.cs`](https://github.com/grantcolley/atlas-origin/blob/main/src/Atlas.Blazor.Web.App/Authentication/PersistingRevalidatingAuthenticationStateProvider.cs) in **Atlas.Blazor.Web.App** and [`PersistentAuthenticationStateProvider.cs`](https://github.com/grantcolley/atlas-origin/blob/main/src/Atlas.Blazor.Web.App.Client/Authentication/PersistentAuthenticationStateProvider.cs) in **Atlas.Blazor.Web.App.Client**.
+Here is the relevant part in the **Atlas.Blazor.Web.Client** [Program.cs](https://github.com/grantcolley/atlas-origin/blob/main/src/Atlas.Blazor.Web.App/Program.cs).
+
+```C#
+WebAssemblyHostBuilder builder = WebAssemblyHostBuilder.CreateDefault(args);
+
+builder.Services.AddFluentUIComponents();
+
+builder.Services.AddAuthorizationCore();
+builder.Services.AddCascadingAuthenticationState();
+builder.Services.AddAuthenticationStateDeserialization(); // 👈 adds the services to deserialize the authentication state in the WebAssembly client
+
+await builder.Build().RunAsync();
+```
 
 Finally, the following article describes how to [call protected APIs from a Blazor Web App](https://auth0.com/blog/call-protected-api-from-blazor-web-app/), including [calling external APIs](https://auth0.com/blog/call-protected-api-from-blazor-web-app/#Call-an-External-API) which requires injecting the access token into HTTP requests. This is handled by the [TokenHandler.cs](https://github.com/grantcolley/atlas-origin/blob/main/src/Atlas.Blazor.Web.App/Authentication/TokenHandler.cs).
 
