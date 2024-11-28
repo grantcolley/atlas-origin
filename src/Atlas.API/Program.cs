@@ -39,7 +39,7 @@ builder.Host.UseSerilog((hostingContext, loggerConfiguration) =>
 
 builder.Services.AddAtlasValidators();
 builder.Services.AddOriginValidators();
-builder.Services.AddOriginAdditionalAssemblies(new[] { typeof(PdfDocumentGenerator).Assembly });
+builder.Services.AddOriginAdditionalAssemblies([typeof(PdfDocumentGenerator).Assembly]);
 
 builder.Services.AddEndpointsApiExplorer();
 
