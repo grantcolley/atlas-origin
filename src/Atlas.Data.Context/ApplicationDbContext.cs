@@ -151,7 +151,7 @@ namespace Atlas.Data.Context
         {
             ChangeTracker.DetectChanges();
 
-            List<Audit> audits = new List<Audit>();
+            List<Audit> audits = [];
 
             foreach (EntityEntry entry in ChangeTracker.Entries())
             {
