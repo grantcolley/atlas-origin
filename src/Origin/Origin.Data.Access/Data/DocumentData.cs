@@ -650,7 +650,7 @@ namespace Origin.Data.Access.Data
 
             if (documentSubstitutes.Count > 0)
             {
-                (DocumentSubstitute existing, DocumentSubstitute update) GetMatch(DocumentSubstitute existing, DocumentSubstitute update)
+                static (DocumentSubstitute existing, DocumentSubstitute update) GetMatch(DocumentSubstitute existing, DocumentSubstitute update)
                 {
                     return (existing, update);
                 };
@@ -696,7 +696,7 @@ namespace Origin.Data.Access.Data
 
             if (documentConfigParagraphs.Count > 0)
             {
-                (DocumentConfigParagraph existing, DocumentConfigParagraph update) GetMatch(DocumentConfigParagraph existing, DocumentConfigParagraph update)
+                static (DocumentConfigParagraph existing, DocumentConfigParagraph update) GetMatch(DocumentConfigParagraph existing, DocumentConfigParagraph update)
                 {
                     return (existing, update);
                 };
