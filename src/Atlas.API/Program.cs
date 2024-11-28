@@ -164,11 +164,9 @@ if (generateSeedData)
 
         for (int i = 0; i < 500; i++)
         {
-#pragma warning disable CA2208 // Instantiate argument exceptions correctly
             logService.Log(Atlas.Core.Logging.Enums.LogLevel.Information, new AtlasException("myNumber is zero", new DivideByZeroException(), "myNumber=0"), "test@email.com");
             logService.Log(Atlas.Core.Logging.Enums.LogLevel.Warning, new AtlasException("myVariable is null", new NullReferenceException("myVariable"), "myVariable=null"), "system@email.com");
             logService.Log(Atlas.Core.Logging.Enums.LogLevel.Error, new AtlasException("Boom!", new StackOverflowException(), "what the...."), "user@email.com");
-#pragma warning restore CA2208 // Instantiate argument exceptions correctly
         }
     }
 }
