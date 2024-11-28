@@ -44,10 +44,8 @@ namespace Origin.Tests
             {
                 SubstituteStart = "[",
                 SubstituteEnd = "]",
-                Substitutes = { new DocumentSubstitute { Key = "NAME", Value = "Jane Masters" } }
-            };
-
-            documentConfig.ConfigParagraphs =
+                Substitutes = { new DocumentSubstitute { Key = "NAME", Value = "Jane Masters" } },
+                ConfigParagraphs =
             [
                 new DocumentConfigParagraph()
                 {
@@ -57,7 +55,8 @@ namespace Origin.Tests
                         Contents = { new DocumentContent { Content = "[NAME]" } }
                     }
                 }
-            ];
+            ]
+            };
 
             documentConfig.ConstructDocumentConfig();
 
@@ -76,10 +75,8 @@ namespace Origin.Tests
             {
                 SubstituteStart = "[",
                 SubstituteEnd = "]",
-                Substitutes = { new DocumentSubstitute { Key = "NAME", Value = "Jane Masters" } }
-            };
-
-            documentConfig.ConfigParagraphs =
+                Substitutes = { new DocumentSubstitute { Key = "NAME", Value = "Jane Masters" } },
+                ConfigParagraphs =
             [
                 new DocumentConfigParagraph()
                 {
@@ -89,7 +86,8 @@ namespace Origin.Tests
                         Contents = { new DocumentContent { Content = "[NAME], this is to inform you of an upcoming event." } }
                     }
                 }
-            ];
+            ]
+            };
 
             documentConfig.ConstructDocumentConfig();
 
@@ -108,10 +106,8 @@ namespace Origin.Tests
             {
                 SubstituteStart = "[",
                 SubstituteEnd = "]",
-                Substitutes = { new DocumentSubstitute { Key = "ACTIVITY", Value = "event." } }
-            };
-
-            documentConfig.ConfigParagraphs =
+                Substitutes = { new DocumentSubstitute { Key = "ACTIVITY", Value = "event." } },
+                ConfigParagraphs =
             [
                 new DocumentConfigParagraph()
                 {
@@ -121,7 +117,8 @@ namespace Origin.Tests
                         Contents = { new DocumentContent { Content = "Jane Masters, this is to inform you of an upcoming [ACTIVITY]" } }
                     }
                 }
-            ];
+            ]
+            };
 
             documentConfig.ConstructDocumentConfig();
 
@@ -140,15 +137,13 @@ namespace Origin.Tests
             {
                 SubstituteStart = "[",
                 SubstituteEnd = "]",
-                Substitutes = 
+                Substitutes =
                 {
                     new DocumentSubstitute { Key = "ACTIVITY", Value = "event" },
                     new DocumentSubstitute { Key = "NAME", Value = "Jane Masters" },
                     new DocumentSubstitute { Key = "NOTIFICATION", Value = "inform" }
-                }
-            };
-
-            documentConfig.ConfigParagraphs =
+                },
+                ConfigParagraphs =
             [
                 new DocumentConfigParagraph()
                 {
@@ -158,7 +153,8 @@ namespace Origin.Tests
                         Contents = { new DocumentContent { Content = "[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY]." } }
                     }
                 }
-            ];
+            ]
+            };
 
             documentConfig.ConstructDocumentConfig();
 
@@ -182,10 +178,8 @@ namespace Origin.Tests
                     new DocumentSubstitute { Key = "ACTIVITY", Value = "event" },
                     new DocumentSubstitute { Key = "NAME", Value = "Jane Masters" },
                     new DocumentSubstitute { Key = "NOTIFICATION", Value = "inform" }
-                }
-            };
-
-            documentConfig.ConfigParagraphs =
+                },
+                ConfigParagraphs =
             [
                 new DocumentConfigParagraph()
                 {
@@ -194,7 +188,8 @@ namespace Origin.Tests
                         Contents = { new DocumentContent()}
                     }
                 }
-            ];
+            ]
+            };
 
             // Act
             documentConfig.ApplySubstitutesToDocumentContent();
@@ -211,10 +206,8 @@ namespace Origin.Tests
             {
                 SubstituteStart = "[",
                 SubstituteEnd = "]",
-                Substitutes = []
-            };
-
-            documentConfig.ConfigParagraphs =
+                Substitutes = [],
+                ConfigParagraphs =
             [
                 new DocumentConfigParagraph()
                 {
@@ -223,7 +216,8 @@ namespace Origin.Tests
                         Contents = { new DocumentContent { Content = "[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY]." } }
                     }
                 }
-            ];
+            ]
+            };
 
             // Act
             documentConfig.ApplySubstitutesToDocumentContent();
@@ -239,10 +233,8 @@ namespace Origin.Tests
             DocumentConfig documentConfig = new()
             {
                 SubstituteStart = "[",
-                SubstituteEnd = "]"
-            };
-
-            documentConfig.ConfigParagraphs =
+                SubstituteEnd = "]",
+                ConfigParagraphs =
             [
                 new DocumentConfigParagraph()
                 {
@@ -251,7 +243,8 @@ namespace Origin.Tests
                         Contents = { new DocumentContent { Content = "[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY]." } }
                     }
                 }
-            ];
+            ]
+            };
 
             // Act
             documentConfig.ApplySubstitutesToDocumentContent();
@@ -271,10 +264,8 @@ namespace Origin.Tests
                     new DocumentSubstitute { Key = "ACTIVITY", Value = "event" },
                     new DocumentSubstitute { Key = "NAME", Value = "Jane Masters" },
                     new DocumentSubstitute { Key = "NOTIFICATION", Value = "inform" }
-                }
-            };
-
-            documentConfig.ConfigParagraphs =
+                },
+                ConfigParagraphs =
             [
                 new DocumentConfigParagraph()
                 {
@@ -283,7 +274,8 @@ namespace Origin.Tests
                         Contents = { new DocumentContent { Content = "[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY]." } }
                     }
                 }
-            ];
+            ]
+            };
 
             // Act
             documentConfig.ApplySubstitutesToDocumentContent();
@@ -299,10 +291,8 @@ namespace Origin.Tests
             // Arrange
             DocumentConfig documentConfig = new()
             {
-                SubstituteEnd = "]"
-            };
-
-            documentConfig.ConfigParagraphs =
+                SubstituteEnd = "]",
+                ConfigParagraphs =
             [
                 new DocumentConfigParagraph()
                 {
@@ -312,7 +302,8 @@ namespace Origin.Tests
                         Contents = { new DocumentContent { Content = "[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY]." } }
                     }
                 }
-            ];
+            ]
+            };
 
             documentConfig.ConstructDocumentConfig();
 
@@ -327,10 +318,8 @@ namespace Origin.Tests
             // Arrange
             DocumentConfig documentConfig = new()
             {
-                SubstituteStart = "["
-            };
-
-            documentConfig.ConfigParagraphs =
+                SubstituteStart = "[",
+                ConfigParagraphs =
             [
                 new DocumentConfigParagraph()
                 {
@@ -340,7 +329,8 @@ namespace Origin.Tests
                         Contents = { new DocumentContent { Content = "[NAME], this is to [NOTIFICATION] you of an upcoming [ACTIVITY]." } }
                     }
                 }
-            ];
+            ]
+            };
 
             documentConfig.ConstructDocumentConfig();
 
@@ -362,10 +352,8 @@ namespace Origin.Tests
                     new DocumentSubstitute { Key = "ACTIVITY", Value = "event" },
                     new DocumentSubstitute { Key = "NAME", Value = "Jane Masters" },
                     new DocumentSubstitute { Key = "NOTIFICATION", Value = "inform" }
-                }
-            };
-
-            documentConfig.ConfigParagraphs =
+                },
+                ConfigParagraphs =
             [
                 new DocumentConfigParagraph()
                 {
@@ -375,7 +363,8 @@ namespace Origin.Tests
                         Contents = { new DocumentContent { Content = "[NAME, this is to [NOTIFICATION] you of an upcoming [ACTIVITY]." } }
                     }
                 }
-            ];
+            ]
+            };
 
             documentConfig.ConstructDocumentConfig();
 
@@ -397,10 +386,8 @@ namespace Origin.Tests
                     new DocumentSubstitute { Key = "ACTIVITY", Value = "event" },
                     new DocumentSubstitute { Key = "NAME", Value = "Jane Masters" },
                     new DocumentSubstitute { Key = "NOTIFICATION", Value = "inform" }
-                }
-            };
-
-            documentConfig.ConfigParagraphs =
+                },
+                ConfigParagraphs =
             [
                 new DocumentConfigParagraph()
                 {
@@ -410,7 +397,8 @@ namespace Origin.Tests
                         Contents = { new DocumentContent { Content = "[NAME, this is to notify you of an upcoming event." } }
                     }
                 }
-            ];
+            ]
+            };
 
             documentConfig.ConstructDocumentConfig();
 
@@ -432,10 +420,8 @@ namespace Origin.Tests
                     new DocumentSubstitute { Key = "ACTIVITY", Value = "event" },
                     new DocumentSubstitute { Key = "NAME", Value = "Jane Masters" },
                     new DocumentSubstitute { Key = "NOTIFICATION", Value = "inform" }
-                }
-            };
-
-            documentConfig.ConfigParagraphs =
+                },
+                ConfigParagraphs =
             [
                 new DocumentConfigParagraph()
                 {
@@ -445,7 +431,8 @@ namespace Origin.Tests
                         Contents = { new DocumentContent { Content = "NAME], this is to notify you of an upcoming event." } }
                     }
                 }
-            ];
+            ]
+            };
 
             documentConfig.ConstructDocumentConfig();
 
