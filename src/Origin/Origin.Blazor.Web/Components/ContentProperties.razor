@@ -41,7 +41,7 @@
 
 @code {
     [Parameter, EditorRequired]
-    public T Model { get; set; }
+    public required T Model { get; set; }
 
     [Parameter]
     public IEnumerable<DocumentFont>? FontSource { get; set; }
