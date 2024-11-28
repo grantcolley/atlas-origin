@@ -14,10 +14,7 @@ namespace Origin.Service.Extensions
         /// <exception cref="ArgumentNullException"></exception>
         public static IServiceCollection AddOriginAdditionalAssemblies(this IServiceCollection services, IEnumerable<Assembly> assemblies)
         {
-            if (assemblies is null)
-            {
-                throw new ArgumentNullException(nameof(assemblies));
-            }
+            ArgumentNullException.ThrowIfNull(assemblies);
 
             // Intentionally returns app without actually doing anything.
             return services;
