@@ -367,7 +367,7 @@ namespace Atlas.Data.Access.Data
                     IEnumerable<Permission> permissions = await _applicationDbContext.Permissions
                         .AsNoTracking()
                         .Where(p => permissionIds.Contains(p.PermissionId))
-                        .ToListAsync();
+                        .ToListAsync(cancellationToken);
 
                     role.Permissions.AddRange(permissions);
 
@@ -430,7 +430,7 @@ namespace Atlas.Data.Access.Data
                     IEnumerable<Permission> permissions = await _applicationDbContext.Permissions
                         .AsNoTracking()
                         .Where(p => newPermissionIds.Contains(p.PermissionId))
-                        .ToListAsync();
+                        .ToListAsync(cancellationToken);
 
                     role.Permissions.AddRange(permissions);
                 }
@@ -483,15 +483,14 @@ namespace Atlas.Data.Access.Data
             IEnumerable<Permission> permissions = await GetPermissionsAsync(cancellationToken)
                 .ConfigureAwait(false);
 
-            List<ChecklistItem> permissionChecklist = (from p in permissions
+            List<ChecklistItem> permissionChecklist = [.. (from p in permissions
                                                        select new ChecklistItem
                                                        {
                                                            Id = p.PermissionId,
                                                            Name = p.Name,
                                                            Description = p.Description
                                                        })
-                                       .OrderBy(p => p.Name)
-                                       .ToList();
+                                       .OrderBy(p => p.Name)];
 
             _ = (from i in permissionChecklist
                  join p in modelPermissions on i.Id equals p.PermissionId
