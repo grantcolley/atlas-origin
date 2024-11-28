@@ -243,7 +243,7 @@
                 Message = ex?.Message
             };
 
-        LoggingService?.Log(LogLevel.Error, ex.Message, ex, _user);
+        LoggingService?.Log(LogLevel.Error, ex?.Message, ex, _user);
 
         NavigationManager?.NavigateTo(alert.Route);
     }

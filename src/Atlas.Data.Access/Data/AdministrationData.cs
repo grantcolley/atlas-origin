@@ -60,8 +60,6 @@ namespace Atlas.Data.Access.Data
 
             try
             {
-                ArgumentNullException.ThrowIfNull(nameof(addUser));
-
                 User user = new()
                 {
                     Name = addUser.Name,
@@ -224,8 +222,6 @@ namespace Atlas.Data.Access.Data
         {
             try
             {
-                ArgumentNullException.ThrowIfNull(nameof(permission));
-
                 await _applicationDbContext.Permissions
                     .AddAsync(permission, cancellationToken)
                     .ConfigureAwait(false);
@@ -350,8 +346,6 @@ namespace Atlas.Data.Access.Data
 
             try
             {
-                ArgumentNullException.ThrowIfNull(nameof(addRole));
-
                 Role role = new()
                 {
                     Name = addRole.Name,

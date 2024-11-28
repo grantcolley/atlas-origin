@@ -44,17 +44,21 @@ namespace Origin.Tests
             ];
 
             // Act
-            foreach (DocumentParagraph paragraph in args.ConfigParagraphs.Select(cp => cp.DocumentParagraph))
+            foreach (DocumentParagraph? paragraph in args.ConfigParagraphs.Select(cp => cp.DocumentParagraph))
             {
-                paragraph.InheritParagraphProperties(args);
-
-                foreach (DocumentContent documentContent in paragraph.Contents)
+                if (paragraph != null)
                 {
-                    documentContent.InheritContentProperties(paragraph);
+                    paragraph.InheritParagraphProperties(args);
+
+                    foreach (DocumentContent? documentContent in paragraph.Contents)
+                    {
+                        documentContent.InheritContentProperties(paragraph);
+                    }
                 }
             }
 
             // Assert
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
             Assert.AreEqual(args.ConfigParagraphs.Select(cp => cp.DocumentParagraph).ToList()[0].Colour, args.ConfigParagraphs.Select(cp => cp.DocumentParagraph).ToList()[0].Contents[0].Colour);
             Assert.AreEqual(args.ConfigParagraphs.Select(cp => cp.DocumentParagraph).ToList()[0].Font, args.ConfigParagraphs.Select(cp => cp.DocumentParagraph).ToList()[0].Contents[0].Font);
             Assert.AreEqual(args.ConfigParagraphs.Select(cp => cp.DocumentParagraph).ToList()[0].FontSize, args.ConfigParagraphs.Select(cp => cp.DocumentParagraph).ToList()[0].Contents[0].FontSize);
@@ -65,7 +69,6 @@ namespace Origin.Tests
             Assert.AreEqual("(", args.ConfigParagraphs.Select(cp => cp.DocumentParagraph).ToList()[1].Contents[0].SubstituteStart);
             Assert.AreEqual(")", args.ConfigParagraphs.Select(cp => cp.DocumentParagraph).ToList()[1].Contents[0].SubstituteEnd);
 
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
             Assert.AreEqual(args.Colour, args.ConfigParagraphs.Select(cp => cp.DocumentParagraph).ToList()[1].Colour);
             Assert.AreEqual(args.Font, args.ConfigParagraphs.Select(cp => cp.DocumentParagraph).ToList()[1].Font);
             Assert.AreEqual(args.FontSize, args.ConfigParagraphs.Select(cp => cp.DocumentParagraph).ToList()[1].FontSize);

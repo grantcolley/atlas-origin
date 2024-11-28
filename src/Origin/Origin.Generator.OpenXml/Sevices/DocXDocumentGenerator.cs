@@ -27,7 +27,7 @@ namespace Origin.Generator.OpenXml.Sevices
 
                 mainPart.AddFooter(documentConfig);
 
-                foreach (DocumentParagraph? documentParagraph in documentConfig.ConfigParagraphs.Select(cp => cp.DocumentParagraph).Where(p => p.DocumentParagraphType != DocumentParagraphType.Footer))
+                foreach (DocumentParagraph? documentParagraph in documentConfig.ConfigParagraphs.Select(cp => cp.DocumentParagraph).Where(p => p != null && p.DocumentParagraphType != DocumentParagraphType.Footer))
                 {
                     if (documentParagraph != null)
                     {

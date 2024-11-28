@@ -31,6 +31,8 @@ namespace Origin.Data.Access.Data
         {
             try
             {
+
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
                 DocumentConfig documentConfig = await _applicationDbContext.DocumentConfigs
                     .Include(c => c.Substitutes)
                     .Include(c => c.ConfigParagraphs)
@@ -48,6 +50,7 @@ namespace Origin.Data.Access.Data
                     .AsNoTracking()
                     .FirstAsync(d => d.DocumentConfigId.Equals(id), cancellationToken)
                     .ConfigureAwait(false);
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
 
                 if (Authorisation == null
                     || !Authorisation.HasPermission(Auth.DOCUMENT_WRITE))
@@ -69,8 +72,6 @@ namespace Origin.Data.Access.Data
 
             try
             {
-                ArgumentNullException.ThrowIfNull(nameof(addDocumentConfig));
-
                 if (addDocumentConfig.DocumentConfigId > 0) throw new AtlasException($"Can not create DocumentConfig because DocumentConfigId is {addDocumentConfig.DocumentConfigId} when zero was expected.");
 
                 DocumentConfig documentConfig = new()
@@ -259,8 +260,6 @@ namespace Origin.Data.Access.Data
 
             try
             {
-                ArgumentNullException.ThrowIfNull(nameof(addDocumentParagraph));
-
                 if (addDocumentParagraph.DocumentParagraphId > 0) throw new AtlasException($"Can not create DocumentParagraph because DocumentParagraphId is {addDocumentParagraph.DocumentParagraphId} when zero was expected.");
 
                 DocumentParagraph documentParagraph = new()

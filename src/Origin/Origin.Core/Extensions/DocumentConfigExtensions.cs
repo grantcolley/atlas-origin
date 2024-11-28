@@ -93,10 +93,12 @@ namespace Origin.Core.Extensions
                 substitutes.Add(documentSubstitute.Key ?? throw new NullReferenceException(nameof(documentSubstitute.Key)), documentSubstitute);
             }
 
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
             foreach (DocumentContent documentContent in documentConfig.ConfigParagraphs.Select(cp => cp.DocumentParagraph).SelectMany(p => p.Contents))
             {
                 documentContent.Content = documentContent.Content.ApplySubstitutesToContent(substitutes, documentContent.SubstituteStart, documentContent.SubstituteEnd);
             }
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
         }
 
         /// <summary>
@@ -247,7 +249,7 @@ namespace Origin.Core.Extensions
 
         public static DocumentParagraph? GetFooterParagraph(this DocumentConfig documentConfig)
         {
-            return documentConfig.ConfigParagraphs.Select(cp => cp.DocumentParagraph).SingleOrDefault(p => p.DocumentParagraphType == DocumentParagraphType.Footer);
+            return documentConfig.ConfigParagraphs.Select(cp => cp.DocumentParagraph).SingleOrDefault(p => p != null && p.DocumentParagraphType == DocumentParagraphType.Footer);
         }
     }
 }

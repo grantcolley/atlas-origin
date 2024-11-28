@@ -73,13 +73,15 @@ namespace Origin.Generator.OpenXml.Extensions
         {
             ArgumentNullException.ThrowIfNull(documentConfig);
 
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
             List<DocumentContent> images 
                 = documentConfig.ConfigParagraphs
                                 .Select(cp => cp.DocumentParagraph)
                                 .SelectMany(p => p.Contents)
                                 .Where(c => c.ContentType == DocumentContentType.Image)
                                 .ToList();
-            
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
+
             foreach (DocumentContent image in images)
             {
                 mainPart.AddImage(image);

@@ -53,8 +53,6 @@ namespace Origin.Data.Access.Data
         {
             try
             {
-                ArgumentNullException.ThrowIfNull(nameof(addDocumentFont));
-
                 if (addDocumentFont.DocumentFontId > 0) throw new AtlasException($"Can not create DocumentFont because DocumentFontId is {addDocumentFont.DocumentFontId} when zero was expected.");
 
                 DocumentFont documentFont = new()
@@ -178,8 +176,6 @@ namespace Origin.Data.Access.Data
         {
             try
             {
-                ArgumentNullException.ThrowIfNull(nameof(addDocumentColour));
-
                 if (addDocumentColour.DocumentColourId > 0) throw new AtlasException($"Can not create DocumentColour because DocumentColourId is {addDocumentColour.DocumentColourId} when zero was expected.");
 
                 DocumentColour documentColour = new()

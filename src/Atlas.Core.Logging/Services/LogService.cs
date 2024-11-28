@@ -5,16 +5,9 @@ using Serilog.Context;
 
 namespace Atlas.Core.Logging.Services
 {
-    public class LogService : ILogService
+    public class LogService(ILogger<LogService> logger) : ILogService
     {
-        private readonly ILogger<LogService> _logger;
-
-        public LogService(ILogger<LogService> logger)
-        {
-            ArgumentNullException.ThrowIfNull(nameof(logger));
-
-            _logger = logger;
-        }
+        private readonly ILogger<LogService> _logger = logger;
 
         public void Log(AtlasException? exception = null, string? user = "")
         {

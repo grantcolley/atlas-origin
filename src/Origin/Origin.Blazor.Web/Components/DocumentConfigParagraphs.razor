@@ -133,7 +133,7 @@
             {
                 foreach (DocumentParagraph newParagraph in paragraphsDialogContent.Paragraphs)
                 {
-                    DocumentConfigParagraph? exists = DocumentConfig.ConfigParagraphs.FirstOrDefault(p => p.DocumentParagraph.DocumentParagraphId == newParagraph.DocumentParagraphId);
+                    DocumentConfigParagraph? exists = DocumentConfig.ConfigParagraphs.FirstOrDefault(p => p.DocumentParagraph != null && p.DocumentParagraph.DocumentParagraphId == newParagraph.DocumentParagraphId);
 
                     if (exists != null)
                     {

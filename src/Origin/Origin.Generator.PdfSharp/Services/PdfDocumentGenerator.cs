@@ -25,7 +25,7 @@ namespace Origin.Generator.PdfSharp.Services
 
             section.AddFooter(documentConfig);
 
-            foreach (DocumentParagraph? documentParagraph in documentConfig.ConfigParagraphs.OrderBy(cp => cp.Order).Select(cp => cp.DocumentParagraph).Where(p => p.DocumentParagraphType != DocumentParagraphType.Footer))
+            foreach (DocumentParagraph? documentParagraph in documentConfig.ConfigParagraphs.OrderBy(cp => cp.Order).Select(cp => cp.DocumentParagraph).Where(p => p != null && p.DocumentParagraphType != DocumentParagraphType.Footer))
             {
                 if (documentParagraph != null)
                 {

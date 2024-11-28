@@ -5,11 +5,13 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Origin.Core.Models;
 using System.Text.Json;
 
+#nullable disable
+
 namespace Atlas.Data.Context
 {
     public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options)
     {
-        private string? _user;
+        private string _user;
 
         public DbSet<Audit> Audits { get; set; }
         public DbSet<User> Users { get; set; }
@@ -41,7 +43,7 @@ namespace Atlas.Data.Context
             _user = user;
         }
 
-        public string? GetUser()
+        public string GetUser()
         {
             return _user;
         }
