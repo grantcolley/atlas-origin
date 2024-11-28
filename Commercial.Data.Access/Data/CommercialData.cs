@@ -63,9 +63,7 @@ namespace Commercial.Data.Access.Data
                 Customer customer = await _applicationDbContext.Customers
                     .AsNoTracking()
                     .FirstAsync(c => c.CustomerId == product.CustomerId, cancellationToken)
-                    .ConfigureAwait(false);
-
-                if (customer == null) throw new AtlasException($"Cannot find customer by ProductId {productId}");
+                    .ConfigureAwait(false) ?? throw new AtlasException($"Cannot find customer by ProductId {productId}");
 
                 customer.Products.Add(product);
 
