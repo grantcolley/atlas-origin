@@ -1,6 +1,6 @@
 ﻿using Commercial.Core.Models;
 
-namespace Commercial.Test.Data
+namespace Commercial.Seed.Data
 {
     public static class CommercialData
     {

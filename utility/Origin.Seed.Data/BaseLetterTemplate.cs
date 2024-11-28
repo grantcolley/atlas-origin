@@ -1,6 +1,6 @@
 ﻿using Origin.Core.Models;
 
-namespace Origin.Test.Data
+namespace Origin.Seed.Data
 {
     public static class BaseLetterTemplate
     {

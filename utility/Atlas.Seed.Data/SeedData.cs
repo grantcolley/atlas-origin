@@ -4,12 +4,11 @@ using Atlas.Core.Models;
 using Atlas.Data.Context;
 using Commercial.Blazor.Web.Constants;
 using Commercial.Core.Models;
-using Commercial.Test.Data;
+using Commercial.Seed.Data;
 using Microsoft.EntityFrameworkCore;
 using Origin.Blazor.Web.Constants;
-using Origin.Core.Extensions;
 using Origin.Core.Models;
-using Origin.Test.Data;
+using Origin.Seed.Data;
 
 namespace Atlas.Seed.Data
 {
