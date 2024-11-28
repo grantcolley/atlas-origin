@@ -48,9 +48,7 @@ namespace Origin.Tests
             Document? document = new();
 
             // Act
-#pragma warning disable CS8604 // Possible null reference argument.
             await service.ExecuteAsync(document, cancellationToken);
-#pragma warning restore CS8604 // Possible null reference argument.
         }
 
         [TestMethod]
