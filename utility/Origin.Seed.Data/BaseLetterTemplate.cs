@@ -11,10 +11,8 @@ namespace Origin.Test.Data
                 Name = "Base Letter Template",
                 SubstituteStart = "[",
                 SubstituteEnd = "]",
-                Substitutes = GetDocumentSubstitutes()
-            };
-
-            documentConfig.ConfigParagraphs =
+                Substitutes = GetDocumentSubstitutes(),
+                ConfigParagraphs =
             [
                 new DocumentConfigParagraph()
                 {
@@ -118,7 +116,8 @@ namespace Origin.Test.Data
                         ]
                     }
                 }
-            ];
+            ]
+            };
 
             return documentConfig;
         }
