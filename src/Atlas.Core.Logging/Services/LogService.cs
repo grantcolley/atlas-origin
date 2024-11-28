@@ -43,6 +43,7 @@ namespace Atlas.Core.Logging.Services
                 message = exception.Message;
             }
 
+#pragma warning disable IDE0079 // Remove unnecessary suppression
 #pragma warning disable CA2254 // Template should be a static expression
             switch (logLevel)
             {
@@ -59,6 +60,7 @@ namespace Atlas.Core.Logging.Services
                     break;
             }
 #pragma warning restore CA2254 // Template should be a static expression
+#pragma warning restore IDE0079 // Remove unnecessary suppression
         }
     }
 }
