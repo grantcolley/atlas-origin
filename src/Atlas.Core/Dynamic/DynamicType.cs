@@ -57,10 +57,14 @@ namespace Atlas.Core.Dynamic
         /// <param name="value">The value to set.</param>
         public void SetValue(T target, string fieldName, object? value)
         {
+#pragma warning disable IDE0079 // Remove unnecessary suppression
+#pragma warning disable CA1854 // Prefer the 'IDictionary.TryGetValue(TKey, out TValue)' method
             if (!_setters.ContainsKey(fieldName))
             {
                 throw new KeyNotFoundException(fieldName + " not supported.");
             }
+#pragma warning restore CA1854 // Prefer the 'IDictionary.TryGetValue(TKey, out TValue)' method
+#pragma warning restore IDE0079 // Remove unnecessary suppression
 
             _setters[fieldName](target, value);
             return;
@@ -74,10 +78,14 @@ namespace Atlas.Core.Dynamic
         /// <returns>The value of the property.</returns>
         public object? GetValue(T target, string fieldName)
         {
+#pragma warning disable IDE0079 // Remove unnecessary suppression
+#pragma warning disable CA1854 // Prefer the 'IDictionary.TryGetValue(TKey, out TValue)' method
             if (!_getters.ContainsKey(fieldName))
             {
                 throw new KeyNotFoundException(fieldName + " not supported.");
             }
+#pragma warning restore CA1854 // Prefer the 'IDictionary.TryGetValue(TKey, out TValue)' method
+#pragma warning restore IDE0079 // Remove unnecessary suppression
 
             return _getters[fieldName](target);
         }
