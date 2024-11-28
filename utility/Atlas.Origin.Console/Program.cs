@@ -28,10 +28,12 @@ DocumentWriterService originationWriterService = new(documentServiceProvider);
 Document documentOpenXml = TestData.GetDocumentOpenXml(outputLocation);
 Document documentPdfSharp = TestData.GetDocumentPdfSharp(outputLocation);
 
+#pragma warning disable IDE0079 // Remove unnecessary suppression
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
 documentOpenXml.Config.ApplySubstitutes = true;
 documentPdfSharp.Config.ApplySubstitutes = true;
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
+#pragma warning restore IDE0079 // Remove unnecessary suppression
 
 try
 {
