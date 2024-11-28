@@ -15,10 +15,8 @@ namespace Origin.Tests
                 Colour = "Blue",
                 Font = "HelloWorld",
                 FontSize = 10,
-                SubstituteStart = "["
-            };
-
-            args.ConfigParagraphs =
+                SubstituteStart = "[",
+                ConfigParagraphs =
             [
                 new DocumentConfigParagraph()
                 {
@@ -41,7 +39,8 @@ namespace Origin.Tests
                         Contents = [new DocumentContent { SubstituteStart = "(", SubstituteEnd = ")" }]
                     }
                 }
-            ];
+            ]
+            };
 
             // Act
             foreach (DocumentParagraph? paragraph in args.ConfigParagraphs.Select(cp => cp.DocumentParagraph))

@@ -32,10 +32,8 @@ namespace Origin.Tests.Data
             {
                 SubstituteStart = "[",
                 SubstituteEnd = "]",
-                Substitutes = GetDocumentSubstitutes(skipSubValues)
-            };
-
-            documentConfig.ConfigParagraphs =
+                Substitutes = GetDocumentSubstitutes(skipSubValues),
+                ConfigParagraphs =
             [
                 new DocumentConfigParagraph()
                 {
@@ -275,7 +273,8 @@ namespace Origin.Tests.Data
                         ]
                     }
                 }
-            ];
+            ]
+            };
 
             return documentConfig;
         }

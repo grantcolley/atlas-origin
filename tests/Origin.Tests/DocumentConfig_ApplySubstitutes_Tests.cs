@@ -17,9 +17,7 @@ namespace Origin.Tests
                 SubstituteStart = "[",
                 SubstituteEnd = "]",
                 Substitutes = { new DocumentSubstitute { Key = "[Date]", Value = DateTime.Today.ToLongDateString() } },
-            };
-
-            documentConfig.ConfigParagraphs =
+                ConfigParagraphs =
             [
                 new DocumentConfigParagraph()
                 {
@@ -28,7 +26,8 @@ namespace Origin.Tests
                         Contents = { new DocumentContent { Content = "Jane Masters, this is to inform you of an upcoming event." } }
                     }
                 }
-            ];
+            ]
+            };
 
             // Act
             documentConfig.ApplySubstitutesToDocumentContent();
