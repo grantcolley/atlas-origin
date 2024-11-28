@@ -16,7 +16,7 @@ namespace Origin.Resources
                 {
                     int position = name.IndexOf(".Images.");
                     position += 8;
-                    resources.Add(name.Substring(position));
+                    resources.Add(name[position..]);
                 }
             }
 
