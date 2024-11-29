@@ -28,7 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Commercial.Data.Access\Commercial.Data.Access.csproj" />
     <ProjectReference Include="..\..\migrations\Atlas.Migrations.SQLite\Atlas.Migrations.SQLite.csproj" />
     <ProjectReference Include="..\..\migrations\Atlas.Migrations.SQLServer\Atlas.Migrations.SQLServer.csproj" />
     <ProjectReference Include="..\..\utility\Atlas.Seed.Data\Atlas.Seed.Data.csproj" />
@@ -38,6 +37,7 @@
     <ProjectReference Include="..\Atlas.Data.Access\Atlas.Data.Access.csproj" />  
     <ProjectReference Include="..\Atlas.Data.Context\Atlas.Data.Context.csproj" />  
     <ProjectReference Include="..\Commercial\Commercial.Core\Commercial.Core.csproj" />  
+    <ProjectReference Include="..\Commercial\Commercial.Data.Access\Commercial.Data.Access.csproj" />  
     <ProjectReference Include="..\Origin\Origin.Core.Validation\Origin.Core.Validation.csproj" />  
     <ProjectReference Include="..\Origin\Origin.Core\Origin.Core.csproj" />  
     <ProjectReference Include="..\Origin\Origin.Data.Access\Origin.Data.Access.csproj" />  

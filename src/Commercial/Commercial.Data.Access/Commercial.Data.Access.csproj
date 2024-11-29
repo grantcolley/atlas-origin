@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\Atlas.Data.Context\Atlas.Data.Context.csproj" />
-    <ProjectReference Include="..\src\Commercial\Commercial.Core\Commercial.Core.csproj" />
+    <ProjectReference Include="..\..\Atlas.Data.Access\Atlas.Data.Access.csproj" />
+    <ProjectReference Include="..\Commercial.Core\Commercial.Core.csproj" />
   </ItemGroup>
 
 </Project>
