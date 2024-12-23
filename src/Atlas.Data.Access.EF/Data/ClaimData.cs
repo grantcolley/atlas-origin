@@ -1,12 +1,12 @@
 ﻿using Atlas.Core.Exceptions;
 using Atlas.Core.Models;
+using Atlas.Data.Access.EF.Context;
 using Atlas.Data.Access.Interfaces;
-using Atlas.Data.Context;
 using Atlas.Seed.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace Atlas.Data.Access.Data
+namespace Atlas.Data.Access.EF.Data
 {
     public class ClaimData(ApplicationDbContext applicationDbContext, ILogger<ClaimData> logger) 
         : AuthorisationData<ClaimData>(applicationDbContext, logger), IClaimData

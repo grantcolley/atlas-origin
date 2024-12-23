@@ -1,4 +1,4 @@
-﻿using Atlas.Data.Context;
+﻿using Atlas.Data.Access.Interfaces;
 using Commercial.Core.Models;
 
 namespace Commercial.Data.Access.Interfaces

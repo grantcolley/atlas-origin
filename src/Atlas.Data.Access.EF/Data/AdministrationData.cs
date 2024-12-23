@@ -1,13 +1,13 @@
 ﻿using Atlas.Core.Constants;
 using Atlas.Core.Exceptions;
 using Atlas.Core.Models;
+using Atlas.Data.Access.EF.Context;
 using Atlas.Data.Access.Interfaces;
-using Atlas.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
 
-namespace Atlas.Data.Access.Data
+namespace Atlas.Data.Access.EF.Data
 {
     public class AdministrationData(ApplicationDbContext applicationDbContext, ILogger<AdministrationData> logger) 
         : AuthorisationData<AdministrationData>(applicationDbContext, logger), IAdministrationData

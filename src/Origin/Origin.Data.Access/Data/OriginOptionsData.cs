@@ -2,7 +2,7 @@
 using Atlas.Core.Exceptions;
 using Atlas.Core.Extensions;
 using Atlas.Core.Models;
-using Atlas.Data.Context;
+using Atlas.Data.Access.EF.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Origin.Core.Constants;

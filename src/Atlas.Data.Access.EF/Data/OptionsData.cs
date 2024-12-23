@@ -2,13 +2,13 @@
 using Atlas.Core.Exceptions;
 using Atlas.Core.Extensions;
 using Atlas.Core.Models;
+using Atlas.Data.Access.EF.Context;
 using Atlas.Data.Access.Interfaces;
-using Atlas.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
 
-namespace Atlas.Data.Access.Data
+namespace Atlas.Data.Access.EF.Data
 {
     public class OptionsData : AuthorisationData<OptionsData>, IOptionsData
     {

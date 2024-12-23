@@ -15,14 +15,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\migrations\Atlas.Migrations.SQLite\Atlas.Migrations.SQLite.csproj" />
-    <ProjectReference Include="..\..\migrations\Atlas.Migrations.SQLServer\Atlas.Migrations.SQLServer.csproj" />
-    <ProjectReference Include="..\..\src\Atlas.Blazor.Web\Atlas.Blazor.Web.csproj" />
     <ProjectReference Include="..\..\src\Atlas.Core\Atlas.Core.csproj" />
-    <ProjectReference Include="..\..\src\Atlas.Data.Context\Atlas.Data.Context.csproj" />
-    <ProjectReference Include="..\..\src\Commercial\Commercial.Blazor.Web\Commercial.Blazor.Web.csproj" />
-    <ProjectReference Include="..\..\src\Commercial\Commercial.Core\Commercial.Core.csproj" />
-    <ProjectReference Include="..\..\src\Origin\Origin.Blazor.Web\Origin.Blazor.Web.csproj" />
+    <ProjectReference Include="..\..\src\Atlas.Data.Access.EF.Context\Atlas.Data.Access.EF.Context.csproj" />
+	<ProjectReference Include="..\..\src\Commercial\Commercial.Core\Commercial.Core.csproj" />
+	<ProjectReference Include="..\..\src\Origin\Origin.Core\Origin.Core.csproj" />
     <ProjectReference Include="..\Commercial.Seed.Data\Commercial.Seed.Data.csproj" />
     <ProjectReference Include="..\Origin.Seed.Data\Origin.Seed.Data.csproj" />
   </ItemGroup>

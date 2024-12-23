@@ -1,4 +1,4 @@
-﻿namespace Commercial.Blazor.Web.Constants
+﻿namespace Commercial.Core.Constants
 {
     public static class CommercialWebConstants
     {

@@ -1,12 +1,11 @@
-﻿using Atlas.Blazor.Web.Constants;
-using Atlas.Core.Constants;
+﻿using Atlas.Core.Constants;
 using Atlas.Core.Models;
-using Atlas.Data.Context;
-using Commercial.Blazor.Web.Constants;
+using Atlas.Data.Access.EF.Context;
+using Commercial.Core.Constants;
 using Commercial.Core.Models;
 using Commercial.Seed.Data;
 using Microsoft.EntityFrameworkCore;
-using Origin.Blazor.Web.Constants;
+using Origin.Core.Constants;
 using Origin.Core.Models;
 using Origin.Seed.Data;
 

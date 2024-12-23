@@ -1,4 +1,4 @@
-﻿using Atlas.Data.Context;
+﻿using Atlas.Data.Access.Interfaces;
 using Origin.Core.Models;
 
 namespace Origin.Data.Access.Interfaces

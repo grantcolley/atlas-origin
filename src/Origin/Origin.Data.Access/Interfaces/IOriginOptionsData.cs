@@ -1,5 +1,5 @@
 ﻿using Atlas.Core.Models;
-using Atlas.Data.Context;
+using Atlas.Data.Access.Interfaces;
 
 namespace Origin.Data.Access.Interfaces
 {

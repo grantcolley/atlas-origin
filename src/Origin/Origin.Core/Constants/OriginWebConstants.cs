@@ -1,4 +1,4 @@
-﻿namespace Origin.Blazor.Web.Constants
+﻿namespace Origin.Core.Constants
 {
     public static class OriginWebConstants
     {
