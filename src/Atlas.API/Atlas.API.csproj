@@ -21,20 +21,19 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
-    <PackageReference Include="Serilog.AspNetCore" Version="8.0.3" />
-    <PackageReference Include="Serilog.Settings.Configuration" Version="8.0.4" />
-    <PackageReference Include="Serilog.Sinks.MSSqlServer" Version="8.0.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="9.0.0" />
+    <PackageReference Include="Serilog.Sinks.MSSqlServer" Version="8.1.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="7.1.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\migrations\Atlas.Migrations.SQLite\Atlas.Migrations.SQLite.csproj" />
     <ProjectReference Include="..\..\migrations\Atlas.Migrations.SQLServer\Atlas.Migrations.SQLServer.csproj" />
-    <ProjectReference Include="..\..\utility\Atlas.Seed.Data\Atlas.Seed.Data.csproj" />
     <ProjectReference Include="..\Atlas.Core.Validation\Atlas.Core.Validation.csproj" />
     <ProjectReference Include="..\Atlas.Core\Atlas.Core.csproj" />
-    <ProjectReference Include="..\Atlas.Core.Logging\Atlas.Core.Logging.csproj" />
-    <ProjectReference Include="..\Atlas.Data.Access.EF.Context\Atlas.Data.Access.EF.Context.csproj" />
+    <ProjectReference Include="..\Atlas.Logging.Serilog\Atlas.Logging.Serilog.csproj" />
+    <ProjectReference Include="..\Atlas.Logging\Atlas.Logging.csproj" />
     <ProjectReference Include="..\Atlas.Data.Access.EF\Atlas.Data.Access.EF.csproj" />  
     <ProjectReference Include="..\Atlas.Data.Access\Atlas.Data.Access.csproj" />  
     <ProjectReference Include="..\Commercial\Commercial.Core\Commercial.Core.csproj" />  
@@ -42,7 +41,8 @@
     <ProjectReference Include="..\Origin\Origin.Core.Validation\Origin.Core.Validation.csproj" />  
     <ProjectReference Include="..\Origin\Origin.Core\Origin.Core.csproj" />  
     <ProjectReference Include="..\Origin\Origin.Data.Access\Origin.Data.Access.csproj" />  
-    <ProjectReference Include="..\Origin\Origin.Generator.PdfSharp\Origin.Generator.PdfSharp.csproj" />
+    <ProjectReference Include="..\Origin\Origin.Generator.PdfSharp\Origin.Generator.PdfSharp.csproj" />  
+    <ProjectReference Include="..\Origin\Origin.Service\Origin.Service.csproj" />
   </ItemGroup>
 
 </Project>

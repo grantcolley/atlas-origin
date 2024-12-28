@@ -1,5 +1,5 @@
 ﻿using Atlas.Core.Exceptions;
-using Atlas.Core.Logging.Interfaces;
+using Atlas.Logging.Interfaces;
 using Atlas.Core.Models;
 using Atlas.Data.Access.EF.Context;
 using Atlas.Data.Access.Interfaces;
@@ -23,8 +23,14 @@ namespace Atlas.Data.Access.EF.Data
 
                 DatabaseStatus databaseStatus = new()
                 {
-                    CanConnect = await _applicationDbContext.Database.CanConnectAsync(cancellationToken).ConfigureAwait(false)
+                    CanConnect = await _applicationDbContext.Database.CanConnectAsync(cancellationToken).ConfigureAwait(false),
+                    CanCreate = bool.Parse(_configuration["Database:CreateDatabase"] ?? "false")
                 };
+
+                if (databaseStatus.CanConnect)
+                {
+                    databaseStatus.CanSeedData = bool.Parse(_configuration["Database:GenerateSeedData"] ?? "false");
+                }
 
                 return databaseStatus;
             }
@@ -42,16 +48,22 @@ namespace Atlas.Data.Access.EF.Data
 
                 DatabaseStatus databaseStatus = new()
                 {
-                    CanConnect = await _applicationDbContext.Database.CanConnectAsync(cancellationToken).ConfigureAwait(false)
+                    CanConnect = await _applicationDbContext.Database.CanConnectAsync(cancellationToken).ConfigureAwait(false),
+                    CanCreate = bool.Parse(_configuration["Database:CreateDatabase"] ?? "false")
                 };
 
                 if (!databaseStatus.CanConnect)
                 {
-                    _logger.LogDebug($"Creating the Atlas database {_applicationDbContext.Database.GetConnectionString()}");
+                    logService.Log(Logging.Enums.LogLevel.Information, $"Creating the Atlas database {_applicationDbContext.Database.GetConnectionString()}", user);
 
                     databaseStatus.CanConnect = await _applicationDbContext.Database.EnsureCreatedAsync(cancellationToken).ConfigureAwait(false);
 
-                    logService.Log(Core.Logging.Enums.LogLevel.Information, $"Atlas database created {_applicationDbContext.Database.GetConnectionString()}", user);
+                    if (databaseStatus.CanConnect)
+                    {
+                        databaseStatus.CanSeedData = bool.Parse(_configuration["Database:GenerateSeedData"] ?? "false");
+                    }
+
+                    logService.Log(Logging.Enums.LogLevel.Information, $"Atlas database created {_applicationDbContext.Database.GetConnectionString()}", user);
                 }
 
                 return databaseStatus;
@@ -70,39 +82,35 @@ namespace Atlas.Data.Access.EF.Data
 
                 DatabaseStatus databaseStatus = new()
                 {
-                    CanConnect = await _applicationDbContext.Database.CanConnectAsync(cancellationToken).ConfigureAwait(false)
+                    CanConnect = await _applicationDbContext.Database.CanConnectAsync(cancellationToken).ConfigureAwait(false),
+                    CanCreate = bool.Parse(_configuration["Database:CreateDatabase"] ?? "false"),
+                    CanSeedData = bool.Parse(_configuration["Database:GenerateSeedData"] ?? "false")
                 };
 
                 if (databaseStatus.CanConnect)
                 {
-                    bool generateSeedData = bool.Parse(_configuration["SeedData:GenerateSeedData"] ?? "false");
-                    bool generateDemoLogs = bool.Parse(_configuration["SeedData:GenerateDemoLogs"] ?? "false");
+                    bool generateSeedLogs = bool.Parse(_configuration["Database:GenerateSeedLogs"] ?? "false");
 
-                    if (generateSeedData)
+                    logService.Log(Logging.Enums.LogLevel.Warning, $"Database:GenerateSeedData={databaseStatus.CanSeedData}", user);
+                    logService.Log(Logging.Enums.LogLevel.Information, $"Database:GenerateSeedLogs={generateSeedLogs}", user);
+
+                    if (databaseStatus.CanSeedData)
                     {
                         SeedData.Generate(_applicationDbContext);
 
-                        logService.Log(Core.Logging.Enums.LogLevel.Information, $"Atlas database seeded {_applicationDbContext.Database.GetConnectionString()}", user);
+                        logService.Log(Logging.Enums.LogLevel.Information, $"Atlas database seeded {_applicationDbContext.Database.GetConnectionString()}", user);
 
-                        if (generateDemoLogs)
+                        if (generateSeedLogs)
                         {
                             for (int i = 0; i < 500; i++)
                             {
-                                logService.Log(Core.Logging.Enums.LogLevel.Information, new AtlasException("myNumber is zero", new DivideByZeroException(), "myNumber=0"), "test@email.com");
-                                logService.Log(Core.Logging.Enums.LogLevel.Warning, new AtlasException("myVariable is null", new NullReferenceException("myVariable"), "myVariable=null"), "system@email.com");
-                                logService.Log(Core.Logging.Enums.LogLevel.Error, new AtlasException("Boom!", new StackOverflowException(), "what the...."), "user@email.com");
+                                logService.Log(Logging.Enums.LogLevel.Information, new AtlasException("myNumber is zero", new DivideByZeroException(), "myNumber=0"), "test@email.com");
+                                logService.Log(Logging.Enums.LogLevel.Warning, new AtlasException("myVariable is null", new NullReferenceException("myVariable"), "myVariable=null"), "system@email.com");
+                                logService.Log(Logging.Enums.LogLevel.Error, new AtlasException("Boom!", new StackOverflowException(), "what the...."), "user@email.com");
                             }
 
-                            logService.Log(Core.Logging.Enums.LogLevel.Information, $"Atlas database demo logs created {_applicationDbContext.Database.GetConnectionString()}", user);
+                            logService.Log(Logging.Enums.LogLevel.Information, $"Atlas database seed logs created {_applicationDbContext.Database.GetConnectionString()}", user);
                         }
-                        else
-                        {
-                            logService.Log(Core.Logging.Enums.LogLevel.Information, "SeedData:GenerateDemoLogs = false", user);
-                        }
-                    }
-                    else
-                    {
-                        logService.Log(Core.Logging.Enums.LogLevel.Warning, "SeedData:GenerateSeedData = false", user);
                     }
                 }
 

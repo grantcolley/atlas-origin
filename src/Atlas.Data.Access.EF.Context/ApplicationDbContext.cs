@@ -89,9 +89,6 @@ namespace Atlas.Data.Access.EF.Context
                 .HasIndex(l => l.TimeStamp);
 
             builder.Entity<Log>()
-                .HasIndex(l => l.Message);
-
-            builder.Entity<Log>()
                 .HasIndex(l => l.Context);
 
             builder.Entity<DocumentConfig>()

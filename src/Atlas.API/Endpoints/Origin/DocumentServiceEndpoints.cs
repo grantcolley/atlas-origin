@@ -2,16 +2,15 @@
 using Atlas.Core.Constants;
 using Atlas.Core.Dynamic;
 using Atlas.Core.Exceptions;
-using Atlas.Core.Logging.Interfaces;
 using Atlas.Core.Models;
 using Atlas.Data.Access.Interfaces;
+using Atlas.Logging.Interfaces;
 using Commercial.Core.Models;
 using Commercial.Data.Access.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Origin.Core.Models;
 using Origin.Data.Access.Interfaces;
 using Origin.Service.Interface;
-using System.Drawing;
 
 namespace Atlas.API.Endpoints.Origin
 {
@@ -40,7 +39,7 @@ namespace Atlas.API.Endpoints.Origin
             }
             catch (Exception ex)
             {
-                logService.Log(Core.Logging.Enums.LogLevel.Error, ex.Message, new AtlasException(ex.Message, ex), authorisation?.User);
+                logService.Log(Logging.Enums.LogLevel.Error, ex.Message, new AtlasException(ex.Message, ex), authorisation?.User);
 
                 return Results.StatusCode(StatusCodes.Status500InternalServerError);
             }
@@ -136,7 +135,7 @@ namespace Atlas.API.Endpoints.Origin
             }
             catch (AtlasException ex)
             {
-                logService.Log(Core.Logging.Enums.LogLevel.Error, ex.Message, ex, authorisation?.User);
+                logService.Log(Logging.Enums.LogLevel.Error, ex.Message, ex, authorisation?.User);
 
                 return Results.StatusCode(StatusCodes.Status500InternalServerError);
             }
