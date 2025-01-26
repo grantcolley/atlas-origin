@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace Origin.Core.Converters
+﻿namespace Origin.Core.Converters
 {
     public static class ColourConverter
     {
