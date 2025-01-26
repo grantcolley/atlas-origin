@@ -1,7 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using Origin.Core.Extensions;
 using Origin.Core.Models;
-using Origin.Generator.OpenXml.Sevices;
+using Origin.Generator.OpenXml.Services;
 using Origin.Generator.PdfSharp.Services;
 using Origin.Service.Interface;
 using Origin.Service.Providers;
