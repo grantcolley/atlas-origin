@@ -4,8 +4,7 @@
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
 # origin resouorces
-utility/output/*.docx
-utility/output/*.pdf
+utility/output/*
 
 # Obsolete code
 [Oo]bs.sln
