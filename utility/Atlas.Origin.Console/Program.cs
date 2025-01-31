@@ -48,24 +48,6 @@ try
     await GenerateFileAsync(documentOpenXml);
 
     await GenerateFileAsync(documentPdfSharp);
-
-    //string fullFilename = await originationWriterService.ExecuteAsync(documentOpenXml, cancellationToken).ConfigureAwait(false);
-
-    //Console.WriteLine(JsonSerializer.Serialize(documentOpenXml, jsonSerializerOptions));
-
-    //Process.Start(new ProcessStartInfo(fullFilename) { UseShellExecute = true });
-
-    //fullFilename = await originationWriterService.ExecuteAsync(documentPdfSharp, cancellationToken).ConfigureAwait(false);
-
-    //Console.WriteLine(JsonSerializer.Serialize(documentPdfSharp, jsonSerializerOptions));
-
-    //Process.Start(new ProcessStartInfo(fullFilename) { UseShellExecute = true });
-
-    //fullFilename = await originationWriterService.ExecuteAsync(documentPdfSharp, cancellationToken).ConfigureAwait(false);
-
-    //Console.WriteLine(JsonSerializer.Serialize(documentPdfSharp, jsonSerializerOptions));
-
-    //Process.Start(new ProcessStartInfo(fullFilename) { UseShellExecute = true });
 }
 catch (Exception ex)
 {
