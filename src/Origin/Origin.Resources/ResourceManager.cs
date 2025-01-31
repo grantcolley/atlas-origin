@@ -55,9 +55,7 @@ namespace Origin.Resources
         {
             var info = Assembly.GetExecutingAssembly().GetName();
             var name = info.Name;
-            using Stream stream = Assembly
-                .GetExecutingAssembly()
-                .GetManifestResourceStream($"{name}.Images.{imageName}") ?? throw new NullReferenceException($"Unable to locate resource {imageName}");
+            using Stream stream = GetPngAsStream(imageName);
 
             MemoryStream memoryStream = new();
             stream.CopyTo(memoryStream);
@@ -65,22 +63,6 @@ namespace Origin.Resources
             memoryStream.Dispose();
             
             return $"base64:{Convert.ToBase64String(bytes)}";
-        }
-
-        public static string GetFontAsBase64(string fontName)
-        {
-            var info = Assembly.GetExecutingAssembly().GetName();
-            var name = info.Name;
-            using Stream stream = Assembly
-                .GetExecutingAssembly()
-                .GetManifestResourceStream($"{name}.Fonts.{fontName}.tff") ?? throw new NullReferenceException($"Unable to locate resource {fontName}");
-
-            MemoryStream memoryStream = new();
-            stream.CopyTo(memoryStream);
-            byte[] bytes = memoryStream.ToArray();
-            memoryStream.Dispose();
-
-            return Convert.ToBase64String(bytes);
         }
 
         public static byte[] GetFontAsByteArray(string fontName)
@@ -97,6 +79,13 @@ namespace Origin.Resources
             memoryStream.Dispose();
 
             return bytes;
+        }
+
+        public static string GetFontAsBase64(string fontName)
+        {
+            byte[] bytes = GetFontAsByteArray(fontName);
+
+            return Convert.ToBase64String(bytes);
         }
     }
 }
