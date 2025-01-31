@@ -27,6 +27,18 @@
         private const decimal _1mm_in_points = 2.8346456693m;
         private const decimal _1mm_in_twips = 56.692913386m; // 2.8346456693m * 20m
 
+        public static decimal ToPoints(this int? value)
+        {
+            if (value == null)
+            {
+                return 0.0m;
+            }
+            else
+            {
+                return Convert.ToDecimal(value * _1mm_in_points);
+            }
+        }
+
         public static decimal ToPoints(this int value)
         {
             return Convert.ToDecimal(value * _1mm_in_points);
