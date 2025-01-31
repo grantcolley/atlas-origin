@@ -1,5 +1,4 @@
 ﻿// See https://aka.ms/new-console-template for more information
-using Origin.Core.Extensions;
 using Origin.Core.Models;
 using Origin.Generator.OpenXml.Services;
 using Origin.Generator.PdfSharp.Services;
@@ -37,17 +36,36 @@ documentPdfSharp.Config.ApplySubstitutes = true;
 
 try
 {
-    string fullFilename = await originationWriterService.ExecuteAsync(documentOpenXml, cancellationToken).ConfigureAwait(false);
+    async Task GenerateFileAsync(Document document)
+    {
+        string fullFilename = await originationWriterService.ExecuteAsync(document, cancellationToken).ConfigureAwait(false);
 
-    Console.WriteLine(JsonSerializer.Serialize(documentOpenXml, jsonSerializerOptions));
+        Console.WriteLine(JsonSerializer.Serialize(document, jsonSerializerOptions));
 
-    Process.Start(new ProcessStartInfo(fullFilename) { UseShellExecute = true });
+        Process.Start(new ProcessStartInfo(fullFilename) { UseShellExecute = true });
+    }
 
-    fullFilename = await originationWriterService.ExecuteAsync(documentPdfSharp, cancellationToken).ConfigureAwait(false);
+    await GenerateFileAsync(documentOpenXml);
 
-    Console.WriteLine(JsonSerializer.Serialize(documentPdfSharp, jsonSerializerOptions));
+    await GenerateFileAsync(documentPdfSharp);
 
-    Process.Start(new ProcessStartInfo(fullFilename) { UseShellExecute = true });
+    //string fullFilename = await originationWriterService.ExecuteAsync(documentOpenXml, cancellationToken).ConfigureAwait(false);
+
+    //Console.WriteLine(JsonSerializer.Serialize(documentOpenXml, jsonSerializerOptions));
+
+    //Process.Start(new ProcessStartInfo(fullFilename) { UseShellExecute = true });
+
+    //fullFilename = await originationWriterService.ExecuteAsync(documentPdfSharp, cancellationToken).ConfigureAwait(false);
+
+    //Console.WriteLine(JsonSerializer.Serialize(documentPdfSharp, jsonSerializerOptions));
+
+    //Process.Start(new ProcessStartInfo(fullFilename) { UseShellExecute = true });
+
+    //fullFilename = await originationWriterService.ExecuteAsync(documentPdfSharp, cancellationToken).ConfigureAwait(false);
+
+    //Console.WriteLine(JsonSerializer.Serialize(documentPdfSharp, jsonSerializerOptions));
+
+    //Process.Start(new ProcessStartInfo(fullFilename) { UseShellExecute = true });
 }
 catch (Exception ex)
 {
