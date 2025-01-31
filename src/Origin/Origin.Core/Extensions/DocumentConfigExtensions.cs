@@ -247,6 +247,57 @@ namespace Origin.Core.Extensions
             }
         }
 
+        public static IEnumerable<string> GetDocumentFonts(this DocumentConfig documentConfig)
+        {
+            ArgumentNullException.ThrowIfNull(documentConfig);
+
+            List<string> resources = [];
+
+            if (!string.IsNullOrWhiteSpace(documentConfig.Font))
+            {
+                resources.Add(documentConfig.Font);
+            }
+
+            foreach (DocumentConfigParagraph paragraphConfig in documentConfig.ConfigParagraphs)
+            {
+                if (paragraphConfig.DocumentParagraph == null)
+                {
+                    throw new NullReferenceException(nameof(paragraphConfig.DocumentParagraph));
+                }
+
+                if (!string.IsNullOrWhiteSpace(paragraphConfig.DocumentParagraph.Font))
+                {
+                    resources.Add(paragraphConfig.DocumentParagraph.Font);
+                }
+
+                foreach (DocumentContent documentContent in paragraphConfig.DocumentParagraph.Contents)
+                {
+                    if (!string.IsNullOrWhiteSpace(documentContent.Font))
+                    {
+                        resources.Add(documentContent.Font);
+                    }
+                }
+
+                foreach (DocumentTableCell documentTableCell in paragraphConfig.DocumentParagraph.Cells)
+                {
+                    if (!string.IsNullOrWhiteSpace(documentTableCell.Font))
+                    {
+                        resources.Add(documentTableCell.Font);
+                    }
+
+                    foreach (DocumentContent documentContent in documentTableCell.Contents)
+                    {
+                        if (!string.IsNullOrWhiteSpace(documentContent.Font))
+                        {
+                            resources.Add(documentContent.Font);
+                        }
+                    }
+                }
+            }
+
+            return resources.Distinct();
+        }
+
         public static DocumentParagraph? GetFooterParagraph(this DocumentConfig documentConfig)
         {
             return documentConfig.ConfigParagraphs.Select(cp => cp.DocumentParagraph).SingleOrDefault(p => p != null && p.DocumentParagraphType == DocumentParagraphType.Footer);
