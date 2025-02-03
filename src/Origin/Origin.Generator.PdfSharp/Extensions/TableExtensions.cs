@@ -131,7 +131,7 @@ namespace Origin.Generator.PdfSharp.Extensions
 
             Paragraph p = cell.AddParagraph();
 
-            Image image = p.AddImage(Resources.ResourceManager.GetPngAsBase64(documentContent.Image));
+            Image image = p.AddImage($"base64:{Resources.ResourceManager.GetPngAsBase64(documentContent.Image)}");
 
             if (documentContent.ImageHeight.HasValue)
             {
