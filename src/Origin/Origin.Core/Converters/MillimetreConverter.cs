@@ -44,6 +44,11 @@
             return Convert.ToDecimal(value * _1mm_in_points);
         }
 
+        public static decimal ToHalfPoints(this int value)
+        {
+            return Convert.ToDecimal(value * _1mm_in_points) / 2;
+        }
+
         public static long ToEMU(this int value)
         {
             return Convert.ToInt32(value * _1mm_in_EMUs);
