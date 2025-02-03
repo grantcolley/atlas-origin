@@ -62,7 +62,7 @@ namespace Origin.Resources
             byte[] bytes = memoryStream.ToArray();
             memoryStream.Dispose();
             
-            return $"base64:{Convert.ToBase64String(bytes)}";
+            return Convert.ToBase64String(bytes);
         }
 
         public static byte[] GetFontAsByteArray(string fontName)
