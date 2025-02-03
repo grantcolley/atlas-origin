@@ -4,6 +4,7 @@
     {
         None,
         docx,
+        html,
         pdf
     }
 }

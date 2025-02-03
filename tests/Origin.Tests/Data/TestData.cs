@@ -26,6 +26,17 @@ namespace Origin.Tests.Data
             };
         }
 
+        public static Document GetDocumentHtml(string target, bool skipSubValues = false)
+        {
+            return new Document
+            {
+                DocumentGeneratorType = DocumentGeneratorType.Html,
+                Target = target,
+                FilenameTemplate = $"TestHtml_[{Substitutes.CUSTOMER_ID}]",
+                Config = GetDocumentArgs(skipSubValues)
+            };
+        }
+
         public static DocumentConfig GetDocumentArgs(bool skipSubValues = false)
         {
             DocumentConfig documentConfig = new()

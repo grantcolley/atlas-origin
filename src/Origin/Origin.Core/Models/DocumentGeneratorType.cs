@@ -3,6 +3,7 @@
     public enum DocumentGeneratorType
     {
         None,
+        Html,
         OpenXmlDocument,
         PdfSharp
     }
