@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Origin.Generator.OpenXml", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Origin.Generator.PdfSharp", "src\Origin\Origin.Generator.PdfSharp\Origin.Generator.PdfSharp.csproj", "{126249CF-5F86-4AA6-AB96-72E8C0FC24B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Origin.Generator.Html", "Origin.Generator.Html\Origin.Generator.Html.csproj", "{2AFBED97-6269-4A36-B449-FAF9C9D56096}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Origin.Generator.Html", "src\Origin\Origin.Generator.Html\Origin.Generator.Html.csproj", "{4A4327F7-AEF0-9470-C6A7-B457B13587CF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,10 +57,10 @@ Global
 		{126249CF-5F86-4AA6-AB96-72E8C0FC24B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{126249CF-5F86-4AA6-AB96-72E8C0FC24B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{126249CF-5F86-4AA6-AB96-72E8C0FC24B8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2AFBED97-6269-4A36-B449-FAF9C9D56096}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2AFBED97-6269-4A36-B449-FAF9C9D56096}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2AFBED97-6269-4A36-B449-FAF9C9D56096}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2AFBED97-6269-4A36-B449-FAF9C9D56096}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A4327F7-AEF0-9470-C6A7-B457B13587CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A4327F7-AEF0-9470-C6A7-B457B13587CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A4327F7-AEF0-9470-C6A7-B457B13587CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A4327F7-AEF0-9470-C6A7-B457B13587CF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
