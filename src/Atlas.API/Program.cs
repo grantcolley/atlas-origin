@@ -2,6 +2,7 @@ using Atlas.API.Extensions;
 using Atlas.API.Interfaces;
 using Atlas.API.Services;
 using Atlas.Core.Constants;
+using Atlas.Core.Models;
 using Atlas.Core.Validation.Extensions;
 using Atlas.Data.Access.EF.Context;
 using Atlas.Data.Access.EF.Data;
@@ -24,16 +25,64 @@ using Origin.Service.Interface;
 using Origin.Service.Providers;
 using Origin.Service.Services;
 using Serilog;
+using Serilog.Sinks.MSSqlServer;
+using System.Data;
 using System.Text.Json.Serialization;
 
+string? domain = null;
+string? audience = null;
+string? connectionString = null;
+string? corsPolicy = null;
+string? originUrls = null;
+
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+
+AtlasConfig atlasConfig = new AtlasConfig();
+
+#pragma warning disable IDE0079 // Remove unnecessary suppression
+#pragma warning disable CA2208 // Instantiate argument exceptions correctly
+if (builder.Environment.IsDevelopment())
+{
+    domain = builder.Configuration[Config.DEV_AUTH_DOMAIN] ?? throw new ArgumentNullException(Config.DEV_AUTH_DOMAIN);
+    audience = builder.Configuration[Config.DEV_AUTH_AUDIENCE] ?? throw new ArgumentNullException(Config.DEV_AUTH_AUDIENCE);
+    connectionString = builder.Configuration.GetConnectionString(Config.DEV_CONNECTION_STRING) ?? throw new ArgumentNullException(Config.DEV_CONNECTION_STRING);
+    corsPolicy = builder.Configuration[Config.DEV_CORS_POLICY] ?? throw new ArgumentNullException(Config.DEV_CORS_POLICY);
+    originUrls = builder.Configuration[Config.DEV_ORIGINS_URLS] ?? throw new ArgumentNullException(Config.DEV_ORIGINS_URLS);
+    atlasConfig.DatabaseCreate = bool.Parse(builder.Configuration["Database:CreateDatabase"] ?? "false");
+    atlasConfig.DatabaseSeedData = bool.Parse(builder.Configuration["Database:GenerateSeedData"] ?? "false");
+    atlasConfig.DatabaseSeedLogs = bool.Parse(builder.Configuration["Database:GenerateSeedLogs"] ?? "false");
+}
+else
+{
+    domain = builder.Configuration[Config.AZURE_AUTH_DOMAIN] ?? throw new ArgumentNullException(Config.AZURE_AUTH_DOMAIN);
+    audience = builder.Configuration[Config.AZURE_AUTH_AUDIENCE] ?? throw new ArgumentNullException(Config.AZURE_AUTH_AUDIENCE);
+    connectionString = builder.Configuration.GetConnectionString(Config.AZURE_SQL_CONNECTIONSTRING) ?? throw new ArgumentNullException(Config.AZURE_SQL_CONNECTIONSTRING);
+}
+#pragma warning restore CA2208 // Instantiate argument exceptions correctly
+#pragma warning restore IDE0079 // Remove unnecessary suppression
 
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 
 builder.Host.UseSerilog((hostingContext, loggerConfiguration) =>
-                  loggerConfiguration.ReadFrom.Configuration(hostingContext.Configuration)
-                                        .Enrich.FromLogContext());
+              loggerConfiguration
+              .MinimumLevel.Information()
+              .Enrich.FromLogContext()
+              .WriteTo.MSSqlServer(
+                  connectionString: connectionString,
+                  sinkOptions: new MSSqlServerSinkOptions
+                  {
+                      TableName = "Logs",
+                      AutoCreateSqlDatabase = false
+                  },
+                  columnOptions: new ColumnOptions
+                  {
+                      AdditionalColumns =
+                      [
+                          new SqlColumn {ColumnName = "User", PropertyName = "User", DataType = SqlDbType.NVarChar, DataLength = 450},
+                          new SqlColumn {ColumnName = "Context", PropertyName = "Context", DataType = SqlDbType.NVarChar, DataLength = 450},
+                      ]
+                  }));
 
 builder.Services.AddAtlasValidators();
 builder.Services.AddOriginValidators();
@@ -57,24 +106,21 @@ builder.Services.Configure<JsonOptions>(options =>
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-    bool? isSQLLite = builder.Configuration.GetConnectionString(DataMigrations.CONNECTION_STRING)?.Contains(DataMigrations.SQLITE_DATABASE);
-
-    if (isSQLLite.HasValue && isSQLLite.Value)
+    if (connectionString.Contains(DataMigrations.SQLITE_DATABASE))
     {
         options.EnableSensitiveDataLogging()
-                .UseSqlite(builder.Configuration.GetConnectionString(DataMigrations.CONNECTION_STRING),
-                            x => x.MigrationsAssembly(DataMigrations.SQLITE_MIGRATIONS));
+                .UseSqlite(connectionString, x => x.MigrationsAssembly(DataMigrations.SQLITE_MIGRATIONS));
     }
     else
     {
         options.EnableSensitiveDataLogging()
-                .UseSqlServer(builder.Configuration.GetConnectionString(DataMigrations.CONNECTION_STRING),
-                            x => x.MigrationsAssembly(DataMigrations.SQLSERVER_MIGRATIONS));
+                .UseSqlServer(connectionString, x => x.MigrationsAssembly(DataMigrations.SQLSERVER_MIGRATIONS));
     }
 });
 
 builder.Services.AddHttpContextAccessor();
 
+builder.Services.AddSingleton(atlasConfig);
 builder.Services.AddScoped<IClaimData, ClaimData>();
 builder.Services.AddScoped<ILogService, LogService>();
 builder.Services.AddScoped<IClaimService, ClaimService>();
@@ -94,11 +140,11 @@ builder.Services.AddScoped<ICommercialData, CommercialData>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
-        options.Authority = $"https://{builder.Configuration["Auth0:Domain"]}";
+        options.Authority = $"https://{domain}";
         options.TokenValidationParameters = new TokenValidationParameters
         {
-            ValidIssuer = builder.Configuration["Auth0:Domain"],
-            ValidAudience = builder.Configuration["Auth0:Audience"]
+            ValidIssuer = domain,
+            ValidAudience = audience
         };
     });
 
@@ -112,17 +158,14 @@ builder.Services.AddAuthorizationBuilder()
         policy.RequireAuthenticatedUser().RequireRole(Auth.ATLAS_DEVELOPER_CLAIM);
     });
 
-string originsPolicy = $"{builder.Configuration["CorsOrigins:Policy"]}";
-string originUrls = $"{builder.Configuration["CorsOrigins:Urls"]}";
-
-if (!string.IsNullOrWhiteSpace(originsPolicy)
+if (!string.IsNullOrWhiteSpace(corsPolicy)
     && !string.IsNullOrWhiteSpace(originUrls))
 {
     builder.Services.AddCors(options =>
     {
         string[] urls = originUrls.Split(';');
 
-        options.AddPolicy(originsPolicy,
+        options.AddPolicy(corsPolicy,
             builder =>
                 builder.WithOrigins(urls)
                 .AllowAnyHeader());
@@ -148,7 +191,10 @@ else
 
 app.UseHttpsRedirection();
 
-app.UseCors("local");
+if (!string.IsNullOrWhiteSpace(corsPolicy))
+{
+    app.UseCors(corsPolicy);
+}
 
 app.UseAuthentication();
 
