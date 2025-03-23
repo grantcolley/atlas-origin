@@ -17,32 +17,41 @@ using Origin.Core.Validation.Extensions;
 using Origin.Requests.API;
 using Origin.Requests.Interfaces;
 using Serilog;
-
-string domainKey = Config.AUTH_DOMAIN;
-string audienceKey = Config.AUTH_AUDIENCE;
-string clientIdKey = Config.AUTH_CLIENT_ID;
-string clientSecretKey = Config.AUTH_CLIENT_SECRET;
+using Serilog.Sinks.MSSqlServer;
+using System.Data;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-if (!builder.Environment.IsDevelopment())
-{
-    domainKey = domainKey.Replace(":", "_");
-    audienceKey = audienceKey.Replace(":", "_");
-    clientIdKey = clientIdKey.Replace(":", "_");
-    clientSecretKey = clientSecretKey.Replace(":", "_");
-}
+bool isDev = builder.Environment.IsDevelopment();
 
-string? domain = builder.Configuration[domainKey] ?? throw new NullReferenceException(domainKey);
-string? audience = builder.Configuration[audienceKey] ?? throw new NullReferenceException(audienceKey);
-string? clientId = builder.Configuration[clientIdKey] ?? throw new NullReferenceException(clientIdKey);
-string? clientSecret = builder.Configuration[clientSecretKey] ?? throw new NullReferenceException(clientSecretKey);
+string? atlasApi = Config.GET_ATLAS_API(isDev);
+string? connectionString = builder.Configuration.GetConnectionString(Config.GET_CONNECTION_STRING(isDev)) ?? throw new NullReferenceException(Config.GET_CONNECTION_STRING(isDev));
+string? domain = builder.Configuration[Config.GET_AUTH_DOMAIN(isDev)] ?? throw new NullReferenceException(Config.GET_AUTH_DOMAIN(isDev));
+string? audience = builder.Configuration[Config.GET_AUTH_AUDIENCE(isDev)] ?? throw new NullReferenceException(Config.GET_AUTH_AUDIENCE(isDev));
+string? clientId = builder.Configuration[Config.GET_AUTH_CLIENT_ID(isDev)] ?? throw new NullReferenceException(Config.GET_AUTH_CLIENT_ID(isDev));
+string? clientSecret = builder.Configuration[Config.GET_AUTH_CLIENT_SECRET(isDev)] ?? throw new NullReferenceException(Config.GET_AUTH_CLIENT_SECRET(isDev));
 
 builder.Logging.ClearProviders();
 
 builder.Host.UseSerilog((hostingContext, loggerConfiguration) =>
-                  loggerConfiguration.ReadFrom.Configuration(hostingContext.Configuration)
-                                        .Enrich.FromLogContext());
+              loggerConfiguration
+              .MinimumLevel.Information()
+              .Enrich.FromLogContext()
+              .WriteTo.MSSqlServer(
+                  connectionString: connectionString,
+                  sinkOptions: new MSSqlServerSinkOptions
+                  {
+                      TableName = "Logs",
+                      AutoCreateSqlDatabase = false
+                  },
+                  columnOptions: new ColumnOptions
+                  {
+                      AdditionalColumns =
+                      [
+                          new SqlColumn {ColumnName = "User", PropertyName = "User", DataType = SqlDbType.NVarChar, DataLength = 450},
+                          new SqlColumn {ColumnName = "Context", PropertyName = "Context", DataType = SqlDbType.NVarChar, DataLength = 450},
+                      ]
+                  }));
 
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
@@ -75,52 +84,52 @@ builder.Services.AddScoped<ILogService, LogService>();
 builder.Services.AddScoped<IAtlasDialogService, AtlasDialogService>();
 builder.Services.AddScoped<IOptionsService, OptionsService>();
 
-builder.Services.AddHttpClient(Config.ATLAS_API,
-      client => client.BaseAddress = new Uri(builder.Configuration[Config.ATLAS_API] ?? throw new NullReferenceException(Config.ATLAS_API)))
+builder.Services.AddHttpClient(atlasApi,
+      client => client.BaseAddress = new Uri(builder.Configuration[atlasApi] ?? throw new NullReferenceException(atlasApi)))
       .AddHttpMessageHandler<TokenHandler>();
 
 builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>()
-  .CreateClient(Config.ATLAS_API));
+  .CreateClient(atlasApi));
 
 builder.Services.AddTransient<IClaimRequests, ClaimRequests>(sp =>
 {
     IHttpClientFactory httpClientFactory = sp.GetRequiredService<IHttpClientFactory>();
-    HttpClient httpClient = httpClientFactory.CreateClient(Config.ATLAS_API);
+    HttpClient httpClient = httpClientFactory.CreateClient(atlasApi);
     return new ClaimRequests(httpClient);
 });
 
 builder.Services.AddTransient<IDeveloperRequests, DeveloperRequests>(sp =>
 {
     IHttpClientFactory httpClientFactory = sp.GetRequiredService<IHttpClientFactory>();
-    HttpClient httpClient = httpClientFactory.CreateClient(Config.ATLAS_API);
+    HttpClient httpClient = httpClientFactory.CreateClient(atlasApi);
     return new DeveloperRequests(httpClient);
 });
 
 builder.Services.AddTransient<IGenericRequests, GenericRequests>(sp =>
 {
     IHttpClientFactory httpClientFactory = sp.GetRequiredService<IHttpClientFactory>();
-    HttpClient httpClient = httpClientFactory.CreateClient(Config.ATLAS_API);
+    HttpClient httpClient = httpClientFactory.CreateClient(atlasApi);
     return new GenericRequests(httpClient);
 });
 
 builder.Services.AddTransient<IOptionsRequests, OptionsRequests>(sp =>
 {
     IHttpClientFactory httpClientFactory = sp.GetRequiredService<IHttpClientFactory>();
-    HttpClient httpClient = httpClientFactory.CreateClient(Config.ATLAS_API);
+    HttpClient httpClient = httpClientFactory.CreateClient(atlasApi);
     return new OptionsRequests(httpClient);
 });
 
 builder.Services.AddTransient<IOriginOptionsRequests, OriginOptionsRequests>(sp =>
 {
     IHttpClientFactory httpClientFactory = sp.GetRequiredService<IHttpClientFactory>();
-    HttpClient httpClient = httpClientFactory.CreateClient(Config.ATLAS_API);
+    HttpClient httpClient = httpClientFactory.CreateClient(atlasApi);
     return new OriginOptionsRequests(httpClient);
 });
 
 builder.Services.AddTransient<IOriginDocumentRequests, OriginDocumentRequests>(sp =>
 {
     IHttpClientFactory httpClientFactory = sp.GetRequiredService<IHttpClientFactory>();
-    HttpClient httpClient = httpClientFactory.CreateClient(Config.ATLAS_API);
+    HttpClient httpClient = httpClientFactory.CreateClient(atlasApi);
     return new OriginDocumentRequests(httpClient);
 });
 
