@@ -45,4 +45,14 @@
     <ProjectReference Include="..\Origin\Origin.Service\Origin.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+	<Folder Include="Properties\PublishProfiles\" />
+  </ItemGroup>
+
+  <ItemGroup>
+	<Content Update="appsettings.Production.json">		  
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</Content>
+  </ItemGroup>
+	
 </Project>
